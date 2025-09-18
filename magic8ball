@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Magic 8 Ball</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            user-select: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(100, 120, 255, 0.08) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            width: 340px;
+            height: 340px;
+            filter: contrast(1.05) saturate(0.95);
+        }
+
+        .eight-ball {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease;
+        }
+
+        .ball-outer {
+            width: 340px;
+            height: 340px;
+            background: 
+                radial-gradient(circle at 32% 28%, rgba(80, 80, 90, 1) 0%, rgba(20, 20, 25, 1) 25%, rgba(5, 5, 8, 1) 60%, #000000 100%);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.7),
+                0 15px 30px rgba(0,0,0,0.5),
+                inset -30px -30px 50px rgba(0,0,0,0.7),
+                inset 30px 30px 50px rgba(255,255,255,0.02),
+                inset -10px -10px 20px rgba(0,0,0,0.5),
+                inset 5px 5px 10px rgba(255,255,255,0.01);
+        }
+
+        /* Main highlight */
+        .gloss {
+            position: absolute;
+            top: 15%;
+            left: 22%;
+            width: 45%;
+            height: 35%;
+            background: 
+                radial-gradient(ellipse at 50% 50%, 
+                    rgba(255,255,255,0.7) 0%, 
+                    rgba(255,255,255,0.3) 30%, 
+                    rgba(255,255,255,0.1) 60%, 
+                    transparent 100%);
+            border-radius: 50%;
+            transform: rotate(-15deg);
+            pointer-events: none;
+            filter: blur(0.5px);
+            mix-blend-mode: screen;
+            opacity: 0.9;
+        }
+
+        /* Secondary smaller highlight */
+        .gloss::after {
+            content: '';
+            position: absolute;
+            top: 80%;
+            left: 10%;
+            width: 40%;
+            height: 40%;
+            background: radial-gradient(ellipse at center, 
+                rgba(255,255,255,0.4) 0%, 
+                rgba(255,255,255,0.1) 40%, 
+                transparent 70%);
+            border-radius: 50%;
+            filter: blur(1px);
+        }
+
+        /* Rim light */
+        .ball-outer::before {
+            content: '';
+            position: absolute;
+            top: 2%;
+            left: 2%;
+            right: 2%;
+            bottom: 2%;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.03);
+            box-shadow: 
+                inset 1px 1px 3px rgba(255,255,255,0.05),
+                inset -1px -1px 3px rgba(0,0,0,0.5);
+        }
+
+        .window {
+            width: 120px;
+            height: 120px;
+            background: 
+                radial-gradient(circle at center, 
+                    rgba(10, 10, 15, 1) 0%, 
+                    rgba(0, 0, 0, 1) 100%);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) perspective(100px) rotateX(5deg);
+            overflow: hidden;
+            box-shadow: 
+                inset 0 0 25px rgba(0,0,0,0.9),
+                inset 0 3px 8px rgba(0,0,0,0.8),
+                inset 0 -3px 8px rgba(0,0,0,0.6),
+                inset 0 0 40px rgba(0, 10, 30, 0.4),
+                0 2px 5px rgba(0,0,0,0.5);
+            border: 2px solid rgba(0,0,0,0.8);
+        }
+
+        /* Glass surface reflection */
+        .window::after {
+            content: '';
+            position: absolute;
+            top: 5%;
+            left: 10%;
+            right: 10%;
+            height: 30%;
+            background: linear-gradient(to bottom, 
+                rgba(255,255,255,0.08) 0%, 
+                transparent 100%);
+            border-radius: 50%;
+            filter: blur(1px);
+            pointer-events: none;
+        }
+
+        .liquid {
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 45% 45%, 
+                    #001229 0%, 
+                    #000918 40%, 
+                    #000512 70%, 
+                    #000000 100%);
+            position: relative;
+            animation: liquidMove 8s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        /* Liquid depth layers */
+        .liquid::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            right: -20%;
+            bottom: -20%;
+            background: 
+                radial-gradient(circle at 35% 55%, rgba(0, 60, 120, 0.2) 0%, transparent 35%),
+                radial-gradient(circle at 65% 35%, rgba(0, 40, 100, 0.15) 0%, transparent 40%);
+            animation: liquidDepth 10s ease-in-out infinite reverse;
+            opacity: 0.6;
+        }
+
+        @keyframes liquidMove {
+            0%, 100% { 
+                transform: rotate(0deg) scale(1);
+                filter: brightness(1);
+            }
+            33% { 
+                transform: rotate(2deg) scale(1.02);
+                filter: brightness(1.1);
+            }
+            66% { 
+                transform: rotate(-1.5deg) scale(1.015);
+                filter: brightness(0.95);
+            }
+        }
+
+        @keyframes liquidDepth {
+            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.6; }
+            50% { transform: rotate(180deg) scale(1.1); opacity: 0.8; }
+        }
+
+        /* Tiny bubbles for realism */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 30% 30%, 
+                    rgba(255,255,255,0.9) 0%, 
+                    rgba(200,220,255,0.4) 40%, 
+                    transparent 70%);
+            animation: floatUp 5s ease-in-out infinite;
+            box-shadow: 
+                0 0 2px rgba(255,255,255,0.3),
+                inset -1px -1px 1px rgba(0,100,200,0.2);
+        }
+
+        .bubble1 {
+            width: 2px;
+            height: 2px;
+            left: 35%;
+            bottom: 15px;
+            animation-delay: 0s;
+            animation-duration: 4.5s;
+        }
+
+        .bubble2 {
+            width: 1.5px;
+            height: 1.5px;
+            left: 55%;
+            bottom: 10px;
+            animation-delay: 1.8s;
+            animation-duration: 5s;
+        }
+
+        .bubble3 {
+            width: 1px;
+            height: 1px;
+            left: 45%;
+            bottom: 25px;
+            animation-delay: 3.2s;
+            animation-duration: 4s;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.7;
+            }
+            40% {
+                transform: translateY(-25px) translateX(3px) scale(1.1);
+                opacity: 0.5;
+            }
+            70% {
+                transform: translateY(-40px) translateX(-2px) scale(0.9);
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-55px) translateX(1px) scale(0.7);
+                opacity: 0;
+            }
+        }
+
+        /* The 20-sided die face - using hexagon */
+        .response-die {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #1a1a3e 0%, #0d0d1f 50%, #08081a 100%);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0) rotate(30deg);
+            transform-origin: center;
+            transition: all 0.9s cubic-bezier(0.4, 0.0, 0.2, 1);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%);
+            box-shadow: 
+                0 4px 10px rgba(0,0,0,0.8),
+                inset 0 -2px 4px rgba(0,0,0,0.5),
+                inset 0 2px 4px rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Inner glow for depth */
+        .response-die::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            right: 10%;
+            bottom: 10%;
+            background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.3) 100%);
+            clip-path: inherit;
+        }
+
+        /* Highlight on top edge */
+        .response-die::after {
+            content: '';
+            position: absolute;
+            top: 5%;
+            left: 20%;
+            width: 60%;
+            height: 30%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, transparent 100%);
+            border-radius: 50%;
+            filter: blur(2px);
+        }
+
+        .response-die.show {
+            transform: translate(-50%, -50%) scale(1) rotate(750deg);
+        }
+
+        .response-die.hiding {
+            transform: translate(-50%, -50%) scale(0) rotate(-360deg);
+            opacity: 0;
+        }
+
+        .response-text {
+            position: absolute;
+            color: #b8e7ff;
+            font-size: 10px;
+            font-weight: 500;
+            text-align: center;
+            width: 60px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            text-shadow: 
+                0 0 15px rgba(184, 231, 255, 0.9),
+                0 0 8px rgba(184, 231, 255, 0.7),
+                0 0 4px rgba(184, 231, 255, 0.5),
+                0 1px 2px rgba(0,0,0,0.9);
+            opacity: 0;
+            transition: opacity 0.6s ease 0.4s;
+            line-height: 1.2;
+            z-index: 2;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            transform: rotate(-30deg);
+        }
+
+        .response-die.show .response-text {
+            opacity: 1;
+        }
+
+        @keyframes textPulse {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 15px rgba(184, 231, 255, 0.9),
+                    0 0 8px rgba(184, 231, 255, 0.7),
+                    0 0 4px rgba(184, 231, 255, 0.5),
+                    0 1px 2px rgba(0,0,0,0.9);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 20px rgba(184, 231, 255, 1),
+                    0 0 12px rgba(184, 231, 255, 0.8),
+                    0 0 6px rgba(184, 231, 255, 0.6),
+                    0 1px 2px rgba(0,0,0,0.9);
+            }
+        }
+
+        .response-die.show .response-text {
+            animation: textPulse 3s ease-in-out infinite;
+        }
+
+        .shake {
+            animation: realShake 0.6s ease-in-out;
+        }
+
+        @keyframes realShake {
+            0%, 100% { transform: translateX(0) translateY(0) rotate(0deg); }
+            10% { transform: translateX(-8px) translateY(-2px) rotate(-1.5deg); }
+            20% { transform: translateX(7px) translateY(1px) rotate(1.5deg); }
+            30% { transform: translateX(-6px) translateY(-1px) rotate(-1deg); }
+            40% { transform: translateX(5px) translateY(2px) rotate(1deg); }
+            50% { transform: translateX(-4px) translateY(-1px) rotate(-0.5deg); }
+            60% { transform: translateX(3px) translateY(1px) rotate(0.5deg); }
+            70% { transform: translateX(-2px) translateY(0px) rotate(-0.3deg); }
+            80% { transform: translateX(1px) translateY(-1px) rotate(0.3deg); }
+            90% { transform: translateX(-1px) translateY(0px) rotate(0deg); }
+        }
+
+        .instruction {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+            text-align: center;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            animation: fadeFloat 3s ease-in-out infinite;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        @keyframes fadeFloat {
+            0%, 100% { 
+                opacity: 0.3; 
+                transform: translateX(-50%) translateY(0);
+            }
+            50% { 
+                opacity: 0.6; 
+                transform: translateX(-50%) translateY(-3px);
+            }
+        }
+
+        /* Surface micro-reflections */
+        .ball-outer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 25% 25%, transparent 15%, rgba(255,255,255,0.01) 16%, transparent 17%),
+                radial-gradient(circle at 70% 60%, transparent 35%, rgba(255,255,255,0.008) 36%, transparent 37%),
+                radial-gradient(circle at 45% 75%, transparent 25%, rgba(0,0,0,0.05) 26%, transparent 27%);
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 320px;
+                height: 320px;
+            }
+            
+            .ball-outer {
+                width: 320px;
+                height: 320px;
+            }
+            
+            .window {
+                width: 130px;
+                height: 130px;
+            }
+            
+            .response-die {
+                width: 75px;
+                height: 75px;
+            }
+            
+            .response-text {
+                font-size: 11px;
+                width: 65px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 20px;
+            }
+            
+            .container {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .ball-outer {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .window {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .response-die {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .response-text {
+                font-size: 12px;
+                width: 70px;
+                letter-spacing: 1px;
+            }
+            
+            .instruction {
+                font-size: 16px;
+                bottom: 40px;
+            }
+        }
+
+        /* Ripple effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 60%);
+            transform: scale(0);
+            animation: ripple-animation 0.7s ease-out;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(3.5);
+                opacity: 0;
+            }
+        }
+
+        /* Film grain effect for added realism */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            right: -10%;
+            bottom: -10%;
+            opacity: 0.02;
+            pointer-events: none;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,255,255,0.01) 1px, rgba(255,255,255,0.01) 2px),
+                repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(0,0,0,0.02) 1px, rgba(0,0,0,0.02) 2px);
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="eight-ball" id="eightBall">
+            <div class="ball-outer">
+                <div class="gloss"></div>
+                <div class="window">
+                    <div class="liquid">
+                        <div class="bubble bubble1"></div>
+                        <div class="bubble bubble2"></div>
+                        <div class="bubble bubble3"></div>
+                        <div class="response-die" id="responseDie">
+                            <div class="response-text" id="responseText"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="instruction">Tap for Answer</div>
+
+    <script>
+        const responses = [
+            "YES",
+            "NO", 
+            "MAYBE",
+            "ASK AGAIN",
+            "DEFINITELY",
+            "DOUBTFUL"
+        ];
+
+        const eightBall = document.getElementById('eightBall');
+        const responseDie = document.getElementById('responseDie');
+        const responseText = document.getElementById('responseText');
+        const instruction = document.querySelector('.instruction');
+        let isAnimating = false;
+        let lastResponse = "";
+
+        function getRandomResponse() {
+            let newResponse;
+            do {
+                newResponse = responses[Math.floor(Math.random() * responses.length)];
+            } while (newResponse === lastResponse && responses.length > 1);
+            lastResponse = newResponse;
+            return newResponse;
+        }
+
+        function createRipple(x, y) {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.width = ripple.style.height = '25px';
+            ripple.style.left = x - 12.5 + 'px';
+            ripple.style.top = y - 12.5 + 'px';
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 700);
+        }
+
+        function shakeAndRespond(event) {
+            if (isAnimating) return;
+            
+            isAnimating = true;
+            instruction.style.opacity = '0';
+            
+            // Create ripple effect
+            if (event) {
+                const rect = eightBall.getBoundingClientRect();
+                const x = (event.clientX || event.touches[0].clientX) - rect.left;
+                const y = (event.clientY || event.touches[0].clientY) - rect.top;
+                createRipple(x + rect.left, y + rect.top);
+            }
+            
+            // Hide previous response
+            responseDie.classList.remove('show');
+            responseDie.classList.add('hiding');
+            
+            // Add shake animation
+            eightBall.classList.add('shake');
+            
+            // After shake, show new response
+            setTimeout(() => {
+                responseDie.classList.remove('hiding');
+                responseText.textContent = getRandomResponse();
+                responseDie.classList.add('show');
+                
+                // Add subtle bubbles
+                for (let i = 0; i < 2; i++) {
+                    setTimeout(() => {
+                        const bubble = document.createElement('div');
+                        bubble.className = 'bubble';
+                        bubble.style.width = bubble.style.height = Math.random() * 1.5 + 0.5 + 'px';
+                        bubble.style.left = Math.random() * 80 + 10 + '%';
+                        bubble.style.bottom = Math.random() * 20 + 'px';
+                        bubble.style.animation = `floatUp ${Math.random() * 2 + 3}s ease-in-out`;
+                        document.querySelector('.liquid').appendChild(bubble);
+                        
+                        setTimeout(() => bubble.remove(), 4000);
+                    }, i * 300);
+                }
+            }, 600);
+            
+            // Remove shake class
+            setTimeout(() => {
+                eightBall.classList.remove('shake');
+                isAnimating = false;
+                instruction.style.opacity = '0.3';
+            }, 1200);
+        }
+
+        // Event listeners
+        document.body.addEventListener('click', shakeAndRespond);
+        document.body.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            shakeAndRespond(e);
+        });
+
+        // Prevent double-tap zoom
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Occasional ambient bubble
+        setInterval(() => {
+            if (!isAnimating && Math.random() > 0.8) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                bubble.style.width = bubble.style.height = Math.random() * 1 + 0.5 + 'px';
+                bubble.style.left = Math.random() * 80 + 10 + '%';
+                bubble.style.bottom = Math.random() * 15 + 'px';
+                bubble.style.animation = `floatUp ${Math.random() * 3 + 4}s ease-in-out`;
+                bubble.style.opacity = '0.5';
+                document.querySelector('.liquid').appendChild(bubble);
+                
+                setTimeout(() => bubble.remove(), 5000);
+            }
+        }, 4000);
+    </script>
+</body>
+</html>
