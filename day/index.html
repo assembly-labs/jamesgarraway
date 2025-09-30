@@ -1,518 +1,525 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, Star, Backpack, Tv } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>James' GOATED Homepage</title>
+  <meta name="color-scheme" content="dark light" />
 
-const teamColors = {
-  'Philadelphia Eagles': {
-    primary: '#004C54',
-    secondary: '#A5ACAF',
-    accent: '#00C9B7',
-    background: '#0A1612',
-    cardBg: '#1A2822',
-    text: '#E8F5F3'
-  },
-  'Green Bay Packers': {
-    primary: '#203731',
-    secondary: '#FFB612',
-    accent: '#FFD24D',
-    background: '#0D1410',
-    cardBg: '#1C2A1F',
-    text: '#FFF8E7'
-  },
-  'Baltimore Ravens': {
-    primary: '#241773',
-    secondary: '#9E7C0C',
-    accent: '#D3BC8D',
-    background: '#0E0A1A',
-    cardBg: '#1C1528',
-    text: '#F0EBFF'
-  },
-  'Pittsburgh Steelers': {
-    primary: '#000000',
-    secondary: '#FFB612',
-    accent: '#C60C30',
-    background: '#0A0A0A',
-    cardBg: '#1A1A1A',
-    text: '#FFF8E7'
-  },
-  'Philadelphia Union': {
-    primary: '#041E42',
-    secondary: '#B1976B',
-    accent: '#F0B726',
-    background: '#020D1A',
-    cardBg: '#0A1929',
-    text: '#F5F3E8'
-  },
-  'Sith': {
-    primary: '#000000',
-    secondary: '#CC0000',
-    accent: '#FF0000',
-    background: '#0D0D0D',
-    cardBg: '#1A1A1A',
-    text: '#E8E8E8'
-  },
-  'Boba Fett': {
-    primary: '#4B6B50',
-    secondary: '#7A2C27',
-    accent: '#D9A628',
-    background: '#1C1C1C',
-    cardBg: '#2A2A2A',
-    text: '#FFFFFF'
-  }
-};
+  <style>
+    :root {
+      --primary: #004C54;
+      --secondary: #A5ACAF;
+      --accent: #00C9B7;
+      --background: #0A1612;
+      --cardBg: #1A2822;
+      --text: #E8F5F3;
+    }
 
-export default function AOLKidsHomepage() {
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const [quote, setQuote] = useState({ text: 'Loading...', author: '', explanation: '' });
-  const [currentTeam, setCurrentTeam] = useState('Philadelphia Eagles');
-  
-  const teamNames = [
-    'Philadelphia Eagles', 
-    'Green Bay Packers', 
-    'Baltimore Ravens', 
-    'Pittsburgh Steelers', 
-    'Philadelphia Union',
-    'Sith',
-    'Boba Fett'
-  ];
+    * { box-sizing: border-box; }
 
-  const [morningChecklist, setMorningChecklist] = useState([
-    { id: 1, text: '🛏️ Make Bed', done: false },
-    { id: 2, text: '🪥 Brush Teeth', done: false },
-    { id: 3, text: '👕 Get Dressed', done: false },
-    { id: 4, text: '💧 Fill Up Water', done: false },
-    { id: 5, text: '🎒 Pack School Bag (Homework, Lunch, Snack)', done: false },
-    { id: 6, text: '🍳 Eat Breakfast', done: false },
-    { id: 7, text: '🧹 Clear Table', done: false }
-  ]);
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--background);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      padding: clamp(15px, 3vw, 25px);
+      position: relative;
+      overflow-x: hidden;
+    }
 
-  const [screenTimeChecklist, setScreenTimeChecklist] = useState([
-    { id: 1, text: '📚 Finish all homework', done: false },
-    { id: 2, text: '🧹 Clean up room', done: false },
-    { id: 3, text: '🏃 30 minutes of physical activity or exercise', done: false },
-    { id: 4, text: '🧺 Help with one chore', done: false }
-  ]);
+    /* Top controls */
+    .controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+      z-index: 1000;
+    }
+    .controls select, .controls button {
+      border-radius: 12px;
+      border: 2px solid var(--accent);
+      padding: 10px 12px;
+      font-weight: 600;
+      font-family: inherit;
+      min-height: 44px;
+    }
+    .controls select {
+      background: var(--cardBg);
+      color: var(--text);
+    }
+    .controls button {
+      background: var(--secondary);
+      color: #000;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      transition: all .2s ease;
+    }
+    .controls button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    }
 
-  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const dayName = daysOfWeek[currentTime.getDay()];
-  const isWeekend = currentTime.getDay() === 0 || currentTime.getDay() === 6;
-  const screenTimeAllowed = isWeekend ? 'two hours' : 'one hour';
+    /* Header */
+    .header {
+      background: var(--primary);
+      padding: clamp(20px, 4vw, 30px);
+      border-radius: 16px;
+      margin-bottom: clamp(15px, 3vw, 25px);
+      margin-top: 60px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      border: 2px solid rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: clamp(28px, 6vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      color: var(--text);
+    }
 
-  const colors = teamColors[currentTeam];
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: clamp(15px, 3vw, 25px);
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 5;
+    }
 
-  useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    
-    // Try to fetch local quotes.json first
-    fetch('./quotes.json')
-      .then(res => {
-        if (!res.ok) throw new Error('Local quotes not found');
-        return res.json();
-      })
-      .then(data => {
-        if (data && Array.isArray(data) && data.length > 0) {
-          const randomQuote = data[Math.floor(Math.random() * data.length)];
-          setQuote({ 
-            text: randomQuote.quote, 
-            author: randomQuote.author,
-            explanation: randomQuote.explanation || ''
-          });
-        }
-      })
-      .catch(() => {
-        fetch('https://api.quotable.io/random?tags=inspirational|sports')
-          .then(res => res.json())
-          .then(data => {
-            if (data && data.content) {
-              setQuote({ text: data.content, author: data.author, explanation: '' });
-            }
-          })
-          .catch(() => {
-            setQuote({ 
-              text: 'Hard work beats talent when talent doesn\'t work hard!', 
-              author: 'Tim Notke',
-              explanation: 'Even if you\'re not the best naturally, working hard can help you succeed!'
-            });
-          });
-      });
+    .widget {
+      background: var(--cardBg);
+      border: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      position: relative; /* blaster relative */
+    }
+    .widget:hover {
+      box-shadow: 0 8px 32px color-mix(in srgb, var(--accent) 40%, transparent);
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    }
 
-    return () => clearInterval(timer);
-  }, []);
+    .widget-header {
+      padding: clamp(14px, 3vw, 18px);
+      font-weight: 700;
+      font-size: clamp(14px, 3vw, 16px);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 0.5px;
+      background: var(--primary);
+      border-bottom: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    }
 
-  const toggleTeam = () => {
-    const currentIndex = teamNames.indexOf(currentTeam);
-    const nextIndex = (currentIndex + 1) % teamNames.length;
-    setCurrentTeam(teamNames[nextIndex]);
-  };
+    .widget-body { color: var(--text); }
 
-  const toggleMorningItem = (id) => {
-    setMorningChecklist(morningChecklist.map(item => 
-      item.id === id ? { ...item, done: !item.done } : item
-    ));
-  };
+    /* Flicker + glow for Sith, but subtle + randomized with CSS vars */
+    @keyframes sithGlowSoft {
+      0%   { box-shadow: 0 4px 16px rgba(255,0,0,0.18), 0 0 18px rgba(255,0,0,0.14), inset 0 0 6px rgba(255,0,0,0.08); }
+      50%  { box-shadow: 0 4px 22px rgba(255,0,0,0.26), 0 0 24px rgba(255,0,0,0.18), inset 0 0 8px rgba(255,0,0,0.10); }
+      100% { box-shadow: 0 4px 16px rgba(255,0,0,0.18), 0 0 18px rgba(255,0,0,0.14), inset 0 0 6px rgba(255,0,0,0.08); }
+    }
+    .sith-glow { animation: sithGlowSoft 3.6s ease-in-out infinite; }
 
-  const toggleScreenTimeItem = (id) => {
-    setScreenTimeChecklist(screenTimeChecklist.map(item => 
-      item.id === id ? { ...item, done: !item.done } : item
-    ));
-  };
+    @keyframes sithFlickerSubtle {
+      0%   { opacity: var(--fMin, 0.94); filter: brightness(0.98); }
+      22%  { opacity: var(--fMax, 1);    filter: brightness(1); }
+      39%  { opacity: calc(var(--fMin, 0.94) + 0.02); }
+      61%  { opacity: var(--fMax, 1);    filter: brightness(1.01); }
+      79%  { opacity: calc(var(--fMin, 0.94) + 0.03); }
+      100% { opacity: var(--fMin, 0.94); filter: brightness(0.98); }
+    }
+    .sith-flicker {
+      animation: sithFlickerSubtle var(--fDur, 3.2s) ease-in-out infinite;
+      animation-delay: var(--fDelay, 0s);
+    }
 
-  return (
-    <div style={{
-      minHeight: '100vh',
-      background: colors.background,
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-      padding: 'clamp(15px, 3vw, 25px)',
-      color: colors.text,
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      {/* Team Toggle Button */}
-      <button
-        onClick={toggleTeam}
-        className={currentTeam === 'Sith' ? 'sith-glow' : ''}
-        style={{
-          position: 'absolute',
-          top: '20px',
-          right: '20px',
-          background: colors.secondary,
-          color: currentTeam === 'Boba Fett' ? colors.text : '#000',
-          border: `2px solid ${colors.accent}`,
-          borderRadius: '12px',
-          padding: '12px 20px',
-          fontWeight: '600',
-          fontSize: 'clamp(13px, 2.5vw, 15px)',
-          cursor: 'pointer',
-          boxShadow: `0 4px 16px ${colors.accent}40`,
-          zIndex: 1000,
-          minHeight: '44px',
-          transition: 'all 0.2s ease',
-          fontFamily: 'inherit'
-        }}
-        onMouseOver={(e) => {
-          e.target.style.transform = 'translateY(-2px)';
-          e.target.style.boxShadow = `0 6px 20px ${colors.accent}60`;
-        }}
-        onMouseOut={(e) => {
-          e.target.style.transform = 'translateY(0)';
-          e.target.style.boxShadow = `0 4px 16px ${colors.accent}40`;
-        }}
-      >
-        {currentTeam}
-      </button>
+    /* “Blaster bolts” that orbit the module border */
+    .sith-frame {
+      border-color: rgba(255, 0, 0, 0.35);
+      box-shadow: inset 0 0 0 1px rgba(255,0,0,0.15);
+    }
+    .sith-frame::after,
+    .sith-frame::before {
+      content: '';
+      position: absolute;
+      width: var(--bSize, 8px);
+      height: var(--bSize, 8px);
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent) 0%, rgba(255,0,0,0.8) 60%, rgba(255,0,0,0) 70%);
+      box-shadow:
+        0 0 8px rgba(255,0,0,0.65),
+        0 0 16px rgba(255,0,0,0.35);
+      pointer-events: none;
+      z-index: 2;
+      animation: blasterRun var(--bDur, 10s) linear infinite;
+      animation-delay: var(--bDelay, 0s);
+    }
+    .sith-frame::before {
+      filter: blur(0.5px) saturate(1.1);
+      opacity: 0.85;
+      animation-duration: calc(var(--bDur, 10s) * 0.85);
+      animation-delay: calc(var(--bDelay, 0s) + 1.2s);
+    }
+    @keyframes blasterRun {
+      0%   { top: -4px; left: -4px; }
+      25%  { top: -4px; left: calc(100% - 4px); }
+      50%  { top: calc(100% - 4px); left: calc(100% - 4px); }
+      75%  { top: calc(100% - 4px); left: -4px; }
+      100% { top: -4px; left: -4px; }
+    }
 
-      {/* Header */}
-      <div className={currentTeam === 'Sith' ? 'sith-glow' : ''} style={{
-        background: colors.primary,
-        padding: 'clamp(20px, 4vw, 30px)',
-        borderRadius: '16px',
-        marginBottom: 'clamp(15px, 3vw, 25px)',
-        marginTop: '60px',
-        boxShadow: `0 8px 32px ${colors.accent}30`,
-        border: `2px solid ${colors.accent}40`,
-        position: 'relative',
-        zIndex: 5
-      }}>
-        <h1 style={{
-          margin: 0,
-          fontSize: 'clamp(28px, 6vw, 48px)',
-          fontWeight: '800',
-          color: colors.text,
-          letterSpacing: '-0.5px',
-          textAlign: 'center',
-          lineHeight: '1.2',
-          textShadow: `0 2px 8px ${colors.accent}30`
-        }}>
-          🌟 JAMES' GOATED HOMEPAGE 🌟
-        </h1>
+    /* Motion safety */
+    @media (prefers-reduced-motion: reduce) {
+      .sith-glow, .sith-flicker, .sith-frame::before, .sith-frame::after { animation: none !important; }
+    }
+
+    @media (max-width: 767px) {
+      .widget-header span { font-size: clamp(13px, 3.5vw, 16px); }
+    }
+    @media (max-width: 480px) {
+      input[type="checkbox"] { min-width: 24px; min-height: 24px; }
+    }
+
+    /* Utility */
+    .btn-screen-info {
+      background: var(--secondary);
+      padding: clamp(14px, 3vw, 16px);
+      border-radius: 10px;
+      margin-top: 15px;
+      text-align: center;
+      font-weight: 700;
+      font-size: clamp(17px, 4vw, 22px);
+      color: #000;
+      box-shadow: 0 4px 16px color-mix(in srgb, var(--secondary) 40%, transparent);
+      border: 2px solid var(--accent);
+    }
+    .item {
+      padding: clamp(12px, 3vw, 14px);
+      margin-bottom: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: clamp(15px, 3.5vw, 17px);
+      min-height: 48px;
+      touch-action: manipulation;
+      transition: all .2s ease;
+      font-weight: 500;
+      border: 2px solid color-mix(in srgb, var(--secondary) 40%, transparent);
+      background: color-mix(in srgb, var(--background) 80%, transparent);
+    }
+    .item.done {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 30%, transparent);
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+  <!-- Controls -->
+  <div class="controls">
+    <select id="teamSelect" aria-label="Choose theme"></select>
+    <button id="teamToggle">Toggle Theme</button>
+  </div>
+
+  <!-- Header -->
+  <div id="header" class="header">
+    <h1>🌟 JAMES' GOATED HOMEPAGE 🌟</h1>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid">
+    <!-- Today -->
+    <div class="widget sith-optional" id="w-today">
+      <div class="widget-header"><span>📅 TODAY IS...</span></div>
+      <div class="widget-body" style="padding: clamp(20px, 4vw, 28px); text-align:center; font-weight:600;">
+        <div id="dayName" style="margin-bottom:12px; color: var(--accent); font-size: clamp(20px, 5vw, 28px);">—</div>
+        <div id="dateStr" style="font-size: clamp(16px, 3.5vw, 20px); color: var(--secondary); font-weight:500;">—</div>
       </div>
-
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', 
-        gap: 'clamp(15px, 3vw, 25px)',
-        maxWidth: '1400px',
-        margin: '0 auto',
-        position: 'relative',
-        zIndex: 5
-      }}>
-        {/* Date & Time */}
-        <div className={`widget ${currentTeam === 'Sith' ? 'sith-glow' : ''}`}>
-          <div className="widget-header" style={{ background: colors.primary, borderBottom: `2px solid ${colors.accent}40` }}>
-            <Calendar size={22} color={colors.accent} />
-            <span>TODAY IS...</span>
-          </div>
-          <div style={{ padding: 'clamp(20px, 4vw, 28px)', fontSize: 'clamp(20px, 5vw, 28px)', textAlign: 'center', fontWeight: '600' }}>
-            <div style={{ marginBottom: '12px', color: colors.accent }}>
-              {dayName}
-            </div>
-            <div style={{ fontSize: 'clamp(16px, 3.5vw, 20px)', color: colors.secondary, fontWeight: '500' }}>
-              {currentTime.toLocaleDateString()}
-            </div>
-          </div>
-        </div>
-
-        <div className={`widget ${currentTeam === 'Sith' ? 'sith-glow' : ''}`}>
-          <div className="widget-header" style={{ background: colors.primary, borderBottom: `2px solid ${colors.accent}40` }}>
-            <Clock size={22} color={colors.accent} />
-            <span>CURRENT TIME</span>
-          </div>
-          <div style={{ 
-            padding: 'clamp(20px, 4vw, 28px)', 
-            fontSize: 'clamp(36px, 8vw, 54px)', 
-            textAlign: 'center', 
-            fontWeight: '700', 
-            fontFamily: 'monospace',
-            color: colors.accent
-          }}>
-            {currentTime.toLocaleTimeString()}
-          </div>
-        </div>
-
-        {/* Quote of the Day - Moved Up */}
-        <div className={`widget ${currentTeam === 'Sith' ? 'sith-glow' : ''}`} style={{ gridColumn: '1 / -1' }}>
-          <div className="widget-header" style={{ background: colors.primary, borderBottom: `2px solid ${colors.accent}40` }}>
-            <Star size={22} color={colors.accent} />
-            <span>QUOTE OF THE DAY</span>
-          </div>
-          <div style={{ padding: 'clamp(20px, 4vw, 30px)', lineHeight: '1.6' }}>
-            <div style={{ fontSize: 'clamp(16px, 3.5vw, 22px)', marginBottom: '15px', fontWeight: '500', fontStyle: 'italic', color: colors.text }}>
-              "{quote.text}"
-            </div>
-            <div style={{ fontSize: 'clamp(14px, 3vw, 18px)', textAlign: 'right', marginBottom: quote.explanation ? '20px' : '0', fontWeight: '600', color: colors.accent }}>
-              — {quote.author}
-            </div>
-            {quote.explanation && (
-              <div style={{ 
-                fontSize: 'clamp(14px, 3vw, 16px)', 
-                background: `${colors.accent}20`,
-                padding: '16px',
-                borderRadius: '10px',
-                color: colors.text,
-                lineHeight: '1.6',
-                fontWeight: '500',
-                border: `2px solid ${colors.accent}40`
-              }}>
-                <strong style={{ fontSize: 'clamp(15px, 3.2vw, 17px)', color: colors.accent }}>💡 What it means:</strong> {quote.explanation}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Morning Checklist */}
-        <div className={`widget ${currentTeam === 'Sith' ? 'sith-glow' : ''}`}>
-          <div className="widget-header" style={{ background: colors.primary, borderBottom: `2px solid ${colors.accent}40` }}>
-            <Backpack size={22} color={colors.accent} />
-            <span>DON'T FORGET!</span>
-          </div>
-          <div style={{ padding: 'clamp(15px, 3vw, 20px)' }}>
-            {morningChecklist.map((item) => (
-              <div key={item.id} style={{
-                padding: 'clamp(12px, 3vw, 14px)',
-                marginBottom: '10px',
-                background: item.done ? `${colors.accent}30` : `${colors.background}80`,
-                color: colors.text,
-                borderRadius: '10px',
-                cursor: 'pointer',
-                border: item.done ? `2px solid ${colors.accent}` : `2px solid ${colors.secondary}40`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                fontSize: 'clamp(15px, 3.5vw, 17px)',
-                minHeight: '48px',
-                touchAction: 'manipulation',
-                transition: 'all 0.2s ease',
-                fontWeight: '500'
-              }}
-              onClick={() => toggleMorningItem(item.id)}>
-                <input 
-                  type="checkbox" 
-                  checked={item.done} 
-                  onChange={() => {}} 
-                  style={{ width: '22px', height: '22px', cursor: 'pointer', accentColor: colors.accent }}
-                />
-                <span style={{ textDecoration: item.done ? 'line-through' : 'none', flex: 1 }}>
-                  {item.text}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Screen Time Rules */}
-        <div className={`widget ${currentTeam === 'Sith' ? 'sith-glow' : ''}`}>
-          <div className="widget-header" style={{ background: colors.primary, borderBottom: `2px solid ${colors.accent}40` }}>
-            <Tv size={22} color={colors.accent} />
-            <span>EARN SCREEN TIME!</span>
-          </div>
-          <div style={{ padding: 'clamp(15px, 3vw, 20px)' }}>
-            {screenTimeChecklist.map((item) => (
-              <div key={item.id} style={{
-                padding: 'clamp(12px, 3vw, 14px)',
-                marginBottom: '10px',
-                background: item.done ? `${colors.accent}30` : `${colors.background}80`,
-                color: colors.text,
-                borderRadius: '10px',
-                cursor: 'pointer',
-                border: item.done ? `2px solid ${colors.accent}` : `2px solid ${colors.secondary}40`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                fontSize: 'clamp(15px, 3.5vw, 17px)',
-                minHeight: '48px',
-                touchAction: 'manipulation',
-                transition: 'all 0.2s ease',
-                fontWeight: '500'
-              }}
-              onClick={() => toggleScreenTimeItem(item.id)}>
-                <input 
-                  type="checkbox" 
-                  checked={item.done} 
-                  onChange={() => {}} 
-                  style={{ width: '22px', height: '22px', cursor: 'pointer', accentColor: colors.accent }}
-                />
-                <span style={{ textDecoration: item.done ? 'line-through' : 'none', flex: 1 }}>
-                  {item.text}
-                </span>
-              </div>
-            ))}
-            <div className={currentTeam === 'Sith' ? 'sith-flicker' : ''} style={{ 
-              background: colors.secondary,
-              padding: 'clamp(14px, 3vw, 16px)',
-              borderRadius: '10px',
-              marginTop: '15px',
-              textAlign: 'center',
-              fontWeight: '700',
-              fontSize: 'clamp(17px, 4vw, 22px)',
-              color: currentTeam === 'Boba Fett' ? colors.text : '#000',
-              boxShadow: `0 4px 16px ${colors.secondary}40`,
-              border: `2px solid ${colors.accent}`
-            }}>
-              {isWeekend 
-                ? '🎮 Enjoy two hours of screen time!' 
-                : `🎮 Enjoy ${screenTimeAllowed} of screen time!`
-              }
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <style>{`
-        * {
-          box-sizing: border-box;
-        }
-        
-        .widget {
-          background: ${colors.cardBg};
-          border: 2px solid ${colors.accent}30;
-          border-radius: 16px;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-          overflow: hidden;
-          transition: all 0.3s ease;
-        }
-        
-        .widget:hover {
-          box-shadow: 0 8px 32px ${colors.accent}40;
-          transform: translateY(-2px);
-          border-color: ${colors.accent}50;
-        }
-        
-        .widget-header {
-          padding: clamp(14px, 3vw, 18px);
-          font-weight: 700;
-          font-size: clamp(14px, 3vw, 16px);
-          color: ${colors.text};
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          letter-spacing: 0.5px;
-        }
-        
-        .widget > div:last-child {
-          color: ${colors.text};
-        }
-        
-        /* Sith Theme Animations - Kylo Ren Style */
-        @keyframes sithGlow {
-          0% {
-            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4), 0 0 30px rgba(255, 0, 0, 0.3), inset 0 0 10px rgba(255, 0, 0, 0.1);
-            border-color: rgba(255, 0, 0, 0.5);
-          }
-          15% {
-            box-shadow: 0 4px 25px rgba(255, 0, 0, 0.7), 0 0 45px rgba(255, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 0, 0.2);
-            border-color: rgba(255, 0, 0, 0.8);
-          }
-          20% {
-            box-shadow: 0 4px 18px rgba(255, 0, 0, 0.3), 0 0 25px rgba(255, 0, 0, 0.2), inset 0 0 8px rgba(255, 0, 0, 0.1);
-            border-color: rgba(255, 0, 0, 0.4);
-          }
-          35% {
-            box-shadow: 0 4px 30px rgba(255, 0, 0, 0.8), 0 0 50px rgba(255, 0, 0, 0.6), inset 0 0 20px rgba(255, 0, 0, 0.3);
-            border-color: rgba(255, 0, 0, 0.9);
-          }
-          40% {
-            box-shadow: 0 4px 22px rgba(255, 0, 0, 0.5), 0 0 35px rgba(255, 0, 0, 0.4), inset 0 0 12px rgba(255, 0, 0, 0.15);
-            border-color: rgba(255, 0, 0, 0.6);
-          }
-          55% {
-            box-shadow: 0 4px 28px rgba(255, 0, 0, 0.65), 0 0 42px rgba(255, 0, 0, 0.5), inset 0 0 18px rgba(255, 0, 0, 0.25);
-            border-color: rgba(255, 0, 0, 0.75);
-          }
-          70% {
-            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4), 0 0 30px rgba(255, 0, 0, 0.3), inset 0 0 10px rgba(255, 0, 0, 0.1);
-            border-color: rgba(255, 0, 0, 0.5);
-          }
-          82% {
-            box-shadow: 0 4px 32px rgba(255, 0, 0, 0.85), 0 0 55px rgba(255, 0, 0, 0.65), inset 0 0 22px rgba(255, 0, 0, 0.35);
-            border-color: rgba(255, 0, 0, 0.95);
-          }
-          88% {
-            box-shadow: 0 4px 16px rgba(255, 0, 0, 0.35), 0 0 28px rgba(255, 0, 0, 0.25), inset 0 0 8px rgba(255, 0, 0, 0.08);
-            border-color: rgba(255, 0, 0, 0.45);
-          }
-          100% {
-            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4), 0 0 30px rgba(255, 0, 0, 0.3), inset 0 0 10px rgba(255, 0, 0, 0.1);
-            border-color: rgba(255, 0, 0, 0.5);
-          }
-        }
-        
-        @keyframes sithFlicker {
-          0%, 100% { opacity: 1; }
-          12% { opacity: 0.88; }
-          18% { opacity: 1; }
-          24% { opacity: 0.92; }
-          33% { opacity: 0.85; }
-          41% { opacity: 1; }
-          47% { opacity: 0.9; }
-          56% { opacity: 0.95; }
-          63% { opacity: 0.87; }
-          71% { opacity: 1; }
-          79% { opacity: 0.93; }
-          88% { opacity: 0.86; }
-          94% { opacity: 1; }
-        }
-        
-        .sith-glow {
-          animation: sithGlow 2.5s ease-in-out infinite;
-        }
-        
-        .sith-flicker {
-          animation: sithFlicker 2s ease-in-out infinite;
-        }
-        
-        @media (max-width: 767px) {
-          .widget-header span {
-            font-size: clamp(13px, 3.5vw, 16px);
-          }
-        }
-        
-        /* Improve touch targets on mobile */
-        @media (max-width: 480px) {
-          input[type="checkbox"] {
-            min-width: 24px;
-            min-height: 24px;
-          }
-        }
-      `}</style>
     </div>
-  );
-}
+
+    <!-- Time -->
+    <div class="widget sith-optional" id="w-time">
+      <div class="widget-header"><span>⏰ CURRENT TIME</span></div>
+      <div class="widget-body" style="padding: clamp(20px, 4vw, 28px); text-align:center; font-weight:700; font-family: monospace; font-size: clamp(36px, 8vw, 54px); color: var(--accent);" id="timeStr">—</div>
+    </div>
+
+    <!-- Quote -->
+    <div class="widget sith-optional" id="w-quote" style="grid-column: 1 / -1;">
+      <div class="widget-header"><span>⭐ QUOTE OF THE DAY</span></div>
+      <div class="widget-body" style="padding: clamp(20px, 4vw, 30px); line-height:1.6;">
+        <div id="quoteText" style="font-size: clamp(16px, 3.5vw, 22px); margin-bottom: 15px; font-weight: 500; font-style: italic;">"Loading…"</div>
+        <div id="quoteAuthor" style="font-size: clamp(14px, 3vw, 18px); text-align: right; margin-bottom: 0; font-weight: 600; color: var(--accent);">—</div>
+        <div id="quoteExplWrap" style="display:none; margin-top: 20px;">
+          <div style="font-size: clamp(14px, 3vw, 16px); background: color-mix(in srgb, var(--accent) 20%, transparent); padding: 16px; border-radius: 10px; color: var(--text); line-height:1.6; font-weight: 500; border: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);">
+            <strong style="font-size: clamp(15px, 3.2vw, 17px); color: var(--accent)">💡 What it means:</strong>
+            <span id="quoteExplanation"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Morning checklist -->
+    <div class="widget sith-optional" id="w-morning">
+      <div class="widget-header"><span>🎒 DON'T FORGET!</span></div>
+      <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
+        <div id="morningList"></div>
+      </div>
+    </div>
+
+    <!-- Screen time rules -->
+    <div class="widget sith-optional" id="w-screen">
+      <div class="widget-header"><span>📺 EARN SCREEN TIME!</span></div>
+      <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
+        <div id="screenList"></div>
+        <div id="screenAllowance" class="btn-screen-info" style="color:#000;">—</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ======= Data =======
+    const teamColors = {
+      'Philadelphia Eagles': { primary:'#004C54', secondary:'#A5ACAF', accent:'#00C9B7', background:'#0A1612', cardBg:'#1A2822', text:'#E8F5F3' },
+      'Green Bay Packers':  { primary:'#203731', secondary:'#FFB612', accent:'#FFD24D', background:'#0D1410', cardBg:'#1C2A1F', text:'#FFF8E7' },
+      'Baltimore Ravens':   { primary:'#241773', secondary:'#9E7C0C', accent:'#D3BC8D', background:'#0E0A1A', cardBg:'#1C1528', text:'#F0EBFF' },
+      'Pittsburgh Steelers':{ primary:'#000000', secondary:'#FFB612', accent:'#C60C30', background:'#0A0A0A', cardBg:'#1A1A1A', text:'#FFF8E7' },
+      'Philadelphia Union': { primary:'#041E42', secondary:'#B1976B', accent:'#F0B726', background:'#020D1A', cardBg:'#0A1929', text:'#F5F3E8' },
+      'Sith':               { primary:'#000000', secondary:'#CC0000', accent:'#FF0000', background:'#0D0D0D', cardBg:'#1A1A1A', text:'#E8E8E8' },
+      'Boba Fett':          { primary:'#4B6B50', secondary:'#7A2C27', accent:'#D9A628', background:'#1C1C1C', cardBg:'#2A2A2A', text:'#FFFFFF' }
+    };
+    const teamNames = Object.keys(teamColors);
+
+    const STORAGE_KEYS = {
+      team: 'aolkids.currentTeam',
+      morning: 'aolkids.morningChecklist',
+      screen: 'aolkids.screenTimeChecklist',
+      quote: 'aolkids.lastQuote'
+    };
+
+    const defaultMorning = [
+      { id:1, text:'🛏️ Make Bed', done:false },
+      { id:2, text:'🪥 Brush Teeth', done:false },
+      { id:3, text:'👕 Get Dressed', done:false },
+      { id:4, text:'💧 Fill Up Water', done:false },
+      { id:5, text:'🎒 Pack School Bag (Homework, Lunch, Snack)', done:false },
+      { id:6, text:'🍳 Eat Breakfast', done:false },
+      { id:7, text:'🧹 Clear Table', done:false }
+    ];
+    const defaultScreen = [
+      { id:1, text:'📚 Finish all homework', done:false },
+      { id:2, text:'🧹 Clean up room', done:false },
+      { id:3, text:'🏃 30 minutes of physical activity or exercise', done:false },
+      { id:4, text:'🧺 Help with one chore', done:false }
+    ];
+
+    // ======= State =======
+    let currentTeam = localStorage.getItem(STORAGE_KEYS.team);
+    if (!currentTeam || !teamColors[currentTeam]) currentTeam = 'Philadelphia Eagles';
+
+    let morningChecklist = JSON.parse(localStorage.getItem(STORAGE_KEYS.morning) || 'null') || defaultMorning;
+    let screenChecklist  = JSON.parse(localStorage.getItem(STORAGE_KEYS.screen)  || 'null') || defaultScreen;
+
+    // ======= DOM helpers =======
+    const $ = s => document.querySelector(s);
+    const setThemeVars = (team) => {
+      const c = teamColors[team];
+      const root = document.documentElement;
+      root.style.setProperty('--primary', c.primary);
+      root.style.setProperty('--secondary', c.secondary);
+      root.style.setProperty('--accent', c.accent);
+      root.style.setProperty('--background', c.background);
+      root.style.setProperty('--cardBg', c.cardBg);
+      root.style.setProperty('--text', c.text);
+      // Button text color tweak for Boba if needed
+      $('#teamToggle').style.color = (team === 'Boba Fett') ? c.text : '#000';
+    };
+
+    const applySithDecor = (enable) => {
+      document.querySelectorAll('.sith-optional').forEach(w => {
+        w.classList.toggle('sith-glow', enable);
+        w.classList.toggle('sith-frame', enable);
+        // Per-card randomness for subtle flicker + blasters
+        if (enable) {
+          w.style.setProperty('--fDur', (2.5 + Math.random() * 2.5).toFixed(2) + 's');
+          w.style.setProperty('--fDelay', (Math.random() * 1.5).toFixed(2) + 's');
+          w.style.setProperty('--fMin', 0.94);
+          w.style.setProperty('--fMax', 1);
+          w.style.setProperty('--bDur', (7 + Math.random() * 7).toFixed(2) + 's');
+          w.style.setProperty('--bDelay', (Math.random() * 4).toFixed(2) + 's');
+          w.style.setProperty('--bSize', '8px');
+        } else {
+          w.style.removeProperty('--fDur');
+          w.style.removeProperty('--fDelay');
+          w.style.removeProperty('--fMin');
+          w.style.removeProperty('--fMax');
+          w.style.removeProperty('--bDur');
+          w.style.removeProperty('--bDelay');
+          w.style.removeProperty('--bSize');
+        }
+      });
+      // Flicker only on the info strip of screen-time card for a tasteful touch
+      $('#screenAllowance')?.classList.toggle('sith-flicker', enable);
+    };
+
+    // ======= Team select & toggle =======
+    const teamSelect = $('#teamSelect');
+    teamNames.forEach(n => {
+      const opt = document.createElement('option');
+      opt.value = n; opt.textContent = n;
+      teamSelect.appendChild(opt);
+    });
+    teamSelect.value = currentTeam;
+
+    const setTeam = (team) => {
+      currentTeam = teamColors[team] ? team : 'Philadelphia Eagles';
+      localStorage.setItem(STORAGE_KEYS.team, currentTeam);
+      setThemeVars(currentTeam);
+      applySithDecor(currentTeam === 'Sith');
+    };
+
+    $('#teamToggle').addEventListener('click', () => {
+      const idx = teamNames.indexOf(currentTeam);
+      const next = teamNames[(idx + 1) % teamNames.length];
+      setTeam(next);
+      teamSelect.value = next;
+    });
+    teamSelect.addEventListener('change', (e) => setTeam(e.target.value));
+
+    // ======= Time & Date =======
+    const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const updateClock = () => {
+      const now = new Date();
+      $('#timeStr').textContent = now.toLocaleTimeString();
+      $('#dateStr').textContent = now.toLocaleDateString();
+      $('#dayName').textContent = daysOfWeek[now.getDay()];
+      const isWeekend = now.getDay() === 0 || now.getDay() === 6;
+      const allowed = isWeekend ? 'two hours' : 'one hour';
+      $('#screenAllowance').textContent = isWeekend
+        ? '🎮 Enjoy two hours of screen time!'
+        : `🎮 Enjoy ${allowed} of screen time!`;
+    };
+
+    // ======= Quotes =======
+    const setQuote = (q) => {
+      $('#quoteText').textContent = `"${q.text}"`;
+      $('#quoteAuthor').textContent = q.author ? `— ${q.author}` : '—';
+      if (q.explanation) {
+        $('#quoteExplanation').textContent = ' ' + q.explanation;
+        $('#quoteExplWrap').style.display = '';
+      } else {
+        $('#quoteExplWrap').style.display = 'none';
+      }
+      try { localStorage.setItem(STORAGE_KEYS.quote, JSON.stringify(q)); } catch {}
+    };
+
+    const loadQuote = async () => {
+      // Use last good quote while fetching
+      try {
+        const last = JSON.parse(localStorage.getItem(STORAGE_KEYS.quote) || 'null');
+        if (last && last.text) setQuote(last);
+      } catch {}
+      // Fetch from local quotes.json (same folder)
+      try {
+        const res = await fetch('./quotes.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error('quotes.json not found');
+        const data = await res.json();
+        if (Array.isArray(data) && data.length) {
+          const random = data[Math.floor(Math.random() * data.length)];
+          setQuote({
+            text: random.quote,
+            author: random.author || '',
+            explanation: random.explanation || ''
+          });
+          return;
+        }
+      } catch (e) {
+        // fallback: public inspirational/sports
+        try {
+          const r = await fetch('https://api.quotable.io/random?tags=inspirational|sports');
+          const d = await r.json();
+          if (d && d.content) {
+            setQuote({ text: d.content, author: d.author || '', explanation: '' });
+            return;
+          }
+        } catch {}
+        setQuote({
+          text: "Hard work beats talent when talent doesn't work hard!",
+          author: 'Tim Notke',
+          explanation: "Even if you're not the best naturally, working hard can help you succeed!"
+        });
+      }
+    };
+
+    // ======= Checklists =======
+    const renderChecklist = (container, list, onToggle) => {
+      container.innerHTML = '';
+      list.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'item' + (item.done ? ' done' : '');
+        row.setAttribute('role','button');
+        row.setAttribute('tabindex','0');
+
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.checked = item.done;
+        cb.style.width = '22px';
+        cb.style.height = '22px';
+        cb.style.accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+        cb.addEventListener('click', e => e.stopPropagation());
+        cb.addEventListener('change', () => onToggle(item.id));
+
+        const label = document.createElement('span');
+        label.textContent = item.text;
+        label.style.flex = '1';
+
+        row.appendChild(cb);
+        row.appendChild(label);
+
+        row.addEventListener('click', () => onToggle(item.id));
+        row.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') onToggle(item.id);
+        });
+
+        container.appendChild(row);
+      });
+    };
+
+    const toggleMorning = (id) => {
+      morningChecklist = morningChecklist.map(it => it.id === id ? { ...it, done: !it.done } : it);
+      localStorage.setItem(STORAGE_KEYS.morning, JSON.stringify(morningChecklist));
+      renderChecklist($('#morningList'), morningChecklist, toggleMorning);
+    };
+    const toggleScreen = (id) => {
+      screenChecklist = screenChecklist.map(it => it.id === id ? { ...it, done: !it.done } : it);
+      localStorage.setItem(STORAGE_KEYS.screen, JSON.stringify(screenChecklist));
+      renderChecklist($('#screenList'), screenChecklist, toggleScreen);
+    };
+
+    // ======= Init =======
+    setTeam(currentTeam); // sets vars + Sith decor if needed
+    updateClock();
+    setInterval(updateClock, 1000);
+    loadQuote();
+
+    renderChecklist($('#morningList'), morningChecklist, toggleMorning);
+    renderChecklist($('#screenList'),  screenChecklist,  toggleScreen);
+
+    // Make Sith button text white for Boba if you switch later
+    // (handled inside setThemeVars)
+  </script>
+</body>
+</html>
