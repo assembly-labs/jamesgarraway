@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>James' GOATED Homepage</title>
   <meta name="color-scheme" content="dark light" />
-
   <style>
     :root {
       --primary: #004C54;
@@ -14,9 +13,21 @@
       --background: #0A1612;
       --cardBg: #1A2822;
       --text: #E8F5F3;
+      /* Sith-only per-widget intensity (updated via JS when Sith is active) */
+      --sithI: 0.9;
     }
 
     * { box-sizing: border-box; }
+
+    /* Blaster canvases: one behind, one above */
+    .blaster-bg, .blaster-fg {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none; /* never block clicks */
+    }
+    .blaster-bg { z-index: 0; background: radial-gradient(100% 140% at 50% 0%, #0a0a12 0%, #05060a 60%, #020307 100%); }
+    .blaster-fg { z-index: 999; } /* rare “top z-axis” streaks */
 
     body {
       margin: 0;
@@ -24,9 +35,15 @@
       background: var(--background);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      padding: clamp(15px, 3vw, 25px);
       position: relative;
       overflow-x: hidden;
+    }
+
+    /* App wrapper sits above bg effects, below optional fg effects */
+    .app {
+      position: relative;
+      z-index: 1;
+      padding: clamp(15px, 3vw, 25px);
     }
 
     /* Top controls */
@@ -101,7 +118,7 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       overflow: hidden;
       transition: all 0.3s ease;
-      position: relative; /* blaster relative */
+      position: relative;
     }
     .widget:hover {
       box-shadow: 0 8px 32px color-mix(in srgb, var(--accent) 40%, transparent);
@@ -121,68 +138,66 @@
       background: var(--primary);
       border-bottom: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
     }
-
     .widget-body { color: var(--text); }
 
-    /* Flicker + glow for Sith, but subtle + randomized with CSS vars */
-    @keyframes sithGlowSoft {
-      0%   { box-shadow: 0 4px 16px rgba(255,0,0,0.18), 0 0 18px rgba(255,0,0,0.14), inset 0 0 6px rgba(255,0,0,0.08); }
-      50%  { box-shadow: 0 4px 22px rgba(255,0,0,0.26), 0 0 24px rgba(255,0,0,0.18), inset 0 0 8px rgba(255,0,0,0.10); }
-      100% { box-shadow: 0 4px 16px rgba(255,0,0,0.18), 0 0 18px rgba(255,0,0,0.14), inset 0 0 6px rgba(255,0,0,0.08); }
+    /* Sith subtle irregular glow (layered reds/orange/white; no moving elements) */
+    @keyframes sithShimmerTiny {
+      0%   { filter: saturate(1) contrast(1); }
+      50%  { filter: saturate(1.03) contrast(1.02); }
+      100% { filter: saturate(1) contrast(1); }
     }
-    .sith-glow { animation: sithGlowSoft 3.6s ease-in-out infinite; }
-
-    @keyframes sithFlickerSubtle {
-      0%   { opacity: var(--fMin, 0.94); filter: brightness(0.98); }
-      22%  { opacity: var(--fMax, 1);    filter: brightness(1); }
-      39%  { opacity: calc(var(--fMin, 0.94) + 0.02); }
-      61%  { opacity: var(--fMax, 1);    filter: brightness(1.01); }
-      79%  { opacity: calc(var(--fMin, 0.94) + 0.03); }
-      100% { opacity: var(--fMin, 0.94); filter: brightness(0.98); }
-    }
-    .sith-flicker {
-      animation: sithFlickerSubtle var(--fDur, 3.2s) ease-in-out infinite;
-      animation-delay: var(--fDelay, 0s);
-    }
-
-    /* “Blaster bolts” that orbit the module border */
-    .sith-frame {
+    .sith-glow {
       border-color: rgba(255, 0, 0, 0.35);
-      box-shadow: inset 0 0 0 1px rgba(255,0,0,0.15);
-    }
-    .sith-frame::after,
-    .sith-frame::before {
-      content: '';
-      position: absolute;
-      width: var(--bSize, 8px);
-      height: var(--bSize, 8px);
-      border-radius: 50%;
-      background: radial-gradient(circle, var(--accent) 0%, rgba(255,0,0,0.8) 60%, rgba(255,0,0,0) 70%);
       box-shadow:
-        0 0 8px rgba(255,0,0,0.65),
-        0 0 16px rgba(255,0,0,0.35);
-      pointer-events: none;
-      z-index: 2;
-      animation: blasterRun var(--bDur, 10s) linear infinite;
-      animation-delay: var(--bDelay, 0s);
+        0 0 calc(6px  * var(--sithI, 0.9)) 0 rgba(255,255,255,0.10),
+        0 0 calc(14px * var(--sithI, 0.9)) 2px #ff0000,
+        0 0 calc(28px * var(--sithI, 0.9)) 6px #ff4500,
+        0 0 calc(52px * var(--sithI, 0.9)) 12px rgba(139,0,0,0.45),
+        inset 0 0 calc(10px * var(--sithI, 0.9)) 0 rgba(255,0,0,0.10),
+        inset 0 0 calc(24px * var(--sithI, 0.9)) 8px rgba(139,0,0,0.20);
+      animation: sithShimmerTiny 420ms steps(2, end) infinite;
     }
-    .sith-frame::before {
-      filter: blur(0.5px) saturate(1.1);
-      opacity: 0.85;
-      animation-duration: calc(var(--bDur, 10s) * 0.85);
-      animation-delay: calc(var(--bDelay, 0s) + 1.2s);
-    }
-    @keyframes blasterRun {
-      0%   { top: -4px; left: -4px; }
-      25%  { top: -4px; left: calc(100% - 4px); }
-      50%  { top: calc(100% - 4px); left: calc(100% - 4px); }
-      75%  { top: calc(100% - 4px); left: -4px; }
-      100% { top: -4px; left: -4px; }
+    .sith-glow .btn-screen-info {
+      box-shadow:
+        0 0 calc(6px * var(--sithI, 0.9)) 0 rgba(255,255,255,0.10),
+        0 0 calc(14px * var(--sithI, 0.9)) 2px #ff0000,
+        0 0 calc(24px * var(--sithI, 0.9)) 8px rgba(139,0,0,0.35);
     }
 
-    /* Motion safety */
+    /* Blaster bolt base (used for bg + fg layers; instance styles come from JS) */
+    .bolt {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 80px;
+      height: 2px;
+      border-radius: 999px;
+      will-change: transform, opacity;
+      opacity: 0.92;
+      filter: saturate(1.4);
+      box-shadow:
+        0 0 6px currentColor,
+        0 0 12px currentColor,
+        0 0 20px currentColor;
+      background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, currentColor 35%, rgba(0,0,0,0) 100%);
+    }
+    .bolt::after {
+      content: "";
+      position: absolute;
+      left: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff;
+      filter: blur(1px);
+      opacity: 0.85;
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      .sith-glow, .sith-flicker, .sith-frame::before, .sith-frame::after { animation: none !important; }
+      .sith-glow { animation: none !important; }
+      /* JS also disables blasters in reduced motion */
     }
 
     @media (max-width: 767px) {
@@ -229,66 +244,72 @@
   </style>
 </head>
 <body>
-  <!-- Controls -->
-  <div class="controls">
-    <select id="teamSelect" aria-label="Choose theme"></select>
-    <button id="teamToggle">Toggle Theme</button>
-  </div>
+  <!-- Blaster layers -->
+  <div class="blaster-bg" id="blaster-bg" aria-hidden="true"></div>
+  <div class="blaster-fg" id="blaster-fg" aria-hidden="true"></div>
 
-  <!-- Header -->
-  <div id="header" class="header">
-    <h1>🌟 JAMES' GOATED HOMEPAGE 🌟</h1>
-  </div>
+  <main class="app">
+    <!-- Controls -->
+    <div class="controls">
+      <select id="teamSelect" aria-label="Choose theme"></select>
+      <button id="teamToggle">Toggle Theme</button>
+    </div>
 
-  <!-- Grid -->
-  <div class="grid">
-    <!-- Today -->
-    <div class="widget sith-optional" id="w-today">
-      <div class="widget-header"><span>📅 TODAY IS...</span></div>
-      <div class="widget-body" style="padding: clamp(20px, 4vw, 28px); text-align:center; font-weight:600;">
-        <div id="dayName" style="margin-bottom:12px; color: var(--accent); font-size: clamp(20px, 5vw, 28px);">—</div>
-        <div id="dateStr" style="font-size: clamp(16px, 3.5vw, 20px); color: var(--secondary); font-weight:500;">—</div>
+    <!-- Header -->
+    <div id="header" class="header">
+      <h1>🌟 JAMES' GOATED HOMEPAGE 🌟</h1>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid">
+      <!-- Today -->
+      <div class="widget sith-optional" id="w-today">
+        <div class="widget-header"><span>📅 TODAY IS...</span></div>
+        <div class="widget-body" style="padding: clamp(20px, 4vw, 28px); text-align:center; font-weight:600;">
+          <div id="dayName" style="margin-bottom:12px; color: var(--accent); font-size: clamp(20px, 5vw, 28px);">—</div>
+          <div id="dateStr" style="font-size: clamp(16px, 3.5vw, 20px); color: var(--secondary); font-weight:500;">—</div>
+        </div>
       </div>
-    </div>
 
-    <!-- Time -->
-    <div class="widget sith-optional" id="w-time">
-      <div class="widget-header"><span>⏰ CURRENT TIME</span></div>
-      <div class="widget-body" style="padding: clamp(20px, 4vw, 28px); text-align:center; font-weight:700; font-family: monospace; font-size: clamp(36px, 8vw, 54px); color: var(--accent);" id="timeStr">—</div>
-    </div>
+      <!-- Time -->
+      <div class="widget sith-optional" id="w-time">
+        <div class="widget-header"><span>⏰ CURRENT TIME</span></div>
+        <div class="widget-body" style="padding: clamp(20px, 4vw, 28px); text-align:center; font-weight:700; font-family: monospace; font-size: clamp(36px, 8vw, 54px); color: var(--accent);" id="timeStr">—</div>
+      </div>
 
-    <!-- Quote -->
-    <div class="widget sith-optional" id="w-quote" style="grid-column: 1 / -1;">
-      <div class="widget-header"><span>⭐ QUOTE OF THE DAY</span></div>
-      <div class="widget-body" style="padding: clamp(20px, 4vw, 30px); line-height:1.6;">
-        <div id="quoteText" style="font-size: clamp(16px, 3.5vw, 22px); margin-bottom: 15px; font-weight: 500; font-style: italic;">"Loading…"</div>
-        <div id="quoteAuthor" style="font-size: clamp(14px, 3vw, 18px); text-align: right; margin-bottom: 0; font-weight: 600; color: var(--accent);">—</div>
-        <div id="quoteExplWrap" style="display:none; margin-top: 20px;">
-          <div style="font-size: clamp(14px, 3vw, 16px); background: color-mix(in srgb, var(--accent) 20%, transparent); padding: 16px; border-radius: 10px; color: var(--text); line-height:1.6; font-weight: 500; border: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);">
-            <strong style="font-size: clamp(15px, 3.2vw, 17px); color: var(--accent)">💡 What it means:</strong>
-            <span id="quoteExplanation"></span>
+      <!-- Quote -->
+      <div class="widget sith-optional" id="w-quote" style="grid-column: 1 / -1;">
+        <div class="widget-header"><span>⭐ QUOTE OF THE DAY</span></div>
+        <div class="widget-body" style="padding: clamp(20px, 4vw, 30px); line-height:1.6;">
+          <div id="quoteText" style="font-size: clamp(16px, 3.5vw, 22px); margin-bottom: 15px; font-weight: 500; font-style: italic;">"Loading…"</div>
+          <div id="quoteAuthor" style="font-size: clamp(14px, 3vw, 18px); text-align: right; margin-bottom: 0; font-weight: 600; color: var(--accent);">—</div>
+          <div id="quoteExplWrap" style="display:none; margin-top: 20px;">
+            <div style="font-size: clamp(14px, 3vw, 16px); background: color-mix(in srgb, var(--accent) 20%, transparent); padding: 16px; border-radius: 10px; color: var(--text); line-height:1.6; font-weight: 500; border: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);">
+              <strong style="font-size: clamp(15px, 3.2vw, 17px); color: var(--accent)">💡 What it means:</strong>
+              <span id="quoteExplanation"></span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Morning checklist -->
-    <div class="widget sith-optional" id="w-morning">
-      <div class="widget-header"><span>🎒 DON'T FORGET!</span></div>
-      <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
-        <div id="morningList"></div>
+      <!-- Morning checklist -->
+      <div class="widget sith-optional" id="w-morning">
+        <div class="widget-header"><span>🎒 DON'T FORGET!</span></div>
+        <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
+          <div id="morningList"></div>
+        </div>
+      </div>
+
+      <!-- Screen time rules -->
+      <div class="widget sith-optional" id="w-screen">
+        <div class="widget-header"><span>📺 EARN SCREEN TIME!</span></div>
+        <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
+          <div id="screenList"></div>
+          <div id="screenAllowance" class="btn-screen-info" style="color:#000;">—</div>
+        </div>
       </div>
     </div>
-
-    <!-- Screen time rules -->
-    <div class="widget sith-optional" id="w-screen">
-      <div class="widget-header"><span>📺 EARN SCREEN TIME!</span></div>
-      <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
-        <div id="screenList"></div>
-        <div id="screenAllowance" class="btn-screen-info" style="color:#000;">—</div>
-      </div>
-    </div>
-  </div>
+  </main>
 
   <script>
     // ======= Data =======
@@ -344,36 +365,242 @@
       root.style.setProperty('--background', c.background);
       root.style.setProperty('--cardBg', c.cardBg);
       root.style.setProperty('--text', c.text);
-      // Button text color tweak for Boba if needed
       $('#teamToggle').style.color = (team === 'Boba Fett') ? c.text : '#000';
     };
 
-    const applySithDecor = (enable) => {
-      document.querySelectorAll('.sith-optional').forEach(w => {
-        w.classList.toggle('sith-glow', enable);
-        w.classList.toggle('sith-frame', enable);
-        // Per-card randomness for subtle flicker + blasters
-        if (enable) {
-          w.style.setProperty('--fDur', (2.5 + Math.random() * 2.5).toFixed(2) + 's');
-          w.style.setProperty('--fDelay', (Math.random() * 1.5).toFixed(2) + 's');
-          w.style.setProperty('--fMin', 0.94);
-          w.style.setProperty('--fMax', 1);
-          w.style.setProperty('--bDur', (7 + Math.random() * 7).toFixed(2) + 's');
-          w.style.setProperty('--bDelay', (Math.random() * 4).toFixed(2) + 's');
-          w.style.setProperty('--bSize', '8px');
-        } else {
-          w.style.removeProperty('--fDur');
-          w.style.removeProperty('--fDelay');
-          w.style.removeProperty('--fMin');
-          w.style.removeProperty('--fMax');
-          w.style.removeProperty('--bDur');
-          w.style.removeProperty('--bDelay');
-          w.style.removeProperty('--bSize');
-        }
-      });
-      // Flicker only on the info strip of screen-time card for a tasteful touch
-      $('#screenAllowance')?.classList.toggle('sith-flicker', enable);
+    // ======= Sith irregular glow driver (per-widget) =======
+    const sithState = {
+      active: false, rafId: null, widgets: [], map: new WeakMap()
     };
+    function initSithWidget(el) {
+      if (!sithState.map.has(el)) {
+        const seed = 0.80 + Math.random() * 0.15;
+        sithState.map.set(el, { ema: seed, burst: 0, last: performance.now() });
+        el.style.setProperty('--sithI', seed.toFixed(3));
+        el.classList.add('sith-glow');
+      }
+    }
+    function clearSithWidget(el) {
+      el.classList.remove('sith-glow');
+      el.style.removeProperty('--sithI');
+      sithState.map.delete(el);
+    }
+    const SITH_CONFIG = {
+      baseIntensity: 0.88, jitterAmount: 0.14, ema: 0.18,
+      burstChance: 0.035, burstBoost: 0.38, burstHalfLife: 120,
+      minInterval: 14, maxIntensity: 1.25, minIntensity: 0.70
+    };
+    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+    function randStep(amount) {
+      const r = Math.random();
+      const mag = r < 0.85 ? (Math.random() * 0.5) : (0.5 + Math.random() * 1.0);
+      const sign = Math.random() < 0.55 ? -1 : 1;
+      return sign * mag * amount;
+    }
+    function sithTick(ts) {
+      if (!sithState.active) return;
+      sithState.rafId = requestAnimationFrame(sithTick);
+      sithState.widgets.forEach(el => {
+        const st = sithState.map.get(el); if (!st) return;
+        const dt = ts - st.last || 16; if (dt < SITH_CONFIG.minInterval) return;
+        st.last = ts;
+        if (Math.random() < SITH_CONFIG.burstChance) {
+          st.burst += SITH_CONFIG.burstBoost * (0.6 + Math.random() * 0.6);
+        }
+        const half = Math.max(40, SITH_CONFIG.burstHalfLife);
+        st.burst *= Math.pow(0.5, dt / half);
+        const noise = SITH_CONFIG.baseIntensity + randStep(SITH_CONFIG.jitterAmount);
+        st.ema = (1 - SITH_CONFIG.ema) * noise + SITH_CONFIG.ema * st.ema;
+        let intensity = st.ema + st.burst;
+        intensity = clamp(intensity, SITH_CONFIG.minIntensity, SITH_CONFIG.maxIntensity);
+        el.style.setProperty('--sithI', intensity.toFixed(3));
+      });
+    }
+    function applySith(enable) {
+      const els = document.querySelectorAll('.sith-optional');
+      if (enable) {
+        els.forEach(initSithWidget);
+        sithState.widgets = Array.from(els);
+        if (!sithState.active) {
+          sithState.active = true;
+          sithState.rafId = requestAnimationFrame(sithTick);
+        }
+      } else {
+        sithState.active = false;
+        if (sithState.rafId) cancelAnimationFrame(sithState.rafId);
+        sithState.rafId = null;
+        sithState.widgets.forEach(clearSithWidget);
+        sithState.widgets = [];
+      }
+    }
+
+    // ======= Boba Fett: Background & Foreground blaster manager =======
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const blaster = {
+      active: false,
+      bg: $('#blaster-bg'),
+      fg: $('#blaster-fg'),
+      timers: { bg: null, fg: null },
+      pool: [],
+      config: {
+        // Background cadence
+        spawnEveryMs: [60, 180],
+        maxBolts: 80,
+        speedPxPerSec: [700, 1600],
+        thicknessPx: [1.5, 3.5],
+        lengthPx: [60, 160],
+        angleJitterDeg: [-6, 6],
+        fadeInMs: 60,
+        fadeOutMs: 120,
+        blurPx: [0.4, 1.1],
+        leftBias: 0.5,
+        // Foreground “top z-axis” bolt cadence (every 2–5 seconds)
+        fgEveryMs: [2000, 5000],
+        fgSpeedPxPerSec: [900, 1800],
+        fgLengthPx: [80, 200],
+        fgThicknessPx: [2, 4],
+        fgBlurPx: [0.6, 1.4]
+      },
+      palettes: {
+        // Mandalorian-leaning palette for Boba vibe
+        mandos:    ['#4fc3f7', '#00bcd4', '#7dd3fc', '#cfefff'], // cyan/blue/white
+        rebels:    ['#ff3b30', '#ff4d2a', '#ff6a00', '#ff2a55'],
+        imperials: ['#34ff6e', '#18ff3b', '#2aff2a', '#00ff66']
+      }
+    };
+    function rand(min, max) { return min + Math.random() * (max - min); }
+    function pick(arr) { return arr[(Math.random() * arr.length) | 0]; }
+    function getBoltFromPool() { return blaster.pool.pop() || document.createElement('div'); }
+    function recycleBolt(node) { node.remove(); blaster.pool.push(node); }
+
+    function spawnBolt(container, opts) {
+      if (!blaster.active) return;
+      const vw = container.clientWidth;
+      const vh = container.clientHeight;
+
+      const dirLeftToRight = Math.random() < (opts.leftBias ?? 0.5);
+      const y = Math.random() * vh;
+      const length = rand(...opts.lengthPx);
+      const thickness = rand(...opts.thicknessPx);
+      const angle = rand(...opts.angleJitterDeg);
+      const blur = rand(...opts.blurPx);
+      const speed = rand(...opts.speedPxPerSec);
+      const color = pick(opts.colors);
+
+      const bolt = getBoltFromPool();
+      bolt.className = 'bolt';
+      bolt.style.color = color;
+      bolt.style.height = thickness + 'px';
+      bolt.style.width = length + 'px';
+      bolt.style.filter = `saturate(1.4) blur(${blur}px)`;
+      bolt.style.background = dirLeftToRight
+        ? 'linear-gradient(90deg, rgba(255,255,255,0.95) 0%, currentColor 35%, rgba(0,0,0,0) 100%)'
+        : 'linear-gradient(270deg, rgba(255,255,255,0.95) 0%, currentColor 35%, rgba(0,0,0,0) 100%)';
+
+      const startX = dirLeftToRight ? -length - 20 : vw + 20;
+      const endX   = dirLeftToRight ? vw + 20 : -length - 20;
+
+      bolt.style.transform = `translate3d(${startX}px, ${y}px, 0) rotate(${angle}deg)`;
+      bolt.style.opacity = '0';
+      container.appendChild(bolt);
+
+      const distance = Math.abs(endX - startX);
+      const totalMs = (distance / speed) * 1000;
+      const start = performance.now();
+
+      function step(now) {
+        if (!blaster.active) { recycleBolt(bolt); return; }
+        const t = now - start;
+        const p = t / totalMs;
+        if (p >= 1) { recycleBolt(bolt); return; }
+
+        const x = startX + (endX - startX) * p;
+        bolt.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${angle}deg)`;
+
+        let alpha = 1;
+        if (t < opts.fadeInMs) alpha = t / opts.fadeInMs;
+        else if (totalMs - t < opts.fadeOutMs) alpha = (totalMs - t) / opts.fadeOutMs;
+        bolt.style.opacity = alpha.toFixed(3);
+
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    function scheduleBgSpawn() {
+      if (!blaster.active) return;
+      const colors = [
+        ...blaster.palettes.mandos,  // primarily mando vibe
+        ...blaster.palettes.rebels.slice(0,1) // tiny spice of warm bolts
+      ];
+      const opts = {
+        colors,
+        speedPxPerSec: blaster.config.speedPxPerSec,
+        thicknessPx: blaster.config.thicknessPx,
+        lengthPx: blaster.config.lengthPx,
+        angleJitterDeg: blaster.config.angleJitterDeg,
+        fadeInMs: blaster.config.fadeInMs,
+        fadeOutMs: blaster.config.fadeOutMs,
+        blurPx: blaster.config.blurPx,
+        leftBias: blaster.config.leftBias
+      };
+      // safety cap
+      if (blaster.bg.childElementCount < blaster.config.maxBolts) {
+        spawnBolt(blaster.bg, opts);
+      }
+      const delay = rand(...blaster.config.spawnEveryMs);
+      blaster.timers.bg = setTimeout(scheduleBgSpawn, delay);
+    }
+
+    function scheduleFgBurst() {
+      if (!blaster.active) return;
+      const colors = [
+        ...blaster.palettes.mandos,
+        ...blaster.palettes.imperials.slice(0,1) // occasional green “lancer”
+      ];
+      const opts = {
+        colors,
+        speedPxPerSec: blaster.config.fgSpeedPxPerSec,
+        thicknessPx: blaster.config.fgThicknessPx,
+        lengthPx: blaster.config.fgLengthPx,
+        angleJitterDeg: blaster.config.angleJitterDeg,
+        fadeInMs: blaster.config.fadeInMs,
+        fadeOutMs: blaster.config.fadeOutMs,
+        blurPx: blaster.config.fgBlurPx,
+        leftBias: Math.random() < 0.5 ? 0.3 : 0.7 // slight asymmetry
+      };
+      spawnBolt(blaster.fg, opts);
+      const delay = rand(...blaster.config.fgEveryMs); // every 2–5s
+      blaster.timers.fg = setTimeout(scheduleFgBurst, delay);
+    }
+
+    function startBlasters() {
+      if (blaster.active || prefersReducedMotion) return;
+      blaster.active = true;
+      scheduleBgSpawn();
+      scheduleFgBurst(); // foreground bolt every 2–5 seconds
+      // front-load a few background bolts so it feels alive instantly
+      for (let i = 0; i < 10; i++) spawnBolt(blaster.bg, {
+        colors: blaster.palettes.mandos,
+        speedPxPerSec: blaster.config.speedPxPerSec,
+        thicknessPx: blaster.config.thicknessPx,
+        lengthPx: blaster.config.lengthPx,
+        angleJitterDeg: blaster.config.angleJitterDeg,
+        fadeInMs: blaster.config.fadeInMs,
+        fadeOutMs: blaster.config.fadeOutMs,
+        blurPx: blaster.config.blurPx,
+        leftBias: blaster.config.leftBias
+      });
+    }
+
+    function stopBlasters() {
+      blaster.active = false;
+      clearTimeout(blaster.timers.bg); blaster.timers.bg = null;
+      clearTimeout(blaster.timers.fg); blaster.timers.fg = null;
+      // Clean up existing nodes
+      blaster.bg.querySelectorAll('.bolt').forEach(n => recycleBolt(n));
+      blaster.fg.querySelectorAll('.bolt').forEach(n => recycleBolt(n));
+    }
 
     // ======= Team select & toggle =======
     const teamSelect = $('#teamSelect');
@@ -388,7 +615,11 @@
       currentTeam = teamColors[team] ? team : 'Philadelphia Eagles';
       localStorage.setItem(STORAGE_KEYS.team, currentTeam);
       setThemeVars(currentTeam);
-      applySithDecor(currentTeam === 'Sith');
+      // Sith effect
+      applySith(currentTeam === 'Sith');
+      // Boba blasters
+      if (currentTeam === 'Boba Fett') startBlasters();
+      else stopBlasters();
     };
 
     $('#teamToggle').addEventListener('click', () => {
@@ -413,7 +644,7 @@
         : `🎮 Enjoy ${allowed} of screen time!`;
     };
 
-    // ======= Quotes =======
+    // ======= Quotes (from ./quotes.json) =======
     const setQuote = (q) => {
       $('#quoteText').textContent = `"${q.text}"`;
       $('#quoteAuthor').textContent = q.author ? `— ${q.author}` : '—';
@@ -427,12 +658,10 @@
     };
 
     const loadQuote = async () => {
-      // Use last good quote while fetching
       try {
         const last = JSON.parse(localStorage.getItem(STORAGE_KEYS.quote) || 'null');
         if (last && last.text) setQuote(last);
       } catch {}
-      // Fetch from local quotes.json (same folder)
       try {
         const res = await fetch('./quotes.json', { cache: 'no-store' });
         if (!res.ok) throw new Error('quotes.json not found');
@@ -447,7 +676,6 @@
           return;
         }
       } catch (e) {
-        // fallback: public inspirational/sports
         try {
           const r = await fetch('https://api.quotable.io/random?tags=inspirational|sports');
           const d = await r.json();
@@ -510,7 +738,10 @@
     };
 
     // ======= Init =======
-    setTeam(currentTeam); // sets vars + Sith decor if needed
+    setThemeVars(currentTeam);
+    applySith(currentTeam === 'Sith');
+    if (currentTeam === 'Boba Fett') startBlasters();
+
     updateClock();
     setInterval(updateClock, 1000);
     loadQuote();
@@ -518,8 +749,6 @@
     renderChecklist($('#morningList'), morningChecklist, toggleMorning);
     renderChecklist($('#screenList'),  screenChecklist,  toggleScreen);
 
-    // Make Sith button text white for Boba if you switch later
-    // (handled inside setThemeVars)
   </script>
 </body>
 </html>
