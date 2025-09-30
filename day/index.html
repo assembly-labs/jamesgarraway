@@ -13,11 +13,11 @@
       --background: #0A1612;
       --cardBg: #1A2822;
       --text: #E8F5F3;
-      /* Sith-only per-widget intensity (updated via JS when Sith is active) */
-      --sithI: 0.9;
+      --sithI: 0.9; /* Sith-only per-widget intensity (updated via JS when Sith is active) */
     }
 
     * { box-sizing: border-box; }
+    html, body { width: 100%; max-width: 100%; }
 
     /* Blaster canvases: one behind, one above */
     .blaster-bg, .blaster-fg {
@@ -43,16 +43,17 @@
     .app {
       position: relative;
       z-index: 1;
-      padding: clamp(15px, 3vw, 25px);
+      padding: max(12px, env(safe-area-inset-top)) clamp(12px, 3vw, 24px) clamp(12px, 3vw, 24px);
     }
 
-    /* Top controls */
+    /* Controls (now inside header, flow naturally) */
     .controls {
-      position: absolute;
-      top: 20px;
-      right: 20px;
+      position: static;
       display: flex;
+      flex-wrap: wrap;
       gap: 8px;
+      justify-content: flex-end;
+      margin-bottom: 8px;
       z-index: 1000;
     }
     .controls select, .controls button {
@@ -85,7 +86,7 @@
       padding: clamp(20px, 4vw, 30px);
       border-radius: 16px;
       margin-bottom: clamp(15px, 3vw, 25px);
-      margin-top: 60px;
+      margin-top: clamp(8px, 2vh, 20px);
       box-shadow: 0 8px 32px rgba(0,0,0,0.3);
       border: 2px solid rgba(0,0,0,0.1);
       text-align: center;
@@ -100,13 +101,15 @@
       color: var(--text);
     }
 
-    /* Grid */
+    /* Grid: full-bleed, dense packing, end-to-end */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-      gap: clamp(15px, 3vw, 25px);
-      max-width: 1400px;
-      margin: 0 auto;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: clamp(12px, 2.5vw, 22px);
+      width: 100%;
+      margin: 0;
+      padding-bottom: env(safe-area-inset-bottom, 0);
+      grid-auto-flow: dense;
       position: relative;
       z-index: 5;
     }
@@ -119,6 +122,11 @@
       overflow: hidden;
       transition: all 0.3s ease;
       position: relative;
+
+      /* stretch to fill grid cell vertically */
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
     .widget:hover {
       box-shadow: 0 8px 32px color-mix(in srgb, var(--accent) 40%, transparent);
@@ -138,7 +146,11 @@
       background: var(--primary);
       border-bottom: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
     }
-    .widget-body { color: var(--text); }
+    .widget-body { 
+      color: var(--text);
+      flex: 1 1 auto;
+      display: block;
+    }
 
     /* Sith subtle irregular glow (layered reds/orange/white; no moving elements) */
     @keyframes sithShimmerTiny {
@@ -164,22 +176,34 @@
         0 0 calc(24px * var(--sithI, 0.9)) 8px rgba(139,0,0,0.35);
     }
 
-    /* Blaster bolt base (used for bg + fg layers; instance styles come from JS) */
+    /* ----- Upgraded Blaster Beam + Sparks ----- */
+
+    /* Blaster beam (core + bloom + motion blur) */
     .bolt {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 80px;
-      height: 2px;
+      top: 0; left: 0;
+      width: 120px;             /* JS will override per-instance */
+      height: 2px;              /* JS will override per-instance */
       border-radius: 999px;
-      will-change: transform, opacity;
-      opacity: 0.92;
-      filter: saturate(1.4);
+      will-change: transform, opacity, filter;
+      opacity: 0.95;
       box-shadow:
         0 0 6px currentColor,
         0 0 12px currentColor,
-        0 0 20px currentColor;
+        0 0 22px currentColor,
+        0 0 44px currentColor;
+      filter: saturate(1.5);
       background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, currentColor 35%, rgba(0,0,0,0) 100%);
+      contain: layout paint;
+    }
+    .bolt::before {
+      content: "";
+      position: absolute;
+      inset: -1px -6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.85) 10%, currentColor 50%, rgba(0,0,0,0) 100%);
+      filter: blur(1px);
+      opacity: 0.9;
     }
     .bolt::after {
       content: "";
@@ -187,24 +211,47 @@
       left: -6px;
       top: 50%;
       transform: translateY(-50%);
-      width: 8px;
-      height: 8px;
+      width: 10px; height: 10px;
       border-radius: 50%;
       background: #fff;
-      filter: blur(1px);
-      opacity: 0.85;
+      filter: blur(1.2px);
+      opacity: 0.9;
+    }
+
+    /* Tiny spark pops in the background */
+    .spark {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.95) 0%, currentColor 35%, rgba(0,0,0,0) 70%);
+      box-shadow:
+        0 0 6px currentColor,
+        0 0 12px currentColor;
+      opacity: 0;
+      animation: sparkPop 600ms ease-out forwards;
+    }
+    @keyframes sparkPop {
+      0%   { transform: translate3d(0,0,0) scale(0.6); opacity: 0; }
+      20%  { opacity: 1; }
+      60%  { transform: translate3d(var(--sx, 6px), var(--sy, -6px), 0) scale(1.4); opacity: 0.9; }
+      100% { transform: translate3d(calc(var(--sx, 6px)*1.2), calc(var(--sy, -6px)*1.2), 0) scale(0.9); opacity: 0; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       .sith-glow { animation: none !important; }
       /* JS also disables blasters in reduced motion */
     }
-
     @media (max-width: 767px) {
       .widget-header span { font-size: clamp(13px, 3.5vw, 16px); }
     }
     @media (max-width: 480px) {
       input[type="checkbox"] { min-width: 24px; min-height: 24px; }
+    }
+    @media (max-width: 380px) {
+      .controls select, .controls button { width: 100%; }
+      .header h1 { font-size: clamp(22px, 7vw, 40px); }
+      .item { gap: 10px; }
     }
 
     /* Utility */
@@ -249,14 +296,12 @@
   <div class="blaster-fg" id="blaster-fg" aria-hidden="true"></div>
 
   <main class="app">
-    <!-- Controls -->
-    <div class="controls">
-      <select id="teamSelect" aria-label="Choose theme"></select>
-      <button id="teamToggle">Toggle Theme</button>
-    </div>
-
-    <!-- Header -->
+    <!-- Header (controls moved inside) -->
     <div id="header" class="header">
+      <div class="controls">
+        <select id="teamSelect" aria-label="Choose theme"></select>
+        <button id="teamToggle">Toggle Theme</button>
+      </div>
       <h1>🌟 JAMES' GOATED HOMEPAGE 🌟</h1>
     </div>
 
@@ -434,38 +479,44 @@
       }
     }
 
-    // ======= Boba Fett: Background & Foreground blaster manager =======
+    // ======= Boba Fett: Background & Foreground blaster manager (RGB + sparks) =======
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const blaster = {
       active: false,
       bg: $('#blaster-bg'),
       fg: $('#blaster-fg'),
-      timers: { bg: null, fg: null },
+      timers: { bg: null, fg: null, spark: null },
       pool: [],
       config: {
         // Background cadence
         spawnEveryMs: [60, 180],
         maxBolts: 80,
-        speedPxPerSec: [700, 1600],
+        speedPxPerSec: [900, 1800],      // punchier
         thicknessPx: [1.5, 3.5],
-        lengthPx: [60, 160],
+        lengthPx: [90, 200],             // longer beams
         angleJitterDeg: [-6, 6],
         fadeInMs: 60,
         fadeOutMs: 120,
         blurPx: [0.4, 1.1],
         leftBias: 0.5,
+
         // Foreground “top z-axis” bolt cadence (every 2–5 seconds)
         fgEveryMs: [2000, 5000],
         fgSpeedPxPerSec: [900, 1800],
-        fgLengthPx: [80, 200],
+        fgLengthPx: [120, 240],
         fgThicknessPx: [2, 4],
-        fgBlurPx: [0.6, 1.4]
+        fgBlurPx: [0.6, 1.4],
+
+        // Sparks
+        sparkEveryMs: [120, 380],
+        sparkMax: 120,
+        sparkSizePx: [2, 5],
       },
       palettes: {
-        // Mandalorian-leaning palette for Boba vibe
-        mandos:    ['#4fc3f7', '#00bcd4', '#7dd3fc', '#cfefff'], // cyan/blue/white
-        rebels:    ['#ff3b30', '#ff4d2a', '#ff6a00', '#ff2a55'],
-        imperials: ['#34ff6e', '#18ff3b', '#2aff2a', '#00ff66']
+        // Strict RGB only
+        reds:   ['#ff2a2a', '#ff3b30', '#ff4d2a'],
+        greens: ['#18ff3b', '#2aff2a', '#00ff66'],
+        blues:  ['#4fc3f7', '#00bcd4', '#7dd3fc']
       }
     };
     function rand(min, max) { return min + Math.random() * (max - min); }
@@ -473,17 +524,23 @@
     function getBoltFromPool() { return blaster.pool.pop() || document.createElement('div'); }
     function recycleBolt(node) { node.remove(); blaster.pool.push(node); }
 
+    function setBeamGradientByDirection(el, dirLeftToRight) {
+      el.style.background = dirLeftToRight
+        ? 'linear-gradient(90deg, rgba(255,255,255,0.95) 0%, currentColor 35%, rgba(0,0,0,0) 100%)'
+        : 'linear-gradient(270deg, rgba(255,255,255,0.95) 0%, currentColor 35%, rgba(0,0,0,0) 100%)';
+    }
+
     function spawnBolt(container, opts) {
       if (!blaster.active) return;
-      const vw = container.clientWidth;
-      const vh = container.clientHeight;
+      const vw = container.clientWidth || window.innerWidth;
+      const vh = container.clientHeight || window.innerHeight;
 
       const dirLeftToRight = Math.random() < (opts.leftBias ?? 0.5);
       const y = Math.random() * vh;
       const length = rand(...opts.lengthPx);
       const thickness = rand(...opts.thicknessPx);
       const angle = rand(...opts.angleJitterDeg);
-      const blur = rand(...opts.blurPx);
+      const blur = rand(...opts.blurPx) * 1.25; // stronger smear
       const speed = rand(...opts.speedPxPerSec);
       const color = pick(opts.colors);
 
@@ -492,10 +549,8 @@
       bolt.style.color = color;
       bolt.style.height = thickness + 'px';
       bolt.style.width = length + 'px';
-      bolt.style.filter = `saturate(1.4) blur(${blur}px)`;
-      bolt.style.background = dirLeftToRight
-        ? 'linear-gradient(90deg, rgba(255,255,255,0.95) 0%, currentColor 35%, rgba(0,0,0,0) 100%)'
-        : 'linear-gradient(270deg, rgba(255,255,255,0.95) 0%, currentColor 35%, rgba(0,0,0,0) 100%)';
+      bolt.style.filter = `saturate(1.5) blur(${blur}px)`;
+      setBeamGradientByDirection(bolt, dirLeftToRight);
 
       const startX = dirLeftToRight ? -length - 20 : vw + 20;
       const endX   = dirLeftToRight ? vw + 20 : -length - 20;
@@ -527,11 +582,51 @@
       requestAnimationFrame(step);
     }
 
+    function spawnSpark() {
+      if (!blaster.active) return;
+      const vw = blaster.bg.clientWidth || window.innerWidth;
+      const vh = blaster.bg.clientHeight || window.innerHeight;
+
+      const node = document.createElement('div');
+      node.className = 'spark';
+
+      // random position
+      const x = Math.random() * vw;
+      const y = Math.random() * vh;
+
+      // random small drift for the keyframe var()
+      const dx = (Math.random() * 14 - 7).toFixed(1) + 'px';
+      const dy = (Math.random() * 14 - 7).toFixed(1) + 'px';
+      node.style.setProperty('--sx', dx);
+      node.style.setProperty('--sy', dy);
+
+      // random color among RGB
+      const pool = [
+        ...blaster.palettes.blues,
+        ...blaster.palettes.greens,
+        ...blaster.palettes.reds
+      ];
+      node.style.color = pick(pool);
+
+      // random size
+      const s = rand(...blaster.config.sparkSizePx);
+      node.style.width = s + 'px';
+      node.style.height = s + 'px';
+
+      node.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+
+      blaster.bg.appendChild(node);
+
+      // cleanup after animation completes
+      setTimeout(() => node.remove(), 650);
+    }
+
     function scheduleBgSpawn() {
       if (!blaster.active) return;
       const colors = [
-        ...blaster.palettes.mandos,  // primarily mando vibe
-        ...blaster.palettes.rebels.slice(0,1) // tiny spice of warm bolts
+        ...blaster.palettes.blues,
+        ...blaster.palettes.greens,
+        ...blaster.palettes.reds
       ];
       const opts = {
         colors,
@@ -555,8 +650,9 @@
     function scheduleFgBurst() {
       if (!blaster.active) return;
       const colors = [
-        ...blaster.palettes.mandos,
-        ...blaster.palettes.imperials.slice(0,1) // occasional green “lancer”
+        ...blaster.palettes.blues,
+        ...blaster.palettes.greens,
+        ...blaster.palettes.reds
       ];
       const opts = {
         colors,
@@ -574,14 +670,32 @@
       blaster.timers.fg = setTimeout(scheduleFgBurst, delay);
     }
 
+    function scheduleSpark() {
+      if (!blaster.active) return;
+      // soft cap
+      if (blaster.bg.querySelectorAll('.spark').length < blaster.config.sparkMax) {
+        spawnSpark();
+        if (Math.random() < 0.15) spawnSpark(); // occasional multi-pop
+      }
+      const delay = rand(...blaster.config.sparkEveryMs);
+      blaster.timers.spark = setTimeout(scheduleSpark, delay);
+    }
+
     function startBlasters() {
       if (blaster.active || prefersReducedMotion) return;
       blaster.active = true;
       scheduleBgSpawn();
       scheduleFgBurst(); // foreground bolt every 2–5 seconds
+      scheduleSpark();
+
       // front-load a few background bolts so it feels alive instantly
+      const pool = [
+        ...blaster.palettes.blues,
+        ...blaster.palettes.greens,
+        ...blaster.palettes.reds
+      ];
       for (let i = 0; i < 10; i++) spawnBolt(blaster.bg, {
-        colors: blaster.palettes.mandos,
+        colors: pool,
         speedPxPerSec: blaster.config.speedPxPerSec,
         thicknessPx: blaster.config.thicknessPx,
         lengthPx: blaster.config.lengthPx,
@@ -597,9 +711,11 @@
       blaster.active = false;
       clearTimeout(blaster.timers.bg); blaster.timers.bg = null;
       clearTimeout(blaster.timers.fg); blaster.timers.fg = null;
+      clearTimeout(blaster.timers.spark); blaster.timers.spark = null;
       // Clean up existing nodes
       blaster.bg.querySelectorAll('.bolt').forEach(n => recycleBolt(n));
       blaster.fg.querySelectorAll('.bolt').forEach(n => recycleBolt(n));
+      blaster.bg.querySelectorAll('.spark').forEach(n => n.remove());
     }
 
     // ======= Team select & toggle =======
