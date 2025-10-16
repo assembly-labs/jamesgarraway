@@ -27,7 +27,7 @@
       pointer-events: none; /* never block clicks */
     }
     .blaster-bg { z-index: 0; background: radial-gradient(100% 140% at 50% 0%, #0a0a12 0%, #05060a 60%, #020307 100%); }
-    .blaster-fg { z-index: 999; } /* rare “top z-axis” streaks */
+    .blaster-fg { z-index: 999; } /* rare "top z-axis" streaks */
 
     body {
       margin: 0;
@@ -46,38 +46,43 @@
       padding: max(12px, env(safe-area-inset-top)) clamp(12px, 3vw, 24px) clamp(12px, 3vw, 24px);
     }
 
-    /* Controls (now inside header, flow naturally) */
+    /* Controls - Floating Top-Right */
     .controls {
-      position: static;
+      position: fixed;
+      top: max(12px, env(safe-area-inset-top));
+      right: clamp(12px, 3vw, 24px);
       display: flex;
-      flex-wrap: wrap;
       gap: 8px;
-      justify-content: flex-end;
-      margin-bottom: 8px;
       z-index: 1000;
     }
-    .controls select, .controls button {
+    .controls select {
       border-radius: 12px;
       border: 2px solid var(--accent);
-      padding: 10px 12px;
+      padding: 10px 16px 10px 12px;
       font-weight: 600;
       font-family: inherit;
       min-height: 44px;
-    }
-    .controls select {
       background: var(--cardBg);
       color: var(--text);
-    }
-    .controls button {
-      background: var(--secondary);
-      color: #000;
       cursor: pointer;
       box-shadow: 0 4px 16px rgba(0,0,0,0.3);
       transition: all .2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .controls button:hover {
+    .controls select:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    }
+    .theme-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-right: 6px;
+      vertical-align: middle;
     }
 
     /* Header */
@@ -296,37 +301,44 @@
   <div class="blaster-fg" id="blaster-fg" aria-hidden="true"></div>
 
   <main class="app">
-    <!-- Header (controls moved inside) -->
+    <!-- Floating Controls - Top Right -->
+    <div class="controls">
+      <select id="teamSelect" aria-label="Choose theme"></select>
+    </div>
+
+    <!-- Header -->
     <div id="header" class="header">
-      <div class="controls">
-        <select id="teamSelect" aria-label="Choose theme"></select>
-        <button id="teamToggle">Toggle Theme</button>
-      </div>
-      <h1>🌟 JAMES' GOATED HOMEPAGE 🌟</h1>
+      <h1>🏈 JAMES' GOATED HOMEPAGE ⚽</h1>
     </div>
 
     <!-- Grid -->
     <div class="grid">
       <!-- Today -->
       <div class="widget sith-optional" id="w-today">
-        <div class="widget-header"><span>📅 TODAY IS...</span></div>
+        <div class="widget-header" style="flex-direction: column; align-items: center; gap: 8px; padding: clamp(18px, 4vw, 24px);">
+          <div style="font-size: clamp(48px, 12vw, 72px); line-height: 1;">📅</div>
+          <span style="font-size: clamp(14px, 3vw, 16px);">DATE</span>
+        </div>
         <div class="widget-body" style="padding: clamp(20px, 4vw, 28px); text-align:center; font-weight:600;">
-          <div id="dayName" style="margin-bottom:12px; color: var(--accent); font-size: clamp(20px, 5vw, 28px);">—</div>
-          <div id="dateStr" style="font-size: clamp(16px, 3.5vw, 20px); color: var(--secondary); font-weight:500;">—</div>
+          <div id="dayName" style="margin-bottom:8px; color: var(--accent); font-size: clamp(24px, 6vw, 36px); font-weight:700;">—</div>
+          <div id="dateStr" style="font-size: clamp(18px, 4vw, 24px); color: var(--text); font-weight:500;">—</div>
         </div>
       </div>
 
       <!-- Time -->
       <div class="widget sith-optional" id="w-time">
-        <div class="widget-header"><span>⏰ CURRENT TIME</span></div>
+        <div class="widget-header" style="flex-direction: column; align-items: center; gap: 8px; padding: clamp(18px, 4vw, 24px);">
+          <div style="font-size: clamp(48px, 12vw, 72px); line-height: 1;">⏰</div>
+          <span style="font-size: clamp(14px, 3vw, 16px);">TIME</span>
+        </div>
         <div class="widget-body" style="padding: clamp(20px, 4vw, 28px); text-align:center; font-weight:700; font-family: monospace; font-size: clamp(36px, 8vw, 54px); color: var(--accent);" id="timeStr">—</div>
       </div>
 
       <!-- Quote -->
       <div class="widget sith-optional" id="w-quote" style="grid-column: 1 / -1;">
-        <div class="widget-header"><span>⭐ QUOTE OF THE DAY</span></div>
+        <div class="widget-header"><span>QUOTE OF THE DAY</span></div>
         <div class="widget-body" style="padding: clamp(20px, 4vw, 30px); line-height:1.6;">
-          <div id="quoteText" style="font-size: clamp(16px, 3.5vw, 22px); margin-bottom: 15px; font-weight: 500; font-style: italic;">"Loading…"</div>
+          <div id="quoteText" style="font-size: clamp(48px, 10.5vw, 66px); margin-bottom: 15px; font-weight: 500; font-style: italic;">"Loading…"</div>
           <div id="quoteAuthor" style="font-size: clamp(14px, 3vw, 18px); text-align: right; margin-bottom: 0; font-weight: 600; color: var(--accent);">—</div>
           <div id="quoteExplWrap" style="display:none; margin-top: 20px;">
             <div style="font-size: clamp(14px, 3vw, 16px); background: color-mix(in srgb, var(--accent) 20%, transparent); padding: 16px; border-radius: 10px; color: var(--text); line-height:1.6; font-weight: 500; border: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);">
@@ -339,7 +351,10 @@
 
       <!-- Morning checklist -->
       <div class="widget sith-optional" id="w-morning">
-        <div class="widget-header"><span>🎒 DON'T FORGET!</span></div>
+        <div class="widget-header" style="flex-direction: column; align-items: center; gap: 8px; padding: clamp(18px, 4vw, 24px);">
+          <div style="font-size: clamp(48px, 12vw, 72px); line-height: 1;">🎒</div>
+          <span style="font-size: clamp(14px, 3vw, 16px);">REMEMBER!</span>
+        </div>
         <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
           <div id="morningList"></div>
         </div>
@@ -347,10 +362,36 @@
 
       <!-- Screen time rules -->
       <div class="widget sith-optional" id="w-screen">
-        <div class="widget-header"><span>📺 EARN SCREEN TIME!</span></div>
+        <div class="widget-header"><span>💻 EARN SCREEN TIME</span></div>
         <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
           <div id="screenList"></div>
           <div id="screenAllowance" class="btn-screen-info" style="color:#000;">—</div>
+        </div>
+      </div>
+
+      <!-- ROCK OUT PLAYER -->
+      <div class="widget sith-optional" id="w-rock" style="grid-column: 1 / -1;">
+        <div class="widget-header"><span>🎸 ROCK OUT ZONE!</span></div>
+        <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
+          <iframe data-testid="embed-iframe" style="border-radius:12px" 
+            src="https://open.spotify.com/embed/playlist/1tkUe0mOxMkBv3098t6VMI?utm_source=generator&theme=0" 
+            width="100%" height="352" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+
+      <!-- LOFI FOCUS PLAYER -->
+      <div class="widget sith-optional" id="w-lofi" style="grid-column: 1 / -1;">
+        <div class="widget-header"><span>🎧 CHILL LOFI FOCUS ZONE</span></div>
+        <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
+          <iframe data-testid="embed-iframe" style="border-radius:12px" 
+            src="https://open.spotify.com/embed/playlist/4jAr7WoZjDa5mkdTFoytbS?utm_source=generator&theme=0" 
+            width="100%" height="352" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+          </iframe>
         </div>
       </div>
     </div>
@@ -410,7 +451,6 @@
       root.style.setProperty('--background', c.background);
       root.style.setProperty('--cardBg', c.cardBg);
       root.style.setProperty('--text', c.text);
-      $('#teamToggle').style.color = (team === 'Boba Fett') ? c.text : '#000';
     };
 
     // ======= Sith irregular glow driver (per-widget) =======
@@ -500,7 +540,7 @@
         blurPx: [0.4, 1.1],
         leftBias: 0.5,
 
-        // Foreground “top z-axis” bolt cadence (every 2–5 seconds)
+        // Foreground "top z-axis" bolt cadence (every 2–5 seconds)
         fgEveryMs: [2000, 5000],
         fgSpeedPxPerSec: [900, 1800],
         fgLengthPx: [120, 240],
@@ -722,7 +762,8 @@
     const teamSelect = $('#teamSelect');
     teamNames.forEach(n => {
       const opt = document.createElement('option');
-      opt.value = n; opt.textContent = n;
+      opt.value = n; 
+      opt.textContent = n;
       teamSelect.appendChild(opt);
     });
     teamSelect.value = currentTeam;
@@ -738,20 +779,18 @@
       else stopBlasters();
     };
 
-    $('#teamToggle').addEventListener('click', () => {
-      const idx = teamNames.indexOf(currentTeam);
-      const next = teamNames[(idx + 1) % teamNames.length];
-      setTeam(next);
-      teamSelect.value = next;
-    });
     teamSelect.addEventListener('change', (e) => setTeam(e.target.value));
 
     // ======= Time & Date =======
     const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     const updateClock = () => {
       const now = new Date();
       $('#timeStr').textContent = now.toLocaleTimeString();
-      $('#dateStr').textContent = now.toLocaleDateString();
+      const month = months[now.getMonth()];
+      const day = now.getDate();
+      const year = now.getFullYear();
+      $('#dateStr').textContent = `${month} ${day}, ${year}`;
       $('#dayName').textContent = daysOfWeek[now.getDay()];
       const isWeekend = now.getDay() === 0 || now.getDay() === 6;
       const allowed = isWeekend ? 'two hours' : 'one hour';
