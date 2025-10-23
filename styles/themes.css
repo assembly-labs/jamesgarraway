@@ -1,0 +1,110 @@
+:root {
+  --primary: #004C54;
+  --secondary: #A5ACAF;
+  --accent: #00C9B7;
+  --background: #0A1612;
+  --cardBg: #1A2822;
+  --text: #E8F5F3;
+  --sithI: 0.9; /* Sith-only per-widget intensity (updated via JS when Sith is active) */
+}
+
+/* Blaster canvases: one behind, one above */
+.blaster-bg, .blaster-fg {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none; /* never block clicks */
+}
+.blaster-bg { z-index: 0; background: radial-gradient(100% 140% at 50% 0%, #0a0a12 0%, #05060a 60%, #020307 100%); }
+.blaster-fg { z-index: 999; } /* rare "top z-axis" streaks */
+
+/* Sith subtle irregular glow (layered reds/orange/white; no moving elements) */
+@keyframes sithShimmerTiny {
+  0%   { filter: saturate(1) contrast(1); }
+  50%  { filter: saturate(1.03) contrast(1.02); }
+  100% { filter: saturate(1) contrast(1); }
+}
+.sith-glow {
+  border-color: rgba(255, 0, 0, 0.35);
+  box-shadow:
+    0 0 calc(6px  * var(--sithI, 0.9)) 0 rgba(255,255,255,0.10),
+    0 0 calc(14px * var(--sithI, 0.9)) 2px #ff0000,
+    0 0 calc(28px * var(--sithI, 0.9)) 6px #ff4500,
+    0 0 calc(52px * var(--sithI, 0.9)) 12px rgba(139,0,0,0.45),
+    inset 0 0 calc(10px * var(--sithI, 0.9)) 0 rgba(255,0,0,0.10),
+    inset 0 0 calc(24px * var(--sithI, 0.9)) 8px rgba(139,0,0,0.20);
+  animation: sithShimmerTiny 420ms steps(2, end) infinite;
+}
+.sith-glow .btn-screen-info {
+  box-shadow:
+    0 0 calc(6px * var(--sithI, 0.9)) 0 rgba(255,255,255,0.10),
+    0 0 calc(14px * var(--sithI, 0.9)) 2px #ff0000,
+    0 0 calc(24px * var(--sithI, 0.9)) 8px rgba(139,0,0,0.35);
+}
+
+/* ----- Upgraded Blaster Beam + Sparks ----- */
+
+/* Blaster beam (core + bloom + motion blur) */
+.bolt {
+  position: absolute;
+  top: 0; left: 0;
+  width: 120px;             /* JS will override per-instance */
+  height: 2px;              /* JS will override per-instance */
+  border-radius: 999px;
+  will-change: transform, opacity, filter;
+  opacity: 0.95;
+  box-shadow:
+    0 0 6px currentColor,
+    0 0 12px currentColor,
+    0 0 22px currentColor,
+    0 0 44px currentColor;
+  filter: saturate(1.5);
+  background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, currentColor 35%, rgba(0,0,0,0) 100%);
+  contain: layout paint;
+}
+.bolt::before {
+  content: "";
+  position: absolute;
+  inset: -1px -6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.85) 10%, currentColor 50%, rgba(0,0,0,0) 100%);
+  filter: blur(1px);
+  opacity: 0.9;
+}
+.bolt::after {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  filter: blur(1.2px);
+  opacity: 0.9;
+}
+
+/* Tiny spark pops in the background */
+.spark {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.95) 0%, currentColor 35%, rgba(0,0,0,0) 70%);
+  box-shadow:
+    0 0 6px currentColor,
+    0 0 12px currentColor;
+  opacity: 0;
+  animation: sparkPop 600ms ease-out forwards;
+}
+@keyframes sparkPop {
+  0%   { transform: translate3d(0,0,0) scale(0.6); opacity: 0; }
+  20%  { opacity: 1; }
+  60%  { transform: translate3d(var(--sx, 6px), var(--sy, -6px), 0) scale(1.4); opacity: 0.9; }
+  100% { transform: translate3d(calc(var(--sx, 6px)*1.2), calc(var(--sy, -6px)*1.2), 0) scale(0.9); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sith-glow { animation: none !important; }
+  /* JS also disables blasters in reduced motion */
+}

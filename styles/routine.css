@@ -1,0 +1,177 @@
+* { box-sizing: border-box; }
+html, body { width: 100%; max-width: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* App wrapper sits above bg effects, below optional fg effects */
+.app {
+  position: relative;
+  z-index: 1;
+  padding: max(12px, env(safe-area-inset-top)) clamp(12px, 3vw, 24px) clamp(12px, 3vw, 24px);
+}
+
+/* Controls - Floating Top-Right */
+.controls {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top));
+  right: clamp(12px, 3vw, 24px);
+  display: flex;
+  gap: 8px;
+  z-index: 1000;
+}
+.controls select {
+  border-radius: 12px;
+  border: 2px solid var(--accent);
+  padding: 10px 16px 10px 12px;
+  font-weight: 600;
+  font-family: inherit;
+  min-height: 44px;
+  background: var(--cardBg);
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  transition: all .2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.controls select:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+}
+.theme-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* Header */
+.header {
+  background: var(--primary);
+  padding: clamp(20px, 4vw, 30px);
+  border-radius: 16px;
+  margin-bottom: clamp(15px, 3vw, 25px);
+  margin-top: clamp(8px, 2vh, 20px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  border: 2px solid rgba(0,0,0,0.1);
+  text-align: center;
+}
+.header h1 {
+  margin: 0;
+  font-size: clamp(28px, 6vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  color: var(--text);
+}
+
+/* Grid: full-bleed, dense packing, end-to-end */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(12px, 2.5vw, 22px);
+  width: 100%;
+  margin: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  grid-auto-flow: dense;
+  position: relative;
+  z-index: 5;
+}
+
+.widget {
+  background: var(--cardBg);
+  border: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+
+  /* stretch to fill grid cell vertically */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.widget:hover {
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--accent) 40%, transparent);
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+.widget-header {
+  padding: clamp(14px, 3vw, 18px);
+  font-weight: 700;
+  font-size: clamp(14px, 3vw, 16px);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: 0.5px;
+  background: var(--primary);
+  border-bottom: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.widget-body {
+  color: var(--text);
+  flex: 1 1 auto;
+  display: block;
+}
+
+/* Utility */
+.btn-screen-info {
+  background: var(--secondary);
+  padding: clamp(14px, 3vw, 16px);
+  border-radius: 10px;
+  margin-top: 15px;
+  text-align: center;
+  font-weight: 700;
+  font-size: clamp(17px, 4vw, 22px);
+  color: #000;
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--secondary) 40%, transparent);
+  border: 2px solid var(--accent);
+}
+.item {
+  padding: clamp(12px, 3vw, 14px);
+  margin-bottom: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: clamp(15px, 3.5vw, 17px);
+  min-height: 48px;
+  touch-action: manipulation;
+  transition: all .2s ease;
+  font-weight: 500;
+  border: 2px solid color-mix(in srgb, var(--secondary) 40%, transparent);
+  background: color-mix(in srgb, var(--background) 80%, transparent);
+}
+.item.done {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  text-decoration: line-through;
+}
+
+@media (max-width: 767px) {
+  .widget-header span { font-size: clamp(13px, 3.5vw, 16px); }
+}
+@media (max-width: 480px) {
+  input[type="checkbox"] { min-width: 24px; min-height: 24px; }
+}
+@media (max-width: 380px) {
+  .controls select, .controls button { width: 100%; }
+  .header h1 { font-size: clamp(22px, 7vw, 40px); }
+  .item { gap: 10px; }
+}

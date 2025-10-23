@@ -1,0 +1,239 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background: #0a0a0a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    user-select: none;
+}
+
+/* Slideshow Container */
+.slideshow-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    pointer-events: none;
+}
+
+.slide.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.slide img {
+    max-width: 90%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+}
+
+/* Navigation Dots */
+.dots-container {
+    position: fixed;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 100;
+}
+
+.dot {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.dot:hover {
+    transform: scale(1.15);
+}
+
+.dot:active {
+    transform: scale(0.95);
+}
+
+.dot-inner {
+    width: 100%;
+    height: 100%;
+    background: #333;
+    border-radius: 50%;
+    border: 3px solid #555;
+    transition: all 0.3s ease;
+}
+
+.dot.active .dot-inner {
+    background: #667eea;
+    border-color: #667eea;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+}
+
+/* Progress Ring */
+.progress-ring {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: 56px;
+    height: 56px;
+    transform: rotate(-90deg);
+}
+
+.progress-ring-circle {
+    fill: none;
+    stroke: #667eea;
+    stroke-width: 3;
+    stroke-dasharray: 164;
+    stroke-dashoffset: 164;
+    transition: stroke-dashoffset 0.1s linear;
+    opacity: 0;
+}
+
+.dot.active .progress-ring-circle {
+    opacity: 1;
+}
+
+/* Champion Button */
+.champion-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 18px 36px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.champion-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.champion-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Confetti Canvas */
+#confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Navigation Arrows (subtle) */
+.nav-arrow {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 50;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+}
+
+.nav-arrow:hover {
+    background: rgba(255, 255, 255, 0.2);
+    opacity: 1;
+}
+
+.nav-arrow.left {
+    left: 30px;
+}
+
+.nav-arrow.right {
+    right: 30px;
+}
+
+.nav-arrow::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-top: 3px solid white;
+    border-right: 3px solid white;
+}
+
+.nav-arrow.left::before {
+    transform: rotate(-135deg);
+}
+
+.nav-arrow.right::before {
+    transform: rotate(45deg);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .slide img {
+        max-width: 95%;
+        max-height: 75vh;
+    }
+
+    .dots-container {
+        bottom: 100px;
+        gap: 15px;
+    }
+
+    .dot {
+        width: 40px;
+        height: 40px;
+    }
+
+    .progress-ring {
+        width: 46px;
+        height: 46px;
+    }
+
+    .champion-btn {
+        bottom: 20px;
+        right: 20px;
+        padding: 14px 28px;
+        font-size: 14px;
+    }
+
+    .nav-arrow {
+        display: none;
+    }
+}
