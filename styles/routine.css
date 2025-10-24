@@ -47,25 +47,6 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0,0,0,0.35);
 }
-.debug-btn {
-  border-radius: 12px;
-  border: 2px solid #FF4500;
-  padding: 10px 16px;
-  font-weight: 600;
-  font-family: inherit;
-  min-height: 44px;
-  background: #FF4500;
-  color: #FFFFFF;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(255,69,0,0.4);
-  transition: all .2s ease;
-  font-size: 12px;
-}
-.debug-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255,69,0,0.5);
-  background: #FF6347;
-}
 .theme-dot {
   display: inline-block;
   width: 10px;

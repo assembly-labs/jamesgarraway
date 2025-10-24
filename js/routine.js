@@ -154,14 +154,3 @@ if (!allScreenComplete) {
   screenAllowanceEl.classList.add('chest-unlocked');
   screenAllowanceEl.textContent = '🎮 SCREEN TIME UNLOCKED! 🎮';
 }
-
-// Debug button - clears celebrations and resets checklists
-$('#debugBtn').addEventListener('click', () => {
-  if (confirm('Reset celebrations and uncheck all items?')) {
-    localStorage.removeItem('aolkids.celebrations');
-    localStorage.removeItem('aolkids.morningChecklist');
-    localStorage.removeItem('aolkids.homeChecklist');
-    localStorage.removeItem('aolkids.screenTimeChecklist');
-    location.reload();
-  }
-});

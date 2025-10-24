@@ -10,11 +10,11 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <link rel="stylesheet" href="../styles/themes.css?v=2025.01">
-  <link rel="stylesheet" href="../styles/routine.css?v=2025.01">
+  <link rel="stylesheet" href="../styles/themes.css?v=2025.02">
+  <link rel="stylesheet" href="../styles/routine.css?v=2025.02">
 </head>
 <body>
-  <script src="../js/auth-guard.js?v=2025.01"></script>
+  <script src="../js/auth-guard.js?v=2025.02"></script>
   <!-- Blaster layers -->
   <div class="blaster-bg" id="blaster-bg" aria-hidden="true"></div>
   <div class="blaster-fg" id="blaster-fg" aria-hidden="true"></div>
@@ -23,7 +23,6 @@
     <!-- Floating Controls - Top Right -->
     <div class="controls">
       <select id="teamSelect" aria-label="Choose theme"></select>
-      <button id="debugBtn" class="debug-btn" title="Reset celebrations & checklists">🔄 DEBUG</button>
     </div>
 
     <!-- Header -->
@@ -119,10 +118,10 @@
   </main>
 
   <!-- CRITICAL: Load order matters! routine.js depends on themes.js and checklist.js -->
-  <script src="../js/themes.js?v=2025.01"></script>         <!-- 1. MUST load first (exports teamColors, etc.) -->
-  <script src="../js/confetti-cannon.js?v=2025.01"></script><!-- 2. Confetti cannon system (exports fireConfettiCannon) -->
-  <script src="../js/celebrations.js?v=2025.01"></script>   <!-- 3. Celebration effects (exports triggerCelebration) -->
-  <script src="../js/checklist.js?v=2025.01"></script>      <!-- 4. MUST load after celebrations (uses triggerCelebration) -->
-  <script src="../js/routine.js?v=2025.01"></script>        <!-- 5. MUST load last (uses above dependencies) -->
+  <script src="../js/themes.js?v=2025.02"></script>         <!-- 1. MUST load first (exports teamColors, etc.) -->
+  <script src="../js/confetti-cannon.js?v=2025.02"></script><!-- 2. Confetti cannon system (exports fireConfettiCannon) -->
+  <script src="../js/celebrations.js?v=2025.02"></script>   <!-- 3. Celebration effects (exports triggerCelebration) -->
+  <script src="../js/checklist.js?v=2025.02"></script>      <!-- 4. MUST load after celebrations (uses triggerCelebration) -->
+  <script src="../js/routine.js?v=2025.02"></script>        <!-- 5. MUST load last (uses above dependencies) -->
 </body>
 </html>
