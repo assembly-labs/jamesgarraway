@@ -47,6 +47,25 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0,0,0,0.35);
 }
+.debug-btn {
+  border-radius: 12px;
+  border: 2px solid #FF4500;
+  padding: 10px 16px;
+  font-weight: 600;
+  font-family: inherit;
+  min-height: 44px;
+  background: #FF4500;
+  color: #FFFFFF;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(255,69,0,0.4);
+  transition: all .2s ease;
+  font-size: 12px;
+}
+.debug-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255,69,0,0.5);
+  background: #FF6347;
+}
 .theme-dot {
   display: inline-block;
   width: 10px;
@@ -123,24 +142,186 @@ body {
   background: var(--primary);
   border-bottom: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
 }
+
+/* Centered header variant for widgets with icons */
+.widget-header-centered {
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: clamp(18px, 4vw, 24px);
+}
+
+/* Widget icon styling */
+.widget-icon {
+  font-size: clamp(36px, 9vw, 56px);
+  line-height: 1;
+}
+
 .widget-body {
   color: var(--text);
   flex: 1 1 auto;
   display: block;
+  padding: clamp(15px, 3vw, 20px);
 }
 
 /* Utility */
 .btn-screen-info {
   background: var(--secondary);
-  padding: clamp(14px, 3vw, 16px);
-  border-radius: 10px;
+  padding: clamp(16px, 4vw, 20px);
+  border-radius: 12px;
   margin-top: 15px;
   text-align: center;
-  font-weight: 700;
-  font-size: clamp(17px, 4vw, 22px);
-  color: #000;
-  box-shadow: 0 4px 16px color-mix(in srgb, var(--secondary) 40%, transparent);
-  border: 2px solid var(--accent);
+  font-weight: 800;
+  font-size: clamp(16px, 3.8vw, 20px);
+  color: #000000;
+  box-shadow:
+    0 4px 16px color-mix(in srgb, var(--secondary) 40%, transparent),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+  border: 3px solid var(--accent);
+  transition: all 0.3s ease;
+  position: relative;
+  text-shadow:
+    1px 1px 2px rgba(255,255,255,0.8),
+    -1px -1px 1px rgba(0,0,0,0.3);
+  line-height: 1.4;
+  letter-spacing: 0.3px;
+}
+
+/* Treasure Chest - Locked State */
+.chest-locked {
+  opacity: 0.5;
+  filter: grayscale(60%) blur(0.5px);
+  background: color-mix(in srgb, var(--secondary) 30%, var(--background)) !important;
+  color: color-mix(in srgb, var(--text) 70%, transparent) !important;
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.3),
+    inset 0 2px 4px rgba(0,0,0,0.2);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  text-shadow:
+    1px 1px 3px rgba(0,0,0,0.5),
+    -1px -1px 2px rgba(255,255,255,0.2);
+}
+
+/* Treasure Chest - Shaking before unlock */
+.chest-shaking {
+  animation: chest-shake 0.6s ease-in-out;
+}
+
+@keyframes chest-shake {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  10% { transform: translateX(-5px) rotate(-3deg); }
+  20% { transform: translateX(5px) rotate(3deg); }
+  30% { transform: translateX(-5px) rotate(-3deg); }
+  40% { transform: translateX(5px) rotate(3deg); }
+  50% { transform: translateX(-5px) rotate(-3deg); }
+  60% { transform: translateX(5px) rotate(3deg); }
+  70% { transform: translateX(-3px) rotate(-2deg); }
+  80% { transform: translateX(3px) rotate(2deg); }
+  90% { transform: translateX(-2px) rotate(-1deg); }
+}
+
+/* Treasure Chest - Opening animation */
+.chest-opening {
+  animation: chest-open 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes chest-open {
+  0% {
+    opacity: 0.4;
+    filter: grayscale(70%) blur(1px);
+    transform: scale(1);
+  }
+  30% {
+    opacity: 0.7;
+    filter: grayscale(40%) blur(0.5px);
+    transform: scale(1.1);
+  }
+  50% {
+    opacity: 1;
+    filter: grayscale(0%) blur(0px);
+    transform: scale(1.2) rotate(5deg);
+  }
+  70% {
+    transform: scale(0.95) rotate(-2deg);
+  }
+  85% {
+    transform: scale(1.05) rotate(1deg);
+  }
+  100% {
+    opacity: 1;
+    filter: grayscale(0%) blur(0px);
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Treasure Chest - Unlocked State (glowing) */
+.chest-unlocked {
+  opacity: 1 !important;
+  filter: none !important;
+  background: var(--secondary) !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
+  box-shadow:
+    0 6px 24px color-mix(in srgb, var(--secondary) 60%, transparent),
+    0 0 35px color-mix(in srgb, var(--secondary) 80%, transparent),
+    0 0 55px color-mix(in srgb, var(--accent) 50%, transparent),
+    inset 0 2px 0 rgba(255,255,255,0.6),
+    inset 0 -2px 0 rgba(0,0,0,0.2);
+  border-color: var(--accent) !important;
+  border-width: 4px !important;
+  animation: chest-glow 2.5s ease-in-out infinite;
+  text-shadow:
+    2px 2px 4px rgba(255,255,255,0.9),
+    -1px -1px 2px rgba(0,0,0,0.4),
+    0 0 10px rgba(255,255,255,0.5);
+}
+
+@keyframes chest-glow {
+  0%, 100% {
+    box-shadow:
+      0 6px 24px color-mix(in srgb, var(--secondary) 60%, transparent),
+      0 0 35px color-mix(in srgb, var(--secondary) 80%, transparent),
+      0 0 55px color-mix(in srgb, var(--accent) 50%, transparent),
+      inset 0 2px 0 rgba(255,255,255,0.6),
+      inset 0 -2px 0 rgba(0,0,0,0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow:
+      0 8px 32px color-mix(in srgb, var(--secondary) 80%, transparent),
+      0 0 45px color-mix(in srgb, var(--secondary) 100%, transparent),
+      0 0 70px color-mix(in srgb, var(--accent) 70%, transparent),
+      inset 0 2px 0 rgba(255,255,255,0.8),
+      inset 0 -2px 0 rgba(0,0,0,0.3);
+    transform: scale(1.03);
+  }
+}
+
+/* Treasure coins/gems bursting out */
+.treasure-particle {
+  position: absolute;
+  font-size: clamp(24px, 5vw, 36px);
+  pointer-events: none;
+  z-index: 200;
+  animation: treasure-burst 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes treasure-burst {
+  0% {
+    transform: translate(0, 0) scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1.3) rotate(0deg);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--treasure-x, 0px), var(--treasure-y, 0px)) scale(0.7) rotate(720deg);
+    opacity: 0;
+  }
 }
 .item {
   padding: clamp(12px, 3vw, 14px);
@@ -158,20 +339,509 @@ body {
   border: 2px solid color-mix(in srgb, var(--secondary) 40%, transparent);
   background: color-mix(in srgb, var(--background) 80%, transparent);
 }
+.item:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
 .item.done {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 30%, transparent);
   text-decoration: line-through;
 }
 
+/* Progress indicator */
+.progress-indicator {
+  font-size: clamp(12px, 2.8vw, 14px);
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  position: relative;
+  transition: all 0.2s ease;
+}
+.progress-indicator:empty {
+  display: none;
+}
+
+/* Progress explosion animation */
+.progress-explode {
+  animation: progress-explosion 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  background: var(--accent) !important;
+  color: #FFFFFF !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent);
+}
+
+@keyframes progress-explosion {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.5) rotate(2deg);
+  }
+  30% {
+    transform: scale(1.4) rotate(-2deg);
+  }
+  40% {
+    transform: scale(1.5) rotate(1deg);
+  }
+  50% {
+    transform: scale(1.45) rotate(-1deg);
+  }
+  70% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Progress star particles */
+.progress-star-particle {
+  position: absolute;
+  font-size: clamp(16px, 4vw, 24px);
+  pointer-events: none;
+  z-index: 100;
+  animation: progress-star-burst 0.8s ease-out forwards;
+}
+
+@keyframes progress-star-burst {
+  0% {
+    transform: translate(0, 0) scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1.2) rotate(0deg);
+  }
+  100% {
+    transform: translate(var(--star-x, 0px), var(--star-y, 0px)) scale(0.5) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Quote widget styles */
+.quote-content {
+  line-height: 1.5;
+}
+.quote-text {
+  font-size: clamp(16px, 3.5vw, 20px);
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-style: italic;
+}
+.quote-author {
+  font-size: clamp(11px, 2.2vw, 13px);
+  text-align: right;
+  font-weight: 600;
+  color: var(--accent);
+}
+.quote-explanation-wrapper {
+  display: none;
+  margin-top: 12px;
+}
+.quote-explanation-box {
+  font-size: clamp(11px, 2.2vw, 13px);
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  padding: 12px;
+  border-radius: 8px;
+  color: var(--text);
+  line-height: 1.5;
+  font-weight: 500;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.quote-explanation-title {
+  font-size: clamp(12px, 2.4vw, 14px);
+  color: var(--accent);
+}
+
+/* Music player styles */
+.music-player {
+  grid-column: 1 / -1;
+}
+.spotify-iframe {
+  border-radius: 12px;
+}
+
+/* Focus indicators for better accessibility */
+.controls select:focus-visible,
+input[type="checkbox"]:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ======= CELEBRATION ANIMATIONS ======= */
+
+/* Celebration overlay container */
+.celebration-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* Confetti pieces */
+.confetti-piece {
+  position: absolute;
+  border-radius: 3px;
+  animation: confetti-fall 4s ease-out forwards;
+  transform-origin: center;
+  opacity: 1;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) translateX(0) rotate(var(--rotation, 0deg));
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(var(--drift-x, 0px)) rotate(var(--end-rotation, 360deg));
+    opacity: 0;
+  }
+}
+
+/* Emoji particles */
+.emoji-particle {
+  position: absolute;
+  font-size: 60px;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Wave animations (surfing) */
+.emoji-particle.wave-left {
+  animation: wave-surf-left 3s ease-out forwards;
+}
+
+.emoji-particle.wave-right {
+  animation: wave-surf-right 3s ease-out forwards;
+}
+
+@keyframes wave-surf-left {
+  0% {
+    transform: translateX(0) translateY(0) rotate(var(--rotation, 0deg));
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(100vw + 200px)) translateY(var(--velocity-y, 0px)) rotate(var(--end-rotation, 720deg));
+    opacity: 0;
+  }
+}
+
+@keyframes wave-surf-right {
+  0% {
+    transform: translateX(0) translateY(0) rotate(var(--rotation, 0deg));
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(-100vw - 200px)) translateY(var(--velocity-y, 0px)) rotate(var(--end-rotation, 720deg));
+    opacity: 0;
+  }
+}
+
+/* Burst animation (explosion from center) */
+.emoji-particle.burst {
+  animation: particle-burst 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes particle-burst {
+  0% {
+    transform: translate(0, 0) rotate(var(--rotation, 0deg)) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(var(--rotation, 0deg)) scale(1);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--velocity-x, 0px), calc(var(--velocity-y, 0px) + 100vh)) rotate(var(--end-rotation, 1080deg)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Explosion animation (radial burst) */
+.emoji-particle.explosion {
+  animation: particle-explosion 4.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+@keyframes particle-explosion {
+  0% {
+    transform: translate(0, 0) rotate(var(--rotation, 0deg)) scale(0);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(var(--rotation, 0deg)) scale(1.2);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--velocity-x, 0px), calc(var(--velocity-y, 0px) + 120vh)) rotate(var(--end-rotation, 1440deg)) scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* Spiral animation */
+.emoji-particle.spiral {
+  animation: particle-spiral 5s ease-out forwards;
+}
+
+@keyframes particle-spiral {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--velocity-x, 0px), calc(var(--velocity-y, 0px) + 100vh)) rotate(1800deg) scale(0.4);
+    opacity: 0;
+  }
+}
+
+/* Celebration message */
+.celebration-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(32px, 10vw, 80px);
+  font-weight: 900;
+  color: #FFFFFF;
+  text-shadow:
+    0 0 10px rgba(0,0,0,0.8),
+    0 0 20px rgba(0,0,0,0.6),
+    0 0 30px rgba(0,0,0,0.4),
+    3px 3px 0 #000,
+    -3px -3px 0 #000,
+    3px -3px 0 #000,
+    -3px 3px 0 #000;
+  z-index: 10000;
+  pointer-events: none;
+  text-align: center;
+  letter-spacing: 2px;
+  animation: message-epic 4.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  white-space: nowrap;
+  padding: 0 20px;
+}
+
+@keyframes message-epic {
+  0% {
+    transform: translate(-50%, -50%) scale(0) rotate(-10deg);
+    opacity: 0;
+  }
+  15% {
+    transform: translate(-50%, -50%) scale(1.3) rotate(5deg);
+    opacity: 1;
+  }
+  25% {
+    transform: translate(-50%, -50%) scale(1.1) rotate(-2deg);
+  }
+  35% {
+    transform: translate(-50%, -50%) scale(1.2) rotate(1deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  85% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+/* Screen shake effects */
+@keyframes shake-light {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2px, 1px); }
+  20% { transform: translate(2px, -1px); }
+  30% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  50% { transform: translate(-2px, 1px); }
+  60% { transform: translate(2px, -1px); }
+  70% { transform: translate(-2px, 1px); }
+  80% { transform: translate(2px, -1px); }
+  90% { transform: translate(-2px, 1px); }
+}
+
+@keyframes shake-medium {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  10% { transform: translate(-4px, 2px) rotate(-0.5deg); }
+  20% { transform: translate(4px, -2px) rotate(0.5deg); }
+  30% { transform: translate(-4px, 2px) rotate(-0.5deg); }
+  40% { transform: translate(4px, -2px) rotate(0.5deg); }
+  50% { transform: translate(-4px, 2px) rotate(-0.5deg); }
+  60% { transform: translate(4px, -2px) rotate(0.5deg); }
+  70% { transform: translate(-3px, 1px) rotate(-0.3deg); }
+  80% { transform: translate(3px, -1px) rotate(0.3deg); }
+  90% { transform: translate(-2px, 1px) rotate(-0.2deg); }
+}
+
+.shake-light {
+  animation: shake-light 0.5s ease-in-out;
+}
+
+.shake-medium {
+  animation: shake-medium 0.5s ease-in-out;
+}
+
+.shake-heavy {
+  animation: shake-heavy 0.8s ease-in-out;
+}
+
+.shake-mega {
+  animation: shake-mega 0.8s ease-in-out;
+}
+
+@keyframes shake-heavy {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  10% { transform: translate(-6px, 3px) rotate(-1deg); }
+  20% { transform: translate(6px, -3px) rotate(1deg); }
+  30% { transform: translate(-6px, 3px) rotate(-1deg); }
+  40% { transform: translate(6px, -3px) rotate(1deg); }
+  50% { transform: translate(-6px, 3px) rotate(-1deg); }
+  60% { transform: translate(6px, -3px) rotate(1deg); }
+  70% { transform: translate(-4px, 2px) rotate(-0.7deg); }
+  80% { transform: translate(4px, -2px) rotate(0.7deg); }
+  90% { transform: translate(-2px, 1px) rotate(-0.3deg); }
+}
+
+@keyframes shake-mega {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  5% { transform: translate(-10px, 5px) rotate(-2deg); }
+  10% { transform: translate(10px, -5px) rotate(2deg); }
+  15% { transform: translate(-10px, 5px) rotate(-2deg); }
+  20% { transform: translate(10px, -5px) rotate(2deg); }
+  25% { transform: translate(-10px, 5px) rotate(-2deg); }
+  30% { transform: translate(10px, -5px) rotate(2deg); }
+  35% { transform: translate(-10px, 5px) rotate(-2deg); }
+  40% { transform: translate(10px, -5px) rotate(2deg); }
+  45% { transform: translate(-8px, 4px) rotate(-1.5deg); }
+  50% { transform: translate(8px, -4px) rotate(1.5deg); }
+  55% { transform: translate(-8px, 4px) rotate(-1.5deg); }
+  60% { transform: translate(8px, -4px) rotate(1.5deg); }
+  65% { transform: translate(-6px, 3px) rotate(-1deg); }
+  70% { transform: translate(6px, -3px) rotate(1deg); }
+  75% { transform: translate(-4px, 2px) rotate(-0.7deg); }
+  80% { transform: translate(4px, -2px) rotate(0.7deg); }
+  85% { transform: translate(-3px, 1px) rotate(-0.5deg); }
+  90% { transform: translate(3px, -1px) rotate(0.5deg); }
+  95% { transform: translate(-2px, 1px) rotate(-0.3deg); }
+}
+
+@keyframes epic-pulse {
+  0% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+  100% { opacity: 0.3; transform: scale(1); }
+}
+
+/* ======= CONFETTI CANNON SYSTEM ======= */
+
+.confetti-cannon-piece {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9997;
+  border-radius: 2px;
+  animation: confetti-blast 4s linear forwards;
+  transform-origin: center;
+}
+
+@keyframes confetti-blast {
+  /* Pop instantly at peak height with scale burst */
+  0% {
+    transform: translateY(calc(var(--peak-height) * -1)) translateX(0) rotate(0deg) scale(0.5);
+    opacity: 0;
+  }
+
+  /* Full burst - instant appearance */
+  10% {
+    transform: translateY(calc(var(--peak-height) * -1)) translateX(calc(var(--drift-x) * 0.1)) rotate(calc(var(--rotation) * 0.1)) scale(1.5);
+    opacity: 1;
+  }
+
+  /* Shimmer - gentle float begins */
+  25% {
+    transform: translateY(calc(var(--peak-height) * -0.85)) translateX(calc(var(--drift-x) * 0.25)) rotate(calc(var(--rotation) * 0.3)) scale(1.2);
+    opacity: 1;
+  }
+
+  /* Gentle descent - smooth rotation */
+  40% {
+    transform: translateY(calc(var(--peak-height) * -0.65)) translateX(calc(var(--drift-x) * 0.45)) rotate(calc(var(--rotation) * 0.5)) scale(1.1);
+    opacity: 1;
+  }
+
+  /* Continue floating down */
+  55% {
+    transform: translateY(calc(var(--peak-height) * -0.45)) translateX(calc(var(--drift-x) * 0.65)) rotate(calc(var(--rotation) * 0.7)) scale(1);
+    opacity: 0.95;
+  }
+
+  /* Start fade - still floating */
+  70% {
+    transform: translateY(calc(var(--peak-height) * -0.25)) translateX(calc(var(--drift-x) * 0.85)) rotate(calc(var(--rotation) * 0.85)) scale(0.9);
+    opacity: 0.7;
+  }
+
+  /* Fading more - gentle drift */
+  85% {
+    transform: translateY(calc(var(--peak-height) * -0.1)) translateX(var(--drift-x)) rotate(var(--rotation)) scale(0.8);
+    opacity: 0.3;
+  }
+
+  /* Disappeared - still above ground */
+  100% {
+    transform: translateY(0) translateX(var(--drift-x)) rotate(var(--rotation)) scale(0.7);
+    opacity: 0;
+  }
+}
+
+/* Slightly faster on mobile for performance */
+@media (max-width: 768px) {
+  .confetti-cannon-piece {
+    animation-duration: 3.5s;
+  }
+}
+
 @media (max-width: 767px) {
   .widget-header span { font-size: clamp(13px, 3.5vw, 16px); }
+  .widget-icon { font-size: clamp(32px, 8vw, 48px); }
 }
 @media (max-width: 480px) {
   input[type="checkbox"] { min-width: 24px; min-height: 24px; }
+  .widget-icon { font-size: clamp(28px, 7vw, 40px); }
 }
 @media (max-width: 380px) {
   .controls select, .controls button { width: 100%; }
   .header h1 { font-size: clamp(22px, 7vw, 40px); }
   .item { gap: 10px; }
+  .widget-icon { font-size: clamp(24px, 6vw, 36px); }
 }

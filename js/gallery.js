@@ -74,13 +74,8 @@ function animateProgress() {
 }
 
 // ============================================
-// CONFETTI ANIMATION
+// CONFETTI ANIMATION - Falling from top
 // ============================================
-const canvas = document.getElementById('confetti-canvas');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
 // Traditional confetti colors
 const confettiColors = [
     '#FF0000', // Red
@@ -92,61 +87,52 @@ const confettiColors = [
     '#FF69B4'  // Pink
 ];
 
-let confettiParticles = [];
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
 
-class ConfettiParticle {
-    constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = -10;
-        this.size = Math.random() * 8 + 5;
-        this.speedY = Math.random() * 3 + 2;
-        this.speedX = Math.random() * 2 - 1;
-        this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-        this.rotation = Math.random() * 360;
-        this.rotationSpeed = Math.random() * 10 - 5;
-        this.opacity = 1;
-    }
+function createConfettiPiece(x, y, color, delay = 0) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = x + 'px';
+    piece.style.top = y + 'px';
+    piece.style.backgroundColor = color;
+    piece.style.animationDelay = delay + 's';
 
-    update() {
-        this.y += this.speedY;
-        this.x += this.speedX;
-        this.rotation += this.rotationSpeed;
+    // Random size
+    const size = random(12, 25);
+    piece.style.width = size + 'px';
+    piece.style.height = size + 'px';
 
-        if (this.y > canvas.height * 0.8) {
-            this.opacity -= 0.02;
-        }
-    }
+    // Random rotation
+    piece.style.setProperty('--rotation', random(0, 360) + 'deg');
+    piece.style.setProperty('--end-rotation', random(360, 1080) + 'deg');
 
-    draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate((this.rotation * Math.PI) / 180);
-        ctx.globalAlpha = this.opacity;
-        ctx.fillStyle = this.color;
-        ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 1.5);
-        ctx.restore();
-    }
+    // Random drift
+    piece.style.setProperty('--drift-x', random(-200, 200) + 'px');
+
+    return piece;
 }
 
 function triggerConfetti() {
-    for (let i = 0; i < 100; i++) {
-        confettiParticles.push(new ConfettiParticle());
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const particleCount = 200; // Lots of confetti!
+
+    // Create confetti pieces falling from ABSOLUTE TOP of screen
+    for (let i = 0; i < particleCount; i++) {
+        const x = random(0, w);
+        const y = random(-500, -50); // Start well ABOVE the screen, fall down
+        const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        const piece = createConfettiPiece(x, y, color, random(0, 1));
+        document.body.appendChild(piece);
+
+        // Remove after animation completes
+        setTimeout(() => {
+            piece.remove();
+        }, 4500);
     }
 }
-
-function animateConfetti() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    confettiParticles = confettiParticles.filter(particle => {
-        particle.update();
-        particle.draw();
-        return particle.opacity > 0 && particle.y < canvas.height;
-    });
-
-    requestAnimationFrame(animateConfetti);
-}
-
-animateConfetti();
 
 // ============================================
 // SLIDE NAVIGATION
@@ -251,14 +237,6 @@ slides.forEach(slide => {
 // Arrow button clicks
 document.getElementById('prevBtn').addEventListener('click', prevSlide);
 document.getElementById('nextBtn').addEventListener('click', nextSlide);
-
-// ============================================
-// WINDOW RESIZE HANDLER
-// ============================================
-window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-});
 
 // ============================================
 // INITIALIZE

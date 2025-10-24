@@ -1,7 +1,7 @@
 // ========================================
 // DEPENDENCIES:
 // - themes.js (teamColors, teamNames, setThemeVars, applySith, startBlasters, stopBlasters)
-// - checklist.js (STORAGE_KEYS, morningChecklist, screenChecklist, renderChecklist, toggleMorning, toggleScreen)
+// - checklist.js (STORAGE_KEYS, morningChecklist, homeChecklist, screenChecklist, renderChecklist, toggleMorning, toggleHome, toggleScreen)
 // ========================================
 
 // ======= DOM Helper =======
@@ -39,28 +39,28 @@ const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday',
 const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const updateClock = () => {
   const now = new Date();
-  $('#timeStr').textContent = now.toLocaleTimeString();
   const month = months[now.getMonth()];
   const day = now.getDate();
   const year = now.getFullYear();
-  $('#dateStr').textContent = `${month} ${day}, ${year}`;
-  $('#dayName').textContent = daysOfWeek[now.getDay()];
-  const isWeekend = now.getDay() === 0 || now.getDay() === 6;
-  const allowed = isWeekend ? 'two hours' : 'one hour';
-  $('#screenAllowance').textContent = isWeekend
-    ? '🎮 Enjoy two hours of screen time!'
-    : `🎮 Enjoy ${allowed} of screen time!`;
+  const dayName = daysOfWeek[now.getDay()];
+
+  // Update header with date only (no time)
+  $('#headerDateTime').textContent = `${dayName}, ${month} ${day}, ${year}`;
+
+  // Don't update screen allowance text here - it's managed by treasure chest system
+  // The treasure chest handles its own text based on locked/unlocked state
 };
 
 // ======= Quotes (from ./quotes.json) =======
 const setQuote = (q) => {
   $('#quoteText').textContent = `"${q.text}"`;
   $('#quoteAuthor').textContent = q.author ? `— ${q.author}` : '—';
+  const explWrap = $('#quoteExplWrap');
   if (q.explanation) {
     $('#quoteExplanation').textContent = ' ' + q.explanation;
-    $('#quoteExplWrap').style.display = '';
+    explWrap.style.display = 'block';
   } else {
-    $('#quoteExplWrap').style.display = 'none';
+    explWrap.style.display = 'none';
   }
   try { localStorage.setItem(STORAGE_KEYS.quote, JSON.stringify(q)); } catch {}
 };
@@ -75,7 +75,32 @@ const loadQuote = async () => {
     if (!res.ok) throw new Error('quotes.json not found');
     const data = await res.json();
     if (Array.isArray(data) && data.length) {
-      const random = data[Math.floor(Math.random() * data.length)];
+      // Shuffle bag system: track used quotes to prevent repeats
+      let usedIndices = JSON.parse(localStorage.getItem(STORAGE_KEYS.usedQuotes) || '[]');
+
+      // If all quotes have been used, reset the bag
+      if (usedIndices.length >= data.length) {
+        usedIndices = [];
+      }
+
+      // Get available quote indices (not yet used)
+      const availableIndices = [];
+      for (let i = 0; i < data.length; i++) {
+        if (!usedIndices.includes(i)) {
+          availableIndices.push(i);
+        }
+      }
+
+      // Pick a random quote from available ones
+      const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+      const random = data[randomIndex];
+
+      // Mark this quote as used
+      usedIndices.push(randomIndex);
+      try {
+        localStorage.setItem(STORAGE_KEYS.usedQuotes, JSON.stringify(usedIndices));
+      } catch {}
+
       setQuote({
         text: random.quote,
         author: random.author || '',
@@ -109,5 +134,34 @@ updateClock();
 setInterval(updateClock, 1000);
 loadQuote();
 
-renderChecklist($('#morningList'), morningChecklist, toggleMorning);
-renderChecklist($('#screenList'),  screenChecklist,  toggleScreen);
+renderChecklist($('#morningList'), morningChecklist, toggleMorning, $('#morningProgress'));
+renderChecklist($('#homeList'),    homeChecklist,    toggleHome,    $('#homeProgress'));
+renderChecklist($('#screenList'),  screenChecklist,  toggleScreen,  $('#screenProgress'));
+
+// Set initial treasure chest state
+const screenAllowanceEl = $('#screenAllowance');
+const allScreenComplete = screenChecklist.every(item => item.done);
+const now = new Date();
+const isWeekend = now.getDay() === 0 || now.getDay() === 6;
+
+if (!allScreenComplete) {
+  screenAllowanceEl.classList.add('chest-locked');
+  screenAllowanceEl.textContent = isWeekend
+    ? '🏴‍☠️ Complete tasks to unlock two hours!'
+    : '🏴‍☠️ Complete tasks to unlock one hour!';
+} else {
+  // Already unlocked - show unlocked state
+  screenAllowanceEl.classList.add('chest-unlocked');
+  screenAllowanceEl.textContent = '🎮 SCREEN TIME UNLOCKED! 🎮';
+}
+
+// Debug button - clears celebrations and resets checklists
+$('#debugBtn').addEventListener('click', () => {
+  if (confirm('Reset celebrations and uncheck all items?')) {
+    localStorage.removeItem('aolkids.celebrations');
+    localStorage.removeItem('aolkids.morningChecklist');
+    localStorage.removeItem('aolkids.homeChecklist');
+    localStorage.removeItem('aolkids.screenTimeChecklist');
+    location.reload();
+  }
+});

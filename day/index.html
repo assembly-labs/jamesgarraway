@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="Daily routine, checklists, and motivation for champions">
-  <title>James' GOATED Homepage</title>
+  <title>James' Homepage</title>
   <meta name="color-scheme" content="dark light" />
   <link rel="stylesheet" href="../styles/themes.css">
   <link rel="stylesheet" href="../styles/routine.css">
@@ -18,46 +18,31 @@
     <!-- Floating Controls - Top Right -->
     <div class="controls">
       <select id="teamSelect" aria-label="Choose theme"></select>
+      <button id="debugBtn" class="debug-btn" title="Reset celebrations & checklists">🔄 DEBUG</button>
     </div>
 
     <!-- Header -->
     <div id="header" class="header">
-      <h1>🏈 JAMES' GOATED HOMEPAGE ⚽</h1>
+      <h1 id="headerDateTime">Loading...</h1>
     </div>
 
     <!-- Grid -->
     <div class="grid">
-      <!-- Today -->
-      <div class="widget sith-optional" id="w-today">
-        <div class="widget-header" style="flex-direction: column; align-items: center; gap: 8px; padding: clamp(18px, 4vw, 24px);">
-          <div style="font-size: clamp(48px, 12vw, 72px); line-height: 1;">📅</div>
-          <span style="font-size: clamp(14px, 3vw, 16px);">DATE</span>
+      <!-- Daily Quote -->
+      <div class="widget sith-optional" id="w-today-combined">
+        <div class="widget-header widget-header-centered">
+          <div class="widget-icon">💬</div>
+          <span>QUOTE OF THE DAY</span>
         </div>
-        <div class="widget-body" style="padding: clamp(20px, 4vw, 28px); text-align:center; font-weight:600;">
-          <div id="dayName" style="margin-bottom:8px; color: var(--accent); font-size: clamp(24px, 6vw, 36px); font-weight:700;">—</div>
-          <div id="dateStr" style="font-size: clamp(18px, 4vw, 24px); color: var(--text); font-weight:500;">—</div>
-        </div>
-      </div>
-
-      <!-- Time -->
-      <div class="widget sith-optional" id="w-time">
-        <div class="widget-header" style="flex-direction: column; align-items: center; gap: 8px; padding: clamp(18px, 4vw, 24px);">
-          <div style="font-size: clamp(48px, 12vw, 72px); line-height: 1;">⏰</div>
-          <span style="font-size: clamp(14px, 3vw, 16px);">TIME</span>
-        </div>
-        <div class="widget-body" style="padding: clamp(20px, 4vw, 28px); text-align:center; font-weight:700; font-family: monospace; font-size: clamp(36px, 8vw, 54px); color: var(--accent);" id="timeStr">—</div>
-      </div>
-
-      <!-- Quote -->
-      <div class="widget sith-optional" id="w-quote" style="grid-column: 1 / -1;">
-        <div class="widget-header"><span>QUOTE OF THE DAY</span></div>
-        <div class="widget-body" style="padding: clamp(20px, 4vw, 30px); line-height:1.6;">
-          <div id="quoteText" style="font-size: clamp(48px, 10.5vw, 66px); margin-bottom: 15px; font-weight: 500; font-style: italic;">"Loading…"</div>
-          <div id="quoteAuthor" style="font-size: clamp(14px, 3vw, 18px); text-align: right; margin-bottom: 0; font-weight: 600; color: var(--accent);">—</div>
-          <div id="quoteExplWrap" style="display:none; margin-top: 20px;">
-            <div style="font-size: clamp(14px, 3vw, 16px); background: color-mix(in srgb, var(--accent) 20%, transparent); padding: 16px; border-radius: 10px; color: var(--text); line-height:1.6; font-weight: 500; border: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);">
-              <strong style="font-size: clamp(15px, 3.2vw, 17px); color: var(--accent)">💡 What it means:</strong>
-              <span id="quoteExplanation"></span>
+        <div class="widget-body">
+          <div class="quote-content">
+            <div id="quoteText" class="quote-text">"Loading…"</div>
+            <div id="quoteAuthor" class="quote-author">—</div>
+            <div id="quoteExplWrap" class="quote-explanation-wrapper">
+              <div class="quote-explanation-box">
+                <strong class="quote-explanation-title">💡 What it means:</strong>
+                <span id="quoteExplanation"></span>
+              </div>
             </div>
           </div>
         </div>
@@ -65,45 +50,62 @@
 
       <!-- Morning checklist -->
       <div class="widget sith-optional" id="w-morning">
-        <div class="widget-header" style="flex-direction: column; align-items: center; gap: 8px; padding: clamp(18px, 4vw, 24px);">
-          <div style="font-size: clamp(48px, 12vw, 72px); line-height: 1;">🎒</div>
-          <span style="font-size: clamp(14px, 3vw, 16px);">REMEMBER!</span>
+        <div class="widget-header widget-header-centered">
+          <div class="widget-icon">🎒</div>
+          <span>TO SCHOOL</span>
         </div>
-        <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
+        <div class="widget-body">
+          <div id="morningProgress" class="progress-indicator"></div>
           <div id="morningList"></div>
+        </div>
+      </div>
+
+      <!-- Home checklist -->
+      <div class="widget sith-optional" id="w-home">
+        <div class="widget-header widget-header-centered">
+          <div class="widget-icon">🏠</div>
+          <span>BRING HOME</span>
+        </div>
+        <div class="widget-body">
+          <div id="homeProgress" class="progress-indicator"></div>
+          <div id="homeList"></div>
         </div>
       </div>
 
       <!-- Screen time rules -->
       <div class="widget sith-optional" id="w-screen">
-        <div class="widget-header"><span>💻 EARN SCREEN TIME</span></div>
-        <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
+        <div class="widget-header widget-header-centered">
+          <div class="widget-icon">✅</div>
+          <span>AFTER SCHOOL</span>
+        </div>
+        <div class="widget-body">
+          <div id="screenProgress" class="progress-indicator"></div>
           <div id="screenList"></div>
-          <div id="screenAllowance" class="btn-screen-info" style="color:#000;">—</div>
+          <div id="screenAllowance" class="btn-screen-info">—</div>
         </div>
       </div>
 
       <!-- ROCK OUT PLAYER -->
-      <div class="widget sith-optional" id="w-rock" style="grid-column: 1 / -1;">
-        <div class="widget-header"><span>🎸 ROCK OUT ZONE!</span></div>
-        <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
-          <iframe data-testid="embed-iframe" style="border-radius:12px" 
-            src="https://open.spotify.com/embed/playlist/1tkUe0mOxMkBv3098t6VMI?utm_source=generator&theme=0" 
-            width="100%" height="352" frameBorder="0" allowfullscreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+      <div class="widget sith-optional music-player" id="w-rock">
+        <div class="widget-header"><span>🎸 ROCK OUT</span></div>
+        <div class="widget-body">
+          <iframe data-testid="embed-iframe" class="spotify-iframe"
+            src="https://open.spotify.com/embed/playlist/1tkUe0mOxMkBv3098t6VMI?utm_source=generator&theme=0"
+            width="100%" height="352" frameBorder="0" allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy">
           </iframe>
         </div>
       </div>
 
       <!-- LOFI FOCUS PLAYER -->
-      <div class="widget sith-optional" id="w-lofi" style="grid-column: 1 / -1;">
-        <div class="widget-header"><span>🎧 CHILL LOFI FOCUS ZONE</span></div>
-        <div class="widget-body" style="padding: clamp(15px, 3vw, 20px);">
-          <iframe data-testid="embed-iframe" style="border-radius:12px" 
-            src="https://open.spotify.com/embed/playlist/4jAr7WoZjDa5mkdTFoytbS?utm_source=generator&theme=0" 
-            width="100%" height="352" frameBorder="0" allowfullscreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+      <div class="widget sith-optional music-player" id="w-lofi">
+        <div class="widget-header"><span>🎧 STUDY FOCUS</span></div>
+        <div class="widget-body">
+          <iframe data-testid="embed-iframe" class="spotify-iframe"
+            src="https://open.spotify.com/embed/playlist/4jAr7WoZjDa5mkdTFoytbS?utm_source=generator&theme=0"
+            width="100%" height="352" frameBorder="0" allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy">
           </iframe>
         </div>
@@ -112,8 +114,10 @@
   </main>
 
   <!-- CRITICAL: Load order matters! routine.js depends on themes.js and checklist.js -->
-  <script src="../js/themes.js"></script>      <!-- 1. MUST load first (exports teamColors, etc.) -->
-  <script src="../js/checklist.js"></script>   <!-- 2. MUST load second (exports STORAGE_KEYS, etc.) -->
-  <script src="../js/routine.js"></script>     <!-- 3. MUST load last (uses above dependencies) -->
+  <script src="../js/themes.js"></script>         <!-- 1. MUST load first (exports teamColors, etc.) -->
+  <script src="../js/confetti-cannon.js"></script><!-- 2. Confetti cannon system (exports fireConfettiCannon) -->
+  <script src="../js/celebrations.js"></script>   <!-- 3. Celebration effects (exports triggerCelebration) -->
+  <script src="../js/checklist.js"></script>      <!-- 4. MUST load after celebrations (uses triggerCelebration) -->
+  <script src="../js/routine.js"></script>        <!-- 5. MUST load last (uses above dependencies) -->
 </body>
 </html>
