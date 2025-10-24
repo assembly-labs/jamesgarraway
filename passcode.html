@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Secure passcode entry">
+    <title>Enter Passcode</title>
+    <link rel="stylesheet" href="styles/passcode.css">
+</head>
+<body>
+    <!-- PASSCODE ENTRY SCREEN -->
+    <div class="passcode-container" id="passcode-screen">
+        <div class="passcode-header">Enter Passcode</div>
+
+        <!-- 4 Dot Indicators -->
+        <div class="passcode-dots" id="dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+
+        <!-- iOS-style Keypad (3x4 grid) -->
+        <div class="keypad">
+            <!-- Row 1 -->
+            <button class="key" data-key="1">
+                <span class="key-number">1</span>
+            </button>
+            <button class="key" data-key="2">
+                <span class="key-number">2</span>
+                <span class="key-letters">ABC</span>
+            </button>
+            <button class="key" data-key="3">
+                <span class="key-number">3</span>
+                <span class="key-letters">DEF</span>
+            </button>
+
+            <!-- Row 2 -->
+            <button class="key" data-key="4">
+                <span class="key-number">4</span>
+                <span class="key-letters">GHI</span>
+            </button>
+            <button class="key" data-key="5">
+                <span class="key-number">5</span>
+                <span class="key-letters">JKL</span>
+            </button>
+            <button class="key" data-key="6">
+                <span class="key-number">6</span>
+                <span class="key-letters">MNO</span>
+            </button>
+
+            <!-- Row 3 -->
+            <button class="key" data-key="7">
+                <span class="key-number">7</span>
+                <span class="key-letters">PQRS</span>
+            </button>
+            <button class="key" data-key="8">
+                <span class="key-number">8</span>
+                <span class="key-letters">TUV</span>
+            </button>
+            <button class="key" data-key="9">
+                <span class="key-number">9</span>
+                <span class="key-letters">WXYZ</span>
+            </button>
+
+            <!-- Row 4 (bottom) -->
+            <button class="key key-empty" disabled></button>
+            <button class="key" data-key="0">
+                <span class="key-number">0</span>
+            </button>
+            <button class="key key-delete" data-key="delete">
+                <span class="key-number">⌫</span>
+            </button>
+        </div>
+
+        <!-- Attempt Counter -->
+        <div class="attempt-counter" id="attempt-counter">
+            Attempts remaining: <span id="attempts-left">5</span>
+        </div>
+    </div>
+
+    <!-- LOCKOUT SCREEN (Hidden Initially) -->
+    <div class="lockout-screen" id="lockout-screen" style="display: none;">
+        <div class="warning-icon flashing" id="warning-icon">⚠️</div>
+        <h1 class="lockout-title">PASSWORD FAILED</h1>
+        <h2 class="lockout-subtitle">HACKING YOUR SYSTEM...</h2>
+        <div class="fake-progress-container">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-bar"></div>
+            </div>
+            <div class="progress-text" id="progress-text">0%</div>
+        </div>
+        <div class="breach-warning" id="breach-warning" style="display: none;">
+            [USER FAILED. REPORT GENERATED. HACKING MACHINE NOW...]
+        </div>
+    </div>
+
+    <script src="js/passcode.js"></script>
+</body>
+</html>
