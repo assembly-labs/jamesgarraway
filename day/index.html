@@ -6,11 +6,15 @@
   <meta name="description" content="Daily routine, checklists, and motivation for champions">
   <title>James' Homepage</title>
   <meta name="color-scheme" content="dark light" />
-  <link rel="stylesheet" href="../styles/themes.css">
-  <link rel="stylesheet" href="../styles/routine.css">
+  <!-- Cache busting: Force fresh load -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="../styles/themes.css?v=2025.01">
+  <link rel="stylesheet" href="../styles/routine.css?v=2025.01">
 </head>
 <body>
-  <script src="../js/auth-guard.js"></script>
+  <script src="../js/auth-guard.js?v=2025.01"></script>
   <!-- Blaster layers -->
   <div class="blaster-bg" id="blaster-bg" aria-hidden="true"></div>
   <div class="blaster-fg" id="blaster-fg" aria-hidden="true"></div>
@@ -115,10 +119,10 @@
   </main>
 
   <!-- CRITICAL: Load order matters! routine.js depends on themes.js and checklist.js -->
-  <script src="../js/themes.js"></script>         <!-- 1. MUST load first (exports teamColors, etc.) -->
-  <script src="../js/confetti-cannon.js"></script><!-- 2. Confetti cannon system (exports fireConfettiCannon) -->
-  <script src="../js/celebrations.js"></script>   <!-- 3. Celebration effects (exports triggerCelebration) -->
-  <script src="../js/checklist.js"></script>      <!-- 4. MUST load after celebrations (uses triggerCelebration) -->
-  <script src="../js/routine.js"></script>        <!-- 5. MUST load last (uses above dependencies) -->
+  <script src="../js/themes.js?v=2025.01"></script>         <!-- 1. MUST load first (exports teamColors, etc.) -->
+  <script src="../js/confetti-cannon.js?v=2025.01"></script><!-- 2. Confetti cannon system (exports fireConfettiCannon) -->
+  <script src="../js/celebrations.js?v=2025.01"></script>   <!-- 3. Celebration effects (exports triggerCelebration) -->
+  <script src="../js/checklist.js?v=2025.01"></script>      <!-- 4. MUST load after celebrations (uses triggerCelebration) -->
+  <script src="../js/routine.js?v=2025.01"></script>        <!-- 5. MUST load last (uses above dependencies) -->
 </body>
 </html>

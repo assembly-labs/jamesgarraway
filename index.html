@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Champions Gallery - Celebrating victories and championships">
     <title>Champions Gallery</title>
-    <link rel="stylesheet" href="styles/gallery.css">
+    <!-- Cache busting: Force fresh load -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="styles/gallery.css?v=2025.01">
 </head>
 <body>
-    <script src="js/auth-guard.js"></script>
+    <script src="js/auth-guard.js?v=2025.01"></script>
     <!-- Slideshow Container -->
     <div class="slideshow-container" id="slideshow">
         <div class="slide active">
@@ -38,6 +42,6 @@
     <!-- Champion Routine Button -->
     <a href="./day/" class="champion-btn">Champion Routine</a>
 
-    <script src="js/gallery.js"></script>
+    <script src="js/gallery.js?v=2025.01"></script>
 </body>
 </html>
