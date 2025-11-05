@@ -154,3 +154,31 @@ if (!allScreenComplete) {
   screenAllowanceEl.classList.add('chest-unlocked');
   screenAllowanceEl.textContent = '🎮 SCREEN TIME UNLOCKED! 🎮';
 }
+
+// ======= Weekend Chill Mode =======
+// Function to check and display weekend overlay
+const checkWeekendMode = () => {
+  const now = new Date();
+  const dayOfWeek = now.getDay(); // 0 = Sunday, 6 = Saturday
+  const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+
+  const weekendOverlay = $('#weekendChillOverlay');
+  if (weekendOverlay) {
+    if (isWeekend) {
+      // Show weekend chill overlay
+      weekendOverlay.classList.remove('hidden');
+      weekendOverlay.setAttribute('aria-hidden', 'false');
+      console.log('🎉 Weekend Mode: TIME TO CHILL!');
+    } else {
+      // Hide weekend overlay on weekdays
+      weekendOverlay.classList.add('hidden');
+      weekendOverlay.setAttribute('aria-hidden', 'true');
+    }
+  }
+};
+
+// Check weekend mode on page load
+checkWeekendMode();
+
+// Re-check weekend mode every hour in case user keeps page open past midnight
+setInterval(checkWeekendMode, 60 * 60 * 1000);
