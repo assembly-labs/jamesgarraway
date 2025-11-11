@@ -5,7 +5,8 @@ const STORAGE_KEYS = {
   home: 'aolkids.homeChecklist',
   screen: 'aolkids.screenTimeChecklist',
   quote: 'aolkids.lastQuote',
-  usedQuotes: 'aolkids.usedQuotes'
+  usedQuotes: 'aolkids.usedQuotes',
+  lastResetDate: 'aolkids.lastResetDate'
 };
 
 // ======= Default Checklist Data =======
@@ -30,6 +31,68 @@ const defaultScreen = [
   { id:3, text:'🏃 30 minutes of physical activity or exercise', done:false },
   { id:4, text:'🧺 Help with one chore', done:false }
 ];
+
+// ======= Daily Reset Logic =======
+function getTodayDateString() {
+  const today = new Date();
+  return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+}
+
+function shouldResetChecklists() {
+  const lastResetDate = localStorage.getItem(STORAGE_KEYS.lastResetDate);
+  const todayDate = getTodayDateString();
+  return lastResetDate !== todayDate;
+}
+
+function resetAllChecklists() {
+  localStorage.setItem(STORAGE_KEYS.morning, JSON.stringify(defaultMorning));
+  localStorage.setItem(STORAGE_KEYS.home, JSON.stringify(defaultHome));
+  localStorage.setItem(STORAGE_KEYS.screen, JSON.stringify(defaultScreen));
+  localStorage.setItem(STORAGE_KEYS.lastResetDate, getTodayDateString());
+}
+
+function performDailyReset() {
+  if (shouldResetChecklists()) {
+    resetAllChecklists();
+
+    // Reload the state variables
+    morningChecklist = JSON.parse(localStorage.getItem(STORAGE_KEYS.morning) || 'null') || defaultMorning;
+    homeChecklist = JSON.parse(localStorage.getItem(STORAGE_KEYS.home) || 'null') || defaultHome;
+    screenChecklist = JSON.parse(localStorage.getItem(STORAGE_KEYS.screen) || 'null') || defaultScreen;
+
+    // Re-render all checklists with fresh data
+    const morningList = document.getElementById('morningList');
+    const homeList = document.getElementById('homeList');
+    const screenList = document.getElementById('screenList');
+    const morningProgress = document.getElementById('morningProgress');
+    const homeProgress = document.getElementById('homeProgress');
+    const screenProgress = document.getElementById('screenProgress');
+
+    if (morningList) renderChecklist(morningList, morningChecklist, toggleMorning, morningProgress);
+    if (homeList) renderChecklist(homeList, homeChecklist, toggleHome, homeProgress);
+    if (screenList) renderChecklist(screenList, screenChecklist, toggleScreen, screenProgress);
+
+    // Reset treasure chest to locked state
+    const screenAllowanceEl = document.getElementById('screenAllowance');
+    if (screenAllowanceEl) {
+      screenAllowanceEl.classList.remove('chest-unlocked', 'chest-opening', 'chest-shaking');
+      screenAllowanceEl.classList.add('chest-locked');
+      const now = new Date();
+      const isWeekend = now.getDay() === 0 || now.getDay() === 6;
+      screenAllowanceEl.textContent = isWeekend
+        ? '🏴‍☠️ Complete tasks to unlock two hours!'
+        : '🏴‍☠️ Complete tasks to unlock one hour!';
+    }
+
+    return true;
+  }
+  return false;
+}
+
+// Check if we need to reset checklists for a new day
+if (shouldResetChecklists()) {
+  resetAllChecklists();
+}
 
 // ======= State =======
 let morningChecklist = JSON.parse(localStorage.getItem(STORAGE_KEYS.morning) || 'null') || defaultMorning;

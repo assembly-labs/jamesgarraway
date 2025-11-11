@@ -182,3 +182,11 @@ checkWeekendMode();
 
 // Re-check weekend mode every hour in case user keeps page open past midnight
 setInterval(checkWeekendMode, 60 * 60 * 1000);
+
+// ======= Daily Checklist Reset (for tabs left open overnight) =======
+// Check every 5 minutes if we've crossed into a new day
+setInterval(() => {
+  if (typeof performDailyReset === 'function') {
+    performDailyReset();
+  }
+}, 5 * 60 * 1000); // Check every 5 minutes
