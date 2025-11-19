@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecoins Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: monospace;
+            background: #5a9fd4;
+            color: white;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Header with total */
+        .header {
+            background: #333;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .total-coins {
+            font-size: 48px;
+            color: #ffD700;
+            margin: 10px 0;
+        }
+
+        .date-nav {
+            background: #444;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .date-btn {
+            background: #666;
+            border: 2px solid #333;
+            color: white;
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .date-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .current-date {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Sections */
+        .section {
+            background: #444;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #ffD700;
+            margin-bottom: 15px;
+        }
+
+        /* Tasks */
+        .task {
+            background: #666;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .task.completed {
+            background: #4ade80;
+        }
+
+        .task-name {
+            font-size: 18px;
+        }
+
+        .task-value {
+            color: #ffD700;
+            font-weight: bold;
+        }
+
+        /* Counter tasks */
+        .counter-task {
+            background: #666;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .counter-btn {
+            background: #888;
+            border: 2px solid #333;
+            color: white;
+            width: 35px;
+            height: 35px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .counter-btn:disabled {
+            opacity: 0.5;
+        }
+
+        .counter-value {
+            font-size: 20px;
+            color: #ffD700;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        /* Penalties */
+        .penalty-btn {
+            background: #d32f2f;
+            border: 2px solid #b71c1c;
+            color: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+        }
+
+        .penalty-count {
+            float: right;
+            background: #b71c1c;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+
+        /* Bonuses */
+        .bonus {
+            background: #666;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .bonus.active {
+            background: #4ade80;
+        }
+
+        /* Calendar */
+        .calendar-btn {
+            background: #666;
+            border: 2px solid #333;
+            color: white;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .history {
+            display: none;
+            background: #444;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .history.show {
+            display: block;
+        }
+
+        .history-day {
+            background: #666;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .history-day:hover {
+            background: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with total -->
+        <div class="header">
+            <div>TOTAL MINECOINS</div>
+            <div class="total-coins" id="totalCoins">0</div>
+        </div>
+
+        <!-- Date Navigation -->
+        <div class="date-nav">
+            <button class="date-btn" onclick="changeDate(-1)">←</button>
+            <div class="current-date" id="currentDate">Today</div>
+            <button class="date-btn" id="nextBtn" onclick="changeDate(1)">→</button>
+        </div>
+
+        <!-- Calendar Toggle -->
+        <button class="calendar-btn" onclick="toggleHistory()">📅 View History</button>
+
+        <!-- History -->
+        <div class="history" id="history"></div>
+
+        <!-- Tasks Section -->
+        <div class="section">
+            <div class="section-title">✅ TASKS</div>
+            <div id="tasks"></div>
+        </div>
+
+        <!-- Recreation Section -->
+        <div class="section">
+            <div class="section-title">🏃 RECREATION</div>
+            <div id="recreation"></div>
+        </div>
+
+        <!-- Penalties Section -->
+        <div class="section">
+            <div class="section-title">⚠️ PENALTIES</div>
+            <div id="penalties"></div>
+        </div>
+
+        <!-- Bonuses Section -->
+        <div class="section">
+            <div class="section-title">🏆 BONUSES</div>
+            <div id="bonuses"></div>
+        </div>
+    </div>
+
+    <script>
+        // Task definitions
+        const TASKS = [
+            { id: 'make_bed', name: 'Make Bed', coins: 5 },
+            { id: 'help_dishes', name: 'Help with Dishes', coins: 5 },
+            { id: 'clean_room', name: 'Clean Room', coins: 5 },
+            { id: 'listen_first', name: 'Listen First Time', coins: 5 },
+            { id: 'fill_bucket', name: "Fill Someone's Bucket", coins: 10 },
+            { id: 'meditate', name: 'Meditate (5+ min)', coins: 20 },
+            { id: 'help_without', name: 'Help Without Being Asked', coins: 10 },
+            { id: 'trash', name: 'Take Out Trash', coins: 15 },
+            { id: 'vacuum', name: 'Vacuum a Room', coins: 15 },
+            { id: 'special', name: 'Special Project', coins: 30 }
+        ];
+
+        const RECREATION = [
+            { id: 'jj_class', name: '🥋 Jiu-Jitsu Class', coins: 10 },
+            { id: 'jj_respect', name: '🥋 Respect BJJ Coach', coins: 10 },
+            { id: 'football', name: '🏈 Football Practice', coins: 10 },
+            { id: 'football_coach', name: '🏈 Listen to Football Coach', coins: 10 },
+            { id: 'support_team', name: '🏈 Support the Team', coins: 10 }
+        ];
+
+        const PENALTIES = [
+            { id: 'mild_curse', name: 'Mild Curse', coins: -5 },
+            { id: 'strong_curse', name: 'Strong Curse', coins: -10 },
+            { id: 'talking_back', name: 'Talking Back', coins: -5 },
+            { id: 'not_listening', name: 'Not Listening', coins: -10 },
+            { id: 'yelling', name: 'Yelling/Disrespect', coins: -10 }
+        ];
+
+        // State
+        let data = {};
+        let currentDate = new Date().toISOString().split('T')[0];
+
+        // Load data
+        function loadData() {
+            const stored = localStorage.getItem('minecoins');
+            if (stored) {
+                data = JSON.parse(stored);
+            }
+            if (!data[currentDate]) {
+                data[currentDate] = {
+                    tasks: {},
+                    recreation: {},
+                    penalties: {}
+                };
+            }
+            render();
+        }
+
+        // Save data
+        function saveData() {
+            localStorage.setItem('minecoins', JSON.stringify(data));
+            render();
+        }
+
+        // Change date
+        function changeDate(direction) {
+            const date = new Date(currentDate);
+            date.setDate(date.getDate() + direction);
+            currentDate = date.toISOString().split('T')[0];
+
+            if (!data[currentDate]) {
+                data[currentDate] = {
+                    tasks: {},
+                    recreation: {},
+                    penalties: {}
+                };
+            }
+
+            render();
+        }
+
+        // Toggle task
+        function toggleTask(taskId) {
+            data[currentDate].tasks[taskId] = !data[currentDate].tasks[taskId];
+            saveData();
+        }
+
+        // Update recreation counter
+        function updateRecreation(taskId, delta) {
+            const current = data[currentDate].recreation[taskId] || 0;
+            data[currentDate].recreation[taskId] = Math.max(0, Math.min(3, current + delta));
+            saveData();
+        }
+
+        // Add penalty
+        function addPenalty(penaltyId) {
+            data[currentDate].penalties[penaltyId] = (data[currentDate].penalties[penaltyId] || 0) + 1;
+            saveData();
+        }
+
+        // Calculate total
+        function calculateTotal() {
+            let total = 0;
+
+            Object.keys(data).forEach(date => {
+                const day = data[date];
+
+                // Tasks
+                TASKS.forEach(task => {
+                    if (day.tasks && day.tasks[task.id]) {
+                        total += task.coins;
+                    }
+                });
+
+                // Recreation
+                RECREATION.forEach(task => {
+                    if (day.recreation && day.recreation[task.id]) {
+                        total += day.recreation[task.id] * task.coins;
+                    }
+                });
+
+                // Penalties
+                PENALTIES.forEach(penalty => {
+                    if (day.penalties && day.penalties[penalty.id]) {
+                        total += day.penalties[penalty.id] * penalty.coins;
+                    }
+                });
+            });
+
+            // Check bonuses
+            if (checkNoCursing()) total += 25;
+            if (checkRecreationStreak()) total += 30;
+
+            return Math.max(0, total);
+        }
+
+        // Check no cursing bonus
+        function checkNoCursing() {
+            const lastWeek = getLastWeekDates();
+            return lastWeek.every(date => {
+                const day = data[date];
+                if (!day || !day.penalties) return true;
+                return !day.penalties.mild_curse && !day.penalties.strong_curse;
+            });
+        }
+
+        // Check recreation streak
+        function checkRecreationStreak() {
+            const lastWeek = getLastWeekDates();
+            let count = 0;
+            lastWeek.forEach(date => {
+                const day = data[date];
+                if (day && day.recreation) {
+                    Object.values(day.recreation).forEach(val => count += val);
+                }
+            });
+            return count >= 3;
+        }
+
+        // Get last 7 days
+        function getLastWeekDates() {
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                dates.push(date.toISOString().split('T')[0]);
+            }
+            return dates;
+        }
+
+        // Toggle history
+        function toggleHistory() {
+            const history = document.getElementById('history');
+            history.classList.toggle('show');
+            renderHistory();
+        }
+
+        // Render history
+        function renderHistory() {
+            const history = document.getElementById('history');
+            const dates = Object.keys(data).sort((a, b) => new Date(b) - new Date(a));
+
+            history.innerHTML = dates.map(date => {
+                let dayTotal = 0;
+                const day = data[date];
+
+                TASKS.forEach(task => {
+                    if (day.tasks && day.tasks[task.id]) dayTotal += task.coins;
+                });
+
+                RECREATION.forEach(task => {
+                    if (day.recreation && day.recreation[task.id]) {
+                        dayTotal += day.recreation[task.id] * task.coins;
+                    }
+                });
+
+                PENALTIES.forEach(penalty => {
+                    if (day.penalties && day.penalties[penalty.id]) {
+                        dayTotal += day.penalties[penalty.id] * penalty.coins;
+                    }
+                });
+
+                const dateObj = new Date(date);
+                const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+                return `<div class="history-day" onclick="selectDate('${date}')">
+                    <span>${dateStr}</span>
+                    <span style="color: #ffD700">${dayTotal} coins</span>
+                </div>`;
+            }).join('');
+        }
+
+        // Select date from history
+        function selectDate(date) {
+            currentDate = date;
+            toggleHistory();
+            render();
+        }
+
+        // Main render function
+        function render() {
+            // Update total
+            document.getElementById('totalCoins').textContent = calculateTotal();
+
+            // Update date display
+            const today = new Date().toISOString().split('T')[0];
+            const dateObj = new Date(currentDate);
+            const dateStr = currentDate === today ? 'Today' :
+                dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            document.getElementById('currentDate').textContent = dateStr;
+
+            // Disable next button if current date
+            document.getElementById('nextBtn').disabled = currentDate >= today;
+
+            // Render tasks
+            const tasksHtml = TASKS.map(task => {
+                const completed = data[currentDate].tasks[task.id];
+                return `<div class="task ${completed ? 'completed' : ''}" onclick="toggleTask('${task.id}')">
+                    <span class="task-name">${task.name}</span>
+                    <span class="task-value">+${task.coins}</span>
+                </div>`;
+            }).join('');
+            document.getElementById('tasks').innerHTML = tasksHtml;
+
+            // Render recreation
+            const recHtml = RECREATION.map(task => {
+                const count = data[currentDate].recreation[task.id] || 0;
+                return `<div class="counter-task">
+                    <span class="task-name">${task.name}</span>
+                    <div class="counter-controls">
+                        <button class="counter-btn" onclick="updateRecreation('${task.id}', -1)" ${count === 0 ? 'disabled' : ''}>-</button>
+                        <span class="counter-value">${count}</span>
+                        <button class="counter-btn" onclick="updateRecreation('${task.id}', 1)" ${count >= 3 ? 'disabled' : ''}>+</button>
+                        <span class="task-value">+${task.coins}</span>
+                    </div>
+                </div>`;
+            }).join('');
+            document.getElementById('recreation').innerHTML = recHtml;
+
+            // Render penalties
+            const penHtml = PENALTIES.map(penalty => {
+                const count = data[currentDate].penalties[penalty.id] || 0;
+                return `<button class="penalty-btn" onclick="addPenalty('${penalty.id}')">
+                    ${penalty.name} (${penalty.coins})
+                    ${count > 0 ? `<span class="penalty-count">${count}</span>` : ''}
+                </button>`;
+            }).join('');
+            document.getElementById('penalties').innerHTML = penHtml;
+
+            // Render bonuses
+            const bonusHtml = `
+                <div class="bonus ${checkNoCursing() ? 'active' : ''}">
+                    <span>No Cursing (7 days)</span>
+                    <span class="task-value">+25</span>
+                </div>
+                <div class="bonus ${checkRecreationStreak() ? 'active' : ''}">
+                    <span>Recreation Streak (3+ in 7 days)</span>
+                    <span class="task-value">+30</span>
+                </div>`;
+            document.getElementById('bonuses').innerHTML = bonusHtml;
+        }
+
+        // Initialize
+        loadData();
+    </script>
+</body>
+</html>
