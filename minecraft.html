@@ -70,12 +70,16 @@
 
         /* Header with total */
         .header {
-            background: rgba(51, 51, 51, 0.95);
+            background: rgba(51, 51, 51, 0.98);
             padding: 20px;
             margin-bottom: 20px;
             text-align: center;
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
 
         .total-coins {
@@ -88,7 +92,7 @@
 
         /* Today's earnings display */
         .todays-earnings {
-            background: rgba(76, 175, 80, 0.3);
+            background: rgba(37, 99, 235, 0.2);
             padding: 12px;
             margin: 15px 0;
             border-radius: 8px;
@@ -96,7 +100,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 2px solid rgba(76, 175, 80, 0.5);
+            border: 2px solid rgba(37, 99, 235, 0.3);
         }
 
         .todays-earnings.negative {
@@ -105,7 +109,7 @@
         }
 
         .earning-amount {
-            color: #4CAF50;
+            color: #60a5fa;
             font-weight: bold;
             font-size: 24px;
         }
@@ -180,16 +184,20 @@
         }
 
         .task.completed {
-            background: #4ade80;
+            background: #2563eb;  /* Changed to blue instead of green */
             animation: taskComplete 0.5s ease;
+        }
+
+        .task.completed .task-name {
+            padding-left: 30px;  /* Make room for checkmark */
         }
 
         .task.completed::before {
             content: '✓';
             position: absolute;
-            left: 10px;
+            left: 16px;
             font-size: 24px;
-            color: #1b5e20;
+            color: #ffffff;
             font-weight: bold;
         }
 
@@ -219,6 +227,26 @@
             100% {
                 opacity: 0;
                 transform: translateY(-100px) scale(1.5);
+            }
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
             }
         }
 
@@ -304,7 +332,7 @@
         }
 
         .bonus.active {
-            background: #4ade80;
+            background: #2563eb;  /* Blue instead of green for better contrast with yellow text */
         }
 
         .bonus-header {
@@ -321,7 +349,7 @@
         }
 
         .progress-fill {
-            background: #ffD700;
+            background: #2563eb;  /* Blue instead of yellow for better contrast */
             height: 100%;
             transition: width 0.3s;
         }
@@ -345,15 +373,16 @@
         }
 
         .submit-btn {
-            background: #4ade80;
-            border: 2px solid #22c55e;
-            color: #333;
+            background: #22c55e;
+            border: 2px solid #16a34a;
+            color: #ffffff;
             padding: 15px 30px;
             font-size: 24px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
             margin-top: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .submit-btn:disabled {
@@ -372,28 +401,142 @@
             border-radius: 3px;
         }
 
-        .history {
+        /* Calendar View */
+        .calendar-view {
             display: none;
-            background: #444;
-            padding: 15px;
+            background: rgba(68, 68, 68, 0.95);
+            padding: 20px;
             margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
-        .history.show {
+        .calendar-view.show {
             display: block;
         }
 
-        .history-day {
-            background: #666;
-            padding: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
+        .calendar-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
-        .history-day:hover {
-            background: #777;
+        .calendar-month {
+            font-size: 24px;
+            color: #ffD700;
+            font-weight: bold;
+        }
+
+        .calendar-nav-btn {
+            background: #666;
+            border: 2px solid #333;
+            color: white;
+            padding: 10px 15px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day-header {
+            background: #333;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #ffD700;
+        }
+
+        .calendar-day {
+            background: #555;
+            padding: 10px;
+            min-height: 80px;
+            cursor: pointer;
+            position: relative;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+
+        .calendar-day:hover {
+            background: #666;
+            transform: scale(1.05);
+        }
+
+        .calendar-day.other-month {
+            background: #3a3a3a;
+            opacity: 0.5;
+        }
+
+        .calendar-day.today {
+            border: 2px solid #ffD700;
+        }
+
+        .calendar-day.has-data {
+            background: #2563eb;
+        }
+
+        .calendar-day-number {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .calendar-day-coins {
+            font-size: 14px;
+            color: #ffD700;
+        }
+
+        /* Day Detail Modal */
+        .day-detail-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(51, 51, 51, 0.98);
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 200;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .day-detail-modal.show {
+            display: block;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 199;
+        }
+
+        .modal-overlay.show {
+            display: block;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #666;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 20px;
         }
     </style>
 </head>
@@ -417,10 +560,28 @@
         </div>
 
         <!-- Calendar Toggle -->
-        <button class="calendar-btn" onclick="toggleHistory()">📅 View History</button>
+        <button class="calendar-btn" onclick="toggleCalendar()">📅 View Calendar</button>
 
-        <!-- History -->
-        <div class="history" id="history"></div>
+        <!-- Calendar View -->
+        <div class="calendar-view" id="calendarView">
+            <div class="calendar-header">
+                <button class="calendar-nav-btn" onclick="changeCalendarMonth(-1)">←</button>
+                <div class="calendar-month" id="calendarMonth">November 2024</div>
+                <button class="calendar-nav-btn" onclick="changeCalendarMonth(1)">→</button>
+            </div>
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- Calendar will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Day Detail Modal -->
+        <div class="modal-overlay" id="modalOverlay" onclick="closeDayDetail()"></div>
+        <div class="day-detail-modal" id="dayDetailModal">
+            <button class="modal-close" onclick="closeDayDetail()">×</button>
+            <div id="dayDetailContent">
+                <!-- Day details will be rendered here -->
+            </div>
+        </div>
 
         <!-- Tasks Section -->
         <div class="section">
@@ -513,7 +674,16 @@
 
         // Initialize temporary data for current date
         function initializeTempData() {
-            if (data[currentDate]) {
+            const today = new Date().toISOString().split('T')[0];
+
+            // If viewing today and no data saved yet, start fresh
+            if (currentDate === today && !data[currentDate]) {
+                tempData = {
+                    tasks: {},
+                    recreation: {},
+                    penalties: {}
+                };
+            } else if (data[currentDate]) {
                 // Copy existing data to temp
                 tempData = JSON.parse(JSON.stringify(data[currentDate]));
             } else {
@@ -569,6 +739,32 @@
             document.body.appendChild(coin);
             setTimeout(() => coin.remove(), 1500);
         }
+
+        // Throw confetti effect
+        function throwConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#ff69b4'];
+            const confettiCount = 50;
+
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    confetti.style.animation = `confetti-fall ${confetti.style.animationDuration} linear forwards`;
+
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), parseFloat(confetti.style.animationDuration) * 1000);
+                }, Math.random() * 200);
+            }
+        }
+
+        // Track previous bonus states
+        let previousBonusStates = {
+            noCursing: false,
+            recreation: false
+        };
 
         // Toggle task
         function toggleTask(taskId, event) {
@@ -665,21 +861,32 @@
         // Check no cursing bonus and get progress
         function getNoCursingProgress() {
             const lastWeek = getLastWeekDates();
-            let daysWithoutCursing = 0;
+            let consecutiveDaysWithoutCursing = 0;
+            let hasCursedInWeek = false;
 
+            // Check if there's been any cursing in the last 7 days
+            for (let i = 0; i < lastWeek.length; i++) {
+                const day = data[lastWeek[i]];
+                if (day && day.penalties && (day.penalties.mild_curse || day.penalties.strong_curse)) {
+                    hasCursedInWeek = true;
+                    break;
+                }
+            }
+
+            // Count consecutive days without cursing from today backwards
             for (let i = 0; i < lastWeek.length; i++) {
                 const day = data[lastWeek[i]];
                 if (!day || !day.penalties || (!day.penalties.mild_curse && !day.penalties.strong_curse)) {
-                    daysWithoutCursing++;
+                    consecutiveDaysWithoutCursing++;
                 } else {
                     break; // Stop counting at first curse day
                 }
             }
 
             return {
-                current: daysWithoutCursing,
+                current: consecutiveDaysWithoutCursing,
                 target: 7,
-                achieved: daysWithoutCursing >= 7
+                achieved: !hasCursedInWeek && consecutiveDaysWithoutCursing >= 7
             };
         }
 
@@ -695,7 +902,13 @@
             lastWeek.forEach(date => {
                 const day = data[date];
                 if (day && day.recreation) {
-                    Object.values(day.recreation).forEach(val => count += val);
+                    // Only count BJJ class and Football game for streak
+                    if (day.recreation.jj_class) {
+                        count += day.recreation.jj_class;
+                    }
+                    if (day.recreation.football) {
+                        count += day.recreation.football;
+                    }
                 }
             });
 
@@ -722,52 +935,188 @@
             return dates;
         }
 
-        // Toggle history
-        function toggleHistory() {
-            const history = document.getElementById('history');
-            history.classList.toggle('show');
-            renderHistory();
+        // Calendar state
+        let calendarMonth = new Date().getMonth();
+        let calendarYear = new Date().getFullYear();
+
+        // Toggle calendar
+        function toggleCalendar() {
+            const calendar = document.getElementById('calendarView');
+            calendar.classList.toggle('show');
+            if (calendar.classList.contains('show')) {
+                renderCalendar();
+            }
         }
 
-        // Render history
-        function renderHistory() {
-            const history = document.getElementById('history');
-            const dates = Object.keys(data).sort((a, b) => new Date(b) - new Date(a));
+        // Change calendar month
+        function changeCalendarMonth(direction) {
+            calendarMonth += direction;
+            if (calendarMonth < 0) {
+                calendarMonth = 11;
+                calendarYear--;
+            } else if (calendarMonth > 11) {
+                calendarMonth = 0;
+                calendarYear++;
+            }
+            renderCalendar();
+        }
 
-            history.innerHTML = dates.map(date => {
-                let dayTotal = 0;
-                const day = data[date];
+        // Render calendar
+        function renderCalendar() {
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+            document.getElementById('calendarMonth').textContent = monthNames[calendarMonth] + ' ' + calendarYear;
+
+            const firstDay = new Date(calendarYear, calendarMonth, 1).getDay();
+            const daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
+            const daysInPrevMonth = new Date(calendarYear, calendarMonth, 0).getDate();
+
+            let html = '';
+
+            // Day headers
+            dayNames.forEach(day => {
+                html += `<div class="calendar-day-header">${day}</div>`;
+            });
+
+            // Previous month days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                const date = new Date(calendarYear, calendarMonth - 1, day).toISOString().split('T')[0];
+                html += renderCalendarDay(date, day, true);
+            }
+
+            // Current month days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(calendarYear, calendarMonth, day).toISOString().split('T')[0];
+                html += renderCalendarDay(date, day, false);
+            }
+
+            // Next month days
+            const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+            const remainingCells = totalCells - (firstDay + daysInMonth);
+            for (let day = 1; day <= remainingCells; day++) {
+                const date = new Date(calendarYear, calendarMonth + 1, day).toISOString().split('T')[0];
+                html += renderCalendarDay(date, day, true);
+            }
+
+            document.getElementById('calendarGrid').innerHTML = html;
+        }
+
+        // Render a calendar day
+        function renderCalendarDay(date, dayNumber, otherMonth) {
+            const today = new Date().toISOString().split('T')[0];
+            const dayData = data[date];
+            let dayTotal = 0;
+            let classes = 'calendar-day';
+
+            if (otherMonth) classes += ' other-month';
+            if (date === today) classes += ' today';
+            if (dayData) classes += ' has-data';
+
+            if (dayData) {
                 TASKS.forEach(task => {
-                    if (day.tasks && day.tasks[task.id]) dayTotal += task.coins;
+                    if (dayData.tasks && dayData.tasks[task.id]) dayTotal += task.coins;
                 });
-
                 RECREATION.forEach(task => {
-                    if (day.recreation && day.recreation[task.id]) {
-                        dayTotal += day.recreation[task.id] * task.coins;
+                    if (dayData.recreation && dayData.recreation[task.id]) {
+                        dayTotal += dayData.recreation[task.id] * task.coins;
                     }
                 });
-
                 PENALTIES.forEach(penalty => {
-                    if (day.penalties && day.penalties[penalty.id]) {
-                        dayTotal += day.penalties[penalty.id] * penalty.coins;
+                    if (dayData.penalties && dayData.penalties[penalty.id]) {
+                        dayTotal += dayData.penalties[penalty.id] * penalty.coins;
                     }
                 });
+            }
 
-                const dateObj = new Date(date);
-                const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-
-                return `<div class="history-day" onclick="selectDate('${date}')">
-                    <span>${dateStr}</span>
-                    <span style="color: #ffD700">${dayTotal} coins</span>
-                </div>`;
-            }).join('');
+            return `<div class="${classes}" onclick="showDayDetail('${date}')">
+                <div class="calendar-day-number">${dayNumber}</div>
+                ${dayTotal ? `<div class="calendar-day-coins">${dayTotal > 0 ? '+' : ''}${dayTotal}</div>` : ''}
+            </div>`;
         }
 
-        // Select date from history
-        function selectDate(date) {
+        // Show day detail modal
+        function showDayDetail(date) {
+            const modal = document.getElementById('dayDetailModal');
+            const overlay = document.getElementById('modalOverlay');
+            const content = document.getElementById('dayDetailContent');
+            const dayData = data[date];
+
+            const dateObj = new Date(date + 'T00:00:00');
+            const dateStr = dateObj.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            let html = `<h2 style="color: #ffD700; margin-bottom: 20px;">${dateStr}</h2>`;
+
+            if (!dayData || (!dayData.tasks && !dayData.recreation && !dayData.penalties)) {
+                html += '<p style="color: #999;">No data for this day</p>';
+            } else {
+                let dayTotal = 0;
+
+                // Tasks
+                const completedTasks = TASKS.filter(task => dayData.tasks && dayData.tasks[task.id]);
+                if (completedTasks.length > 0) {
+                    html += '<div style="margin-bottom: 15px;"><h3 style="color: #60a5fa;">✅ Completed Tasks</h3>';
+                    completedTasks.forEach(task => {
+                        html += `<div style="padding: 5px 0;">${task.name}: +${task.coins}</div>`;
+                        dayTotal += task.coins;
+                    });
+                    html += '</div>';
+                }
+
+                // Recreation
+                const recreationDone = RECREATION.filter(task => dayData.recreation && dayData.recreation[task.id]);
+                if (recreationDone.length > 0) {
+                    html += '<div style="margin-bottom: 15px;"><h3 style="color: #60a5fa;">🏃 Recreation</h3>';
+                    recreationDone.forEach(task => {
+                        const count = dayData.recreation[task.id];
+                        html += `<div style="padding: 5px 0;">${task.name} x${count}: +${task.coins * count}</div>`;
+                        dayTotal += task.coins * count;
+                    });
+                    html += '</div>';
+                }
+
+                // Penalties
+                const penaltiesIncurred = PENALTIES.filter(penalty => dayData.penalties && dayData.penalties[penalty.id]);
+                if (penaltiesIncurred.length > 0) {
+                    html += '<div style="margin-bottom: 15px;"><h3 style="color: #f44336;">⚠️ Penalties</h3>';
+                    penaltiesIncurred.forEach(penalty => {
+                        const count = dayData.penalties[penalty.id];
+                        html += `<div style="padding: 5px 0;">${penalty.name} x${count}: ${penalty.coins * count}</div>`;
+                        dayTotal += penalty.coins * count;
+                    });
+                    html += '</div>';
+                }
+
+                html += `<hr style="margin: 20px 0; border-color: #666;">`;
+                html += `<div style="font-size: 24px; color: #ffD700;">Day Total: ${dayTotal > 0 ? '+' : ''}${dayTotal} coins</div>`;
+            }
+
+            html += `<button onclick="selectDateFromCalendar('${date}')" style="margin-top: 20px; padding: 10px 20px; background: #2563eb; border: none; color: white; cursor: pointer; border-radius: 5px;">View This Day</button>`;
+
+            content.innerHTML = html;
+            modal.classList.add('show');
+            overlay.classList.add('show');
+        }
+
+        // Close day detail modal
+        function closeDayDetail() {
+            document.getElementById('dayDetailModal').classList.remove('show');
+            document.getElementById('modalOverlay').classList.remove('show');
+        }
+
+        // Select date from calendar
+        function selectDateFromCalendar(date) {
+            closeDayDetail();
+            toggleCalendar();
             currentDate = date;
-            toggleHistory();
+            initializeTempData();
             render();
         }
 
@@ -845,6 +1194,21 @@
             const noCursingProgress = getNoCursingProgress();
             const recreationProgress = getRecreationProgress();
 
+            // Check if bonuses were just achieved and throw confetti
+            if (noCursingProgress.achieved && !previousBonusStates.noCursing) {
+                throwConfetti();
+                previousBonusStates.noCursing = true;
+            } else if (!noCursingProgress.achieved) {
+                previousBonusStates.noCursing = false;
+            }
+
+            if (recreationProgress.achieved && !previousBonusStates.recreation) {
+                throwConfetti();
+                previousBonusStates.recreation = true;
+            } else if (!recreationProgress.achieved) {
+                previousBonusStates.recreation = false;
+            }
+
             const bonusHtml = `
                 <div class="bonus ${noCursingProgress.achieved ? 'active' : ''}">
                     <div class="bonus-header">
@@ -858,13 +1222,13 @@
                 </div>
                 <div class="bonus ${recreationProgress.achieved ? 'active' : ''}">
                     <div class="bonus-header">
-                        <span>Recreation Streak (3+ in 7 days)</span>
+                        <span>BJJ/Football Streak (3+ in 7 days)</span>
                         <span class="task-value">+30</span>
                     </div>
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: ${Math.min(100, (recreationProgress.current / recreationProgress.target) * 100)}%"></div>
                     </div>
-                    <div class="progress-text">${recreationProgress.current} / ${recreationProgress.target} activities</div>
+                    <div class="progress-text">${recreationProgress.current} / ${recreationProgress.target} classes/games</div>
                 </div>`;
             document.getElementById('bonuses').innerHTML = bonusHtml;
 
@@ -894,8 +1258,53 @@
             return JSON.stringify(savedData) !== JSON.stringify(tempData);
         }
 
+        // Clear all data and reset
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear ALL data and start fresh? This cannot be undone!')) {
+                localStorage.removeItem('minecoins');
+                data = {};
+                tempData = {
+                    tasks: {},
+                    recreation: {},
+                    penalties: {}
+                };
+                previousBonusStates = {
+                    noCursing: false,
+                    recreation: false
+                };
+                render();
+                alert('All data has been cleared. Starting fresh!');
+            }
+        }
+
+        // Test calculations (for debugging)
+        function testCalculations() {
+            console.log('=== CALCULATION TEST ===');
+            console.log('Current Date:', currentDate);
+            console.log('TempData:', tempData);
+            console.log('Data:', data);
+
+            const todaysEarnings = calculateTodaysEarnings();
+            console.log('Today\'s Earnings:', todaysEarnings);
+
+            const total = calculateTotal();
+            console.log('Total Coins:', total);
+
+            const noCursing = getNoCursingProgress();
+            console.log('No Cursing Progress:', noCursing);
+
+            const recreation = getRecreationProgress();
+            console.log('Recreation Progress (BJJ/Football only):', recreation);
+
+            console.log('======================');
+        }
+
         // Initialize
         loadData();
+
+        // Add functions to window for console access
+        window.testCalc = testCalculations;
+        window.clearAllData = clearAllData;
     </script>
 </body>
 </html>
