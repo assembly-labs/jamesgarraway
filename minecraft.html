@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minecoins Tracker</title>
+
+    <!-- Preload background image for faster loading -->
+    <link rel="preload" as="image" href="minecraft-bg.png">
+
     <style>
         * {
             margin: 0;
@@ -17,19 +21,61 @@
             color: white;
             padding: 20px;
             font-size: 18px;
+            min-height: 100vh;
+            position: relative;
         }
+
+        /* Background image with overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0;
+            z-index: -2;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Only show background when loaded */
+        body.bg-loaded::before {
+            background-image: url('minecraft-bg.png');
+            opacity: 1;
+        }
+
+        /* Dark overlay for readability */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
 
         .container {
             max-width: 600px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         /* Header with total */
         .header {
-            background: #333;
+            background: rgba(51, 51, 51, 0.95);
             padding: 20px;
             margin-bottom: 20px;
             text-align: center;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         .total-coins {
@@ -39,12 +85,14 @@
         }
 
         .date-nav {
-            background: #444;
+            background: rgba(68, 68, 68, 0.95);
             padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         .date-btn {
@@ -68,9 +116,11 @@
 
         /* Sections */
         .section {
-            background: #444;
+            background: rgba(68, 68, 68, 0.95);
             padding: 15px;
             margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         .section-title {
@@ -318,6 +368,13 @@
     </div>
 
     <script>
+        // Preload and cache the background image
+        const bgImage = new Image();
+        bgImage.onload = function() {
+            document.body.classList.add('bg-loaded');
+        };
+        bgImage.src = 'minecraft-bg.png';
+
         // Task definitions
         const TASKS = [
             { id: 'make_bed', name: 'Make Bed', coins: 5 },
