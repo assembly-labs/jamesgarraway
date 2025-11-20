@@ -165,15 +165,38 @@
             background: #666;
             padding: 12px;
             margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
         }
 
         .bonus.active {
             background: #4ade80;
         }
 
-        /* Calendar */
+        .bonus-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            background: #333;
+            height: 20px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #ffD700;
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: #ccc;
+            margin-top: 5px;
+        }
+
+        /* Buttons */
         .calendar-btn {
             background: #666;
             border: 2px solid #333;
@@ -183,6 +206,34 @@
             cursor: pointer;
             width: 100%;
             margin-bottom: 20px;
+        }
+
+        .submit-btn {
+            background: #4ade80;
+            border: 2px solid #22c55e;
+            color: #333;
+            padding: 15px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .submit-btn:disabled {
+            background: #888;
+            border-color: #666;
+            color: #555;
+            cursor: not-allowed;
+        }
+
+        .saved-indicator {
+            background: #22c55e;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 3px;
         }
 
         .history {
@@ -254,6 +305,16 @@
             <div class="section-title">🏆 BONUSES</div>
             <div id="bonuses"></div>
         </div>
+
+        <!-- Saved Indicator -->
+        <div class="saved-indicator" id="savedIndicator" style="display: none;">
+            ✅ Daily Progress Saved!
+        </div>
+
+        <!-- Submit Button -->
+        <button class="submit-btn" id="submitBtn" onclick="submitDailyProgress()">
+            SUBMIT DAILY PROGRESS
+        </button>
     </div>
 
     <script>
@@ -272,9 +333,9 @@
         ];
 
         const RECREATION = [
-            { id: 'jj_class', name: '🥋 Jiu-Jitsu Class', coins: 10 },
+            { id: 'jj_class', name: '🥋 Jiu-Jitsu Class', coins: 5 },
             { id: 'jj_respect', name: '🥋 Respect BJJ Coach', coins: 10 },
-            { id: 'football', name: '🏈 Football Practice', coins: 10 },
+            { id: 'football', name: '🏈 Football Game', coins: 5 },
             { id: 'football_coach', name: '🏈 Listen to Football Coach', coins: 10 },
             { id: 'support_team', name: '🏈 Support the Team', coins: 10 }
         ];
@@ -289,6 +350,7 @@
 
         // State
         let data = {};
+        let tempData = {}; // Temporary data for current day until submitted
         let currentDate = new Date().toISOString().split('T')[0];
 
         // Load data
@@ -297,19 +359,38 @@
             if (stored) {
                 data = JSON.parse(stored);
             }
-            if (!data[currentDate]) {
-                data[currentDate] = {
+            // Initialize temp data for current date
+            initializeTempData();
+            render();
+        }
+
+        // Initialize temporary data for current date
+        function initializeTempData() {
+            if (data[currentDate]) {
+                // Copy existing data to temp
+                tempData = JSON.parse(JSON.stringify(data[currentDate]));
+            } else {
+                tempData = {
                     tasks: {},
                     recreation: {},
                     penalties: {}
                 };
             }
-            render();
         }
 
-        // Save data
-        function saveData() {
+        // Submit daily progress
+        function submitDailyProgress() {
+            // Save tempData to permanent data
+            data[currentDate] = JSON.parse(JSON.stringify(tempData));
             localStorage.setItem('minecoins', JSON.stringify(data));
+
+            // Show saved indicator
+            const indicator = document.getElementById('savedIndicator');
+            indicator.style.display = 'block';
+            setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 2000);
+
             render();
         }
 
@@ -319,34 +400,29 @@
             date.setDate(date.getDate() + direction);
             currentDate = date.toISOString().split('T')[0];
 
-            if (!data[currentDate]) {
-                data[currentDate] = {
-                    tasks: {},
-                    recreation: {},
-                    penalties: {}
-                };
-            }
-
+            // Initialize temp data for new date
+            initializeTempData();
             render();
         }
 
         // Toggle task
         function toggleTask(taskId) {
-            data[currentDate].tasks[taskId] = !data[currentDate].tasks[taskId];
-            saveData();
+            tempData.tasks[taskId] = !tempData.tasks[taskId];
+            render();
         }
 
         // Update recreation counter
         function updateRecreation(taskId, delta) {
-            const current = data[currentDate].recreation[taskId] || 0;
-            data[currentDate].recreation[taskId] = Math.max(0, Math.min(3, current + delta));
-            saveData();
+            const current = tempData.recreation[taskId] || 0;
+            tempData.recreation[taskId] = Math.max(0, Math.min(3, current + delta));
+            render();
         }
 
-        // Add penalty
-        function addPenalty(penaltyId) {
-            data[currentDate].penalties[penaltyId] = (data[currentDate].penalties[penaltyId] || 0) + 1;
-            saveData();
+        // Update penalty counter
+        function updatePenalty(penaltyId, delta) {
+            const current = tempData.penalties[penaltyId] || 0;
+            tempData.penalties[penaltyId] = Math.max(0, current + delta);
+            render();
         }
 
         // Calculate total
@@ -385,18 +461,34 @@
             return Math.max(0, total);
         }
 
-        // Check no cursing bonus
-        function checkNoCursing() {
+        // Check no cursing bonus and get progress
+        function getNoCursingProgress() {
             const lastWeek = getLastWeekDates();
-            return lastWeek.every(date => {
-                const day = data[date];
-                if (!day || !day.penalties) return true;
-                return !day.penalties.mild_curse && !day.penalties.strong_curse;
-            });
+            let daysWithoutCursing = 0;
+
+            for (let i = 0; i < lastWeek.length; i++) {
+                const day = data[lastWeek[i]];
+                if (!day || !day.penalties || (!day.penalties.mild_curse && !day.penalties.strong_curse)) {
+                    daysWithoutCursing++;
+                } else {
+                    break; // Stop counting at first curse day
+                }
+            }
+
+            return {
+                current: daysWithoutCursing,
+                target: 7,
+                achieved: daysWithoutCursing >= 7
+            };
         }
 
-        // Check recreation streak
-        function checkRecreationStreak() {
+        // Check no cursing bonus (legacy function)
+        function checkNoCursing() {
+            return getNoCursingProgress().achieved;
+        }
+
+        // Get recreation streak progress
+        function getRecreationProgress() {
             const lastWeek = getLastWeekDates();
             let count = 0;
             lastWeek.forEach(date => {
@@ -405,7 +497,17 @@
                     Object.values(day.recreation).forEach(val => count += val);
                 }
             });
-            return count >= 3;
+
+            return {
+                current: count,
+                target: 3,
+                achieved: count >= 3
+            };
+        }
+
+        // Check recreation streak (legacy function)
+        function checkRecreationStreak() {
+            return getRecreationProgress().achieved;
         }
 
         // Get last 7 days
@@ -485,7 +587,7 @@
 
             // Render tasks
             const tasksHtml = TASKS.map(task => {
-                const completed = data[currentDate].tasks[task.id];
+                const completed = tempData.tasks[task.id];
                 return `<div class="task ${completed ? 'completed' : ''}" onclick="toggleTask('${task.id}')">
                     <span class="task-name">${task.name}</span>
                     <span class="task-value">+${task.coins}</span>
@@ -495,7 +597,7 @@
 
             // Render recreation
             const recHtml = RECREATION.map(task => {
-                const count = data[currentDate].recreation[task.id] || 0;
+                const count = tempData.recreation[task.id] || 0;
                 return `<div class="counter-task">
                     <span class="task-name">${task.name}</span>
                     <div class="counter-controls">
@@ -508,27 +610,72 @@
             }).join('');
             document.getElementById('recreation').innerHTML = recHtml;
 
-            // Render penalties
+            // Render penalties with counter controls
             const penHtml = PENALTIES.map(penalty => {
-                const count = data[currentDate].penalties[penalty.id] || 0;
-                return `<button class="penalty-btn" onclick="addPenalty('${penalty.id}')">
-                    ${penalty.name} (${penalty.coins})
-                    ${count > 0 ? `<span class="penalty-count">${count}</span>` : ''}
-                </button>`;
+                const count = tempData.penalties[penalty.id] || 0;
+                return `<div class="counter-task">
+                    <span class="task-name">${penalty.name}</span>
+                    <div class="counter-controls">
+                        <button class="counter-btn" onclick="updatePenalty('${penalty.id}', -1)" ${count === 0 ? 'disabled' : ''}>-</button>
+                        <span class="counter-value">${count}</span>
+                        <button class="counter-btn" onclick="updatePenalty('${penalty.id}', 1)">+</button>
+                        <span class="task-value" style="color: #ff6b6b">${penalty.coins}</span>
+                    </div>
+                </div>`;
             }).join('');
             document.getElementById('penalties').innerHTML = penHtml;
 
-            // Render bonuses
+            // Render bonuses with progress indicators
+            const noCursingProgress = getNoCursingProgress();
+            const recreationProgress = getRecreationProgress();
+
             const bonusHtml = `
-                <div class="bonus ${checkNoCursing() ? 'active' : ''}">
-                    <span>No Cursing (7 days)</span>
-                    <span class="task-value">+25</span>
+                <div class="bonus ${noCursingProgress.achieved ? 'active' : ''}">
+                    <div class="bonus-header">
+                        <span>No Cursing (7 days)</span>
+                        <span class="task-value">+25</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${(noCursingProgress.current / noCursingProgress.target) * 100}%"></div>
+                    </div>
+                    <div class="progress-text">${noCursingProgress.current} / ${noCursingProgress.target} days</div>
                 </div>
-                <div class="bonus ${checkRecreationStreak() ? 'active' : ''}">
-                    <span>Recreation Streak (3+ in 7 days)</span>
-                    <span class="task-value">+30</span>
+                <div class="bonus ${recreationProgress.achieved ? 'active' : ''}">
+                    <div class="bonus-header">
+                        <span>Recreation Streak (3+ in 7 days)</span>
+                        <span class="task-value">+30</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${Math.min(100, (recreationProgress.current / recreationProgress.target) * 100)}%"></div>
+                    </div>
+                    <div class="progress-text">${recreationProgress.current} / ${recreationProgress.target} activities</div>
                 </div>`;
             document.getElementById('bonuses').innerHTML = bonusHtml;
+
+            // Update submit button state
+            const submitBtn = document.getElementById('submitBtn');
+            const hasChanges = checkForChanges();
+            if (hasChanges) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'SUBMIT DAILY PROGRESS';
+            } else {
+                const savedData = data[currentDate];
+                if (savedData && (Object.keys(savedData.tasks).length > 0 ||
+                    Object.keys(savedData.recreation).length > 0 ||
+                    Object.keys(savedData.penalties).length > 0)) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = '✅ ALREADY SAVED';
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'SUBMIT DAILY PROGRESS';
+                }
+            }
+        }
+
+        // Check if there are unsaved changes
+        function checkForChanges() {
+            const savedData = data[currentDate] || { tasks: {}, recreation: {}, penalties: {} };
+            return JSON.stringify(savedData) !== JSON.stringify(tempData);
         }
 
         // Initialize
