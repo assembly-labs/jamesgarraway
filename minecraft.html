@@ -82,6 +82,36 @@
             font-size: 48px;
             color: #ffD700;
             margin: 10px 0;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Today's earnings display */
+        .todays-earnings {
+            background: rgba(76, 175, 80, 0.3);
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid rgba(76, 175, 80, 0.5);
+        }
+
+        .todays-earnings.negative {
+            background: rgba(244, 67, 54, 0.3);
+            border-color: rgba(244, 67, 54, 0.5);
+        }
+
+        .earning-amount {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .earning-amount.negative {
+            color: #f44336;
         }
 
         .date-nav {
@@ -132,16 +162,64 @@
         /* Tasks */
         .task {
             background: #666;
-            padding: 12px;
+            padding: 16px;
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .task.completed {
             background: #4ade80;
+            animation: taskComplete 0.5s ease;
+        }
+
+        .task.completed::before {
+            content: '✓';
+            position: absolute;
+            left: 10px;
+            font-size: 24px;
+            color: #1b5e20;
+            font-weight: bold;
+        }
+
+        @keyframes taskComplete {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Floating coin animation */
+        .coin-animation {
+            position: fixed;
+            font-size: 32px;
+            color: #ffD700;
+            font-weight: bold;
+            z-index: 9999;
+            pointer-events: none;
+            animation: floatUp 1.5s ease-out forwards;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(1.5);
+            }
         }
 
         .task-name {
@@ -173,10 +251,18 @@
             background: #888;
             border: 2px solid #333;
             color: white;
-            width: 35px;
-            height: 35px;
-            font-size: 20px;
+            width: 44px;
+            height: 44px;
+            font-size: 24px;
             cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+
+        .counter-btn:active:not(:disabled) {
+            transform: scale(0.95);
+            background: #999;
         }
 
         .counter-btn:disabled {
@@ -317,6 +403,10 @@
         <div class="header">
             <div>TOTAL MINECOINS</div>
             <div class="total-coins" id="totalCoins">0</div>
+            <div class="todays-earnings" id="todaysEarnings">
+                <span>Today's Progress</span>
+                <span class="earning-amount" id="todaysAmount">+0</span>
+            </div>
         </div>
 
         <!-- Date Navigation -->
@@ -462,9 +552,35 @@
             render();
         }
 
+        // Show coin animation
+        function showCoinAnimation(coins, event) {
+            const coin = document.createElement('div');
+            coin.className = 'coin-animation';
+            coin.textContent = coins > 0 ? '+' + coins : coins;
+
+            if (event) {
+                coin.style.left = event.clientX + 'px';
+                coin.style.top = event.clientY + 'px';
+            } else {
+                coin.style.left = '50%';
+                coin.style.top = '50%';
+            }
+
+            document.body.appendChild(coin);
+            setTimeout(() => coin.remove(), 1500);
+        }
+
         // Toggle task
-        function toggleTask(taskId) {
+        function toggleTask(taskId, event) {
+            const wasCompleted = tempData.tasks[taskId];
             tempData.tasks[taskId] = !tempData.tasks[taskId];
+
+            // Show coin animation
+            const task = TASKS.find(t => t.id === taskId);
+            if (!wasCompleted && task) {
+                showCoinAnimation(task.coins, event);
+            }
+
             render();
         }
 
@@ -516,6 +632,34 @@
             if (checkRecreationStreak()) total += 30;
 
             return Math.max(0, total);
+        }
+
+        // Calculate today's earnings
+        function calculateTodaysEarnings() {
+            let todayTotal = 0;
+
+            // Tasks
+            TASKS.forEach(task => {
+                if (tempData.tasks && tempData.tasks[task.id]) {
+                    todayTotal += task.coins;
+                }
+            });
+
+            // Recreation
+            RECREATION.forEach(task => {
+                if (tempData.recreation && tempData.recreation[task.id]) {
+                    todayTotal += tempData.recreation[task.id] * task.coins;
+                }
+            });
+
+            // Penalties
+            PENALTIES.forEach(penalty => {
+                if (tempData.penalties && tempData.penalties[penalty.id]) {
+                    todayTotal += tempData.penalties[penalty.id] * penalty.coins;
+                }
+            });
+
+            return todayTotal;
         }
 
         // Check no cursing bonus and get progress
@@ -632,6 +776,21 @@
             // Update total
             document.getElementById('totalCoins').textContent = calculateTotal();
 
+            // Update today's earnings
+            const todaysEarnings = calculateTodaysEarnings();
+            const todaysElem = document.getElementById('todaysEarnings');
+            const amountElem = document.getElementById('todaysAmount');
+
+            if (todaysEarnings < 0) {
+                todaysElem.classList.add('negative');
+                amountElem.classList.add('negative');
+                amountElem.textContent = todaysEarnings;
+            } else {
+                todaysElem.classList.remove('negative');
+                amountElem.classList.remove('negative');
+                amountElem.textContent = '+' + todaysEarnings;
+            }
+
             // Update date display
             const today = new Date().toISOString().split('T')[0];
             const dateObj = new Date(currentDate);
@@ -645,7 +804,7 @@
             // Render tasks
             const tasksHtml = TASKS.map(task => {
                 const completed = tempData.tasks[task.id];
-                return `<div class="task ${completed ? 'completed' : ''}" onclick="toggleTask('${task.id}')">
+                return `<div class="task ${completed ? 'completed' : ''}" onclick="toggleTask('${task.id}', event)">
                     <span class="task-name">${task.name}</span>
                     <span class="task-value">+${task.coins}</span>
                 </div>`;
