@@ -24,6 +24,7 @@
     // Force clear any service worker cached data (not session storage)
     if('caches' in window){caches.keys().then(n=>{n.forEach(k=>caches.delete(k))})}
     </script>
+    <script src="js/auth-guard.js?v=1761311525&bust=v4"></script>
     <!-- Slideshow Container -->
     <div class="slideshow-container" id="slideshow">
         <div class="slide active">
