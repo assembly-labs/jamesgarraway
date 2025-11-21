@@ -1,0 +1,326 @@
+/* ================================
+   STICKY NAVIGATION STYLES
+   ================================ */
+
+/* Main Navigation Container */
+.sticky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+    z-index: 9999;
+    transition: all 0.3s ease;
+}
+
+/* Navigation Inner Container */
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+/* Hamburger Menu Button (Mobile) */
+.nav-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    transition: transform 0.3s ease;
+}
+
+.nav-hamburger:hover {
+    transform: scale(1.1);
+}
+
+.nav-hamburger.active {
+    transform: rotate(90deg);
+}
+
+/* Brand/Current Page (Mobile) */
+.nav-brand {
+    display: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Navigation Menu */
+.nav-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 40px;
+    height: 100%;
+    align-items: center;
+}
+
+/* Navigation Links */
+.nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 0;
+    position: relative;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.nav-link:hover {
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Active Page Indicator */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: transparent;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}
+
+/* Page-specific Active States */
+.nav-link[data-page="home"].active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-link[data-page="home"].active::after {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    bottom: -20px;
+}
+
+.nav-link[data-page="minecoins"].active {
+    background: linear-gradient(135deg, #f59e0b 0%, #eab308 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-link[data-page="minecoins"].active::after {
+    background: linear-gradient(135deg, #f59e0b 0%, #eab308 100%);
+    bottom: -20px;
+}
+
+.nav-link[data-page="champion"].active {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-link[data-page="champion"].active::after {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    bottom: -20px;
+}
+
+.nav-link[data-page="magic8ball"].active {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-link[data-page="magic8ball"].active::after {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    bottom: -20px;
+}
+
+/* Mobile Overlay */
+.nav-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.nav-overlay.show {
+    display: block;
+    opacity: 1;
+}
+
+/* Adjust Main Content for Navigation */
+body.has-navigation {
+    padding-top: 60px;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 0 20px;
+    }
+
+    .nav-hamburger {
+        display: block;
+    }
+
+    .nav-brand {
+        display: block;
+        flex: 1;
+        text-align: center;
+    }
+
+    /* Mobile Menu Drawer */
+    .nav-menu {
+        position: fixed;
+        top: 60px;
+        left: -280px;
+        width: 280px;
+        height: calc(100vh - 60px);
+        background: rgba(30, 30, 30, 0.98);
+        flex-direction: column;
+        gap: 0;
+        padding: 20px 0;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow-y: auto;
+        align-items: stretch;
+    }
+
+    .nav-menu.show {
+        left: 0;
+        box-shadow: 2px 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-menu li {
+        width: 100%;
+    }
+
+    .nav-link {
+        padding: 15px 30px;
+        font-size: 16px;
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: none;
+    }
+
+    .nav-link::after {
+        display: none;
+    }
+
+    /* Mobile Active States */
+    .nav-link.active {
+        background: rgba(255, 255, 255, 0.1) !important;
+        -webkit-text-fill-color: white !important;
+        color: white !important;
+    }
+
+    .nav-link[data-page="home"].active {
+        border-left: 4px solid #667eea;
+    }
+
+    .nav-link[data-page="minecoins"].active {
+        border-left: 4px solid #f59e0b;
+    }
+
+    .nav-link[data-page="champion"].active {
+        border-left: 4px solid #2563eb;
+    }
+
+    .nav-link[data-page="magic8ball"].active {
+        border-left: 4px solid #8b5cf6;
+    }
+}
+
+/* Tablet Adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .nav-menu {
+        gap: 25px;
+    }
+
+    .nav-link {
+        font-size: 13px;
+    }
+}
+
+/* Accessibility */
+.nav-link:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Skip Navigation Link (Accessibility) */
+.skip-nav {
+    position: absolute;
+    top: -40px;
+    left: 10px;
+    background: #667eea;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 10000;
+}
+
+.skip-nav:focus {
+    top: 10px;
+}
+
+/* Animation for smooth appearance */
+@keyframes navSlideDown {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.sticky-nav {
+    animation: navSlideDown 0.3s ease-out;
+}
+
+/* Adjust existing page headers to account for sticky nav */
+.header,
+.calendar-view,
+.section,
+.slideshow-container {
+    margin-top: 20px;
+}
+
+/* Special adjustments for specific pages */
+/* Minecraft page header adjustment */
+body .container .header {
+    top: 80px; /* 60px nav + 20px spacing */
+}
+
+/* Gallery page slideshow adjustment */
+.slideshow-container {
+    padding-top: 20px;
+}

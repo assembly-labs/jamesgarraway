@@ -15,8 +15,26 @@
     <meta http-equiv="X-Frame-Options" content="DENY">
 
     <link rel="stylesheet" href="../styles/magic8ball.css">
+    <link rel="stylesheet" href="../styles/navigation.css?v=1763735221&bust=v5">
 </head>
 <body>
+    <!-- Skip Navigation Link (Accessibility) -->
+    <a href="#eightBall" class="skip-nav">Skip to main content</a>
+
+    <!-- Sticky Navigation -->
+    <nav class="sticky-nav" id="stickyNav">
+        <div class="nav-container">
+            <button class="nav-hamburger" id="navHamburger" aria-label="Menu">☰</button>
+            <div class="nav-brand" id="navBrand">MAGIC 8 BALL</div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../" class="nav-link" data-page="home">HOME</a></li>
+                <li><a href="../minecraft/" class="nav-link" data-page="minecoins">MINECOINS</a></li>
+                <li><a href="../day/" class="nav-link" data-page="champion">CHAMPION ROUTINE</a></li>
+                <li><a href="../magic8ball/" class="nav-link" data-page="magic8ball">MAGIC 8 BALL</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
     <div class="container">
         <div class="eight-ball" id="eightBall">
             <div class="ball-outer">
@@ -37,5 +55,6 @@
     <div class="instruction">Tap for Answer</div>
 
     <script src="../js/magic8ball.js"></script>
+    <script src="../js/navigation.js?v=1763735221&bust=v5"></script>
 </body>
 </html>

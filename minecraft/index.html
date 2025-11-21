@@ -12,6 +12,7 @@
 
     <!-- Preload background image for faster loading -->
     <link rel="preload" as="image" href="../images/minecraft-bg.png">
+    <link rel="stylesheet" href="../styles/navigation.css?v=1763735221&bust=v5">
 
     <style>
         * {
@@ -546,6 +547,24 @@
     </style>
 </head>
 <body>
+    <!-- Skip Navigation Link (Accessibility) -->
+    <a href="#totalCoins" class="skip-nav">Skip to main content</a>
+
+    <!-- Sticky Navigation -->
+    <nav class="sticky-nav" id="stickyNav">
+        <div class="nav-container">
+            <button class="nav-hamburger" id="navHamburger" aria-label="Menu">☰</button>
+            <div class="nav-brand" id="navBrand">MINECOINS</div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../" class="nav-link" data-page="home">HOME</a></li>
+                <li><a href="../minecraft/" class="nav-link" data-page="minecoins">MINECOINS</a></li>
+                <li><a href="../day/" class="nav-link" data-page="champion">CHAMPION ROUTINE</a></li>
+                <li><a href="../magic8ball/" class="nav-link" data-page="magic8ball">MAGIC 8 BALL</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
+
     <div class="container">
         <!-- Header with total -->
         <div class="header">
@@ -1311,5 +1330,6 @@
         window.testCalc = testCalculations;
         window.clearAllData = clearAllData;
     </script>
+    <script src="../js/navigation.js?v=1763735221&bust=v5"></script>
 </body>
 </html>

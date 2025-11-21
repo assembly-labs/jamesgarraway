@@ -17,8 +17,26 @@
   <meta http-equiv="Expires" content="0">
   <link rel="stylesheet" href="../styles/themes.css?v=1763735221&bust=v5">
   <link rel="stylesheet" href="../styles/routine.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="../styles/navigation.css?v=1763735221&bust=v5">
 </head>
 <body>
+  <!-- Skip Navigation Link (Accessibility) -->
+  <a href="#header" class="skip-nav">Skip to main content</a>
+
+  <!-- Sticky Navigation -->
+  <nav class="sticky-nav" id="stickyNav">
+    <div class="nav-container">
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu">☰</button>
+      <div class="nav-brand" id="navBrand">CHAMPION ROUTINE</div>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../" class="nav-link" data-page="home">HOME</a></li>
+        <li><a href="../minecraft/" class="nav-link" data-page="minecoins">MINECOINS</a></li>
+        <li><a href="../day/" class="nav-link" data-page="champion">CHAMPION ROUTINE</a></li>
+        <li><a href="../magic8ball/" class="nav-link" data-page="magic8ball">MAGIC 8 BALL</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="nav-overlay" id="navOverlay"></div>
   <script>
   // Force clear any cached data
   if('caches' in window){caches.keys().then(n=>{n.forEach(k=>caches.delete(k))})}
@@ -142,5 +160,6 @@
   <script src="../js/celebrations.js?v=1763735221&bust=v5"></script>   <!-- 3. Celebration effects (exports triggerCelebration) -->
   <script src="../js/checklist.js?v=1763735221&bust=v5"></script>      <!-- 4. MUST load after celebrations (uses triggerCelebration) -->
   <script src="../js/routine.js?v=1763735221&bust=v5"></script>        <!-- 5. MUST load last (uses above dependencies) -->
+  <script src="../js/navigation.js?v=1763735221&bust=v5"></script>      <!-- 6. Navigation system -->
 </body>
 </html>
