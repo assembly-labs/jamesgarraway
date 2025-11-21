@@ -11,7 +11,7 @@
     <meta http-equiv="X-Frame-Options" content="DENY">
 
     <!-- Preload background image for faster loading -->
-    <link rel="preload" as="image" href="minecraft-bg.png">
+    <link rel="preload" as="image" href="../images/minecraft-bg.png">
 
     <style>
         * {
@@ -49,7 +49,7 @@
 
         /* Only show background when loaded */
         body.bg-loaded::before {
-            background-image: url('minecraft-bg.png');
+            background-image: url('../images/minecraft-bg.png');
             opacity: 1;
         }
 
@@ -629,7 +629,7 @@
         bgImage.onload = function() {
             document.body.classList.add('bg-loaded');
         };
-        bgImage.src = 'minecraft-bg.png';
+        bgImage.src = '../images/minecraft-bg.png';
 
         // Task definitions
         const TASKS = [

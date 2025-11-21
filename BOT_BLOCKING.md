@@ -19,7 +19,7 @@ All HTML pages include anti-bot meta tags:
 
 ## Files Modified
 - `/index.html` - Added bot blocking meta tags
-- `/minecraft.html` - Added bot blocking meta tags
+- `/minecraft/index.html` - Added bot blocking meta tags (moved to folder structure)
 - `/day/index.html` - Added bot blocking meta tags
 - `/magic8ball/index.html` - Added bot blocking meta tags
 - `/public/robots.txt` - Created to block all crawlers

@@ -163,6 +163,17 @@ body {
     box-shadow: 0 15px 40px rgba(245, 158, 11, 0.6);
 }
 
+/* Magic 8 Ball Button Variant */
+.magic8ball-btn {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+}
+
+.magic8ball-btn:hover {
+    background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+    box-shadow: 0 15px 40px rgba(139, 92, 246, 0.6);
+}
+
 /* Navigation Arrows (subtle) */
 .nav-arrow {
     position: fixed;
