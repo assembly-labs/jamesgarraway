@@ -625,6 +625,12 @@
             <div id="penalties"></div>
         </div>
 
+        <!-- Self Talk Section -->
+        <div class="section">
+            <div class="section-title">🗣️ SELF TALK</div>
+            <div id="selfTalk"></div>
+        </div>
+
         <!-- Bonuses Section -->
         <div class="section">
             <div class="section-title">🏆 BONUSES</div>
@@ -680,6 +686,11 @@
             { id: 'yelling', name: 'Yelling/Disrespect', coins: -10 }
         ];
 
+        const SELF_TALK = [
+            { id: 'positive_self_talk', name: 'Positive Self Talk', coins: 10 },
+            { id: 'negative_self_talk', name: 'Negative Self Talk', coins: -12 }
+        ];
+
         // State
         let data = {};
         let tempData = {}; // Temporary data for current day until submitted
@@ -705,16 +716,22 @@
                 tempData = {
                     tasks: {},
                     recreation: {},
-                    penalties: {}
+                    penalties: {},
+                    selfTalk: {}
                 };
             } else if (data[currentDate]) {
                 // Copy existing data to temp
                 tempData = JSON.parse(JSON.stringify(data[currentDate]));
+                // Ensure selfTalk exists for backward compatibility
+                if (!tempData.selfTalk) {
+                    tempData.selfTalk = {};
+                }
             } else {
                 tempData = {
                     tasks: {},
                     recreation: {},
-                    penalties: {}
+                    penalties: {},
+                    selfTalk: {}
                 };
             }
         }
@@ -818,6 +835,13 @@
             render();
         }
 
+        // Update self talk counter
+        function updateSelfTalk(talkId, delta) {
+            const current = tempData.selfTalk[talkId] || 0;
+            tempData.selfTalk[talkId] = Math.max(0, current + delta);
+            render();
+        }
+
         // Calculate total
         function calculateTotal() {
             let total = 0;
@@ -843,6 +867,13 @@
                 PENALTIES.forEach(penalty => {
                     if (day.penalties && day.penalties[penalty.id]) {
                         total += day.penalties[penalty.id] * penalty.coins;
+                    }
+                });
+
+                // Self Talk
+                SELF_TALK.forEach(talk => {
+                    if (day.selfTalk && day.selfTalk[talk.id]) {
+                        total += day.selfTalk[talk.id] * talk.coins;
                     }
                 });
             });
@@ -876,6 +907,13 @@
             PENALTIES.forEach(penalty => {
                 if (tempData.penalties && tempData.penalties[penalty.id]) {
                     todayTotal += tempData.penalties[penalty.id] * penalty.coins;
+                }
+            });
+
+            // Self Talk
+            SELF_TALK.forEach(talk => {
+                if (tempData.selfTalk && tempData.selfTalk[talk.id]) {
+                    todayTotal += tempData.selfTalk[talk.id] * talk.coins;
                 }
             });
 
@@ -1053,6 +1091,11 @@
                         dayTotal += dayData.penalties[penalty.id] * penalty.coins;
                     }
                 });
+                SELF_TALK.forEach(talk => {
+                    if (dayData.selfTalk && dayData.selfTalk[talk.id]) {
+                        dayTotal += dayData.selfTalk[talk.id] * talk.coins;
+                    }
+                });
             }
 
             return `<div class="${classes}" onclick="showDayDetail('${date}')">
@@ -1114,6 +1157,19 @@
                         const count = dayData.penalties[penalty.id];
                         html += `<div style="padding: 5px 0;">${penalty.name} x${count}: ${penalty.coins * count}</div>`;
                         dayTotal += penalty.coins * count;
+                    });
+                    html += '</div>';
+                }
+
+                // Self Talk
+                const selfTalkItems = SELF_TALK.filter(talk => dayData.selfTalk && dayData.selfTalk[talk.id]);
+                if (selfTalkItems.length > 0) {
+                    html += '<div style="margin-bottom: 15px;"><h3 style="color: #9ca3af;">🗣️ Self Talk</h3>';
+                    selfTalkItems.forEach(talk => {
+                        const count = dayData.selfTalk[talk.id];
+                        const total = talk.coins * count;
+                        html += `<div style="padding: 5px 0;">${talk.name} x${count}: ${total > 0 ? '+' : ''}${total}</div>`;
+                        dayTotal += total;
                     });
                     html += '</div>';
                 }
@@ -1214,6 +1270,22 @@
             }).join('');
             document.getElementById('penalties').innerHTML = penHtml;
 
+            // Render self talk with counter controls
+            const selfTalkHtml = SELF_TALK.map(talk => {
+                const count = tempData.selfTalk[talk.id] || 0;
+                const isPositive = talk.coins > 0;
+                return `<div class="counter-task">
+                    <span class="task-name">${talk.name}</span>
+                    <div class="counter-controls">
+                        <button class="counter-btn" onclick="updateSelfTalk('${talk.id}', -1)" ${count === 0 ? 'disabled' : ''}>-</button>
+                        <span class="counter-value">${count}</span>
+                        <button class="counter-btn" onclick="updateSelfTalk('${talk.id}', 1)">+</button>
+                        <span class="task-value" style="color: ${isPositive ? '#ffD700' : '#ff6b6b'}">${isPositive ? '+' : ''}${talk.coins}</span>
+                    </div>
+                </div>`;
+            }).join('');
+            document.getElementById('selfTalk').innerHTML = selfTalkHtml;
+
             // Render bonuses with progress indicators
             const noCursingProgress = getNoCursingProgress();
             const recreationProgress = getRecreationProgress();
@@ -1266,7 +1338,8 @@
                 const savedData = data[currentDate];
                 if (savedData && (Object.keys(savedData.tasks).length > 0 ||
                     Object.keys(savedData.recreation).length > 0 ||
-                    Object.keys(savedData.penalties).length > 0)) {
+                    Object.keys(savedData.penalties).length > 0 ||
+                    (savedData.selfTalk && Object.keys(savedData.selfTalk).length > 0))) {
                     submitBtn.disabled = true;
                     submitBtn.textContent = '✅ ALREADY SAVED';
                 } else {
@@ -1278,7 +1351,7 @@
 
         // Check if there are unsaved changes
         function checkForChanges() {
-            const savedData = data[currentDate] || { tasks: {}, recreation: {}, penalties: {} };
+            const savedData = data[currentDate] || { tasks: {}, recreation: {}, penalties: {}, selfTalk: {} };
             return JSON.stringify(savedData) !== JSON.stringify(tempData);
         }
 
@@ -1290,7 +1363,8 @@
                 tempData = {
                     tasks: {},
                     recreation: {},
-                    penalties: {}
+                    penalties: {},
+                    selfTalk: {}
                 };
                 previousBonusStates = {
                     noCursing: false,
