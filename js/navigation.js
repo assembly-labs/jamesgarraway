@@ -92,22 +92,23 @@
 
         function setActivePage() {
             const currentPath = window.location.pathname;
-            let activePage = 'home';
-            let pageTitle = 'HOME';
+            let activePage = 'champion';
+            let pageTitle = 'CHAMPION ROUTINE';
 
             // Determine active page based on path
             if (currentPath.includes('/minecraft/') || currentPath.includes('/minecoins/')) {
                 activePage = 'minecoins';
                 pageTitle = 'MINECOINS';
-            } else if (currentPath.includes('/day/') || currentPath.includes('/champion/')) {
-                activePage = 'champion';
-                pageTitle = 'CHAMPION ROUTINE';
+            } else if (currentPath.includes('/flagfootball/')) {
+                activePage = 'flagfootball';
+                pageTitle = 'FLAG FOOTBALL';
             } else if (currentPath.includes('/magic8ball/')) {
                 activePage = 'magic8ball';
                 pageTitle = 'MAGIC 8 BALL';
             } else if (currentPath === '/' || currentPath.includes('/index.html')) {
-                activePage = 'home';
-                pageTitle = 'HOME';
+                // Root is now Champion Routine
+                activePage = 'champion';
+                pageTitle = 'CHAMPION ROUTINE';
             }
 
             // Set active class on appropriate link
