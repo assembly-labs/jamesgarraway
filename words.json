@@ -178,5 +178,425 @@
     "pronunciation": "tuh-NAS-ih-tee",
     "definition": "The quality of never giving up, like a bulldog with a bone",
     "example": "Russell Wilson shows tenacity by escaping five tackles and still throwing a touchdown."
+  },
+  {
+    "word": "Profound",
+    "pronunciation": "proh-FOWND",
+    "definition": "Very deep and meaningful, making people think",
+    "example": "Yoda says profound things like 'Do or do not, there is no try' that teach important lessons."
+  },
+  {
+    "word": "Eloquent",
+    "pronunciation": "EL-oh-kwuhnt",
+    "definition": "Speaking in a beautiful, powerful way that moves people",
+    "example": "Martin Luther King Jr. was eloquent - his speeches made millions want to change the world."
+  },
+  {
+    "word": "Assertive",
+    "pronunciation": "uh-SUR-tiv",
+    "definition": "Standing up for yourself confidently without being mean",
+    "example": "Hermione is assertive when she tells Ron and Harry they need to study - firm but friendly."
+  },
+  {
+    "word": "Methodical",
+    "pronunciation": "muh-THOD-ih-kuhl",
+    "definition": "Following a careful step-by-step plan to get things done right",
+    "example": "Nick Saban is methodical - he has a specific process for everything the team does."
+  },
+  {
+    "word": "Exemplary",
+    "pronunciation": "ig-ZEM-pluh-ree",
+    "definition": "So good that others should copy you",
+    "example": "Tim Duncan had exemplary sportsmanship - he never trash-talked or showed off."
+  },
+  {
+    "word": "Ingenious",
+    "pronunciation": "in-JEE-nee-us",
+    "definition": "Brilliantly clever and creative in solving problems",
+    "example": "Tony Stark's ingenious mind created the Iron Man suit in a cave with scraps."
+  },
+  {
+    "word": "Conscientious",
+    "pronunciation": "kon-shee-EN-shus",
+    "definition": "Being very careful to do things correctly and thoroughly",
+    "example": "Kawhi Leonard is conscientious about defense - he studies every opponent's moves."
+  },
+  {
+    "word": "Charismatic",
+    "pronunciation": "kar-iz-MAT-ik",
+    "definition": "Having a special charm that makes people want to follow you",
+    "example": "The Rock is charismatic - everyone loves him whether he's wrestling or acting."
+  },
+  {
+    "word": "Analytical",
+    "pronunciation": "an-uh-LIT-ih-kuhl",
+    "definition": "Breaking down problems into pieces to understand them better",
+    "example": "CP3 is analytical - he studies game film to find patterns in the defense."
+  },
+  {
+    "word": "Formidable",
+    "pronunciation": "FOR-mih-duh-buhl",
+    "definition": "Impressively powerful and a bit scary to face",
+    "example": "Darth Vader is a formidable opponent - his power makes enemies think twice."
+  },
+  {
+    "word": "Pragmatic",
+    "pronunciation": "prag-MAT-ik",
+    "definition": "Dealing with problems in a practical, realistic way",
+    "example": "Coach Pop is pragmatic - if something doesn't work, he changes it immediately."
+  },
+  {
+    "word": "Advocate",
+    "pronunciation": "AD-vuh-kit",
+    "definition": "Speaking up to support someone or something important",
+    "example": "LeBron advocates for education by building schools for kids who need help."
+  },
+  {
+    "word": "Cultivate",
+    "pronunciation": "KUL-tih-vayt",
+    "definition": "Growing and developing something carefully over time",
+    "example": "Steph Curry cultivated his shooting skills by taking 500 shots every practice."
+  },
+  {
+    "word": "Deliberate",
+    "pronunciation": "dih-LIB-ur-it",
+    "definition": "Done on purpose with careful thought",
+    "example": "Every move Magnus Carlsen makes in chess is deliberate - nothing is random."
+  },
+  {
+    "word": "Resolute",
+    "pronunciation": "REZ-uh-loot",
+    "definition": "Absolutely determined and unwavering in your decision",
+    "example": "Frodo was resolute about destroying the ring, no matter how hard the journey."
+  },
+  {
+    "word": "Intuitive",
+    "pronunciation": "in-TOO-ih-tiv",
+    "definition": "Understanding something instantly without needing to think about it",
+    "example": "Wayne Gretzky's intuitive play let him know where the puck would be before it got there."
+  },
+  {
+    "word": "Compelling",
+    "pronunciation": "kuhm-PEL-ing",
+    "definition": "So interesting or convincing that people have to pay attention",
+    "example": "Coach Carter gave a compelling speech that made his players want to be better students."
+  },
+  {
+    "word": "Concise",
+    "pronunciation": "kuhn-SYSE",
+    "definition": "Saying a lot with just a few words, no wasted talk",
+    "example": "Belichick's concise answer was just 'We're on to Cincinnati' - short but clear."
+  },
+  {
+    "word": "Dignified",
+    "pronunciation": "DIG-nih-fyd",
+    "definition": "Acting with class and self-respect, keeping your head high",
+    "example": "Black Panther remains dignified even when challenged - he never loses his cool."
+  },
+  {
+    "word": "Efficient",
+    "pronunciation": "ih-FISH-uhnt",
+    "definition": "Getting things done quickly without wasting time or energy",
+    "example": "The Patriots' offense is efficient - they score in 2 minutes what others need 5 for."
+  },
+  {
+    "word": "Fundamental",
+    "pronunciation": "fun-duh-MEN-tuhl",
+    "definition": "The basic, most important part that everything else builds on",
+    "example": "Dribbling is fundamental in basketball - you can't play without it."
+  },
+  {
+    "word": "Gracious",
+    "pronunciation": "GRAY-shus",
+    "definition": "Being kind and polite, especially when winning or losing",
+    "example": "Roger Federer is gracious in defeat - he always congratulates his opponent."
+  },
+  {
+    "word": "Honorable",
+    "pronunciation": "ON-ur-uh-buhl",
+    "definition": "Deserving respect because you always do the right thing",
+    "example": "Samurai warriors follow an honorable code - they never break their word."
+  },
+  {
+    "word": "Impartial",
+    "pronunciation": "im-PAR-shuhl",
+    "definition": "Being fair to everyone, not picking favorites",
+    "example": "A good referee is impartial - calling fouls the same way for both teams."
+  },
+  {
+    "word": "Judicious",
+    "pronunciation": "joo-DISH-us",
+    "definition": "Using good judgment and being wise in decisions",
+    "example": "Dumbledore makes judicious choices about when to use his powerful magic."
+  },
+  {
+    "word": "Keen",
+    "pronunciation": "KEEN",
+    "definition": "Sharp, eager, and very interested in something",
+    "example": "Sherlock Holmes has a keen eye for details others miss completely."
+  },
+  {
+    "word": "Lucid",
+    "pronunciation": "LOO-sid",
+    "definition": "Crystal clear and easy to understand",
+    "example": "Einstein could give lucid explanations of complex physics that kids could understand."
+  },
+  {
+    "word": "Magnanimous",
+    "pronunciation": "mag-NAN-ih-mus",
+    "definition": "Being generous and forgiving, especially to someone you beat",
+    "example": "Muhammad Ali was magnanimous - helping opponents up after knocking them down."
+  },
+  {
+    "word": "Notable",
+    "pronunciation": "NOH-tuh-buhl",
+    "definition": "Important enough that people notice and remember",
+    "example": "Simone Biles' notable achievements include moves named after her."
+  },
+  {
+    "word": "Objective",
+    "pronunciation": "uhb-JEK-tiv",
+    "definition": "Looking at facts without letting feelings get in the way",
+    "example": "Scouts must be objective - picking the best player even if they don't like them."
+  },
+  {
+    "word": "Perceptive",
+    "pronunciation": "pur-SEP-tiv",
+    "definition": "Quickly noticing and understanding things others might miss",
+    "example": "Rondo is perceptive - he sees passing lanes that open for just a second."
+  },
+  {
+    "word": "Quintessential",
+    "pronunciation": "kwin-tuh-SEN-shuhl",
+    "definition": "The perfect example of something",
+    "example": "Michael Jordan is the quintessential basketball player - everything you'd want."
+  },
+  {
+    "word": "Rational",
+    "pronunciation": "RASH-uh-nuhl",
+    "definition": "Making decisions based on logic and reason, not emotions",
+    "example": "Spock makes rational choices using logic, even in dangerous situations."
+  },
+  {
+    "word": "Savvy",
+    "pronunciation": "SAV-ee",
+    "definition": "Smart and experienced in practical ways",
+    "example": "Veteran players are savvy - they know all the tricks to draw fouls."
+  },
+  {
+    "word": "Tactful",
+    "pronunciation": "TAKT-fuhl",
+    "definition": "Careful about what you say to avoid hurting feelings",
+    "example": "Good captains are tactful - correcting teammates without embarrassing them."
+  },
+  {
+    "word": "Unanimous",
+    "pronunciation": "yoo-NAN-ih-mus",
+    "definition": "Everyone agrees completely with no one opposed",
+    "example": "The unanimous MVP vote meant every single person picked the same player."
+  },
+  {
+    "word": "Vigorous",
+    "pronunciation": "VIG-ur-us",
+    "definition": "Full of energy and enthusiasm",
+    "example": "Russell Westbrook plays with vigorous intensity every single minute."
+  },
+  {
+    "word": "Wisdom",
+    "pronunciation": "WIZ-duhm",
+    "definition": "Deep understanding that comes from experience and good judgment",
+    "example": "Uncle Iroh shares wisdom with Zuko about life being more than just winning."
+  },
+  {
+    "word": "Zealous",
+    "pronunciation": "ZEL-us",
+    "definition": "Extremely passionate and enthusiastic about something",
+    "example": "Kobe was zealous about basketball - it was his entire life."
+  },
+  {
+    "word": "Astute",
+    "pronunciation": "uh-STOOT",
+    "definition": "Very clever at noticing and understanding things",
+    "example": "Warren Buffett is astute - he sees which companies will succeed before others do."
+  },
+  {
+    "word": "Benevolent",
+    "pronunciation": "buh-NEV-uh-luhnt",
+    "definition": "Kind and wanting to help others",
+    "example": "Superman is benevolent - using his powers to help people, not rule them."
+  },
+  {
+    "word": "Candid",
+    "pronunciation": "KAN-did",
+    "definition": "Honest and straightforward, telling it like it is",
+    "example": "Charles Barkley is candid on TV - he says what he thinks without sugarcoating."
+  },
+  {
+    "word": "Dexterous",
+    "pronunciation": "DEK-stur-us",
+    "definition": "Skillful with your hands or body movements",
+    "example": "Kyrie Irving is dexterous with the ball - his handles are like magic."
+  },
+  {
+    "word": "Earnest",
+    "pronunciation": "UR-nist",
+    "definition": "Serious and sincere about what you're doing",
+    "example": "Peter Parker is earnest about being Spider-Man - he truly wants to help."
+  },
+  {
+    "word": "Fortitude",
+    "pronunciation": "FOR-tih-tood",
+    "definition": "Mental strength to face difficulty with courage",
+    "example": "Frodo showed fortitude carrying the ring to Mordor despite the pain."
+  },
+  {
+    "word": "Gregarious",
+    "pronunciation": "grih-GAIR-ee-us",
+    "definition": "Friendly and enjoying being around other people",
+    "example": "Magic Johnson was gregarious - always smiling and making teammates laugh."
+  },
+  {
+    "word": "Harmonious",
+    "pronunciation": "har-MOH-nee-us",
+    "definition": "Working together peacefully without conflict",
+    "example": "The Warriors had harmonious team chemistry - everyone knew their role."
+  },
+  {
+    "word": "Impeccable",
+    "pronunciation": "im-PEK-uh-buhl",
+    "definition": "Perfect with absolutely no mistakes",
+    "example": "Federer's backhand technique is impeccable - textbook perfect every time."
+  },
+  {
+    "word": "Jubilant",
+    "pronunciation": "JOO-bih-luhnt",
+    "definition": "Extremely happy and celebrating",
+    "example": "The team was jubilant after winning the championship in overtime."
+  },
+  {
+    "word": "Kinetic",
+    "pronunciation": "kih-NET-ik",
+    "definition": "Full of movement and energy",
+    "example": "Ja Morant's kinetic style means he's always moving, jumping, and attacking."
+  },
+  {
+    "word": "Legitimate",
+    "pronunciation": "lih-JIT-ih-mit",
+    "definition": "Real, valid, and following the rules",
+    "example": "That was a legitimate win - no luck, just pure skill."
+  },
+  {
+    "word": "Meritorious",
+    "pronunciation": "mer-ih-TOR-ee-us",
+    "definition": "Deserving praise for being excellent",
+    "example": "His meritorious performance earned him Player of the Game honors."
+  },
+  {
+    "word": "Nimble",
+    "pronunciation": "NIM-buhl",
+    "definition": "Quick and light in movement",
+    "example": "Barry Sanders was nimble - dodging tackles like he was dancing."
+  },
+  {
+    "word": "Optimal",
+    "pronunciation": "OP-tih-muhl",
+    "definition": "The best or most favorable",
+    "example": "The optimal play was to take a three-pointer with 2 seconds left."
+  },
+  {
+    "word": "Pivotal",
+    "pronunciation": "PIV-uh-tuhl",
+    "definition": "Extremely important for what happens next",
+    "example": "Ray Allen's pivotal three-pointer saved the Heat's championship hopes."
+  },
+  {
+    "word": "Resourceful",
+    "pronunciation": "rih-SORS-fuhl",
+    "definition": "Good at finding ways to solve problems with what you have",
+    "example": "MacGyver is resourceful - he can escape using just a paperclip and gum."
+  },
+  {
+    "word": "Substantial",
+    "pronunciation": "suhb-STAN-shuhl",
+    "definition": "Large, important, and significant",
+    "example": "He made a substantial improvement - going from 10 points to 25 per game."
+  },
+  {
+    "word": "Triumphant",
+    "pronunciation": "try-UM-fuhnt",
+    "definition": "Celebrating a great victory",
+    "example": "The triumphant team carried their coach on their shoulders after the win."
+  },
+  {
+    "word": "Unwavering",
+    "pronunciation": "un-WAY-vur-ing",
+    "definition": "Steady and never changing or doubting",
+    "example": "His unwavering confidence meant he always took the last shot."
+  },
+  {
+    "word": "Vivacious",
+    "pronunciation": "vih-VAY-shus",
+    "definition": "Full of life and energy",
+    "example": "The vivacious crowd energized the team for a comeback."
+  },
+  {
+    "word": "Wholehearted",
+    "pronunciation": "hohl-HAR-tid",
+    "definition": "With complete sincerity and commitment",
+    "example": "He gave wholehearted effort - leaving everything on the field."
+  },
+  {
+    "word": "Yielding",
+    "pronunciation": "YEEL-ding",
+    "definition": "Willing to give way or compromise when needed",
+    "example": "Sometimes being yielding and letting teammates shine makes the team stronger."
+  },
+  {
+    "word": "Zestful",
+    "pronunciation": "ZEST-fuhl",
+    "definition": "Full of energy and enthusiasm for life",
+    "example": "His zestful attitude made even tough practices fun for everyone."
+  },
+  {
+    "word": "Adept",
+    "pronunciation": "uh-DEPT",
+    "definition": "Very skilled at something",
+    "example": "Messi is adept at dribbling through five defenders without losing the ball."
+  },
+  {
+    "word": "Coherent",
+    "pronunciation": "koh-HEER-uhnt",
+    "definition": "Clear and logical, making sense",
+    "example": "A good game plan is coherent - every player understands how their role fits together."
+  },
+  {
+    "word": "Diligence",
+    "pronunciation": "DIL-ih-juhns",
+    "definition": "Careful and persistent hard work",
+    "example": "Tiger Woods' diligence in practice made him the best golfer in the world."
+  },
+  {
+    "word": "Exemplify",
+    "pronunciation": "ig-ZEM-plih-fy",
+    "definition": "To be a perfect example of something",
+    "example": "Derek Jeter exemplified what it means to be a Yankees captain."
+  },
+  {
+    "word": "Flourish",
+    "pronunciation": "FLUR-ish",
+    "definition": "To grow strong and successful",
+    "example": "Young players flourish under great coaches who believe in them."
+  },
+  {
+    "word": "Gratitude",
+    "pronunciation": "GRAT-ih-tood",
+    "definition": "Being thankful for what you have",
+    "example": "Giannis shows gratitude by remembering where he came from and helping others."
+  },
+  {
+    "word": "Illustrious",
+    "pronunciation": "ih-LUS-tree-us",
+    "definition": "Famous and respected for great achievements",
+    "example": "Michael Jordan had an illustrious career with six championships and five MVPs."
   }
 ]

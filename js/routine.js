@@ -66,68 +66,55 @@ const setQuote = (q) => {
 };
 
 const loadQuote = async () => {
+  // Get today's date string (YYYY-MM-DD)
+  const today = new Date().toISOString().split('T')[0];
+
   try {
-    const last = JSON.parse(localStorage.getItem(STORAGE_KEYS.quote) || 'null');
-    if (last && last.text) setQuote(last);
+    // Check if we already have a quote for today
+    const stored = JSON.parse(localStorage.getItem(STORAGE_KEYS.quote) || 'null');
+    if (stored && stored.date === today && stored.text) {
+      setQuote(stored);
+      return;
+    }
   } catch {}
+
   try {
     const res = await fetch('./quotes.json', { cache: 'no-store' });
     if (!res.ok) throw new Error('quotes.json not found');
     const data = await res.json();
     if (Array.isArray(data) && data.length) {
-      // Shuffle bag system: track used quotes to prevent repeats
-      let usedIndices = JSON.parse(localStorage.getItem(STORAGE_KEYS.usedQuotes) || '[]');
+      // Use the date to determine which quote to show
+      // This ensures the same quote all day, but changes daily
+      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+      const quoteIndex = dayOfYear % data.length;
+      const selectedQuote = data[quoteIndex];
 
-      // If all quotes have been used, reset the bag
-      if (usedIndices.length >= data.length) {
-        usedIndices = [];
-      }
+      const quoteData = {
+        text: selectedQuote.quote,
+        author: selectedQuote.author || '',
+        explanation: selectedQuote.explanation || '',
+        date: today
+      };
 
-      // Get available quote indices (not yet used)
-      const availableIndices = [];
-      for (let i = 0; i < data.length; i++) {
-        if (!usedIndices.includes(i)) {
-          availableIndices.push(i);
-        }
-      }
-
-      // Pick a random quote from available ones
-      const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
-      const random = data[randomIndex];
-
-      // Mark this quote as used
-      usedIndices.push(randomIndex);
+      setQuote(quoteData);
       try {
-        localStorage.setItem(STORAGE_KEYS.usedQuotes, JSON.stringify(usedIndices));
+        localStorage.setItem(STORAGE_KEYS.quote, JSON.stringify(quoteData));
       } catch {}
-
-      setQuote({
-        text: random.quote,
-        author: random.author || '',
-        explanation: random.explanation || ''
-      });
       return;
     }
   } catch (e) {
-    try {
-      const r = await fetch('https://api.quotable.io/random?tags=inspirational|sports');
-      const d = await r.json();
-      if (d && d.content) {
-        setQuote({ text: d.content, author: d.author || '', explanation: '' });
-        return;
-      }
-    } catch {}
+    // Fallback quote
     setQuote({
       text: "Hard work beats talent when talent doesn't work hard!",
       author: 'Tim Notke',
-      explanation: "Even if you're not the best naturally, working hard can help you succeed!"
+      explanation: "Even if you're not the best naturally, working hard can help you succeed!",
+      date: today
     });
   }
 };
 
 // ======= Word of the Day =======
 const WORD_STORAGE_KEY = 'champion_word';
-const USED_WORDS_KEY = 'champion_used_words';
 
 const setWord = (w) => {
   $('#wordMain').textContent = w.word || 'Loading...';
@@ -144,56 +131,55 @@ const setWord = (w) => {
 };
 
 const loadWord = async () => {
+  // Get today's date string (YYYY-MM-DD)
+  const today = new Date().toISOString().split('T')[0];
+
   try {
-    const last = JSON.parse(localStorage.getItem(WORD_STORAGE_KEY) || 'null');
-    if (last && last.word) setWord(last);
+    // Check if we already have a word for today
+    const stored = JSON.parse(localStorage.getItem(WORD_STORAGE_KEY) || 'null');
+    if (stored && stored.date === today && stored.word) {
+      setWord(stored);
+      return;
+    }
   } catch {}
+
   try {
     const res = await fetch('./words.json', { cache: 'no-store' });
     if (!res.ok) throw new Error('words.json not found');
     const data = await res.json();
     if (Array.isArray(data) && data.length) {
-      // Shuffle bag system: track used words to prevent repeats
-      let usedIndices = JSON.parse(localStorage.getItem(USED_WORDS_KEY) || '[]');
+      // Use the date to determine which word to show
+      // This ensures the same word all day, but changes daily
+      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+      const wordIndex = dayOfYear % data.length;
+      const selectedWord = data[wordIndex];
 
-      // If all words have been used, reset the bag
-      if (usedIndices.length >= data.length) {
-        usedIndices = [];
-      }
+      const wordData = {
+        word: selectedWord.word,
+        pronunciation: selectedWord.pronunciation || '',
+        definition: selectedWord.definition || '',
+        example: selectedWord.example || '',
+        date: today
+      };
 
-      // Get available word indices (not yet used)
-      const availableIndices = [];
-      for (let i = 0; i < data.length; i++) {
-        if (!usedIndices.includes(i)) {
-          availableIndices.push(i);
-        }
-      }
-
-      // Pick a random word from available ones
-      const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
-      const randomWord = data[randomIndex];
-
-      // Mark this word as used
-      usedIndices.push(randomIndex);
+      setWord(wordData);
       try {
-        localStorage.setItem(USED_WORDS_KEY, JSON.stringify(usedIndices));
+        localStorage.setItem(WORD_STORAGE_KEY, JSON.stringify(wordData));
       } catch {}
-
-      setWord({
-        word: randomWord.word,
-        pronunciation: randomWord.pronunciation || '',
-        definition: randomWord.definition || '',
-        example: randomWord.example || ''
-      });
     }
   } catch (e) {
     // Fallback word if loading fails
-    setWord({
+    const fallbackWord = {
       word: 'Perseverance',
       pronunciation: 'per-suh-VEER-uhns',
       definition: 'Never giving up, even when things get tough',
-      example: 'Tom Brady showed incredible perseverance when he came back from 28-3 in the Super Bowl.'
-    });
+      example: 'Tom Brady showed incredible perseverance when he came back from 28-3 in the Super Bowl.',
+      date: today
+    };
+    setWord(fallbackWord);
+    try {
+      localStorage.setItem(WORD_STORAGE_KEY, JSON.stringify(fallbackWord));
+    } catch {}
   }
 };
 
