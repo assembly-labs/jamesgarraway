@@ -125,6 +125,78 @@ const loadQuote = async () => {
   }
 };
 
+// ======= Word of the Day =======
+const WORD_STORAGE_KEY = 'champion_word';
+const USED_WORDS_KEY = 'champion_used_words';
+
+const setWord = (w) => {
+  $('#wordMain').textContent = w.word || 'Loading...';
+  $('#wordPronunciation').textContent = w.pronunciation || '—';
+  $('#wordDefinition').textContent = w.definition || 'Loading definition...';
+  const exampleWrap = $('#wordExampleWrap');
+  if (w.example) {
+    $('#wordExample').textContent = ' ' + w.example;
+    exampleWrap.style.display = 'block';
+  } else {
+    exampleWrap.style.display = 'none';
+  }
+  try { localStorage.setItem(WORD_STORAGE_KEY, JSON.stringify(w)); } catch {}
+};
+
+const loadWord = async () => {
+  try {
+    const last = JSON.parse(localStorage.getItem(WORD_STORAGE_KEY) || 'null');
+    if (last && last.word) setWord(last);
+  } catch {}
+  try {
+    const res = await fetch('./words.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('words.json not found');
+    const data = await res.json();
+    if (Array.isArray(data) && data.length) {
+      // Shuffle bag system: track used words to prevent repeats
+      let usedIndices = JSON.parse(localStorage.getItem(USED_WORDS_KEY) || '[]');
+
+      // If all words have been used, reset the bag
+      if (usedIndices.length >= data.length) {
+        usedIndices = [];
+      }
+
+      // Get available word indices (not yet used)
+      const availableIndices = [];
+      for (let i = 0; i < data.length; i++) {
+        if (!usedIndices.includes(i)) {
+          availableIndices.push(i);
+        }
+      }
+
+      // Pick a random word from available ones
+      const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+      const randomWord = data[randomIndex];
+
+      // Mark this word as used
+      usedIndices.push(randomIndex);
+      try {
+        localStorage.setItem(USED_WORDS_KEY, JSON.stringify(usedIndices));
+      } catch {}
+
+      setWord({
+        word: randomWord.word,
+        pronunciation: randomWord.pronunciation || '',
+        definition: randomWord.definition || '',
+        example: randomWord.example || ''
+      });
+    }
+  } catch (e) {
+    // Fallback word if loading fails
+    setWord({
+      word: 'Perseverance',
+      pronunciation: 'per-suh-VEER-uhns',
+      definition: 'Never giving up, even when things get tough',
+      example: 'Tom Brady showed incredible perseverance when he came back from 28-3 in the Super Bowl.'
+    });
+  }
+};
+
 // ======= Initialize =======
 setThemeVars(currentTeam);
 applySith(currentTeam === 'Sith');
@@ -133,6 +205,7 @@ if (currentTeam === 'Boba Fett') startBlasters();
 updateClock();
 setInterval(updateClock, 1000);
 loadQuote();
+loadWord();
 
 renderChecklist($('#morningList'), morningChecklist, toggleMorning, $('#morningProgress'));
 renderChecklist($('#homeList'),    homeChecklist,    toggleHome,    $('#homeProgress'));

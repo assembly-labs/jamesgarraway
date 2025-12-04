@@ -1,82 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Private Gallery">
-    <title>Private Gallery</title>
-    <!-- Security Headers -->
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noodp, noimageindex, notranslate">
-    <meta name="googlebot" content="noindex, nofollow">
-    <meta name="bingbot" content="noindex, nofollow">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta name="referrer" content="no-referrer">
-    <!-- CRITICAL: Force cache clear - DO NOT cache this page -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="styles/gallery.css?v=1763735221&bust=v5">
-    <link rel="stylesheet" href="styles/navigation.css?v=1763735221&bust=v5">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Private Page">
+  <title>Private Homepage</title>
+  <!-- Security Headers -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noodp, noimageindex, notranslate">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="color-scheme" content="dark light" />
+  <!-- CRITICAL: Force cache clear - DO NOT cache this page -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="styles/themes.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="styles/routine.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="styles/navigation.css?v=1763735221&bust=v5">
 </head>
 <body>
-    <!-- Skip Navigation Link (Accessibility) -->
-    <a href="#slideshow" class="skip-nav">Skip to main content</a>
+  <!-- Skip Navigation Link (Accessibility) -->
+  <a href="#header" class="skip-nav">Skip to main content</a>
 
-    <!-- Sticky Navigation -->
-    <nav class="sticky-nav" id="stickyNav">
-        <div class="nav-container">
-            <button class="nav-hamburger" id="navHamburger" aria-label="Menu">☰</button>
-            <div class="nav-brand" id="navBrand">HOME</div>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="/" class="nav-link" data-page="home">HOME</a></li>
-                <li><a href="./minecraft/" class="nav-link" data-page="minecoins">MINECOINS</a></li>
-                <li><a href="./day/" class="nav-link" data-page="champion">CHAMPION ROUTINE</a></li>
-                <li><a href="./magic8ball/" class="nav-link" data-page="magic8ball">MAGIC 8 BALL</a></li>
-            </ul>
-        </div>
-    </nav>
-    <div class="nav-overlay" id="navOverlay"></div>
-    <script>
-    // Force clear any service worker cached data (not session storage)
-    if('caches' in window){caches.keys().then(n=>{n.forEach(k=>caches.delete(k))})}
-    </script>
-    <script src="js/auth-guard.js?v=1763735221&bust=v5"></script>
-    <!-- Slideshow Container -->
-    <div class="slideshow-container" id="slideshow">
-        <div class="slide active">
-            <img src="images/IMG_4662.jpeg" alt="Champions 1">
-        </div>
-        <div class="slide">
-            <img src="images/IMG_4676.jpeg" alt="Champions 2">
-        </div>
-        <div class="slide">
-            <img src="images/Lions-Champs.jpg" alt="Lions Champions 1">
-        </div>
-        <div class="slide">
-            <img src="images/Lions-Champs2.jpg" alt="Lions Champions 2">
-        </div>
-        <div class="slide">
-            <img src="images/champs.png" alt="Champions">
-        </div>
+  <!-- Sticky Navigation -->
+  <nav class="sticky-nav" id="stickyNav">
+    <div class="nav-container">
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu">☰</button>
+      <div class="nav-brand" id="navBrand">CHAMPION ROUTINE</div>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="/" class="nav-link" data-page="champion">CHAMPION ROUTINE</a></li>
+        <li><a href="./flagfootball/" class="nav-link" data-page="flagfootball">FLAG FOOTBALL</a></li>
+        <li><a href="./minecraft/" class="nav-link" data-page="minecoins">MINECOINS</a></li>
+        <li><a href="./magic8ball/" class="nav-link" data-page="magic8ball">MAGIC 8 BALL</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="nav-overlay" id="navOverlay"></div>
+  <script>
+  // Force clear any cached data
+  if('caches' in window){caches.keys().then(n=>{n.forEach(k=>caches.delete(k))})}
+  </script>
+  <script src="js/auth-guard.js?v=1763735221&bust=v5"></script>
+  <!-- Blaster layers -->
+  <div class="blaster-bg" id="blaster-bg" aria-hidden="true"></div>
+  <div class="blaster-fg" id="blaster-fg" aria-hidden="true"></div>
+
+  <!-- Weekend Chill Overlay -->
+  <div class="weekend-chill-overlay hidden" id="weekendChillOverlay" aria-hidden="true">
+    <div class="weekend-chill-text">
+      <span class="line1">NICE WORK,</span>
+      <span class="line2">JAMES!</span>
+      <span class="line3">TIME TO</span>
+      <span class="line4">CHILL</span>
+    </div>
+  </div>
+
+  <main class="app">
+    <!-- Floating Controls - Top Right -->
+    <div class="controls">
+      <select id="teamSelect" aria-label="Choose theme"></select>
     </div>
 
-    <!-- Navigation Arrows -->
-    <div class="nav-arrow left" id="prevBtn"></div>
-    <div class="nav-arrow right" id="nextBtn"></div>
-
-    <!-- Navigation Dots -->
-    <div class="dots-container" id="dots-container"></div>
-
-    <!-- Navigation Buttons Container -->
-    <div class="nav-buttons-container">
-        <a href="./day/" class="champion-btn">Champion Routine</a>
-        <a href="./minecraft/" class="champion-btn minecoins-btn">Minecoins</a>
-        <a href="./magic8ball/" class="champion-btn magic8ball-btn">Magic 8 Ball</a>
+    <!-- Header -->
+    <div id="header" class="header">
+      <h1 id="headerDateTime">Loading...</h1>
     </div>
 
-    <script src="js/gallery.js?v=1763735221&bust=v5"></script>
-    <script src="js/navigation.js?v=1763735221&bust=v5"></script>
+    <!-- Grid -->
+    <div class="grid">
+      <!-- Daily Quote -->
+      <div class="widget sith-optional" id="w-today-combined">
+        <div class="widget-header widget-header-centered">
+          <div class="widget-icon">💬</div>
+          <span>QUOTE OF THE DAY</span>
+        </div>
+        <div class="widget-body">
+          <div class="quote-content">
+            <div id="quoteText" class="quote-text">"Loading…"</div>
+            <div id="quoteAuthor" class="quote-author">—</div>
+            <div id="quoteExplWrap" class="quote-explanation-wrapper">
+              <div class="quote-explanation-box">
+                <strong class="quote-explanation-title">💡 What it means:</strong>
+                <span id="quoteExplanation"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Word of the Day -->
+      <div class="widget sith-optional" id="w-word-of-day">
+        <div class="widget-header widget-header-centered">
+          <div class="widget-icon">📚</div>
+          <span>WORD OF THE DAY</span>
+        </div>
+        <div class="widget-body">
+          <div class="word-content">
+            <div id="wordMain" class="word-main">Loading...</div>
+            <div id="wordPronunciation" class="word-pronunciation">—</div>
+            <div id="wordDefinition" class="word-definition">Loading definition...</div>
+            <div id="wordExampleWrap" class="word-example-wrapper">
+              <div class="word-example-box">
+                <strong class="word-example-title">💪 How to use it:</strong>
+                <span id="wordExample"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Morning checklist -->
+      <div class="widget sith-optional" id="w-morning">
+        <div class="widget-header widget-header-centered">
+          <div class="widget-icon">🎒</div>
+          <span>TO SCHOOL</span>
+        </div>
+        <div class="widget-body">
+          <div id="morningProgress" class="progress-indicator"></div>
+          <div id="morningList"></div>
+        </div>
+      </div>
+
+      <!-- Home checklist -->
+      <div class="widget sith-optional" id="w-home">
+        <div class="widget-header widget-header-centered">
+          <div class="widget-icon">🏠</div>
+          <span>BRING HOME</span>
+        </div>
+        <div class="widget-body">
+          <div id="homeProgress" class="progress-indicator"></div>
+          <div id="homeList"></div>
+        </div>
+      </div>
+
+      <!-- Screen time rules -->
+      <div class="widget sith-optional" id="w-screen">
+        <div class="widget-header widget-header-centered">
+          <div class="widget-icon">✅</div>
+          <span>AFTER SCHOOL</span>
+        </div>
+        <div class="widget-body">
+          <div id="screenProgress" class="progress-indicator"></div>
+          <div id="screenList"></div>
+          <div id="screenAllowance" class="btn-screen-info">—</div>
+        </div>
+      </div>
+
+      <!-- ROCK OUT PLAYER -->
+      <div class="widget sith-optional music-player" id="w-rock" style="display: none;">
+        <div class="widget-header"><span>🎸 ROCK OUT</span></div>
+        <div class="widget-body">
+          <iframe data-testid="embed-iframe" class="spotify-iframe"
+            src="https://open.spotify.com/embed/playlist/1tkUe0mOxMkBv3098t6VMI?utm_source=generator&theme=0"
+            width="100%" height="352" frameBorder="0" allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+
+      <!-- LOFI FOCUS PLAYER -->
+      <div class="widget sith-optional music-player" id="w-lofi" style="display: none;">
+        <div class="widget-header"><span>🎧 STUDY FOCUS</span></div>
+        <div class="widget-body">
+          <iframe data-testid="embed-iframe" class="spotify-iframe"
+            src="https://open.spotify.com/embed/playlist/4jAr7WoZjDa5mkdTFoytbS?utm_source=generator&theme=0"
+            width="100%" height="352" frameBorder="0" allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- CRITICAL: Load order matters! routine.js depends on themes.js and checklist.js -->
+  <script src="js/themes.js?v=1763735221&bust=v5"></script>         <!-- 1. MUST load first (exports teamColors, etc.) -->
+  <script src="js/confetti-cannon.js?v=1763735221&bust=v5"></script><!-- 2. Confetti cannon system (exports fireConfettiCannon) -->
+  <script src="js/celebrations.js?v=1763735221&bust=v5"></script>   <!-- 3. Celebration effects (exports triggerCelebration) -->
+  <script src="js/checklist.js?v=1763735221&bust=v5"></script>      <!-- 4. MUST load after celebrations (uses triggerCelebration) -->
+  <script src="js/routine.js?v=1763735221&bust=v5"></script>        <!-- 5. MUST load last (uses above dependencies) -->
+  <script src="js/navigation.js?v=1763735221&bust=v5"></script>      <!-- 6. Navigation system -->
 </body>
 </html>

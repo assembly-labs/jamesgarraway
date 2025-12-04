@@ -1,0 +1,472 @@
+[
+  {
+    "author": "Vince Lombardi",
+    "quote": "The dictionary is the only place that success comes before work.",
+    "explanation": "Like in football, you have to practice before you win games. In the dictionary, 'success' comes before 'work,' but in real life, you work first, then celebrate later."
+  },
+  {
+    "author": "Herm Edwards",
+    "quote": "You play to win the game.",
+    "explanation": "Don\u2019t just show up \u2014 like the Avengers, you fight with a purpose. Play hard, or why play at all?"
+  },
+  {
+    "author": "Dennis Green",
+    "quote": "They are who we thought they were. And we let \u2019em off the hook!",
+    "explanation": "Like facing Darth Vader when you knew he\u2019d be tough, but then you didn\u2019t finish the job. Lesson: don\u2019t relax too early \u2014 finish strong."
+  },
+  {
+    "author": "Dan Marino",
+    "quote": "There is no defense against a perfect pass. I can throw a perfect pass.",
+    "explanation": "If you master your skill, no one can stop you. Like Hawkeye hitting the bullseye every time."
+  },
+  {
+    "author": "Archie Griffin",
+    "quote": "It\u2019s not the size of the dog in the fight, but the size of the fight in the dog.",
+    "explanation": "You don\u2019t need to be Hulk-big to win \u2014 even Ant-Man can fight if his heart is strong."
+  },
+  {
+    "author": "Walter Payton",
+    "quote": "When you\u2019re GOOD at something, you\u2019ll tell everyone. When you\u2019re GREAT at something, they\u2019ll tell you.",
+    "explanation": "Heroes don\u2019t brag. When you\u2019re amazing, the crowd cheers for you \u2014 like fans chanting your name."
+  },
+  {
+    "author": "Lou Holtz",
+    "quote": "If what you did yesterday seems big, you haven\u2019t done anything today.",
+    "explanation": "Yesterday\u2019s touchdown doesn\u2019t win today\u2019s game. Keep pushing forward, like the Rebels who had to fight after blowing up the Death Star."
+  },
+  {
+    "author": "Emmitt Smith",
+    "quote": "I may win and I may lose, but I will never be defeated.",
+    "explanation": "Even if the scoreboard says you lost, you\u2019re never beaten if you keep your spirit strong \u2014 like Captain America standing up again."
+  },
+  {
+    "author": "Pel\u00e9",
+    "quote": "Success is no accident. It is hard work, perseverance, learning, studying, sacrifice and love of what you are doing.",
+    "explanation": "Winning goals don\u2019t happen by luck. It\u2019s training and love for the game \u2014 like Jedi training with Yoda."
+  },
+  {
+    "author": "Pep Guardiola",
+    "quote": "In football, the worst things are excuses. Excuses mean you cannot grow.",
+    "explanation": "Saying 'it\u2019s not my fault' doesn\u2019t make you better. Own it and improve \u2014 like Iron Man fixing his own mistakes."
+  },
+  {
+    "author": "J\u00fcrgen Klopp",
+    "quote": "If you want special results, you have to feel special things and do special things together.",
+    "explanation": "Championships aren\u2019t won alone. Teamwork, like the Avengers uniting, makes the magic happen."
+  },
+  {
+    "author": "Sir Alex Ferguson",
+    "quote": "Once you bid farewell to discipline, you say goodbye to success.",
+    "explanation": "Without rules and practice, you lose. Like a Jedi who ignores the Force."
+  },
+  {
+    "author": "Lionel Messi",
+    "quote": "You have to fight to reach your dream. You have to sacrifice and work hard for it.",
+    "explanation": "Dreams are like championship rings \u2014 you don\u2019t get them without battle scars."
+  },
+  {
+    "author": "Johan Cruyff",
+    "quote": "Football is a game of mistakes. Whoever makes the fewest mistakes wins.",
+    "explanation": "Every fight has slip-ups. The team that messes up less usually wins."
+  },
+  {
+    "author": "Diego Maradona",
+    "quote": "The game of football is like a canvas, and it\u2019s up to the players to paint the most beautiful picture.",
+    "explanation": "Each game is your masterpiece \u2014 like Spider-Man swinging through the city, your moves tell the story."
+  },
+  {
+    "author": "Xavi",
+    "quote": "Football is not about one or two star players. It\u2019s about the team.",
+    "explanation": "The Avengers aren\u2019t just Iron Man or Thor. It\u2019s everyone together that saves the world."
+  },
+  {
+    "author": "Tim Howard",
+    "quote": "When you\u2019re a goalkeeper, it doesn\u2019t matter how well you play; if you make one mistake and it costs the game, it\u2019s a bad day.",
+    "explanation": "One wrong move can ruin everything, so stay sharp like Spider-Sense."
+  },
+  {
+    "author": "Ronaldinho",
+    "quote": "I learned all about life with a ball at my feet.",
+    "explanation": "Sports can teach you more than school sometimes \u2014 teamwork, creativity, joy."
+  },
+  {
+    "author": "Carlos Gracie Sr.",
+    "quote": "There is no losing in jiu jitsu. You either win or you learn.",
+    "explanation": "Even if you get pinned, you still gain wisdom. Like Luke losing to Vader but learning how to be stronger."
+  },
+  {
+    "author": "Rickson Gracie",
+    "quote": "Jiu Jitsu is perfect. It\u2019s humans who make errors.",
+    "explanation": "The art is flawless \u2014 we just mess up. Like the Force: it\u2019s always right, but Jedi stumble."
+  },
+  {
+    "author": "Jean Jacques Machado",
+    "quote": "If you ask me what belt I am today, I\u2019ll tell you that I\u2019m a white belt who never gave up.",
+    "explanation": "Being great doesn\u2019t mean being flashy \u2014 it means never quitting."
+  },
+  {
+    "author": "John Danaher",
+    "quote": "The essential characteristic of jiu jitsu is control that leads to submission.",
+    "explanation": "Like a Jedi mind trick \u2014 calm control always beats chaos."
+  },
+  {
+    "author": "Renzo Gracie",
+    "quote": "My opponent is my teacher, my ego is my enemy.",
+    "explanation": "Every battle is a lesson. The real danger is thinking you\u2019re already the best."
+  },
+  {
+    "author": "Carlos Gracie",
+    "quote": "The biggest lesson I learned from jiu jitsu was how to truly know myself.",
+    "explanation": "Training is like looking in a mirror \u2014 you find out how strong, weak, or brave you are."
+  },
+  {
+    "author": "Jim Carrey",
+    "quote": "You can fail at what you don\u2019t want, so you might as well take a chance on doing what you love.",
+    "explanation": "Even safe paths can flop \u2014 so swing for what excites you, like being a superhero."
+  },
+  {
+    "author": "Jim Carrey",
+    "quote": "The effect you have on others is the most valuable currency there is.",
+    "explanation": "Making people smile, laugh, or feel inspired is worth more than money."
+  },
+  {
+    "author": "Arthur C. Clarke",
+    "quote": "Any sufficiently advanced technology is indistinguishable from magic.",
+    "explanation": "To kids, a lightsaber is magic. To scientists, it\u2019s tech. Big inventions feel like superpowers."
+  },
+  {
+    "author": "Edwin Hubble",
+    "quote": "Man explores the universe and calls the adventure science.",
+    "explanation": "Science is just humans on an epic quest \u2014 like Star Wars in real life."
+  },
+  {
+    "author": "Galileo Galilei",
+    "quote": "In questions of science, the authority of a thousand is not worth the reasoning of a single individual.",
+    "explanation": "One brave Jedi\u2019s truth can outweigh a whole army\u2019s lies."
+  },
+  {
+    "author": "Carl Sagan",
+    "quote": "Somewhere, something incredible is waiting to be known.",
+    "explanation": "Like a treasure hunt across the stars \u2014 always more secrets to uncover."
+  },
+  {
+    "author": "Isaac Newton",
+    "quote": "If I have seen further it is by standing on the shoulders of giants.",
+    "explanation": "Heroes build on the heroes before them \u2014 like Rey learning from Luke and Leia."
+  },
+  {
+    "author": "Albert Einstein",
+    "quote": "The important thing is not to stop questioning.",
+    "explanation": "Curiosity is like the Force \u2014 never stop using it."
+  },
+  {
+    "author": "Bruce Lee",
+    "quote": "Do not pray for an easy life, pray for strength to endure a difficult one.",
+    "explanation": "Don\u2019t wish for no battles. Wish to be strong enough to win them."
+  },
+  {
+    "author": "Plutarch",
+    "quote": "The mind is not a vessel to be filled, but a fire to be kindled.",
+    "explanation": "Your brain isn\u2019t a bucket for facts \u2014 it\u2019s a torch to light up ideas."
+  },
+  {
+    "author": "Elon Musk",
+    "quote": "When something is important enough, you do it even if the odds are not in your favor.",
+    "explanation": "Like being down 3 touchdowns \u2014 you keep playing hard if it matters, just like heroes don\u2019t quit."
+  },
+  {
+    "author": "Elon Musk",
+    "quote": "Persistence is very important. You should not give up unless you are forced to give up.",
+    "explanation": "Like Captain America saying, 'I can do this all day.' Keep fighting unless you truly can\u2019t."
+  },
+  {
+    "author": "Elon Musk",
+    "quote": "I think it is possible for ordinary people to choose to be extraordinary.",
+    "explanation": "Like Peter Parker \u2014 a regular kid choosing to be Spider-Man. You don\u2019t need powers to be great."
+  },
+  {
+    "author": "Elon Musk",
+    "quote": "I feel fear quite strongly\u2026 but there are times when something is important enough, you do it in spite of the fear.",
+    "explanation": "Like Luke Skywalker \u2014 scared of Vader but still facing him. Bravery is acting even when afraid."
+  },
+  {
+    "author": "Elon Musk",
+    "quote": "The first step is to establish that something is possible; then probability will occur.",
+    "explanation": "First, believe you can score the touchdown \u2014 then practice until it happens often."
+  },
+  {
+    "author": "Elon Musk",
+    "quote": "Failure is an option here. If things are not failing, you are not innovating enough.",
+    "explanation": "Like Iron Man testing new suits. Some explode, but that\u2019s how he builds better ones."
+  },
+  {
+    "author": "Elon Musk",
+    "quote": "You should take the approach that you\u2019re wrong. Your goal is to be less wrong.",
+    "explanation": "Like Yoda teaching Luke \u2014 accept mistakes, learn, and be a little better each time."
+  },
+  {
+    "author": "Elon Musk",
+    "quote": "It is important to view knowledge as a semantic tree\u2026 understand the trunk and big branches before the leaves.",
+    "explanation": "Like football \u2014 learn the basics before the fancy plays. Strong roots first."
+  },
+  {
+    "author": "Elon Musk",
+    "quote": "Some people don\u2019t like change, but you need to embrace change if the alternative is disaster.",
+    "explanation": "Like a coach switching plays \u2014 change feels weird, but sticking with the old one could lose the game."
+  },
+  {
+    "author": "Elon Musk",
+    "quote": "I wouldn\u2019t say I have a lack of fear\u2026 I\u2019d like my fear emotion to be less because it\u2019s very distracting.",
+    "explanation": "Like being nervous before a big game \u2014 fear is normal, but you can learn to focus and win anyway."
+  },
+  {
+    "author": "Jalen Hurts",
+    "quote": "I had a purpose before everybody had an opinion. It's not about anybody else.",
+    "explanation": "Don't let other people's opinions change your goals. Stay focused on what YOU want to achieve, whether it's getting better at football, mastering a new jiu-jitsu move, or beating a hard level in Minecraft!"
+  },
+  {
+    "author": "Jalen Hurts",
+    "quote": "10 percent of life is what happens to you, 90 percent is how you respond.",
+    "explanation": "When something bad happens—like losing a game or getting a bad grade—what matters most is how you bounce back. You can't always control what happens, but you CAN control your attitude and effort!"
+  },
+  {
+    "author": "Jalen Hurts",
+    "quote": "Rent is due every day.",
+    "explanation": "You have to earn your success every single day. Yesterday's win doesn't matter today—you need to show up and work hard again. Just like in sports or school, you can't coast on past achievements!"
+  },
+  {
+    "author": "Brian Dawkins",
+    "quote": "Don't settle in this life. Push through the pain. On the other side of that pain is something special for you to go to the next level.",
+    "explanation": "When things get tough—whether it's a hard practice, a difficult math problem, or a challenging opponent—don't give up! The hard stuff is what makes you stronger and better."
+  },
+  {
+    "author": "Brian Dawkins",
+    "quote": "I'm always striving to do more. Whatever I accomplish, it's not enough. I don't get satisfied.",
+    "explanation": "Even when you achieve something great, keep pushing yourself to improve. There's always a new skill to learn, a harder challenge to tackle, or a bigger goal to chase!"
+  },
+  {
+    "author": "Ray Lewis",
+    "quote": "Effort is between you and you. Effort ain't got nothing to do with nobody else.",
+    "explanation": "How hard you try is completely up to you—not your teammates, not your coach, not your friends. You control your own effort in practice, games, and school!"
+  },
+  {
+    "author": "Ed Reed",
+    "quote": "To the young: Work, work, work, and then work some more! Children need to know that life may be hard, but you can always overcome.",
+    "explanation": "Success takes tons of work, but the good news is that you CAN overcome any challenge if you're willing to put in the effort. Hard work beats talent!"
+  },
+  {
+    "author": "Nick Foles",
+    "quote": "I'm not perfect. I might be in the NFL and we might have just won the Super Bowl, but hey, we still have daily struggles. When you look at a struggle in your life, just know that's an opportunity for your character to grow.",
+    "explanation": "Everyone faces challenges, even Super Bowl champions! When you struggle with something, it's not a bad thing—it's a chance to become a better, stronger person."
+  },
+  {
+    "author": "Nick Foles",
+    "quote": "Don't be afraid to fail. Failure is never final. It's just an opportunity to come back stronger.",
+    "explanation": "Making mistakes or losing is part of getting better. Every failure teaches you something and helps you improve for next time!"
+  },
+  {
+    "author": "Lionel Messi",
+    "quote": "Every year I try to grow as a player and not get stuck in a rut. I try to improve my game in every way possible.",
+    "explanation": "Always look for ways to get better, even if you're already good at something. Whether it's soccer skills, jiu-jitsu techniques, or math problems, there's always room to improve!"
+  },
+  {
+    "author": "Lionel Messi",
+    "quote": "I start early and I stay late, day after day, year after year. It took me 17 years and 114 days to become an overnight success.",
+    "explanation": "People might think success happens quickly, but it actually takes years of hard work that nobody sees. Messi practiced for 17 years before the world called him an 'overnight success'!"
+  },
+  {
+    "author": "Pelé",
+    "quote": "Success is no accident. It is hard work, perseverance, learning, studying, sacrifice and most of all, love of what you are doing.",
+    "explanation": "Success doesn't just happen by luck. It comes from working hard, never giving up, learning from mistakes, and loving what you do—whether that's sports, math, or building in Minecraft!"
+  },
+  {
+    "author": "Mia Hamm",
+    "quote": "I am building a fire, and every day I train, I add more fuel. At just the right moment, I light the match.",
+    "explanation": "Every practice, every training session, every time you work hard, you're preparing for your big moment. All that work adds up until you're ready to shine!"
+  },
+  {
+    "author": "Alex Morgan",
+    "quote": "Whatever brings you down, will eventually make you stronger.",
+    "explanation": "When something tough happens—losing a game, struggling in school, or facing a challenge—it makes you tougher and more prepared for next time!"
+  },
+  {
+    "author": "Cristiano Ronaldo",
+    "quote": "Talent without working hard is nothing.",
+    "explanation": "Being naturally good at something isn't enough. Even if you have talent, you still need to practice and work hard to become great!"
+  },
+  {
+    "author": "Helio Gracie",
+    "quote": "Always assume that your opponent is going to be bigger, stronger and faster than you; so that you learn to rely on technique, timing and leverage rather than brute strength.",
+    "explanation": "Being smart and skilled is more important than being the biggest or strongest. Use your brain and technique to succeed, just like in jiu-jitsu where a smaller person can beat a bigger one!"
+  },
+  {
+    "author": "Helio Gracie",
+    "quote": "Jiu-Jitsu is for the protection of the individual: the older man, the weak, the child, the lady, and the young woman; anyone who doesn't have the physical attributes to defend themselves.",
+    "explanation": "Martial arts gives you confidence and skills to protect yourself, no matter your size. It's about making everyone strong and confident!"
+  },
+  {
+    "author": "Renzo Gracie",
+    "quote": "My opponent is my teacher, my ego is my enemy.",
+    "explanation": "Learn from everyone, even the people who beat you. Don't let your pride stop you from getting better. The person who taps you out in jiu-jitsu is actually teaching you something!"
+  },
+  {
+    "author": "Rickson Gracie",
+    "quote": "Jiu Jitsu is perfect. It's humans who make errors.",
+    "explanation": "When you make mistakes in jiu-jitsu (or any sport), it's not because the technique is bad—it's because you're still learning. Keep practicing and you'll make fewer mistakes!"
+  },
+  {
+    "author": "Carlson Gracie Sr.",
+    "quote": "If you want to be a lion, you must train with lions.",
+    "explanation": "If you want to get really good at something, practice with people who are better than you. They'll challenge you and help you improve faster!"
+  },
+  {
+    "author": "Michael Jordan",
+    "quote": "I've missed more than 9,000 shots in my career. I've lost almost 300 games. 26 times, I've been trusted to take the game winning shot and missed. I've failed over and over and over again in my life. And that is why I succeed.",
+    "explanation": "Even the greatest players fail all the time! Michael Jordan missed thousands of shots but kept trying. Your failures help you succeed because you learn from them."
+  },
+  {
+    "author": "Michael Jordan",
+    "quote": "Obstacles don't have to stop you. If you run into a wall, don't turn around and give up. Figure out how to climb it, go through it, or work around it.",
+    "explanation": "When something blocks your path—a tough opponent, a hard test, a tricky problem—find a different way around it. There's always a solution if you keep trying!"
+  },
+  {
+    "author": "Kobe Bryant",
+    "quote": "Great things come from hard work and perseverance. No excuses.",
+    "explanation": "Don't make excuses when things get tough. Just work hard and keep going. That's how you achieve great things!"
+  },
+  {
+    "author": "Stephen Curry",
+    "quote": "Success is not an accident. Success is actually a choice.",
+    "explanation": "You choose to be successful by choosing to work hard, practice, and never give up. Success doesn't just happen—you decide to make it happen!"
+  },
+  {
+    "author": "Jesse Owens",
+    "quote": "We all have dreams. But in order to make dreams come into reality, it takes an awful lot of determination, dedication, self-discipline and effort.",
+    "explanation": "Dreaming about something cool is easy. Making that dream real takes serious work, focus, and self-control. But you can do it if you commit!"
+  },
+  {
+    "author": "Michael Phelps",
+    "quote": "You can't put a limit on anything. The more you dream, the farther you get.",
+    "explanation": "Don't tell yourself you can't do something. Dream big! The bigger your dreams, the more amazing things you can achieve!"
+  },
+  {
+    "author": "Simone Biles",
+    "quote": "I'm not the next Usain Bolt or Michael Phelps. I'm the first Simone Biles.",
+    "explanation": "Don't try to be like someone else—be the best version of YOU! You have your own unique talents and strengths that make you special."
+  },
+  {
+    "author": "Usain Bolt",
+    "quote": "Worrying gets you nowhere. If you turn up worrying about how you're going to perform, you've already lost. Train hard, turn up, run your best and the rest will take care of itself.",
+    "explanation": "Don't waste energy worrying before a game, test, or competition. Just prepare well, do your best, and let your hard work speak for itself!"
+  },
+  {
+    "author": "Babe Ruth",
+    "quote": "It's hard to beat a person who never gives up.",
+    "explanation": "If you refuse to quit, you're already super tough to beat. Persistence is one of the most powerful weapons you have!"
+  },
+  {
+    "author": "Jackie Robinson",
+    "quote": "A life is not important except in the impact it has on other lives.",
+    "explanation": "What really matters is how you help and inspire other people. Be a good teammate, friend, and person—that's what leaves a lasting mark!"
+  },
+  {
+    "author": "John Wooden",
+    "quote": "Do not let what you cannot do interfere with what you can do.",
+    "explanation": "Don't focus on what you're bad at. Focus on what you CAN do and do it as well as possible! Everyone has strengths—use yours!"
+  },
+  {
+    "author": "John Wooden",
+    "quote": "Success is peace of mind, which is a direct result of self-satisfaction in knowing you made the effort to become the best of which you are capable of becoming.",
+    "explanation": "Real success is knowing you gave your best effort and tried your hardest. If you did that, you should feel proud no matter the score!"
+  },
+  {
+    "author": "Albert Einstein",
+    "quote": "The important thing is not to stop questioning. Curiosity has its own reason for existing.",
+    "explanation": "Always ask questions and stay curious! Wanting to know 'why' and 'how' is what helps you learn and discover new things, whether in math, science, or exploring in Minecraft!"
+  },
+  {
+    "author": "Albert Einstein",
+    "quote": "A person who never made a mistake never tried anything new.",
+    "explanation": "Mistakes mean you're trying new things and learning. If you never mess up, it means you're playing it too safe and not challenging yourself!"
+  },
+  {
+    "author": "Katherine Johnson",
+    "quote": "Like what you do, and then you will do your best.",
+    "explanation": "When you enjoy something—whether it's math, sports, or gaming—you naturally work harder at it and do better. Find what you love and go for it!"
+  },
+  {
+    "author": "Katherine Johnson",
+    "quote": "I asked questions; I wanted to know why.",
+    "explanation": "Don't be afraid to ask questions, even if others think you should just follow along. Asking 'why' is how you really understand things and get smarter!"
+  },
+  {
+    "author": "Neil Armstrong",
+    "quote": "Mystery creates wonder and wonder is the basis of man's desire to understand.",
+    "explanation": "When you don't understand something, it makes you curious and excited to learn more. That curiosity is what drives exploration and discovery!"
+  },
+  {
+    "author": "Mae Jemison",
+    "quote": "Never be limited by other people's limited imagination.",
+    "explanation": "Just because someone else can't imagine you doing something doesn't mean you can't do it. Dream bigger than other people's doubts!"
+  },
+  {
+    "author": "Mae Jemison",
+    "quote": "Don't let anyone rob you of your imagination, your creativity, or your curiosity. It's your place in the world; it's your life.",
+    "explanation": "Protect your creativity and curiosity! Whether you're building amazing worlds in Minecraft or solving math problems in new ways, never let anyone tell you to stop being creative."
+  },
+  {
+    "author": "Carl Sagan",
+    "quote": "Somewhere, something incredible is waiting to be known.",
+    "explanation": "There are still so many amazing things in the world waiting to be discovered—maybe by you! Keep exploring, learning, and searching for new adventures!"
+  },
+  {
+    "author": "Edmund Hillary",
+    "quote": "People do not decide to become extraordinary. They decide to accomplish extraordinary things.",
+    "explanation": "You don't have to be special or different to do amazing things. You just have to decide to try something extraordinary and work toward it!"
+  },
+  {
+    "author": "Ernest Shackleton",
+    "quote": "Difficulties are just things to overcome, after all.",
+    "explanation": "Problems and challenges are just obstacles in your path—they're meant to be solved and beaten. Don't see them as stop signs; see them as puzzles to figure out!"
+  },
+  {
+    "author": "Amelia Earhart",
+    "quote": "The most difficult thing is the decision to act, the rest is merely tenacity. The fears are paper tigers. You can do anything you decide to do.",
+    "explanation": "The hardest part is deciding to start. Once you begin, you just need to stick with it. Most of the things you're afraid of aren't as scary as they seem!"
+  },
+  {
+    "author": "Amelia Earhart",
+    "quote": "Adventure is worthwhile in itself.",
+    "explanation": "Adventures and new experiences are valuable just for being adventures! Whether you're exploring a new trail, trying a new sport, or discovering new things in a game, the adventure itself is the reward."
+  },
+  {
+    "author": "Walt Disney",
+    "quote": "All our dreams can come true, if we have the courage to pursue them.",
+    "explanation": "Your dreams can become real, but you need to be brave enough to chase them. Don't let fear stop you from going after what you want!"
+  },
+  {
+    "author": "Walt Disney",
+    "quote": "It's kind of fun to do the impossible.",
+    "explanation": "When something seems impossible, that makes it even more exciting to try! Don't avoid hard challenges—they're the most fun when you succeed!"
+  },
+  {
+    "author": "Roald Dahl",
+    "quote": "Mixed in with the awful fear was a glorious feeling of excitement. Most of the really exciting things we do in our lives scare us to death. They wouldn't be exciting if they didn't.",
+    "explanation": "It's okay to feel scared when you try something new or challenging. Being nervous means you're about to do something exciting! The best adventures always come with a little fear."
+  },
+  {
+    "author": "Dr. Seuss",
+    "quote": "You have brains in your head. You have feet in your shoes. You can steer yourself any direction you choose.",
+    "explanation": "You're in control of your own life! You're smart, you're capable, and you can choose your own path. Make good choices and go where YOU want to go!"
+  },
+  {
+    "author": "Albus Dumbledore (J.K. Rowling)",
+    "quote": "It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.",
+    "explanation": "Real courage means doing what's right even when your friends disagree. If your friends want to do something wrong, being brave enough to say 'no' takes real strength!"
+  },
+  {
+    "author": "C.S. Lewis",
+    "quote": "Since it is so likely that children will meet cruel enemies, let them at least have heard of brave knights and heroic courage.",
+    "explanation": "Stories about heroes, bravery, and courage help prepare you for real-life challenges. The brave characters you read about or see in games teach you how to be courageous when things get tough in real life!"
+  }
+]
