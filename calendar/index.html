@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Private Page">
+  <title>Schedule</title>
+  <!-- Security Headers -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noodp, noimageindex, notranslate">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="color-scheme" content="dark light" />
+  <!-- CRITICAL: Force cache clear - DO NOT cache this page -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="../styles/themes.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="../styles/calendar.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="../styles/navigation.css?v=1763735221&bust=v5">
+</head>
+<body>
+  <!-- Skip Navigation Link (Accessibility) -->
+  <a href="#main-content" class="skip-nav">Skip to main content</a>
+
+  <!-- Sticky Navigation -->
+  <nav class="sticky-nav" id="stickyNav">
+    <div class="nav-container">
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu">☰</button>
+      <div class="nav-brand" id="navBrand">SCHEDULE</div>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="/" class="nav-link" data-page="champion">CHAMPION ROUTINE</a></li>
+        <li><a href="../calendar/" class="nav-link" data-page="calendar">SCHEDULE</a></li>
+        <li><a href="../flagfootball/" class="nav-link" data-page="flagfootball">FLAG FOOTBALL</a></li>
+        <li><a href="../minecraft/" class="nav-link" data-page="minecoins">MINECOINS</a></li>
+        <li><a href="../magic8ball/" class="nav-link" data-page="magic8ball">MAGIC 8 BALL</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="nav-overlay" id="navOverlay"></div>
+  <script>
+  // Force clear any cached data
+  if('caches' in window){caches.keys().then(n=>{n.forEach(k=>caches.delete(k))})}
+  </script>
+  <script src="../js/auth-guard.js?v=1763735221&bust=v5"></script>
+
+  <main class="schedule-app" id="main-content">
+    <!-- Day Selector Pills -->
+    <div class="day-selector" id="daySelector">
+      <button class="day-pill" data-day="0">Sun</button>
+      <button class="day-pill" data-day="1">Mon</button>
+      <button class="day-pill" data-day="2">Tue</button>
+      <button class="day-pill" data-day="3">Wed</button>
+      <button class="day-pill" data-day="4">Thu</button>
+      <button class="day-pill" data-day="5">Fri</button>
+      <button class="day-pill" data-day="6">Sat</button>
+    </div>
+
+    <!-- Schedule Content (dynamically loaded) -->
+    <div id="scheduleContent"></div>
+
+  </main>
+
+  <script>
+    // Schedule data
+    const schedules = {
+      // 0 = Sunday
+      0: {
+        title: 'Sunday',
+        tag: null,
+        rows: [
+          { time: '8:00 - 8:30', task: 'Wake up', type: 'normal' },
+          { time: 'Morning', task: 'Breakfast, no rush', type: 'normal' },
+          { time: 'Day', task: 'Family time + get outside at some point', type: 'normal' },
+          { time: 'Afternoon', task: '<strong>Gaming - up to 1 hour</strong>', type: 'gaming' },
+          { time: 'Evening', task: 'Get ready for the week - backpack, clothes', type: 'normal' },
+          { time: '8:30 PM', task: '<strong>Lights out</strong>', type: 'bedtime' }
+        ]
+      },
+      // 1 = Monday (BJJ Day)
+      1: {
+        tag: 'BJJ Day',
+        rows: [
+          { time: '8:00 AM', task: 'Wake up - open the curtains!', type: 'normal' },
+          { time: '8:00 - 8:25', task: 'Get dressed, pack bag, eat breakfast', type: 'normal' },
+          { time: '8:25 - 8:40', task: 'Help with dishes, grab your stuff', type: 'normal' },
+          { time: '8:40 AM', task: '<strong>Out the door!</strong>', type: 'highlight' },
+          { time: '9:00 - 3:30', task: '<strong>School</strong>', type: 'school' },
+          { time: '3:45 PM', task: 'Dad picks you up from school', type: 'normal' },
+          { time: '3:45 - 4:30', task: 'Drive to BJJ - <strong>eat snack in the car</strong>', type: 'normal' },
+          { time: '4:30 - 5:00', task: 'Hang out at the gym, warm up', type: 'normal' },
+          { time: '5:00 - 6:00', task: '<strong>BJJ CLASS</strong>', type: 'highlight' },
+          { time: '6:00 - 6:15', task: 'Drive home', type: 'normal' },
+          { time: '6:15 - 6:30', task: 'Quick shower', type: 'normal' },
+          { time: '6:30 - 8:00', task: '<strong>Flex Time</strong> - dinner, homework, chill', type: 'highlight' },
+          { time: '8:00 - 8:30', task: 'Get ready for bed, hang with Mom or Dad - <strong>screens OFF</strong>', type: 'wind-down' },
+          { time: '8:30 PM', task: '<strong>Lights out</strong>', type: 'bedtime' }
+        ]
+      },
+      // 2 = Tuesday
+      2: {
+        tag: null,
+        rows: [
+          { time: '8:00 AM', task: 'Wake up - open the curtains!', type: 'normal' },
+          { time: '8:00 - 8:25', task: 'Get dressed, pack bag, eat breakfast', type: 'normal' },
+          { time: '8:25 - 8:40', task: 'Help with dishes, grab your stuff', type: 'normal' },
+          { time: '8:40 AM', task: '<strong>Out the door!</strong>', type: 'highlight' },
+          { time: '9:00 - 3:30', task: '<strong>School</strong>', type: 'school' },
+          { time: '4:40 PM', task: 'Home from the bus', type: 'normal' },
+          { time: '4:40 - 4:55', task: 'Shoes off, backpack away, <strong>grab a snack</strong>', type: 'normal' },
+          { time: '4:55 - 7:30', task: '<strong>Flex Time</strong> - gaming (30 min), dinner, homework, outside time', type: 'gaming' },
+          { time: '7:30 - 8:00', task: 'Bath or shower, wind down - <strong>screens OFF</strong>', type: 'wind-down' },
+          { time: '8:00 - 8:30', task: 'Get ready for bed, hang with Mom or Dad', type: 'normal' },
+          { time: '8:30 PM', task: '<strong>Lights out</strong>', type: 'bedtime' }
+        ]
+      },
+      // 3 = Wednesday (BJJ Day)
+      3: {
+        tag: 'BJJ Day',
+        rows: [
+          { time: '8:00 AM', task: 'Wake up - open the curtains!', type: 'normal' },
+          { time: '8:00 - 8:25', task: 'Get dressed, pack bag, eat breakfast', type: 'normal' },
+          { time: '8:25 - 8:40', task: 'Help with dishes, grab your stuff', type: 'normal' },
+          { time: '8:40 AM', task: '<strong>Out the door!</strong>', type: 'highlight' },
+          { time: '9:00 - 3:30', task: '<strong>School</strong>', type: 'school' },
+          { time: '3:45 PM', task: 'Dad picks you up from school', type: 'normal' },
+          { time: '3:45 - 4:30', task: 'Drive to BJJ - <strong>eat snack in the car</strong>', type: 'normal' },
+          { time: '4:30 - 5:00', task: 'Hang out at the gym, warm up', type: 'normal' },
+          { time: '5:00 - 6:00', task: '<strong>BJJ CLASS</strong>', type: 'highlight' },
+          { time: '6:00 - 6:15', task: 'Drive home', type: 'normal' },
+          { time: '6:15 - 6:30', task: 'Quick shower', type: 'normal' },
+          { time: '6:30 - 8:00', task: '<strong>Flex Time</strong> - dinner, homework, chill', type: 'highlight' },
+          { time: '8:00 - 8:30', task: 'Get ready for bed, hang with Mom or Dad - <strong>screens OFF</strong>', type: 'wind-down' },
+          { time: '8:30 PM', task: '<strong>Lights out</strong>', type: 'bedtime' }
+        ]
+      },
+      // 4 = Thursday
+      4: {
+        tag: null,
+        rows: [
+          { time: '8:00 AM', task: 'Wake up - open the curtains!', type: 'normal' },
+          { time: '8:00 - 8:25', task: 'Get dressed, pack bag, eat breakfast', type: 'normal' },
+          { time: '8:25 - 8:40', task: 'Help with dishes, grab your stuff', type: 'normal' },
+          { time: '8:40 AM', task: '<strong>Out the door!</strong>', type: 'highlight' },
+          { time: '9:00 - 3:30', task: '<strong>School</strong>', type: 'school' },
+          { time: '4:40 PM', task: 'Home from the bus', type: 'normal' },
+          { time: '4:40 - 4:55', task: 'Shoes off, backpack away, <strong>grab a snack</strong>', type: 'normal' },
+          { time: '4:55 - 7:30', task: '<strong>Flex Time</strong> - gaming (30 min), dinner, homework, outside time', type: 'gaming' },
+          { time: '7:30 - 8:00', task: 'Bath or shower, wind down - <strong>screens OFF</strong>', type: 'wind-down' },
+          { time: '8:00 - 8:30', task: 'Get ready for bed, hang with Mom or Dad', type: 'normal' },
+          { time: '8:30 PM', task: '<strong>Lights out</strong>', type: 'bedtime' }
+        ]
+      },
+      // 5 = Friday
+      5: {
+        tag: null,
+        rows: [
+          { time: '8:00 AM', task: 'Wake up - open the curtains!', type: 'normal' },
+          { time: '8:00 - 8:25', task: 'Get dressed, pack bag, eat breakfast', type: 'normal' },
+          { time: '8:25 - 8:40', task: 'Help with dishes, grab your stuff', type: 'normal' },
+          { time: '8:40 AM', task: '<strong>Out the door!</strong>', type: 'highlight' },
+          { time: '9:00 - 3:30', task: '<strong>School</strong>', type: 'school' },
+          { time: '4:40 PM', task: 'Home from the bus', type: 'normal' },
+          { time: '4:40 - 4:55', task: 'Shoes off, backpack away, <strong>grab a snack</strong>', type: 'normal' },
+          { time: '4:55 - 7:30', task: '<strong>Flex Time</strong> - gaming (30 min), dinner, homework, outside time', type: 'gaming' },
+          { time: '7:30 - 8:00', task: 'Bath or shower, wind down - <strong>screens OFF</strong>', type: 'wind-down' },
+          { time: '8:00 - 8:30', task: 'Get ready for bed, hang with Mom or Dad', type: 'normal' },
+          { time: '8:30 PM', task: '<strong>Lights out</strong>', type: 'bedtime' }
+        ]
+      },
+      // 6 = Saturday
+      6: {
+        title: 'Saturday',
+        tag: 'BJJ Day',
+        rows: [
+          { time: '7:30 - 8:00', task: 'Wake up', type: 'normal' },
+          { time: '8:00 - 8:30', task: 'Breakfast', type: 'normal' },
+          { time: '9:00 - 10:00', task: '<strong>BJJ CLASS</strong>', type: 'highlight' },
+          { time: 'After BJJ', task: 'Family time - whatever\'s going on', type: 'normal' },
+          { time: 'Afternoon', task: '<strong>Gaming - up to 1 hour</strong>', type: 'gaming' },
+          { time: '9:00 PM', task: '<strong>Lights out</strong>', type: 'bedtime' }
+        ]
+      }
+    };
+
+    // Day names
+    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    // State
+    let currentDate = new Date();
+    let isAnimating = false;
+
+    // DOM elements
+    const scheduleContentEl = document.getElementById('scheduleContent');
+    const daySelector = document.getElementById('daySelector');
+    const dayPills = daySelector.querySelectorAll('.day-pill');
+    const todayDayOfWeek = new Date().getDay();
+
+    // Check if viewing today
+    function isToday(date) {
+      const today = new Date();
+      return date.toDateString() === today.toDateString();
+    }
+
+    // Get days difference from today
+    function getDaysDiff(date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const compareDate = new Date(date);
+      compareDate.setHours(0, 0, 0, 0);
+      const diffTime = compareDate - today;
+      const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays;
+    }
+
+    // Update day selector pills
+    function updateDayPills() {
+      const selectedDayOfWeek = currentDate.getDay();
+
+      dayPills.forEach(pill => {
+        const pillDay = parseInt(pill.dataset.day);
+
+        // Remove all state classes
+        pill.classList.remove('selected', 'today-indicator');
+
+        // Add selected class to current viewing day
+        if (pillDay === selectedDayOfWeek) {
+          pill.classList.add('selected');
+        }
+
+        // Add today indicator if not viewing today
+        if (pillDay === todayDayOfWeek && !isToday(currentDate)) {
+          pill.classList.add('today-indicator');
+        }
+      });
+    }
+
+    // Go to specific day of week
+    function goToDay(targetDayOfWeek) {
+      if (isAnimating) return;
+
+      const currentDayOfWeek = currentDate.getDay();
+      if (targetDayOfWeek === currentDayOfWeek) return;
+
+      // Calculate days to add/subtract to get to target day
+      let diff = targetDayOfWeek - currentDayOfWeek;
+
+      // Determine animation direction
+      const direction = diff > 0 ? 'left' : 'right';
+
+      currentDate.setDate(currentDate.getDate() + diff);
+      renderWithAnimation(direction);
+    }
+
+    // Day pill click handlers
+    dayPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        const targetDay = parseInt(pill.dataset.day);
+        goToDay(targetDay);
+      });
+    });
+
+    // Build schedule HTML
+    function buildScheduleHTML(dayOfWeek) {
+      const schedule = schedules[dayOfWeek];
+      const dayName = dayNames[dayOfWeek];
+
+      const rowsHtml = schedule.rows.map(row => {
+        const itemClass = row.type !== 'normal' ? `schedule-item ${row.type}-item` : 'schedule-item';
+        return `
+          <div class="${itemClass}">
+            <div class="item-time">${row.time}</div>
+            <div class="item-task">${row.task}</div>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <section class="schedule-card">
+          <div class="card-header">
+            <h2 class="day-title">${dayName}</h2>
+          </div>
+          <div class="card-body">
+            <div class="schedule-list">
+              ${rowsHtml}
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    // Build tomorrow preview card (teaser)
+    function buildTomorrowPreviewHTML(tomorrowDayOfWeek) {
+      const schedule = schedules[tomorrowDayOfWeek];
+      const dayName = dayNames[tomorrowDayOfWeek];
+
+      // Show first 2-3 items as a teaser
+      const previewRows = schedule.rows.slice(0, 3).map(row => {
+        const itemClass = row.type !== 'normal' ? `schedule-item ${row.type}-item` : 'schedule-item';
+        return `
+          <div class="${itemClass}">
+            <div class="item-time">${row.time}</div>
+            <div class="item-task">${row.task}</div>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <section class="tomorrow-preview" onclick="goToNextDay()">
+          <div class="tomorrow-header">
+            <span class="tomorrow-label">TOMORROW</span>
+            <span class="tomorrow-day">${dayName}</span>
+          </div>
+          <div class="tomorrow-body">
+            <div class="schedule-list">
+              ${previewRows}
+            </div>
+            <div class="tomorrow-fade"></div>
+          </div>
+          <div class="pull-hint">
+            <span class="pull-arrow">&#8593;</span>
+            <span>Swipe up for more</span>
+          </div>
+        </section>
+      `;
+    }
+
+    // Check if we can show tomorrow (within 7 day limit)
+    function canShowTomorrow() {
+      const diff = getDaysDiff(currentDate);
+      return diff < 6; // Can show tomorrow preview if we're less than 6 days ahead
+    }
+
+    // Render without animation
+    function render() {
+      const dayOfWeek = currentDate.getDay();
+      const tomorrowDayOfWeek = (dayOfWeek + 1) % 7;
+
+      let html = buildScheduleHTML(dayOfWeek);
+
+      // Add tomorrow preview if within limit
+      if (canShowTomorrow()) {
+        html += buildTomorrowPreviewHTML(tomorrowDayOfWeek);
+      }
+
+      scheduleContentEl.innerHTML = html;
+      updateDayPills();
+    }
+
+    // Render with slide animation
+    function renderWithAnimation(direction) {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      const dayOfWeek = currentDate.getDay();
+      const tomorrowDayOfWeek = (dayOfWeek + 1) % 7;
+      updateDayPills();
+
+      // Slide out current content
+      const slideOutClass = direction === 'left' ? 'slide-out-left' : 'slide-out-right';
+      const slideInClass = direction === 'left' ? 'slide-in-right' : 'slide-in-left';
+
+      scheduleContentEl.classList.add(slideOutClass);
+
+      setTimeout(() => {
+        // Update content
+        let html = buildScheduleHTML(dayOfWeek);
+
+        // Add tomorrow preview if within limit
+        if (canShowTomorrow()) {
+          html += buildTomorrowPreviewHTML(tomorrowDayOfWeek);
+        }
+
+        scheduleContentEl.innerHTML = html;
+
+        // Remove slide out, add slide in
+        scheduleContentEl.classList.remove(slideOutClass);
+        scheduleContentEl.classList.add(slideInClass);
+
+        setTimeout(() => {
+          scheduleContentEl.classList.remove(slideInClass);
+          isAnimating = false;
+        }, 300);
+      }, 150);
+    }
+
+    // Navigation
+    function goToPrevDay() {
+      if (isAnimating) return;
+      currentDate.setDate(currentDate.getDate() - 1);
+      renderWithAnimation('right');
+    }
+
+    function goToNextDay() {
+      if (isAnimating) return;
+      // Limit to 7 days forward from today
+      const diff = getDaysDiff(currentDate);
+      if (diff >= 6) return; // Already at day 7 (index 6), can't go further
+      currentDate.setDate(currentDate.getDate() + 1);
+      renderWithAnimation('left');
+    }
+
+    function goToToday() {
+      if (isAnimating) return;
+      const wasAfterToday = getDaysDiff(currentDate) > 0;
+      currentDate = new Date();
+      renderWithAnimation(wasAfterToday ? 'right' : 'left');
+    }
+
+    // Swipe support
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const diffX = touchStartX - touchEndX;
+      const diffY = touchStartY - touchEndY;
+      const swipeThreshold = 50;
+
+      // Only trigger if horizontal swipe is greater than vertical (prevents scroll conflicts)
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > swipeThreshold) {
+        if (diffX > 0) {
+          // Swipe left = next day
+          goToNextDay();
+        } else {
+          // Swipe right = prev day
+          goToPrevDay();
+        }
+      }
+    }
+
+    // Keyboard navigation (for testing)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        goToPrevDay();
+      } else if (e.key === 'ArrowRight') {
+        goToNextDay();
+      }
+    });
+
+    // Initial render
+    render();
+  </script>
+
+  <script src="../js/navigation.js?v=1763735221&bust=v5"></script>
+</body>
+</html>

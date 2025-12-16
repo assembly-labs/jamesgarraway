@@ -105,6 +105,9 @@
             } else if (currentPath.includes('/magic8ball/')) {
                 activePage = 'magic8ball';
                 pageTitle = 'MAGIC 8 BALL';
+            } else if (currentPath.includes('/calendar/')) {
+                activePage = 'calendar';
+                pageTitle = 'SCHEDULE';
             } else if (currentPath === '/' || currentPath.includes('/index.html')) {
                 // Root is now Champion Routine
                 activePage = 'champion';
