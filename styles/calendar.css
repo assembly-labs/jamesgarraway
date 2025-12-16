@@ -276,6 +276,15 @@ body {
   color: var(--text);
 }
 
+.item-task a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.item-task a:hover {
+  text-decoration: underline;
+}
+
 /* ================================
    SPECIAL ITEM STYLES (Kid-friendly colors)
    ================================ */
