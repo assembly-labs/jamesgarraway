@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>4-Week Practice Schedule - Football Fractions</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+  <link rel="stylesheet" href="../styles/print.css">
+
+  <style>
+    .schedule-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .schedule-intro {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    .week-section {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+      box-shadow: 0 2px 12px var(--shadow);
+      page-break-inside: avoid;
+    }
+
+    .week-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding-bottom: var(--space-md);
+      border-bottom: 3px solid var(--field-green);
+      margin-bottom: var(--space-lg);
+    }
+
+    .week-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .week-title {
+      flex: 1;
+    }
+
+    .week-title h2 {
+      margin-bottom: var(--space-xs);
+    }
+
+    .week-focus {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    .day-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .day-card {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      transition: all var(--transition-fast);
+    }
+
+    .day-card:hover {
+      border-color: var(--field-green);
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-sm);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .day-name {
+      font-weight: 700;
+      color: var(--field-green);
+    }
+
+    .day-time {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .day-activities {
+      list-style: none;
+    }
+
+    .day-activities li {
+      padding: var(--space-xs) 0;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      font-size: 0.875rem;
+    }
+
+    .day-activities li::before {
+      content: "✓";
+      color: var(--field-green);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .activity-link {
+      color: var(--field-green);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .rest-day {
+      background: var(--background);
+      border-style: dashed;
+      text-align: center;
+      padding: var(--space-lg);
+    }
+
+    .rest-day .day-name {
+      font-size: 1.125rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .tips-section {
+      background: var(--info-light);
+      border-left: 4px solid var(--info);
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      margin-top: var(--space-xl);
+    }
+
+    .tips-title {
+      font-weight: 700;
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .tips-list {
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .tip-item {
+      display: flex;
+      gap: var(--space-sm);
+      align-items: flex-start;
+    }
+
+    .tip-item::before {
+      content: "💡";
+      flex-shrink: 0;
+    }
+
+    .print-btn {
+      position: fixed;
+      bottom: var(--space-xl);
+      right: var(--space-xl);
+      box-shadow: 0 4px 16px var(--shadow);
+      z-index: 100;
+    }
+
+    @media print {
+      .print-btn,
+      .nav,
+      .page-header,
+      footer {
+        display: none !important;
+      }
+
+      .week-section {
+        page-break-after: always;
+      }
+
+      .week-section:last-of-type {
+        page-break-after: auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .print-btn {
+        bottom: var(--space-md);
+        right: var(--space-md);
+      }
+
+      .day-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        ☰
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="../diagnostic/index.html" class="nav-link">Skills Check</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Lessons</a></li>
+        <li><a href="../practice/index.html" class="nav-link">Practice</a></li>
+        <li><a href="../tools/number-line.html" class="nav-link">Number Line</a></li>
+        <li><a href="../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <span>Practice Schedule</span>
+      </div>
+      <h1>📅 4-Week Practice Schedule</h1>
+      <p>A structured plan to master fractions in one month</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="schedule-container">
+      <!-- Introduction -->
+      <div class="schedule-intro">
+        <h2>How to Use This Schedule</h2>
+        <p>This 4-week schedule combines lessons, practice, and review to help you master 3rd grade fractions. Each session is designed to take 20-30 minutes.</p>
+        <div class="alert alert-info" style="margin-top: var(--space-lg);">
+          <strong>📌 Important Tips:</strong>
+          <ul style="margin-left: var(--space-lg); margin-top: var(--space-sm);">
+            <li>Practice at the same time each day for best results</li>
+            <li>Take breaks if you feel frustrated - it's part of learning!</li>
+            <li>Complete the diagnostic first to identify your starting point</li>
+            <li>Rest days are important - your brain needs time to process!</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week 1 -->
+      <div class="week-section">
+        <div class="week-header">
+          <div class="week-number">1</div>
+          <div class="week-title">
+            <h2>Week 1: Skills Check & Equal Parts</h2>
+            <p class="week-focus">Focus: Understanding what makes parts equal</p>
+          </div>
+        </div>
+
+        <div class="day-grid">
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Monday</span>
+              <span class="day-time">20-30 min</span>
+            </div>
+            <ul class="day-activities">
+              <li><a href="../diagnostic/index.html" class="activity-link">Take Skills Check (Optional)</a></li>
+              <li>Review results with parent/teacher</li>
+              <li>Set goals for the month</li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Tuesday</span>
+              <span class="day-time">25 min</span>
+            </div>
+            <ul class="day-activities">
+              <li><a href="../lessons/01-equal-parts/index.html" class="activity-link">Lesson 1: Equal Parts</a></li>
+              <li>Complete hands-on activities</li>
+              <li>Start worksheet (page 1)</li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Wednesday</span>
+              <span class="day-time">20 min</span>
+            </div>
+            <ul class="day-activities">
+              <li>Finish Lesson 1 worksheet</li>
+              <li><a href="../practice/flashcards.html" class="activity-link">Flashcards: Concepts (5 min)</a></li>
+              <li>Review with answer key</li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Thursday</span>
+              <span class="day-time">20 min</span>
+            </div>
+            <ul class="day-activities">
+              <li><a href="../practice/mixed-review.html" class="activity-link">Mixed Review: Focus on equal parts</a></li>
+              <li><a href="../tools/number-line.html" class="activity-link">Number Line Tool: Halves</a></li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Friday</span>
+              <span class="day-time">15 min</span>
+            </div>
+            <ul class="day-activities">
+              <li>Review Lesson 1 concepts</li>
+              <li>Flashcards practice</li>
+              <li>Play fraction games</li>
+            </ul>
+          </div>
+
+          <div class="day-card rest-day">
+            <div class="day-name">Weekend</div>
+            <div class="day-time">Rest & Review</div>
+            <p class="text-muted" style="margin-top: var(--space-sm);">Optional: Share what you learned with family!</p>
+          </div>
+        </div>
+
+        <div class="tips-section">
+          <div class="tips-title">
+            <span>💡</span>
+            <span>Week 1 Tips</span>
+          </div>
+          <div class="tips-list">
+            <div class="tip-item">The diagnostic helps identify what you already know - don't stress!</div>
+            <div class="tip-item">Use real objects (pizza, paper, toys) to practice equal parts</div>
+            <div class="tip-item">Draw pictures to show your thinking</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Week 2 -->
+      <div class="week-section">
+        <div class="week-header">
+          <div class="week-number">2</div>
+          <div class="week-title">
+            <h2>Week 2: Improper Fractions & Mixed Numbers</h2>
+            <p class="week-focus">Focus: Fractions bigger than 1</p>
+          </div>
+        </div>
+
+        <div class="day-grid">
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Monday</span>
+              <span class="day-time">25 min</span>
+            </div>
+            <ul class="day-activities">
+              <li><a href="../lessons/02-improper-fractions/index.html" class="activity-link">Lesson 2: Improper Fractions</a></li>
+              <li>Watch demonstration</li>
+              <li>Try examples together</li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Tuesday</span>
+              <span class="day-time">20 min</span>
+            </div>
+            <ul class="day-activities">
+              <li>Complete Lesson 2 worksheet</li>
+              <li>Practice converting fractions</li>
+              <li>Self-check answers</li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Wednesday</span>
+              <span class="day-time">20 min</span>
+            </div>
+            <ul class="day-activities">
+              <li><a href="../practice/mixed-review.html" class="activity-link">Mixed Review</a></li>
+              <li><a href="../tools/number-line.html" class="activity-link">Number Line: Mixed numbers</a></li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Thursday</span>
+              <span class="day-time">15 min</span>
+            </div>
+            <ul class="day-activities">
+              <li>Flashcards: All categories</li>
+              <li>Review Lessons 1-2</li>
+              <li>Practice with parent</li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Friday</span>
+              <span class="day-time">20 min</span>
+            </div>
+            <ul class="day-activities">
+              <li>Challenge: Mix review quiz</li>
+              <li>Number line practice</li>
+              <li>Celebrate progress!</li>
+            </ul>
+          </div>
+
+          <div class="day-card rest-day">
+            <div class="day-name">Weekend</div>
+            <div class="day-time">Rest & Reflect</div>
+            <p class="text-muted" style="margin-top: var(--space-sm);">Optional: Find fractions in sports scores!</p>
+          </div>
+        </div>
+
+        <div class="tips-section">
+          <div class="tips-title">
+            <span>💡</span>
+            <span>Week 2 Tips</span>
+          </div>
+          <div class="tips-list">
+            <div class="tip-item">Think of improper fractions as "more than one whole"</div>
+            <div class="tip-item">Use football quarters: 5/4 = 1 game + 1 quarter</div>
+            <div class="tip-item">Draw circles to represent wholes and parts</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Week 3 -->
+      <div class="week-section">
+        <div class="week-header">
+          <div class="week-number">3</div>
+          <div class="week-title">
+            <h2>Week 3: Adding & Subtracting Fractions</h2>
+            <p class="week-focus">Focus: Operations with like denominators</p>
+          </div>
+        </div>
+
+        <div class="day-grid">
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Monday</span>
+              <span class="day-time">25 min</span>
+            </div>
+            <ul class="day-activities">
+              <li><a href="../lessons/03-adding-fractions/index.html" class="activity-link">Lesson 3: Adding Fractions</a></li>
+              <li>Use bar models</li>
+              <li>Try practice problems</li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Tuesday</span>
+              <span class="day-time">20 min</span>
+            </div>
+            <ul class="day-activities">
+              <li>Complete Lesson 3 worksheet</li>
+              <li>Check work with parent</li>
+              <li>Correct any mistakes</li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Wednesday</span>
+              <span class="day-time">25 min</span>
+            </div>
+            <ul class="day-activities">
+              <li><a href="../lessons/04-subtracting-fractions/index.html" class="activity-link">Lesson 4: Subtracting Fractions</a></li>
+              <li>Compare to addition</li>
+              <li>Practice problems</li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Thursday</span>
+              <span class="day-time">20 min</span>
+            </div>
+            <ul class="day-activities">
+              <li>Complete Lesson 4 worksheet</li>
+              <li><a href="../practice/flashcards.html" class="activity-link">Flashcards review</a></li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Friday</span>
+              <span class="day-time">20 min</span>
+            </div>
+            <ul class="day-activities">
+              <li><a href="../practice/mixed-review.html" class="activity-link">Mixed Review: All skills</a></li>
+              <li>Number line practice</li>
+            </ul>
+          </div>
+
+          <div class="day-card rest-day">
+            <div class="day-name">Weekend</div>
+            <div class="day-time">Rest & Play</div>
+            <p class="text-muted" style="margin-top: var(--space-sm);">Optional: Bake with fractions (measuring cups!)</p>
+          </div>
+        </div>
+
+        <div class="tips-section">
+          <div class="tips-title">
+            <span>💡</span>
+            <span>Week 3 Tips</span>
+          </div>
+          <div class="tips-list">
+            <div class="tip-item">Only add/subtract numerators - keep denominator the same!</div>
+            <div class="tip-item">Use the football field to visualize: yards gained and lost</div>
+            <div class="tip-item">Check if your answer makes sense (bigger or smaller?)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Week 4 -->
+      <div class="week-section">
+        <div class="week-header">
+          <div class="week-number">4</div>
+          <div class="week-title">
+            <h2>Week 4: Simplifying & Equivalence + Review</h2>
+            <p class="week-focus">Focus: Mastery and assessment</p>
+          </div>
+        </div>
+
+        <div class="day-grid">
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Monday</span>
+              <span class="day-time">25 min</span>
+            </div>
+            <ul class="day-activities">
+              <li><a href="../lessons/05-simplifying/index.html" class="activity-link">Lesson 5: Simplifying Fractions</a></li>
+              <li>Learn GCF method</li>
+              <li>Practice examples</li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Tuesday</span>
+              <span class="day-time">25 min</span>
+            </div>
+            <ul class="day-activities">
+              <li><a href="../lessons/06-equivalence/index.html" class="activity-link">Lesson 6: Equivalence</a></li>
+              <li>Understand equivalent fractions</li>
+              <li>Complete both worksheets</li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Wednesday</span>
+              <span class="day-time">30 min</span>
+            </div>
+            <ul class="day-activities">
+              <li>Review all 6 lessons</li>
+              <li><a href="../practice/flashcards.html" class="activity-link">Complete all flashcard categories</a></li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Thursday</span>
+              <span class="day-time">30 min</span>
+            </div>
+            <ul class="day-activities">
+              <li><a href="../practice/mixed-review.html" class="activity-link">Mixed Review (2 rounds)</a></li>
+              <li>Number line: All difficulties</li>
+            </ul>
+          </div>
+
+          <div class="day-card">
+            <div class="day-header">
+              <span class="day-name">Friday</span>
+              <span class="day-time">30 min</span>
+            </div>
+            <ul class="day-activities">
+              <li><a href="../diagnostic/index.html" class="activity-link">Retake Skills Check</a></li>
+              <li>Compare to Week 1 results</li>
+              <li>Celebrate your progress! 🎉</li>
+            </ul>
+          </div>
+
+          <div class="day-card rest-day">
+            <div class="day-name">Weekend</div>
+            <div class="day-time">Celebrate!</div>
+            <p class="text-muted" style="margin-top: var(--space-sm);">You completed the program - you're a fraction pro!</p>
+          </div>
+        </div>
+
+        <div class="tips-section">
+          <div class="tips-title">
+            <span>💡</span>
+            <span>Week 4 Tips</span>
+          </div>
+          <div class="tips-list">
+            <div class="tip-item">Simplifying means finding the smallest way to say the same fraction</div>
+            <div class="tip-item">Equivalent fractions are like different names for the same number</div>
+            <div class="tip-item">If you struggle with any concept, revisit that lesson!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Final Tips -->
+      <div class="schedule-intro">
+        <h2>After Week 4: Keep Practicing!</h2>
+        <p>Congratulations on completing the 4-week program! Here are ways to maintain your skills:</p>
+        <ul style="margin-left: var(--space-lg); margin-top: var(--space-md);">
+          <li><strong>Daily Practice:</strong> Spend 10 minutes on flashcards or mixed review</li>
+          <li><strong>Real-World Fractions:</strong> Look for fractions in cooking, sports, and time</li>
+          <li><strong>Help Others:</strong> Teaching someone else reinforces your understanding</li>
+          <li><strong>Challenge Yourself:</strong> Try harder problems or time yourself</li>
+          <li><strong>Stay Consistent:</strong> Regular short practice beats occasional long sessions</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <!-- Print Button -->
+  <button class="btn btn-primary btn-large print-btn" onclick="window.print()">
+    🖨️ Print Schedule
+  </button>
+
+  <!-- Footer -->
+  <footer style="background: var(--field-dark); color: white; padding: var(--space-xl) 0; text-align: center; margin-top: var(--space-2xl);">
+    <div class="container">
+      <p>Football Fractions - Practice Schedule</p>
+      <p class="text-small mt-sm">
+        <a href="../parent-guide/index.html" style="color: rgba(255, 255, 255, 0.8);">Parent Guide</a> ·
+        <a href="../practice/index.html" style="color: rgba(255, 255, 255, 0.8);">Practice Hub</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>

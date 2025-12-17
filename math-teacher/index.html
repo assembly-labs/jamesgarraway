@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Football Fractions - Math Teacher</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/football-theme.css">
+  <link rel="stylesheet" href="styles/print.css">
+
+  <style>
+    /* Dashboard-specific styles */
+    .hero {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      padding: var(--space-2xl) 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent calc(10% - 1px),
+        rgba(255, 255, 255, 0.1) calc(10% - 1px),
+        rgba(255, 255, 255, 0.1) 10%
+      );
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      margin-bottom: var(--space-sm);
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      margin-bottom: var(--space-xl);
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .dashboard-section {
+      padding: var(--space-2xl) 0;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
+    }
+
+    .section-title h2 {
+      margin-bottom: 0;
+    }
+
+    .progress-overview {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      box-shadow: 0 4px 20px var(--shadow);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-xl);
+      margin-bottom: var(--space-2xl);
+    }
+
+    .progress-stat {
+      text-align: center;
+    }
+
+    .progress-stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--field-green);
+    }
+
+    .progress-stat-label {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-lg);
+      margin-bottom: var(--space-2xl);
+    }
+
+    .action-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      text-align: center;
+      box-shadow: 0 2px 12px var(--shadow);
+      transition: all var(--transition-normal);
+      border: 2px solid transparent;
+    }
+
+    .action-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px var(--shadow);
+      border-color: var(--field-green);
+    }
+
+    .action-icon {
+      font-size: 3rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .action-card h3 {
+      margin-bottom: var(--space-sm);
+    }
+
+    .action-card p {
+      color: var(--text-secondary);
+      margin-bottom: var(--space-lg);
+    }
+
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-lg);
+    }
+
+    .lesson-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 2px 12px var(--shadow);
+      transition: all var(--transition-normal);
+    }
+
+    .lesson-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--shadow);
+    }
+
+    .lesson-card-header {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      padding: var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .lesson-card-header.completed {
+      background: linear-gradient(135deg, var(--correct) 0%, #388E3C 100%);
+    }
+
+    .lesson-card-header.locked {
+      background: linear-gradient(135deg, #9E9E9E 0%, #757575 100%);
+    }
+
+    .lesson-card-body {
+      padding: var(--space-lg);
+    }
+
+    .lesson-card-body p {
+      color: var(--text-secondary);
+      margin-bottom: var(--space-md);
+    }
+
+    .lesson-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-md);
+    }
+
+    .lesson-topic {
+      background: var(--background);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .lesson-card-footer {
+      padding: var(--space-md) var(--space-lg);
+      background: var(--background);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer {
+      background: var(--field-dark);
+      color: white;
+      padding: var(--space-xl) 0;
+      text-align: center;
+      margin-top: var(--space-2xl);
+    }
+
+    footer a {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    footer a:hover {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        ☰
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link active">Home</a></li>
+        <li><a href="diagnostic/index.html" class="nav-link">Skills Check</a></li>
+        <li><a href="lessons/index.html" class="nav-link">Lessons</a></li>
+        <li><a href="practice/index.html" class="nav-link">Practice</a></li>
+        <li><a href="tools/number-line.html" class="nav-link">Number Line</a></li>
+        <li><a href="parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content container">
+      <h1>🏈 Football Fractions</h1>
+      <p class="hero-subtitle">Master fractions like Jalen Hurts masters the game!</p>
+      <p style="opacity: 0.85; margin-bottom: var(--space-lg); font-size: 1rem;">
+        Featuring your favorite players: <strong>Jalen Hurts</strong>, <strong>Justin Jefferson</strong>, <strong>Cooper DeJean</strong>, <strong>Tom Brady</strong> & more!
+      </p>
+      <div class="hero-cta">
+        <a href="lessons/index.html" class="btn btn-primary btn-large" id="ctaButton">
+          Start Learning! 🏈
+        </a>
+        <a href="parent-guide/index.html" class="btn btn-secondary btn-large">
+          Parent Guide
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Progress Overview -->
+    <section class="dashboard-section">
+      <div class="progress-overview">
+        <div class="progress-stat">
+          <div class="progress-stat-value" id="overallProgress">0%</div>
+          <div class="progress-stat-label">Overall Progress</div>
+        </div>
+        <div class="progress-stat">
+          <div class="progress-stat-value" id="lessonsCompleted">0/6</div>
+          <div class="progress-stat-label">Lessons Completed</div>
+        </div>
+        <div class="progress-stat">
+          <div class="progress-stat-value" id="practiceStreak">0</div>
+          <div class="progress-stat-label">Day Streak 🔥</div>
+        </div>
+        <div class="progress-stat">
+          <div class="progress-stat-value" id="diagnosticStatus">Not Taken</div>
+          <div class="progress-stat-label">Skills Check</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="dashboard-section">
+      <div class="section-title">
+        <h2>Quick Start</h2>
+      </div>
+      <div class="quick-actions">
+        <a href="lessons/index.html" class="action-card">
+          <div class="action-icon">📚</div>
+          <h3>Start Learning</h3>
+          <p>Jump into lessons with hands-on activities and football examples!</p>
+          <span class="btn btn-primary">View Lessons</span>
+        </a>
+        <a href="practice/mixed-review.html" class="action-card">
+          <div class="action-icon">🎯</div>
+          <h3>Practice Problems</h3>
+          <p>Test your skills with random fraction problems.</p>
+          <span class="btn btn-primary">Start Practice</span>
+        </a>
+        <a href="diagnostic/index.html" class="action-card">
+          <div class="action-icon">📋</div>
+          <h3>Skills Check</h3>
+          <p>Take anytime! See what you know and find areas to improve.</p>
+          <span class="btn btn-secondary">Take Skills Check</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Lessons Overview -->
+    <section class="dashboard-section">
+      <div class="section-title">
+        <h2>📚 Lessons</h2>
+      </div>
+      <div class="lesson-grid" id="lessonGrid">
+        <!-- Lesson cards will be populated by JavaScript -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>Football Fractions - A 3rd Grade Fractions Curriculum</p>
+      <p class="text-small mt-sm">
+        <a href="parent-guide/index.html">Parent Guide</a> ·
+        <a href="schedule/index.html">Practice Schedule</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/fractions.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Lesson data
+    const lessons = [
+      {
+        num: 1,
+        slug: '01-equal-parts',
+        title: 'Equal Parts',
+        description: 'What makes a part REALLY equal? Let\'s find out!',
+        topics: ['Fair sharing', 'Dividing shapes', 'Bar models'],
+        footballContext: 'Dividing the Eagles practice field into equal zones'
+      },
+      {
+        num: 2,
+        slug: '02-improper-fractions',
+        title: 'Improper Fractions & Mixed Numbers',
+        description: 'Discover that fractions can be bigger than 1 whole!',
+        topics: ['Improper fractions', 'Mixed numbers', 'Converting'],
+        footballContext: 'How many games did Jalen Hurts play?'
+      },
+      {
+        num: 3,
+        slug: '03-adding-fractions',
+        title: 'Adding Fractions',
+        description: 'Combine fractions like combining catches!',
+        topics: ['Like denominators', 'Combining parts', 'Bar models'],
+        footballContext: 'Justin Jefferson\'s total yards on multiple catches'
+      },
+      {
+        num: 4,
+        slug: '04-subtracting-fractions',
+        title: 'Subtracting Fractions',
+        description: 'Figure out how much is left after each play!',
+        topics: ['Like denominators', 'Finding differences', 'Comparison'],
+        footballContext: 'How far do the Ravens need to go?'
+      },
+      {
+        num: 5,
+        slug: '05-simplifying',
+        title: 'Simplifying Fractions',
+        description: 'Same amount, but way easier to say!',
+        topics: ['Equivalent fractions', 'GCF', 'Reducing'],
+        footballContext: 'Tom Brady\'s legendary completion rates'
+      },
+      {
+        num: 6,
+        slug: '06-equivalence',
+        title: 'Equivalence',
+        description: 'Secret: Some fractions are twins in disguise!',
+        topics: ['Multiplying by 1', 'Multiple names', 'Number lines'],
+        footballContext: 'Different ways to describe the Packers\' field position'
+      }
+    ];
+
+    // Render lesson cards
+    function renderLessons() {
+      const grid = document.getElementById('lessonGrid');
+      const progress = Storage.getLessonProgress();
+
+      grid.innerHTML = lessons.map(lesson => {
+        const lessonProgress = progress[lesson.num] || {};
+        const status = lessonProgress.completed ? 'completed' :
+                      lessonProgress.started ? 'in-progress' : 'not-started';
+        const headerClass = lessonProgress.completed ? 'completed' : '';
+
+        const statusBadge = lessonProgress.completed ?
+          '<span class="lesson-status completed">✓ Completed</span>' :
+          lessonProgress.started ?
+          '<span class="lesson-status in-progress">In Progress</span>' : '';
+
+        return `
+          <div class="lesson-card">
+            <div class="lesson-card-header ${headerClass}">
+              <span class="lesson-number">${lesson.num}</span>
+              <div>
+                <h3 style="margin: 0; font-size: 1.125rem;">${lesson.title}</h3>
+              </div>
+            </div>
+            <div class="lesson-card-body">
+              <p>${lesson.description}</p>
+              <div class="lesson-topics">
+                ${lesson.topics.map(t => `<span class="lesson-topic">${t}</span>`).join('')}
+              </div>
+              <div class="callout-football" style="padding: var(--space-sm) var(--space-md); font-size: 0.875rem;">
+                🏈 ${lesson.footballContext}
+              </div>
+            </div>
+            <div class="lesson-card-footer">
+              ${statusBadge}
+              <a href="lessons/${lesson.slug}/index.html" class="btn btn-primary btn-small">
+                ${lessonProgress.completed ? 'Review' : lessonProgress.started ? 'Continue' : 'Start'}
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Update progress stats
+    function updateProgressStats() {
+      const overallProgress = Storage.getOverallProgress();
+      const completedCount = Storage.getCompletedLessonCount();
+      const streak = Storage.getPracticeStreak();
+      const diagnosticResults = Storage.getDiagnosticResults();
+
+      document.getElementById('overallProgress').textContent = overallProgress + '%';
+      document.getElementById('lessonsCompleted').textContent = completedCount + '/6';
+      document.getElementById('practiceStreak').textContent = streak;
+      document.getElementById('diagnosticStatus').textContent = diagnosticResults ? 'Complete' : 'Not Started';
+
+      // Update CTA button text based on progress
+      const ctaButton = document.getElementById('ctaButton');
+      if (diagnosticResults) {
+        ctaButton.textContent = 'View Results';
+      } else {
+        ctaButton.textContent = 'Start Learning! 🏈';
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      renderLessons();
+      updateProgressStats();
+    });
+  </script>
+</body>
+</html>

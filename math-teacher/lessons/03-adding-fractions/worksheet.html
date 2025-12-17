@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lesson 3 Worksheet: Adding Fractions - Football Fractions</title>
+
+  <link rel="stylesheet" href="../../styles/main.css">
+  <link rel="stylesheet" href="../../styles/components.css">
+  <link rel="stylesheet" href="../../styles/print.css">
+
+  <style>
+    .worksheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 3px solid var(--field-green);
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-xl);
+    }
+
+    .worksheet-title {
+      font-size: 1.5rem;
+      color: var(--field-green);
+    }
+
+    .name-line {
+      display: block;
+      border-bottom: 1px solid var(--text);
+      width: 200px;
+      margin-top: var(--space-xs);
+    }
+
+    .problem-section {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .section-header {
+      background: var(--field-green);
+      color: white;
+      padding: var(--space-md);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    .section-body {
+      border: 2px solid var(--field-green);
+      border-top: none;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      padding: var(--space-lg);
+    }
+
+    .problem {
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-lg);
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .problem:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .problem-prompt {
+      font-weight: 600;
+      margin-bottom: var(--space-md);
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    .problem-num {
+      background: var(--field-green);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    .draw-box {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      min-height: 100px;
+      background: #fafafa;
+      margin: var(--space-md) 0;
+    }
+
+    .thinking-prompt {
+      background: var(--thinking-light);
+      border: 2px dashed var(--thinking);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    .thinking-line {
+      border-bottom: 1px solid var(--border);
+      height: 28px;
+    }
+
+    .football-context {
+      background: linear-gradient(135deg, var(--field-green) 0%, #1B5E20 100%);
+      color: white;
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .fraction-problem {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: var(--space-md) 0;
+    }
+
+    .fraction-display {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+    }
+
+    .fraction-num {
+      border-bottom: 2px solid var(--text);
+      padding: 0 8px;
+    }
+
+    .fraction-den {
+      padding: 0 8px;
+    }
+
+    .answer-blank {
+      border-bottom: 2px solid var(--text);
+      min-width: 60px;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .bar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-lg);
+      margin: var(--space-md) 0;
+    }
+
+    .bar-drawing {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      background: #fafafa;
+      min-height: 80px;
+    }
+
+    .answer-key {
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-xl);
+      border-top: 3px solid var(--border);
+    }
+
+    .answer-key.hidden {
+      display: none;
+    }
+
+    .print-controls {
+      display: flex;
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
+      padding: var(--space-md);
+      background: var(--background);
+      border-radius: var(--radius-md);
+    }
+
+    @media print {
+      .print-controls, .nav {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">Home</a></li>
+        <li><a href="./index.html" class="nav-link">Back to Lesson</a></li>
+        <li><a href="../index.html" class="nav-link">All Lessons</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container" style="max-width: 800px; padding-top: var(--space-xl);">
+    <div class="print-controls">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print Worksheet</button>
+      <button class="btn btn-secondary" onclick="toggleAnswerKey()">Show/Hide Answer Key</button>
+      <a href="./index.html" class="btn btn-secondary">← Back to Lesson</a>
+    </div>
+
+    <div class="print-badge" style="background: #e3f2fd; border: 2px dashed #1976d2; padding: 8px 16px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
+      🖨️ <strong>PRINT WORKSHEET</strong> - This page is designed to be printed out and done with pencil and paper!
+    </div>
+    <header class="worksheet-header">
+      <div>
+        <h1 class="worksheet-title">Lesson 3: Adding Fractions</h1>
+        <p class="text-muted">Football Fractions Worksheet</p>
+      </div>
+      <div>
+        <div>Name: <span class="name-line"></span></div>
+        <div class="mt-sm">Date: <span class="name-line" style="width: 120px;"></span></div>
+      </div>
+    </header>
+
+    <!-- Part A: Visual Addition -->
+    <section class="problem-section">
+      <h2 class="section-header">Part A: Draw and Add</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">1</span>
+            <span>Draw a bar model to show 2/5 + 1/5. What is the answer?</span>
+          </div>
+          <div class="draw-box"></div>
+          <div class="fraction-problem">
+            <div class="fraction-display">
+              <span class="fraction-num">2</span>
+              <span class="fraction-den">5</span>
+            </div>
+            <span>+</span>
+            <div class="fraction-display">
+              <span class="fraction-num">1</span>
+              <span class="fraction-den">5</span>
+            </div>
+            <span>=</span>
+            <span class="answer-blank"></span>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">2</span>
+            <span>Draw circles (pizzas) to show 3/8 + 2/8. What is the answer?</span>
+          </div>
+          <div class="draw-box"></div>
+          <div class="fraction-problem">
+            <div class="fraction-display">
+              <span class="fraction-num">3</span>
+              <span class="fraction-den">8</span>
+            </div>
+            <span>+</span>
+            <div class="fraction-display">
+              <span class="fraction-num">2</span>
+              <span class="fraction-den">8</span>
+            </div>
+            <span>=</span>
+            <span class="answer-blank"></span>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">3</span>
+            <span>Draw a bar model to show 4/6 + 1/6. What is the answer?</span>
+          </div>
+          <div class="draw-box"></div>
+          <div class="fraction-problem">
+            <div class="fraction-display">
+              <span class="fraction-num">4</span>
+              <span class="fraction-den">6</span>
+            </div>
+            <span>+</span>
+            <div class="fraction-display">
+              <span class="fraction-num">1</span>
+              <span class="fraction-den">6</span>
+            </div>
+            <span>=</span>
+            <span class="answer-blank"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part B: Practice Adding -->
+    <section class="problem-section">
+      <h2 class="section-header">Part B: Add the Fractions</h2>
+      <div class="section-body">
+        <p><em>Remember: Add the numerators, keep the denominator the same!</em></p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-top: var(--space-lg);">
+          <div class="problem">
+            <div class="problem-prompt">
+              <span class="problem-num">4</span>
+            </div>
+            <div class="fraction-problem">
+              <div class="fraction-display">
+                <span class="fraction-num">1</span>
+                <span class="fraction-den">4</span>
+              </div>
+              <span>+</span>
+              <div class="fraction-display">
+                <span class="fraction-num">2</span>
+                <span class="fraction-den">4</span>
+              </div>
+              <span>=</span>
+              <span class="answer-blank"></span>
+            </div>
+          </div>
+
+          <div class="problem">
+            <div class="problem-prompt">
+              <span class="problem-num">5</span>
+            </div>
+            <div class="fraction-problem">
+              <div class="fraction-display">
+                <span class="fraction-num">3</span>
+                <span class="fraction-den">10</span>
+              </div>
+              <span>+</span>
+              <div class="fraction-display">
+                <span class="fraction-num">4</span>
+                <span class="fraction-den">10</span>
+              </div>
+              <span>=</span>
+              <span class="answer-blank"></span>
+            </div>
+          </div>
+
+          <div class="problem">
+            <div class="problem-prompt">
+              <span class="problem-num">6</span>
+            </div>
+            <div class="fraction-problem">
+              <div class="fraction-display">
+                <span class="fraction-num">2</span>
+                <span class="fraction-den">8</span>
+              </div>
+              <span>+</span>
+              <div class="fraction-display">
+                <span class="fraction-num">5</span>
+                <span class="fraction-den">8</span>
+              </div>
+              <span>=</span>
+              <span class="answer-blank"></span>
+            </div>
+          </div>
+
+          <div class="problem">
+            <div class="problem-prompt">
+              <span class="problem-num">7</span>
+            </div>
+            <div class="fraction-problem">
+              <div class="fraction-display">
+                <span class="fraction-num">1</span>
+                <span class="fraction-den">6</span>
+              </div>
+              <span>+</span>
+              <div class="fraction-display">
+                <span class="fraction-num">4</span>
+                <span class="fraction-den">6</span>
+              </div>
+              <span>=</span>
+              <span class="answer-blank"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part C: Football Problems -->
+    <section class="problem-section">
+      <h2 class="section-header">Part C: Football Field Challenge 🏈</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="football-context">
+            🏈 The field is divided into 10 equal sections (tenths). Each section is 10 yards.
+          </div>
+          <div class="problem-prompt">
+            <span class="problem-num">8</span>
+            <span>On the first play, the team gained 3/10 of the field. On the second play, they gained 2/10 more. How much of the field have they covered in total?</span>
+          </div>
+          <div class="fraction-problem">
+            <div class="fraction-display">
+              <span class="fraction-num">3</span>
+              <span class="fraction-den">10</span>
+            </div>
+            <span>+</span>
+            <div class="fraction-display">
+              <span class="fraction-num">2</span>
+              <span class="fraction-den">10</span>
+            </div>
+            <span>=</span>
+            <span class="answer-blank"></span>
+          </div>
+          <div class="thinking-prompt">
+            💭 How many yards is that? (Hint: Each tenth = 10 yards)
+            <p style="margin-top: var(--space-sm);">Answer: _______ yards</p>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="football-context">
+            🏈 A quarterback completed passes that gained 4/10 of the field, then 5/10 of the field.
+          </div>
+          <div class="problem-prompt">
+            <span class="problem-num">9</span>
+            <span>What fraction of the field did they gain in total?</span>
+          </div>
+          <div class="fraction-problem">
+            <div class="fraction-display">
+              <span class="fraction-num">4</span>
+              <span class="fraction-den">10</span>
+            </div>
+            <span>+</span>
+            <div class="fraction-display">
+              <span class="fraction-num">5</span>
+              <span class="fraction-den">10</span>
+            </div>
+            <span>=</span>
+            <span class="answer-blank"></span>
+          </div>
+          <div class="thinking-prompt">
+            💭 Is this more than one whole field? If so, write it as a mixed number: _______
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part D: Challenge Problems -->
+    <section class="problem-section">
+      <h2 class="section-header">Part D: Challenge - Results Greater Than 1</h2>
+      <div class="section-body">
+        <p><em>Some of these answers will be improper fractions (greater than 1). That's okay!</em></p>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">10</span>
+          </div>
+          <div class="fraction-problem">
+            <div class="fraction-display">
+              <span class="fraction-num">3</span>
+              <span class="fraction-den">4</span>
+            </div>
+            <span>+</span>
+            <div class="fraction-display">
+              <span class="fraction-num">2</span>
+              <span class="fraction-den">4</span>
+            </div>
+            <span>=</span>
+            <span class="answer-blank"></span>
+          </div>
+          <div class="thinking-prompt">
+            💭 Write your answer as a mixed number too: _______
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">11</span>
+          </div>
+          <div class="fraction-problem">
+            <div class="fraction-display">
+              <span class="fraction-num">5</span>
+              <span class="fraction-den">6</span>
+            </div>
+            <span>+</span>
+            <div class="fraction-display">
+              <span class="fraction-num">4</span>
+              <span class="fraction-den">6</span>
+            </div>
+            <span>=</span>
+            <span class="answer-blank"></span>
+          </div>
+          <div class="thinking-prompt">
+            💭 Write your answer as a mixed number too: _______
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part E: Explain Your Thinking -->
+    <section class="problem-section">
+      <h2 class="section-header">Part E: Explain Your Thinking</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">12</span>
+            <span>Justin Jefferson says: "When I add 1/4 + 2/4, I get 3/8 because 1+2=3 and 4+4=8." Is Justin correct? Why or why not?</span>
+          </div>
+          <div class="thinking-prompt" style="background: transparent; border: none; padding: 0;">
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Answer Key -->
+    <section class="answer-key hidden" id="answerKey">
+      <h3>📝 Answer Key</h3>
+      <div class="card">
+        <div class="card-body">
+          <p><strong>1.</strong> 2/5 + 1/5 = 3/5 (Drawing should show 3 out of 5 parts shaded)</p>
+          <p><strong>2.</strong> 3/8 + 2/8 = 5/8 (Drawing should show 5 out of 8 slices shaded)</p>
+          <p><strong>3.</strong> 4/6 + 1/6 = 5/6 (Drawing should show 5 out of 6 parts shaded)</p>
+          <p><strong>4.</strong> 1/4 + 2/4 = 3/4</p>
+          <p><strong>5.</strong> 3/10 + 4/10 = 7/10</p>
+          <p><strong>6.</strong> 2/8 + 5/8 = 7/8</p>
+          <p><strong>7.</strong> 1/6 + 4/6 = 5/6</p>
+          <p><strong>8.</strong> 3/10 + 2/10 = 5/10 of the field = 50 yards</p>
+          <p><strong>9.</strong> 4/10 + 5/10 = 9/10. Not more than one whole field.</p>
+          <p><strong>10.</strong> 3/4 + 2/4 = 5/4 = 1 1/4</p>
+          <p><strong>11.</strong> 5/6 + 4/6 = 9/6 = 1 3/6 (or 1 1/2 if simplified)</p>
+          <p><strong>12.</strong> No, Justin is not correct. When we add fractions with the same denominator, we add the numerators but keep the denominator the same. The pieces are still fourths (the size doesn't change), so we have 3 fourths, not 3 eighths. The correct answer is 3/4. We don't add denominators because we're counting pieces of the same size - they stay fourths!</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/app.js"></script>
+  <script>
+    function toggleAnswerKey() {
+      document.getElementById('answerKey').classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

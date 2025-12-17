@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lesson 4: Subtracting Fractions - Football Fractions</title>
+
+  <link rel="stylesheet" href="../../styles/main.css">
+  <link rel="stylesheet" href="../../styles/components.css">
+  <link rel="stylesheet" href="../../styles/football-theme.css">
+  <link rel="stylesheet" href="../../styles/print.css">
+
+  <style>
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--shadow);
+      margin-bottom: var(--space-xl);
+    }
+
+    .activity-header {
+      padding: var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .activity-header.concrete {
+      background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+      color: white;
+    }
+
+    .activity-header.pictorial {
+      background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+      color: white;
+    }
+
+    .activity-header.abstract {
+      background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+      color: white;
+    }
+
+    .activity-icon {
+      font-size: 2rem;
+    }
+
+    .activity-body {
+      padding: var(--space-xl);
+    }
+
+    .activity-steps {
+      counter-reset: step;
+    }
+
+    .activity-step {
+      display: flex;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-step:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .step-number {
+      counter-increment: step;
+      width: 40px;
+      height: 40px;
+      background: var(--field-green);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-number::before {
+      content: counter(step);
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .parent-script {
+      background: #E8F5E9;
+      border-left: 4px solid var(--correct);
+      padding: var(--space-md);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin: var(--space-md) 0;
+      font-style: italic;
+    }
+
+    .parent-script::before {
+      content: "💬 Say: ";
+      font-style: normal;
+      font-weight: 700;
+      color: var(--correct);
+    }
+
+    .key-question {
+      background: var(--thinking-light);
+      border: 2px dashed var(--thinking);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin: var(--space-md) 0;
+    }
+
+    .key-question::before {
+      content: "❓ Key Question: ";
+      font-weight: 700;
+      color: #E65100;
+    }
+
+    .visual-example {
+      background: var(--background);
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      text-align: center;
+      margin: var(--space-md) 0;
+    }
+
+    .football-callout {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      padding: var(--space-xl);
+      border-radius: var(--radius-lg);
+      margin: var(--space-xl) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .football-callout::after {
+      content: "🏈";
+      position: absolute;
+      right: var(--space-lg);
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 4rem;
+      opacity: 0.2;
+    }
+
+    .materials-box {
+      background: var(--info-light);
+      border: 2px solid var(--info);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .materials-box h4 {
+      color: var(--info);
+      margin-bottom: var(--space-md);
+    }
+
+    .objective-box {
+      background: var(--correct-light);
+      border: 2px solid var(--correct);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .objective-box h4 {
+      color: #1B5E20;
+      margin-bottom: var(--space-md);
+    }
+
+    .bar-model {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      align-items: center;
+      margin: var(--space-lg) 0;
+    }
+
+    .bar {
+      width: 300px;
+      height: 50px;
+      display: flex;
+      border: 2px solid var(--field-green);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .bar-piece {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      border-right: 1px solid var(--field-green);
+    }
+
+    .bar-piece:last-child {
+      border-right: none;
+    }
+
+    .bar-piece.shaded {
+      background: #64B5F6;
+      color: white;
+    }
+
+    .bar-piece.crossed {
+      background: var(--incorrect-light);
+      position: relative;
+    }
+
+    .bar-piece.crossed::after {
+      content: "✗";
+      position: absolute;
+      font-size: 2rem;
+      color: var(--incorrect);
+    }
+
+    .bar-piece.unshaded {
+      background: var(--correct-light);
+    }
+
+    .lesson-complete {
+      text-align: center;
+      padding: var(--space-2xl);
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">Home</a></li>
+        <li><a href="../../diagnostic/index.html" class="nav-link">Skills Check</a></li>
+        <li><a href="../index.html" class="nav-link active">Lessons</a></li>
+        <li><a href="../../practice/index.html" class="nav-link">Practice</a></li>
+        <li><a href="../../tools/number-line.html" class="nav-link">Number Line</a></li>
+        <li><a href="../../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb" style="color: rgba(255,255,255,0.8);">
+        <a href="../index.html" style="color: white;">Lessons</a>
+        <span>›</span>
+        <span>Lesson 4</span>
+      </div>
+      <h1>Lesson 4: Subtracting Fractions</h1>
+      <p>Taking away same-sized pieces</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Online Badge -->
+    <div class="online-badge" style="background: #e8f5e9; border: 2px solid #2E7D32; padding: 8px 16px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
+      💻 <strong>ONLINE LESSON</strong> - Do this on the computer with a parent or guardian!
+    </div>
+
+    <div class="lesson-nav">
+      <a href="../03-adding-fractions/index.html">← Lesson 3: Adding Fractions</a>
+      <a href="../05-simplifying/index.html">Lesson 5: Simplifying Fractions →</a>
+    </div>
+
+    <!-- Learning Objective -->
+    <div class="objective-box">
+      <h4>🎯 What You'll Learn</h4>
+      <p>Subtracting fractions is like figuring out yards to go. Here's the deal:</p>
+      <ul>
+        <li>When <strong>bottom numbers match</strong>, it works just like adding - same-sized pieces!</li>
+        <li>Subtract the <strong>top numbers</strong> (taking pieces away) but the <strong>bottom stays the same</strong> (piece size doesn't change!)</li>
+        <li>It answers: "How many pieces are LEFT?"</li>
+      </ul>
+    </div>
+
+    <!-- Concept Explanation -->
+    <div class="concept-box" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 4px solid var(--field-green); border-radius: var(--radius-md); padding: var(--space-lg); margin: var(--space-lg) 0;">
+      <h4 style="color: var(--field-green); margin-bottom: var(--space-md);">🧠 The Big Idea: Subtracting Fractions = Taking Away Pieces!</h4>
+
+      <div style="margin-bottom: var(--space-md);">
+        <strong>The Simple Explanation:</strong>
+        <p style="margin-top: var(--space-sm);">Subtracting fractions is the opposite of adding - instead of counting MORE pieces, you're taking some AWAY. But just like with adding, the size of your pieces doesn't change!</p>
+        <p style="margin-top: var(--space-sm);">If you have 5 eighths of a pizza and you eat 2 eighths, you have 5/8 - 2/8 = 3/8 left. The pizza is still cut into eighths - you just have fewer of those pieces now. Subtract the top numbers (5 - 2 = 3), keep the bottom the same (still eighths).</p>
+      </div>
+
+      <div style="background: white; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>🏈 The Football Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">The Ravens need to go 7/10 of the field to score (70 yards). Lamar Jackson throws a pass for 3/10 of the field (30 yards). How much farther do they need to go?</p>
+        <p style="margin-top: var(--space-sm);">7/10 - 3/10 = 4/10 of the field left (40 yards to go). The field is still divided into 10 sections - they just have fewer sections left to cover!</p>
+      </div>
+
+      <div style="background: #fff3e0; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>⛏️ The Minecraft Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">You have 6/8 of a stack of iron ingots (48 ingots out of 64). You use 2/8 of a stack (16 ingots) to make armor. How much do you have left?</p>
+        <p style="margin-top: var(--space-sm);">6/8 - 2/8 = 4/8 of a stack left (32 ingots). A stack is still 64 - you just have fewer of those 64 slots filled now!</p>
+      </div>
+
+      <div style="background: #e3f2fd; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>🥋 The Jiu-Jitsu Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">Your class is 4/4 (4 quarters = the whole class). If warm-ups took 1/4 of the class, how much is left for technique and rolling? 4/4 - 1/4 = 3/4 of the class remaining! The class time is still divided into quarters - you just used up one of them.</p>
+      </div>
+    </div>
+
+    <!-- Materials -->
+    <div class="materials-box">
+      <h4>📦 Materials Needed</h4>
+      <ul class="materials-list" style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-sm);">
+        <li>🔵 Fraction circles or bars</li>
+        <li>📄 Paper and colored pencils</li>
+        <li>✂️ Scissors (to physically remove pieces)</li>
+        <li>✏️ Pencil for drawing bar models</li>
+      </ul>
+    </div>
+
+    <!-- CPA Stages -->
+    <div class="cpa-stages">
+      <div class="cpa-stage active" id="concreteStage">
+        <div class="cpa-stage-icon">🧱</div>
+        <div class="cpa-stage-label">Concrete</div>
+      </div>
+      <div class="cpa-stage" id="pictorialStage">
+        <div class="cpa-stage-icon">✏️</div>
+        <div class="cpa-stage-label">Pictorial</div>
+      </div>
+      <div class="cpa-stage" id="abstractStage">
+        <div class="cpa-stage-icon">🔢</div>
+        <div class="cpa-stage-label">Abstract</div>
+      </div>
+    </div>
+
+    <!-- CONCRETE Activities -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header concrete">
+          <span class="activity-icon">🧱</span>
+          <div>
+            <h3 style="margin:0">Concrete Activities</h3>
+            <p style="margin:0; opacity:0.9">Hands-on exploration</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <div class="activity-steps">
+            <!-- Activity 1: Taking Away Pieces -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Taking Away Pizza Slices</h4>
+                <p>Use fraction circles or draw a paper plate "pizza" cut into 8 equal slices.</p>
+
+                <div class="parent-script">
+                  You have a pizza cut into 8 slices. You start with 5 slices (5/8 of the pizza). Your brother eats 2 slices (2/8). How much pizza is left?
+                </div>
+
+                <p>Let your child physically remove 2 pieces from the 5 pieces.</p>
+
+                <div class="key-question">
+                  How many slices are left? (3 slices) Are they still eighths? (Yes!) So what's the answer? (3/8)
+                </div>
+
+                <div class="alert alert-success">
+                  <strong>Key Insight:</strong> "We started with 5 eighths and took away 2 eighths. We have 3 eighths left. The pieces are still eighths - the size doesn't change!"
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity 2: Building the Concept -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>The "How Many Left?" Game</h4>
+                <p>Set out fraction pieces in sixths. Give your child 5 sixths.</p>
+
+                <div class="parent-script">
+                  You have 5 sixths. Take away 2 sixths. How many sixths are left?
+                </div>
+
+                <p>Let them physically remove the pieces and count what's left: 3 sixths.</p>
+
+                <div class="key-question">
+                  Did the pieces change size? (No - they're still sixths!) So what stays the same when we subtract fractions? (The denominator!)
+                </div>
+
+                <p>Now try with other denominators:</p>
+                <ul>
+                  <li>7/10 - 3/10 (using tenths)</li>
+                  <li>5/8 - 1/8 (using eighths)</li>
+                  <li>4/5 - 2/5 (using fifths)</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Activity 3: Connection to Addition -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Subtraction is the Opposite of Addition</h4>
+                <p>This helps build understanding of the relationship!</p>
+
+                <div class="parent-script">
+                  Let's start with 3 fourths. If I ADD 2 fourths, I get 5 fourths. Now let's go backwards: If I have 5 fourths and SUBTRACT 2 fourths, what do I get back?
+                </div>
+
+                <p>Use physical pieces to show: 3/4 + 2/4 = 5/4, then 5/4 - 2/4 = 3/4</p>
+
+                <div class="key-question">
+                  How is subtraction like "undoing" addition?
+                </div>
+
+                <div class="visual-example">
+                  <p><strong>Addition and Subtraction are Related:</strong></p>
+                  <div class="bar">
+                    <div class="bar-piece shaded">1/4</div>
+                    <div class="bar-piece shaded">1/4</div>
+                    <div class="bar-piece shaded">1/4</div>
+                    <div class="bar-piece unshaded">1/4</div>
+                  </div>
+                  <p class="mt-sm">3/4 (start with this)</p>
+                  <p>↓ add 2/4 ↓</p>
+                  <div class="bar">
+                    <div class="bar-piece shaded">1/4</div>
+                    <div class="bar-piece shaded">1/4</div>
+                    <div class="bar-piece shaded">1/4</div>
+                    <div class="bar-piece shaded">1/4</div>
+                  </div>
+                  <div class="bar">
+                    <div class="bar-piece shaded">1/4</div>
+                    <div class="bar-piece unshaded"></div>
+                    <div class="bar-piece unshaded"></div>
+                    <div class="bar-piece unshaded"></div>
+                  </div>
+                  <p class="mt-sm">5/4 (now we have this)</p>
+                  <p>↓ subtract 2/4 ↓</p>
+                  <div class="bar">
+                    <div class="bar-piece shaded">1/4</div>
+                    <div class="bar-piece shaded">1/4</div>
+                    <div class="bar-piece shaded">1/4</div>
+                    <div class="bar-piece unshaded">1/4</div>
+                  </div>
+                  <p class="mt-sm">3/4 (back where we started!)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Football Connection -->
+    <div class="football-callout">
+      <h3>🏈 Football Connection: The Ravens' Drive to Victory</h3>
+      <p>Lamar Jackson and the Ravens need to cover 7/10 of the field to reach the end zone. They've already covered 3/10 of the field.</p>
+      <ul>
+        <li><strong>Goal:</strong> Ravens need to cover 7/10 of the field</li>
+        <li><strong>Lamar's progress:</strong> He's led the team 3/10 of the field</li>
+        <li><strong>Still need:</strong> 7/10 - 3/10 = 4/10 of the field to score!</li>
+      </ul>
+
+      <div class="parent-script" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">
+        The field sections are still the same size (each is 1/10 of the field). We're just figuring out how many more sections Lamar needs to lead the team: 7 sections needed - 3 sections done = 4 sections left!
+      </div>
+
+      <div style="margin-top: var(--space-md); padding: var(--space-md); background: rgba(255,255,255,0.15); border-radius: var(--radius-md);">
+        <strong>Try this:</strong> The Eagles need to go 8/10 of the field. Jalen Hurts scrambles for 5/10 of the field. How much farther do they need to go? (Answer: 8/10 - 5/10 = 3/10)
+      </div>
+
+      <p style="margin-top: var(--space-md);"><strong>Key insight:</strong> Subtraction helps us find "how much more" or "how many left"!</p>
+    </div>
+
+    <!-- PICTORIAL Activities -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header pictorial">
+          <span class="activity-icon">✏️</span>
+          <div>
+            <h3 style="margin:0">Pictorial Activities</h3>
+            <p style="margin:0; opacity:0.9">Drawing representations</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <div class="activity-steps">
+            <!-- Drawing Bar Models -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Bar Models for Subtraction</h4>
+                <p>Practice drawing bar models to show subtraction:</p>
+
+                <div class="visual-example">
+                  <p><strong>Example: 5/6 - 2/6</strong></p>
+                  <div style="display: flex; flex-direction: column; gap: var(--space-sm); align-items: center;">
+                    <div class="bar">
+                      <div class="bar-piece shaded"></div>
+                      <div class="bar-piece shaded"></div>
+                      <div class="bar-piece shaded"></div>
+                      <div class="bar-piece shaded"></div>
+                      <div class="bar-piece shaded"></div>
+                      <div class="bar-piece unshaded"></div>
+                    </div>
+                    <p style="margin: 0;">Start with 5/6 shaded</p>
+                    <p style="margin: 0;">↓</p>
+                    <div class="bar">
+                      <div class="bar-piece shaded"></div>
+                      <div class="bar-piece shaded"></div>
+                      <div class="bar-piece shaded"></div>
+                      <div class="bar-piece crossed"></div>
+                      <div class="bar-piece crossed"></div>
+                      <div class="bar-piece unshaded"></div>
+                    </div>
+                    <p style="margin: 0;">Cross out 2 sixths</p>
+                    <p style="margin: 0;"><strong>Result: 3/6 left</strong></p>
+                  </div>
+                </div>
+
+                <p>Now you draw bar models for:</p>
+                <ol>
+                  <li>4/5 - 1/5</li>
+                  <li>7/8 - 3/8</li>
+                  <li>6/10 - 2/10</li>
+                </ol>
+
+                <div class="parent-script">
+                  For each one, ask: "How many pieces are left? What size are the pieces?"
+                </div>
+              </div>
+            </div>
+
+            <!-- Number Line Subtraction -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Number Line: Showing Subtraction as Backward Jumps</h4>
+
+                <div class="visual-example">
+                  <p><strong>5/8 - 2/8 on a number line:</strong></p>
+                  <p>Start at 5/8, then jump 2 eighths backward → land on 3/8</p>
+                </div>
+
+                <p>Draw a number line from 0 to 1, marked in eighths. Show these subtractions as backward jumps:</p>
+                <ul>
+                  <li>5/8 - 2/8</li>
+                  <li>6/8 - 3/8</li>
+                  <li>7/8 - 4/8</li>
+                </ul>
+
+                <div class="key-question">
+                  How is subtraction on a number line different from addition? (We jump backward instead of forward!)
+                </div>
+              </div>
+            </div>
+
+            <!-- Circle Models -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Pizza Subtraction</h4>
+                <p>Draw circles (pizzas) to solve these:</p>
+
+                <ol>
+                  <li>Draw 6/8 of a pizza, then cross out 2/8. How much is left?</li>
+                  <li>Draw 5/6 of a pizza, then cross out 3/6. How much is left?</li>
+                  <li>Draw 9/10, then subtract 5/10. How much is left?</li>
+                </ol>
+
+                <div class="parent-script">
+                  For each problem, ask: "Did you cross out the right amount? How many pieces are left?"
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABSTRACT Section -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header abstract">
+          <span class="activity-icon">🔢</span>
+          <div>
+            <h3 style="margin:0">Abstract: The Rule</h3>
+            <p style="margin:0; opacity:0.9">Connecting to symbols and procedures</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <h4>The Subtraction Rule (Same Denominators)</h4>
+
+          <div class="visual-example">
+            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-xl); flex-wrap: wrap; font-size: 1.5rem; font-weight: 700;">
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <span style="border-bottom: 3px solid var(--text); padding: 0 var(--space-sm);">5</span>
+                <span style="padding: 0 var(--space-sm);">6</span>
+              </div>
+              <span>-</span>
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <span style="border-bottom: 3px solid var(--text); padding: 0 var(--space-sm);">2</span>
+                <span style="padding: 0 var(--space-sm);">6</span>
+              </div>
+              <span>=</span>
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <span style="border-bottom: 3px solid var(--text); padding: 0 var(--space-sm);">3</span>
+                <span style="padding: 0 var(--space-sm);">6</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: var(--thinking-light); padding: var(--space-lg); border-radius: var(--radius-md); margin: var(--space-lg) 0;">
+            <h4>The thinking process:</h4>
+            <ol>
+              <li><strong>Check the denominators:</strong> Are they the same? (Both are 6 - good!)</li>
+              <li><strong>Think about what that means:</strong> We have sixths and we're taking away sixths</li>
+              <li><strong>Subtract the numerators:</strong> 5 sixths - 2 sixths = 3 sixths</li>
+              <li><strong>Keep the denominator:</strong> They're still sixths! So denominator stays 6</li>
+            </ol>
+          </div>
+
+          <div class="alert alert-info mt-lg">
+            <div class="alert-title">Notice the Pattern!</div>
+            <p>Subtraction works just like addition: <strong>subtract the numerators, keep the denominator the same.</strong> We're still counting same-sized pieces - we're just taking some away instead of putting more together!</p>
+          </div>
+
+          <h4 class="mt-xl">Practice Problems</h4>
+          <p>Solve these, but for EACH one, explain your thinking out loud:</p>
+          <ol>
+            <li>7/8 - 3/8 = ?</li>
+            <li>5/6 - 1/6 = ?</li>
+            <li>8/10 - 5/10 = ?</li>
+            <li>3/4 - 3/4 = ? (This equals zero - you took away everything!)</li>
+          </ol>
+
+          <div class="parent-script">
+            For each problem, have your child explain: "I have ___ [size pieces], and I take away ___ [same size pieces], which leaves me with ___ [size pieces]."
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Self-Explanation Prompts -->
+    <section class="activity-section">
+      <div class="card">
+        <div class="card-header">
+          <h3 style="margin:0">💭 Understanding Check</h3>
+        </div>
+        <div class="card-body">
+          <p>Before finishing, make sure you can answer these:</p>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">How is subtracting fractions similar to adding fractions?</div>
+            <p>(In both cases, we work with the numerators and keep the denominator the same, because we're counting same-sized pieces!)</p>
+          </div>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">What real-life situation uses subtraction of fractions?</div>
+            <p>(Finding how much is left, finding how much more you need, comparing two amounts, etc.)</p>
+          </div>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">Why does the denominator stay the same?</div>
+            <p>(Because the SIZE of the pieces doesn't change when we take some away. If we start with sixths and remove sixths, what's left is still sixths!)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lesson Complete -->
+    <div class="lesson-complete">
+      <h2>🎉 Outstanding Work!</h2>
+      <p>You now understand how to subtract fractions with the same denominator. The pattern is the same as addition!</p>
+      <div class="flex-center gap-md mt-lg">
+        <a href="worksheet.html" class="btn btn-primary btn-large">Complete Worksheet</a>
+        <button class="btn btn-success btn-large" onclick="markLessonComplete()">Mark Lesson Complete</button>
+      </div>
+      <p class="text-muted mt-lg">Next up: Lesson 5 - Simplifying Fractions</p>
+    </div>
+  </main>
+
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/app.js"></script>
+  <script>
+    Storage.startLesson(4);
+
+    // Update CPA stages based on scroll or interaction
+    function updateCPAStages(stage) {
+      document.querySelectorAll('.cpa-stage').forEach(el => el.classList.remove('active'));
+      document.getElementById(stage + 'Stage').classList.add('active');
+    }
+
+    // Set up Intersection Observer to track which section is visible
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = {
+        concrete: document.querySelector('.activity-header.concrete')?.closest('.activity-card'),
+        pictorial: document.querySelector('.activity-header.pictorial')?.closest('.activity-card'),
+        abstract: document.querySelector('.activity-header.abstract')?.closest('.activity-card')
+      };
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -60% 0px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            for (const [stage, element] of Object.entries(sections)) {
+              if (element === entry.target) {
+                updateCPAStages(stage);
+                break;
+              }
+            }
+          }
+        });
+      }, observerOptions);
+
+      Object.values(sections).forEach(section => {
+        if (section) observer.observe(section);
+      });
+    });
+
+    function markLessonComplete() {
+      Storage.completeLesson(4);
+      App.celebrate('Lesson 4 Complete!', 'You understand subtracting fractions!', '🏆');
+      document.querySelector('.btn-success').textContent = '✓ Completed';
+      document.querySelector('.btn-success').disabled = true;
+    }
+
+    const progress = Storage.getLessonProgress();
+    if (progress[4]?.completed) {
+      document.querySelector('.btn-success').textContent = '✓ Completed';
+      document.querySelector('.btn-success').disabled = true;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lesson 6 Worksheet: Equivalent Fractions - Football Fractions</title>
+
+  <link rel="stylesheet" href="../../styles/main.css">
+  <link rel="stylesheet" href="../../styles/components.css">
+  <link rel="stylesheet" href="../../styles/print.css">
+
+  <style>
+    .worksheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 3px solid var(--field-green);
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-xl);
+    }
+
+    .worksheet-title {
+      font-size: 1.5rem;
+      color: var(--field-green);
+    }
+
+    .name-line {
+      display: block;
+      border-bottom: 1px solid var(--text);
+      width: 200px;
+      margin-top: var(--space-xs);
+    }
+
+    .problem-section {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .section-header {
+      background: var(--field-green);
+      color: white;
+      padding: var(--space-md);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    .section-body {
+      border: 2px solid var(--field-green);
+      border-top: none;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      padding: var(--space-lg);
+    }
+
+    .problem {
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-lg);
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .problem:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .problem-prompt {
+      font-weight: 600;
+      margin-bottom: var(--space-md);
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    .problem-num {
+      background: var(--field-green);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    .draw-box {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      min-height: 100px;
+      background: #fafafa;
+      margin: var(--space-md) 0;
+    }
+
+    .thinking-prompt {
+      background: var(--thinking-light);
+      border: 2px dashed var(--thinking);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    .thinking-line {
+      border-bottom: 1px solid var(--border);
+      height: 28px;
+    }
+
+    .football-context {
+      background: linear-gradient(135deg, var(--field-green) 0%, #1B5E20 100%);
+      color: white;
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .fraction-problem {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: var(--space-md) 0;
+    }
+
+    .fraction-display {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+    }
+
+    .fraction-num {
+      border-bottom: 2px solid var(--text);
+      padding: 0 8px;
+    }
+
+    .fraction-den {
+      padding: 0 8px;
+    }
+
+    .answer-blank {
+      border-bottom: 2px solid var(--text);
+      min-width: 60px;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .answer-key {
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-xl);
+      border-top: 3px solid var(--border);
+    }
+
+    .answer-key.hidden {
+      display: none;
+    }
+
+    .print-controls {
+      display: flex;
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
+      padding: var(--space-md);
+      background: var(--background);
+      border-radius: var(--radius-md);
+    }
+
+    @media print {
+      .print-controls, .nav {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">Home</a></li>
+        <li><a href="./index.html" class="nav-link">Back to Lesson</a></li>
+        <li><a href="../index.html" class="nav-link">All Lessons</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container" style="max-width: 800px; padding-top: var(--space-xl);">
+    <div class="print-controls">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print Worksheet</button>
+      <button class="btn btn-secondary" onclick="toggleAnswerKey()">Show/Hide Answer Key</button>
+      <a href="./index.html" class="btn btn-secondary">← Back to Lesson</a>
+    </div>
+
+    <div class="print-badge" style="background: #e3f2fd; border: 2px dashed #1976d2; padding: 8px 16px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
+      🖨️ <strong>PRINT WORKSHEET</strong> - This page is designed to be printed out and done with pencil and paper!
+    </div>
+    <header class="worksheet-header">
+      <div>
+        <h1 class="worksheet-title">Lesson 6: Equivalent Fractions</h1>
+        <p class="text-muted">Football Fractions Worksheet</p>
+      </div>
+      <div>
+        <div>Name: <span class="name-line"></span></div>
+        <div class="mt-sm">Date: <span class="name-line" style="width: 120px;"></span></div>
+      </div>
+    </header>
+
+    <!-- Part A: Visual Equivalence -->
+    <section class="problem-section">
+      <h2 class="section-header">Part A: Draw to Show Equivalence</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">1</span>
+            <span>Draw bar models to show that 1/2 = 2/4 = 4/8 (all the same amount)</span>
+          </div>
+          <div class="draw-box" style="min-height: 150px;"></div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">2</span>
+            <span>Draw bar models to show that 1/3 = 2/6</span>
+          </div>
+          <div class="draw-box" style="min-height: 120px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part B: Find Equivalent Fractions -->
+    <section class="problem-section">
+      <h2 class="section-header">Part B: Create Equivalent Fractions</h2>
+      <div class="section-body">
+        <p><em>Multiply both numerator and denominator by the same number!</em></p>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">3</span>
+            <span>Find 3 equivalent fractions for 1/2:</span>
+          </div>
+          <p>1/2 = <span class="answer-blank"></span> = <span class="answer-blank"></span> = <span class="answer-blank"></span></p>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">4</span>
+            <span>Find an equivalent fraction for 3/4 with denominator 8:</span>
+          </div>
+          <div class="fraction-problem">
+            <div class="fraction-display">
+              <span class="fraction-num">3</span>
+              <span class="fraction-den">4</span>
+            </div>
+            <span>×</span>
+            <div class="fraction-display">
+              <span class="fraction-num answer-blank" style="min-width: 40px;"></span>
+              <span class="fraction-den answer-blank" style="min-width: 40px;"></span>
+            </div>
+            <span>=</span>
+            <div class="fraction-display">
+              <span class="fraction-num answer-blank" style="min-width: 40px;"></span>
+              <span class="fraction-den">8</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">5</span>
+            <span>Find an equivalent fraction for 2/5 with denominator 10:</span>
+          </div>
+          <div class="fraction-problem">
+            <div class="fraction-display">
+              <span class="fraction-num">2</span>
+              <span class="fraction-den">5</span>
+            </div>
+            <span>=</span>
+            <div class="fraction-display">
+              <span class="fraction-num answer-blank" style="min-width: 40px;"></span>
+              <span class="fraction-den">10</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">6</span>
+            <span>Find an equivalent fraction for 1/4 with denominator 12:</span>
+          </div>
+          <div class="fraction-problem">
+            <div class="fraction-display">
+              <span class="fraction-num">1</span>
+              <span class="fraction-den">4</span>
+            </div>
+            <span>=</span>
+            <div class="fraction-display">
+              <span class="fraction-num answer-blank" style="min-width: 40px;"></span>
+              <span class="fraction-den">12</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part C: Are They Equivalent? -->
+    <section class="problem-section">
+      <h2 class="section-header">Part C: Are These Equivalent?</h2>
+      <div class="section-body">
+        <p><em>Circle YES if the fractions are equivalent, or NO if they're not.</em></p>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">7</span>
+            <span>2/3 and 4/6</span>
+          </div>
+          <p style="display: flex; gap: var(--space-lg);">
+            <label style="display: flex; align-items: center; gap: var(--space-sm);">
+              <span style="width: 20px; height: 20px; border: 2px solid var(--text); border-radius: 50%;"></span> YES
+            </label>
+            <label style="display: flex; align-items: center; gap: var(--space-sm);">
+              <span style="width: 20px; height: 20px; border: 2px solid var(--text); border-radius: 50%;"></span> NO
+            </label>
+          </p>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">8</span>
+            <span>3/4 and 6/10</span>
+          </div>
+          <p style="display: flex; gap: var(--space-lg);">
+            <label style="display: flex; align-items: center; gap: var(--space-sm);">
+              <span style="width: 20px; height: 20px; border: 2px solid var(--text); border-radius: 50%;"></span> YES
+            </label>
+            <label style="display: flex; align-items: center; gap: var(--space-sm);">
+              <span style="width: 20px; height: 20px; border: 2px solid var(--text); border-radius: 50%;"></span> NO
+            </label>
+          </p>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">9</span>
+            <span>5/10 and 1/2</span>
+          </div>
+          <p style="display: flex; gap: var(--space-lg);">
+            <label style="display: flex; align-items: center; gap: var(--space-sm);">
+              <span style="width: 20px; height: 20px; border: 2px solid var(--text); border-radius: 50%;"></span> YES
+            </label>
+            <label style="display: flex; align-items: center; gap: var(--space-sm);">
+              <span style="width: 20px; height: 20px; border: 2px solid var(--text); border-radius: 50%;"></span> NO
+            </label>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part D: Football Problems -->
+    <section class="problem-section">
+      <h2 class="section-header">Part D: Football Field Challenge 🏈</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="football-context">
+            🏈 A team is at the 50-yard line, which is 5/10 of the field.
+          </div>
+          <div class="problem-prompt">
+            <span class="problem-num">10</span>
+            <span>The announcer says they're at "midfield" (1/2 of the field). Show that 5/10 and 1/2 are equivalent.</span>
+          </div>
+          <div class="fraction-problem">
+            <div class="fraction-display">
+              <span class="fraction-num">5</span>
+              <span class="fraction-den">10</span>
+            </div>
+            <span>=</span>
+            <span class="answer-blank"></span>
+          </div>
+          <div class="thinking-prompt">
+            💭 Explain how you know they're equivalent:
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="football-context">
+            🏈 A quarterback completed 2 out of 4 passes in the first quarter.
+          </div>
+          <div class="problem-prompt">
+            <span class="problem-num">11</span>
+            <span>This is 2/4. If he keeps the same completion rate and throws 12 passes total, how many will he complete? (Find an equivalent fraction with denominator 12.)</span>
+          </div>
+          <div class="fraction-problem">
+            <div class="fraction-display">
+              <span class="fraction-num">2</span>
+              <span class="fraction-den">4</span>
+            </div>
+            <span>=</span>
+            <div class="fraction-display">
+              <span class="fraction-num answer-blank" style="min-width: 40px;"></span>
+              <span class="fraction-den">12</span>
+            </div>
+          </div>
+          <p style="margin-top: var(--space-md);">He will complete <span class="answer-blank"></span> out of 12 passes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part E: Explain Your Thinking -->
+    <section class="problem-section">
+      <h2 class="section-header">Part E: Explain Your Thinking</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">12</span>
+            <span>Explain in your own words: What does it mean for two fractions to be equivalent? Why is this concept important?</span>
+          </div>
+          <div class="thinking-prompt" style="background: transparent; border: none; padding: 0;">
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Answer Key -->
+    <section class="answer-key hidden" id="answerKey">
+      <h3>📝 Answer Key</h3>
+      <div class="card">
+        <div class="card-body">
+          <p><strong>1.</strong> Drawings should show same amount shaded for 1/2, 2/4, and 4/8</p>
+          <p><strong>2.</strong> Drawings should show same amount shaded for 1/3 and 2/6</p>
+          <p><strong>3.</strong> 1/2 = 2/4 = 3/6 = 4/8 (or any other correct equivalents)</p>
+          <p><strong>4.</strong> 3/4 × 2/2 = 6/8</p>
+          <p><strong>5.</strong> 2/5 = 4/10 (multiply by 2)</p>
+          <p><strong>6.</strong> 1/4 = 3/12 (multiply by 3)</p>
+          <p><strong>7.</strong> YES (2/3 = 4/6)</p>
+          <p><strong>8.</strong> NO (3/4 ≠ 6/10)</p>
+          <p><strong>9.</strong> YES (5/10 = 1/2)</p>
+          <p><strong>10.</strong> 5/10 = 1/2 (divide both by 5, or show they represent the same location)</p>
+          <p><strong>11.</strong> 2/4 = 6/12. He will complete 6 out of 12 passes.</p>
+          <p><strong>12.</strong> Two fractions are equivalent when they represent the same amount, even though they have different numbers. For example, 1/2 and 2/4 both represent half of something. This is important because it lets us describe the same amount in different ways, which is necessary for comparing fractions and adding fractions with different denominators. It also helps us understand that fractions are flexible - there are many ways to name the same amount!</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/app.js"></script>
+  <script>
+    function toggleAnswerKey() {
+      document.getElementById('answerKey').classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

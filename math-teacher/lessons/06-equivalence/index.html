@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lesson 6: Equivalent Fractions - Football Fractions</title>
+
+  <link rel="stylesheet" href="../../styles/main.css">
+  <link rel="stylesheet" href="../../styles/components.css">
+  <link rel="stylesheet" href="../../styles/football-theme.css">
+  <link rel="stylesheet" href="../../styles/print.css">
+
+  <style>
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--shadow);
+      margin-bottom: var(--space-xl);
+    }
+
+    .activity-header {
+      padding: var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .activity-header.concrete {
+      background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+      color: white;
+    }
+
+    .activity-header.pictorial {
+      background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+      color: white;
+    }
+
+    .activity-header.abstract {
+      background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+      color: white;
+    }
+
+    .activity-icon {
+      font-size: 2rem;
+    }
+
+    .activity-body {
+      padding: var(--space-xl);
+    }
+
+    .activity-steps {
+      counter-reset: step;
+    }
+
+    .activity-step {
+      display: flex;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-step:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .step-number {
+      counter-increment: step;
+      width: 40px;
+      height: 40px;
+      background: var(--field-green);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-number::before {
+      content: counter(step);
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .parent-script {
+      background: #E8F5E9;
+      border-left: 4px solid var(--correct);
+      padding: var(--space-md);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin: var(--space-md) 0;
+      font-style: italic;
+    }
+
+    .parent-script::before {
+      content: "💬 Say: ";
+      font-style: normal;
+      font-weight: 700;
+      color: var(--correct);
+    }
+
+    .key-question {
+      background: var(--thinking-light);
+      border: 2px dashed var(--thinking);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin: var(--space-md) 0;
+    }
+
+    .key-question::before {
+      content: "❓ Key Question: ";
+      font-weight: 700;
+      color: #E65100;
+    }
+
+    .visual-example {
+      background: var(--background);
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      text-align: center;
+      margin: var(--space-md) 0;
+    }
+
+    .football-callout {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      padding: var(--space-xl);
+      border-radius: var(--radius-lg);
+      margin: var(--space-xl) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .football-callout::after {
+      content: "🏈";
+      position: absolute;
+      right: var(--space-lg);
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 4rem;
+      opacity: 0.2;
+    }
+
+    .materials-box {
+      background: var(--info-light);
+      border: 2px solid var(--info);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .materials-box h4 {
+      color: var(--info);
+      margin-bottom: var(--space-md);
+    }
+
+    .objective-box {
+      background: var(--correct-light);
+      border: 2px solid var(--correct);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .objective-box h4 {
+      color: #1B5E20;
+      margin-bottom: var(--space-md);
+    }
+
+    .comparison-box {
+      display: flex;
+      gap: var(--space-xl);
+      justify-content: center;
+      align-items: center;
+      margin: var(--space-lg) 0;
+      flex-wrap: wrap;
+    }
+
+    .fraction-visual {
+      text-align: center;
+    }
+
+    .bar {
+      width: 200px;
+      height: 50px;
+      display: flex;
+      border: 2px solid var(--field-green);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .bar-piece {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.75rem;
+      border-right: 1px solid var(--field-green);
+    }
+
+    .bar-piece:last-child {
+      border-right: none;
+    }
+
+    .bar-piece.shaded {
+      background: #64B5F6;
+      color: white;
+    }
+
+    .bar-piece.unshaded {
+      background: var(--correct-light);
+    }
+
+    .lesson-complete {
+      text-align: center;
+      padding: var(--space-2xl);
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">Home</a></li>
+        <li><a href="../../diagnostic/index.html" class="nav-link">Skills Check</a></li>
+        <li><a href="../index.html" class="nav-link active">Lessons</a></li>
+        <li><a href="../../practice/index.html" class="nav-link">Practice</a></li>
+        <li><a href="../../tools/number-line.html" class="nav-link">Number Line</a></li>
+        <li><a href="../../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb" style="color: rgba(255,255,255,0.8);">
+        <a href="../index.html" style="color: white;">Lessons</a>
+        <span>›</span>
+        <span>Lesson 6</span>
+      </div>
+      <h1>Lesson 6: Equivalent Fractions</h1>
+      <p>Creating fractions that represent the same amount</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Online Badge -->
+    <div class="online-badge" style="background: #e8f5e9; border: 2px solid #2E7D32; padding: 8px 16px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
+      💻 <strong>ONLINE LESSON</strong> - Do this on the computer with a parent or guardian!
+    </div>
+
+    <div class="lesson-nav">
+      <a href="../05-simplifying/index.html">← Lesson 5: Simplifying Fractions</a>
+      <span class="text-muted">Last lesson in this series!</span>
+    </div>
+
+    <!-- Learning Objective -->
+    <div class="objective-box">
+      <h4>🎯 What You'll Learn</h4>
+      <p>Some fractions are secretly <strong>twins</strong> - same amount, different names! Here's what you'll figure out:</p>
+      <ul>
+        <li><strong>Equivalent fractions</strong> = different names for the SAME amount</li>
+        <li>How to make equivalent fractions (multiply top AND bottom by the same number)</li>
+        <li>A cool math trick: multiplying by 2/2 or 3/3 is like multiplying by 1!</li>
+        <li>Why this matters for adding fractions later on</li>
+      </ul>
+    </div>
+
+    <!-- Concept Explanation -->
+    <div class="concept-box" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 4px solid var(--field-green); border-radius: var(--radius-md); padding: var(--space-lg); margin: var(--space-lg) 0;">
+      <h4 style="color: var(--field-green); margin-bottom: var(--space-md);">🧠 The Big Idea: Fraction Twins - Same Amount, Different Names!</h4>
+
+      <div style="margin-bottom: var(--space-md);">
+        <strong>The Simple Explanation:</strong>
+        <p style="margin-top: var(--space-sm);">Equivalent fractions are like twins - they look different but represent the EXACT same amount. 1/2, 2/4, 3/6, 4/8, 5/10 - these are ALL the same! Half a pizza is half a pizza, no matter how many slices you cut it into.</p>
+        <p style="margin-top: var(--space-sm);">Here's the trick: if you multiply (or divide) BOTH the top and bottom by the same number, you get an equivalent fraction. Multiply 1/2 by 2/2 and you get 2/4. Why does this work? Because 2/2 = 1, and multiplying by 1 doesn't change anything!</p>
+      </div>
+
+      <div style="background: white; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>🏈 The Football Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">Jordan Love and the Packers are at the 50-yard line. That's 50/100 of the field (50 out of 100 yards). But we could also call it 5/10 of the field, or 1/2 of the field. All three fractions describe the EXACT same spot on the field - midfield!</p>
+        <p style="margin-top: var(--space-sm);">It's like having different ways to give directions to the same place. "Midfield," "the 50," "halfway" - all the same spot, just different names.</p>
+      </div>
+
+      <div style="background: #fff3e0; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>⛏️ The Minecraft Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">You have half an inventory full of cobblestone. That's 18/36 slots (since an inventory has 36 slots). But you could also call it 1/2, or 9/18, or 2/4 of your inventory. All those fractions mean the same thing: HALF your inventory is full!</p>
+        <p style="margin-top: var(--space-sm);">Doesn't matter if you count by ones, by twos, or by nines - half is half!</p>
+      </div>
+
+      <div style="background: #e3f2fd; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>🥋 The Jiu-Jitsu Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">You spend half your class doing technique drills. Whether you say "1/2 of class," "2/4 of class," or "30/60 minutes" (if class is an hour) - it's all the same amount of time! The fraction looks different, but you're still drilling techniques for the same number of minutes.</p>
+      </div>
+
+      <div style="background: #fce4ec; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>💡 Why Does This Matter?</strong>
+        <p style="margin-top: var(--space-sm);">Equivalent fractions are SUPER important later when you need to add fractions with different bottom numbers. For example, to add 1/2 + 1/4, you'll change 1/2 into 2/4 (its twin!), then add: 2/4 + 1/4 = 3/4. The twins help fractions work together!</p>
+      </div>
+    </div>
+
+    <!-- Materials -->
+    <div class="materials-box">
+      <h4>📦 Materials Needed</h4>
+      <ul class="materials-list" style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-sm);">
+        <li>🔵 Fraction circles (multiple sizes)</li>
+        <li>📄 Paper and colored pencils</li>
+        <li>📏 Rulers for drawing bar models</li>
+        <li>✏️ Pencil</li>
+      </ul>
+    </div>
+
+    <!-- CPA Stages -->
+    <div class="cpa-stages">
+      <div class="cpa-stage active" id="concreteStage">
+        <div class="cpa-stage-icon">🧱</div>
+        <div class="cpa-stage-label">Concrete</div>
+      </div>
+      <div class="cpa-stage" id="pictorialStage">
+        <div class="cpa-stage-icon">✏️</div>
+        <div class="cpa-stage-label">Pictorial</div>
+      </div>
+      <div class="cpa-stage" id="abstractStage">
+        <div class="cpa-stage-icon">🔢</div>
+        <div class="cpa-stage-label">Abstract</div>
+      </div>
+    </div>
+
+    <!-- CONCRETE Activities -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header concrete">
+          <span class="activity-icon">🧱</span>
+          <div>
+            <h3 style="margin:0">Concrete Activities</h3>
+            <p style="margin:0; opacity:0.9">Hands-on exploration</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <div class="activity-steps">
+            <!-- Activity 1: Finding Equivalents -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>The Matching Game</h4>
+                <p>Use fraction circles. Take 1/2 of one circle.</p>
+
+                <div class="parent-script">
+                  You have 1/2. Can you find other fraction pieces that are the exact same size as this half? Try different pieces!
+                </div>
+
+                <p>Let them discover: 1/2 = 2/4 = 3/6 = 4/8 (all the same amount!)</p>
+
+                <div class="key-question">
+                  Are all these fractions the same size? (Yes!) So they're all different NAMES for the same amount!
+                </div>
+
+                <div class="alert alert-success">
+                  <strong>Key Insight:</strong> "1/2, 2/4, 3/6, and 4/8 all represent the exact same amount. They're equivalent fractions - different names, same amount!"
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity 2: Making Larger Denominators -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Splitting Pieces</h4>
+                <p>Give your child 1 third piece.</p>
+
+                <div class="parent-script">
+                  You have 1/3. If we split each third in half, how many pieces would we have? What would we call those new pieces?
+                </div>
+
+                <p>Let them work it out: If we split each of the 3 thirds in half, we'd have 6 sixths total. And 1/3 becomes 2/6!</p>
+
+                <div class="visual-example">
+                  <p><strong>Splitting to make equivalent fractions:</strong></p>
+                  <div class="comparison-box">
+                    <div class="fraction-visual">
+                      <div class="bar">
+                        <div class="bar-piece shaded">1/3</div>
+                        <div class="bar-piece unshaded">1/3</div>
+                        <div class="bar-piece unshaded">1/3</div>
+                      </div>
+                      <p class="mt-sm"><strong>1/3</strong></p>
+                    </div>
+                    <span style="font-size: 1.5rem;">→</span>
+                    <div class="fraction-visual">
+                      <div class="bar">
+                        <div class="bar-piece shaded">1/6</div>
+                        <div class="bar-piece shaded">1/6</div>
+                        <div class="bar-piece unshaded">1/6</div>
+                        <div class="bar-piece unshaded">1/6</div>
+                        <div class="bar-piece unshaded">1/6</div>
+                        <div class="bar-piece unshaded">1/6</div>
+                      </div>
+                      <p class="mt-sm"><strong>2/6 (split each piece in half!)</strong></p>
+                    </div>
+                  </div>
+                </div>
+
+                <p>Try making equivalent fractions for:</p>
+                <ul>
+                  <li>1/2 (split each piece in 3 parts → 3/6)</li>
+                  <li>1/4 (split each piece in 2 parts → 2/8)</li>
+                </ul>
+
+                <div class="key-question">
+                  When we split each piece, do we have MORE of the whole, or just more pieces of the SAME amount?
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity 3: The Pattern -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Finding the Pattern</h4>
+                <p>Let's look at the pattern when we create equivalents:</p>
+
+                <div class="parent-script">
+                  Look at 1/2 = 2/4. What happened to the numerator? (1 became 2 - we multiplied by 2) What happened to the denominator? (2 became 4 - we multiplied by 2 too!)
+                </div>
+
+                <div class="alert alert-info">
+                  <div class="alert-title">The Pattern!</div>
+                  <p>To make equivalent fractions, we multiply (or divide) BOTH the numerator and denominator by the SAME number!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Football Connection -->
+    <div class="football-callout">
+      <h3>🏈 Football Connection: Packers at Midfield!</h3>
+      <p>Jordan Love leads the Packers to the 50-yard line. Is being at the 50-yard line (5/10 of the field) the same as being at midfield (1/2 of the field)?</p>
+      <ul>
+        <li><strong>5/10 of the field</strong> = 50 yards</li>
+        <li><strong>1/2 of the field</strong> = 50 yards</li>
+        <li>These are equivalent! 5/10 = 1/2</li>
+      </ul>
+
+      <div class="parent-script" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">
+        The announcer might say "The Packers are at midfield" or "They've covered half the field" or "They're at the 50" - all the same position!
+      </div>
+
+      <div style="margin-top: var(--space-md); padding: var(--space-md); background: rgba(255,255,255,0.15); border-radius: var(--radius-md);">
+        <strong>Think about it:</strong> If the Eagles have covered 2/4 of the field and the Ravens have covered 4/8 of the field, are they at the same position? (Answer: Yes! 2/4 = 4/8 = 1/2)
+      </div>
+
+      <p style="margin-top: var(--space-md);"><strong>Key insight:</strong> Equivalent fractions give us flexibility in how we describe amounts!</p>
+    </div>
+
+    <!-- PICTORIAL Activities -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header pictorial">
+          <span class="activity-icon">✏️</span>
+          <div>
+            <h3 style="margin:0">Pictorial Activities</h3>
+            <p style="margin:0; opacity:0.9">Drawing representations</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <div class="activity-steps">
+            <!-- Drawing Equivalents -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Drawing to Show Equivalence</h4>
+                <p>Practice drawing bar models to show equivalent fractions:</p>
+
+                <div class="visual-example">
+                  <p><strong>Example: Show that 1/3 = 2/6 = 4/12</strong></p>
+                  <div style="display: flex; flex-direction: column; gap: var(--space-md); align-items: center;">
+                    <div class="fraction-visual">
+                      <div class="bar">
+                        <div class="bar-piece shaded">1/3</div>
+                        <div class="bar-piece unshaded">1/3</div>
+                        <div class="bar-piece unshaded">1/3</div>
+                      </div>
+                      <p class="mt-sm">1/3</p>
+                    </div>
+                    <div class="fraction-visual">
+                      <div class="bar">
+                        <div class="bar-piece shaded">1/6</div>
+                        <div class="bar-piece shaded">1/6</div>
+                        <div class="bar-piece unshaded">1/6</div>
+                        <div class="bar-piece unshaded">1/6</div>
+                        <div class="bar-piece unshaded">1/6</div>
+                        <div class="bar-piece unshaded">1/6</div>
+                      </div>
+                      <p class="mt-sm">2/6 (same amount!)</p>
+                    </div>
+                    <div class="fraction-visual">
+                      <div class="bar" style="width: 240px;">
+                        <div class="bar-piece shaded" style="font-size: 0.6rem;">1/12</div>
+                        <div class="bar-piece shaded" style="font-size: 0.6rem;">1/12</div>
+                        <div class="bar-piece shaded" style="font-size: 0.6rem;">1/12</div>
+                        <div class="bar-piece shaded" style="font-size: 0.6rem;">1/12</div>
+                        <div class="bar-piece unshaded" style="font-size: 0.6rem;">1/12</div>
+                        <div class="bar-piece unshaded" style="font-size: 0.6rem;">1/12</div>
+                        <div class="bar-piece unshaded" style="font-size: 0.6rem;">1/12</div>
+                        <div class="bar-piece unshaded" style="font-size: 0.6rem;">1/12</div>
+                        <div class="bar-piece unshaded" style="font-size: 0.6rem;">1/12</div>
+                        <div class="bar-piece unshaded" style="font-size: 0.6rem;">1/12</div>
+                        <div class="bar-piece unshaded" style="font-size: 0.6rem;">1/12</div>
+                        <div class="bar-piece unshaded" style="font-size: 0.6rem;">1/12</div>
+                      </div>
+                      <p class="mt-sm">4/12 (still same amount!)</p>
+                    </div>
+                  </div>
+                </div>
+
+                <p>Now you draw bar models to show:</p>
+                <ol>
+                  <li>1/2 = 2/4 = 4/8</li>
+                  <li>1/4 = 2/8</li>
+                  <li>3/4 = 6/8</li>
+                </ol>
+              </div>
+            </div>
+
+            <!-- Number Line -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Number Line: Same Location</h4>
+
+                <div class="visual-example">
+                  <p><strong>All these fractions are at the same spot on the number line:</strong></p>
+                  <p>1/2 = 2/4 = 3/6 = 4/8 = 5/10</p>
+                </div>
+
+                <p>Draw a number line from 0 to 1. Mark where 1/2 would be. Then show that 2/4, 3/6, and 4/8 are all at that same spot!</p>
+
+                <div class="parent-script">
+                  Ask: "If they're all at the same location, what does that tell you about these fractions?"
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABSTRACT Section -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header abstract">
+          <span class="activity-icon">🔢</span>
+          <div>
+            <h3 style="margin:0">Abstract: The Multiplication Rule</h3>
+            <p style="margin:0; opacity:0.9">Connecting to symbols and procedures</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <h4>Creating Equivalent Fractions</h4>
+
+          <div style="background: var(--thinking-light); padding: var(--space-lg); border-radius: var(--radius-md); margin: var(--space-lg) 0;">
+            <h4>The Rule:</h4>
+            <p><strong>To create an equivalent fraction, multiply both numerator and denominator by the same number.</strong></p>
+            <p>This works because you're really multiplying by n/n, which equals 1, and multiplying by 1 doesn't change the value!</p>
+          </div>
+
+          <div class="visual-example">
+            <p><strong>Example: Find an equivalent fraction for 2/3</strong></p>
+            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-lg); flex-wrap: wrap; font-size: 1.25rem; font-weight: 600;">
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <span style="border-bottom: 2px solid var(--text); padding: 0 8px;">2</span>
+                <span style="padding: 0 8px;">3</span>
+              </div>
+              <span>×</span>
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <span style="border-bottom: 2px solid var(--text); padding: 0 8px;">2</span>
+                <span style="padding: 0 8px;">2</span>
+              </div>
+              <span>=</span>
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <span style="border-bottom: 2px solid var(--text); padding: 0 8px;">4</span>
+                <span style="padding: 0 8px;">6</span>
+              </div>
+            </div>
+            <p class="mt-md">So 2/3 = 4/6 (multiply both by 2)</p>
+
+            <div style="margin-top: var(--space-xl);">
+              <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-lg); flex-wrap: wrap; font-size: 1.25rem; font-weight: 600;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <span style="border-bottom: 2px solid var(--text); padding: 0 8px;">2</span>
+                  <span style="padding: 0 8px;">3</span>
+                </div>
+                <span>×</span>
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <span style="border-bottom: 2px solid var(--text); padding: 0 8px;">4</span>
+                  <span style="padding: 0 8px;">4</span>
+                </div>
+                <span>=</span>
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <span style="border-bottom: 2px solid var(--text); padding: 0 8px;">8</span>
+                  <span style="padding: 0 8px;">12</span>
+                </div>
+              </div>
+              <p class="mt-md">So 2/3 = 8/12 (multiply both by 4)</p>
+            </div>
+          </div>
+
+          <div class="alert alert-success mt-lg">
+            <div class="alert-title">Why This Works!</div>
+            <p>When we multiply 2/3 × 2/2, we're really multiplying by 1 (because 2/2 = 1). Multiplying anything by 1 doesn't change its value - but it DOES give us an equivalent fraction with a different name!</p>
+          </div>
+
+          <h4 class="mt-xl">Practice: Find Equivalent Fractions</h4>
+          <ol>
+            <li>Find 3 equivalent fractions for 1/2</li>
+            <li>Find an equivalent fraction for 3/4 with denominator 8</li>
+            <li>Find an equivalent fraction for 2/5 with denominator 10</li>
+            <li>Find an equivalent fraction for 3/5 with denominator 15</li>
+          </ol>
+
+          <div class="parent-script">
+            For each one, ask: "What number did you multiply both parts by? Can you show it's the same amount with a drawing?"
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Self-Explanation Prompts -->
+    <section class="activity-section">
+      <div class="card">
+        <div class="card-header">
+          <h3 style="margin:0">💭 Understanding Check</h3>
+        </div>
+        <div class="card-body">
+          <p>Before finishing, make sure you can answer these:</p>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">What are equivalent fractions?</div>
+            <p>(Different fractions that represent the exact same amount - just different names for the same value!)</p>
+          </div>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">How do you CREATE an equivalent fraction?</div>
+            <p>(Multiply both the numerator and denominator by the same number. This is like multiplying by 1, so the value stays the same!)</p>
+          </div>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">Why is understanding equivalence important?</div>
+            <p>(It helps us compare fractions, add fractions with different denominators, and understand that the same amount can be described in multiple ways!)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lesson Complete -->
+    <div class="lesson-complete">
+      <h2>🎉 Amazing Work!</h2>
+      <p>You've completed the core fraction lessons! You now understand equivalent fractions and can create different names for the same amount!</p>
+      <div class="flex-center gap-md mt-lg">
+        <a href="worksheet.html" class="btn btn-primary btn-large">Complete Worksheet</a>
+        <button class="btn btn-success btn-large" onclick="markLessonComplete()">Mark Lesson Complete</button>
+      </div>
+      <p class="text-muted mt-lg">Great job mastering these fundamental fraction concepts!</p>
+    </div>
+  </main>
+
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/app.js"></script>
+  <script>
+    Storage.startLesson(6);
+
+    // Update CPA stages based on scroll or interaction
+    function updateCPAStages(stage) {
+      document.querySelectorAll('.cpa-stage').forEach(el => el.classList.remove('active'));
+      document.getElementById(stage + 'Stage').classList.add('active');
+    }
+
+    // Set up Intersection Observer to track which section is visible
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = {
+        concrete: document.querySelector('.activity-header.concrete')?.closest('.activity-card'),
+        pictorial: document.querySelector('.activity-header.pictorial')?.closest('.activity-card'),
+        abstract: document.querySelector('.activity-header.abstract')?.closest('.activity-card')
+      };
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -60% 0px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            for (const [stage, element] of Object.entries(sections)) {
+              if (element === entry.target) {
+                updateCPAStages(stage);
+                break;
+              }
+            }
+          }
+        });
+      }, observerOptions);
+
+      Object.values(sections).forEach(section => {
+        if (section) observer.observe(section);
+      });
+    });
+
+    function markLessonComplete() {
+      Storage.completeLesson(6);
+      App.celebrate('Lesson 6 Complete!', 'You understand equivalent fractions!', '🏆');
+      document.querySelector('.btn-success').textContent = '✓ Completed';
+      document.querySelector('.btn-success').disabled = true;
+    }
+
+    const progress = Storage.getLessonProgress();
+    if (progress[6]?.completed) {
+      document.querySelector('.btn-success').textContent = '✓ Completed';
+      document.querySelector('.btn-success').disabled = true;
+    }
+  </script>
+</body>
+</html>

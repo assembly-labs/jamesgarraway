@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lesson 1: Equal Parts - Football Fractions</title>
+
+  <link rel="stylesheet" href="../../styles/main.css">
+  <link rel="stylesheet" href="../../styles/components.css">
+  <link rel="stylesheet" href="../../styles/football-theme.css">
+  <link rel="stylesheet" href="../../styles/print.css">
+
+  <style>
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lesson-nav a {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .activity-section {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .activity-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--shadow);
+      margin-bottom: var(--space-xl);
+    }
+
+    .activity-header {
+      padding: var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .activity-header.concrete {
+      background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+      color: white;
+    }
+
+    .activity-header.pictorial {
+      background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+      color: white;
+    }
+
+    .activity-header.abstract {
+      background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+      color: white;
+    }
+
+    .activity-icon {
+      font-size: 2rem;
+    }
+
+    .activity-body {
+      padding: var(--space-xl);
+    }
+
+    .activity-steps {
+      counter-reset: step;
+    }
+
+    .activity-step {
+      display: flex;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-step:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .step-number {
+      counter-increment: step;
+      width: 40px;
+      height: 40px;
+      background: var(--field-green);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-number::before {
+      content: counter(step);
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-content h4 {
+      margin-bottom: var(--space-sm);
+    }
+
+    .parent-script {
+      background: #E8F5E9;
+      border-left: 4px solid var(--correct);
+      padding: var(--space-md);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin: var(--space-md) 0;
+      font-style: italic;
+    }
+
+    .parent-script::before {
+      content: "💬 Say: ";
+      font-style: normal;
+      font-weight: 700;
+      color: var(--correct);
+    }
+
+    .key-question {
+      background: var(--thinking-light);
+      border: 2px dashed var(--thinking);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin: var(--space-md) 0;
+    }
+
+    .key-question::before {
+      content: "❓ Key Question: ";
+      font-weight: 700;
+      color: #E65100;
+    }
+
+    .visual-example {
+      background: var(--background);
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      text-align: center;
+      margin: var(--space-md) 0;
+    }
+
+    .shape-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: var(--space-lg);
+      margin: var(--space-md) 0;
+    }
+
+    .shape-example {
+      text-align: center;
+    }
+
+    .shape-example svg {
+      margin-bottom: var(--space-sm);
+    }
+
+    .shape-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .shape-label.correct {
+      color: var(--correct);
+      font-weight: 700;
+    }
+
+    .shape-label.incorrect {
+      color: var(--incorrect);
+    }
+
+    .football-callout {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      padding: var(--space-xl);
+      border-radius: var(--radius-lg);
+      margin: var(--space-xl) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .football-callout::after {
+      content: "🏈";
+      position: absolute;
+      right: var(--space-lg);
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 4rem;
+      opacity: 0.2;
+    }
+
+    .football-callout h3 {
+      margin-bottom: var(--space-md);
+    }
+
+    .materials-box {
+      background: var(--info-light);
+      border: 2px solid var(--info);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .materials-box h4 {
+      color: var(--info);
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .materials-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-sm);
+    }
+
+    .materials-list li {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .objective-box {
+      background: var(--correct-light);
+      border: 2px solid var(--correct);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .objective-box h4 {
+      color: #1B5E20;
+      margin-bottom: var(--space-md);
+    }
+
+    .lesson-complete {
+      text-align: center;
+      padding: var(--space-2xl);
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+
+    .lesson-complete h2 {
+      color: var(--correct);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">Home</a></li>
+        <li><a href="../../diagnostic/index.html" class="nav-link">Skills Check</a></li>
+        <li><a href="../index.html" class="nav-link active">Lessons</a></li>
+        <li><a href="../../practice/index.html" class="nav-link">Practice</a></li>
+        <li><a href="../../tools/number-line.html" class="nav-link">Number Line</a></li>
+        <li><a href="../../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb" style="color: rgba(255,255,255,0.8);">
+        <a href="../index.html" style="color: white;">Lessons</a>
+        <span>›</span>
+        <span>Lesson 1</span>
+      </div>
+      <h1>Lesson 1: Equal Parts</h1>
+      <p>What makes parts TRULY equal?</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Online Badge -->
+    <div class="online-badge" style="background: #e8f5e9; border: 2px solid #2E7D32; padding: 8px 16px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
+      💻 <strong>ONLINE LESSON</strong> - Do this on the computer with a parent or guardian!
+    </div>
+
+    <!-- Lesson Navigation -->
+    <div class="lesson-nav">
+      <span class="text-muted">← No previous lesson</span>
+      <a href="../02-improper-fractions/index.html">Lesson 2: Improper Fractions →</a>
+    </div>
+
+    <!-- Learning Objective -->
+    <div class="objective-box">
+      <h4>🎯 What You'll Learn</h4>
+      <p>Fractions only work when something is split into <strong>truly equal parts</strong>. By the end of this lesson, you'll be able to spot equal parts AND create them yourself!</p>
+    </div>
+
+    <!-- Concept Explanation -->
+    <div class="concept-box" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 4px solid var(--field-green); border-radius: var(--radius-md); padding: var(--space-lg); margin: var(--space-lg) 0;">
+      <h4 style="color: var(--field-green); margin-bottom: var(--space-md);">🧠 The Big Idea: What Are Equal Parts?</h4>
+
+      <div style="margin-bottom: var(--space-md);">
+        <strong>The Simple Explanation:</strong>
+        <p style="margin-top: var(--space-sm);">When you cut something into pieces, those pieces are "equal" only if they're the EXACT same size. Not "kinda the same" or "close enough" - they have to be EXACTLY the same. If you cut a pizza into 4 slices but one slice is huge and another is tiny, those aren't equal parts! Fractions only work when every piece is the same size as the others.</p>
+      </div>
+
+      <div style="background: white; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>🏈 The Football Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">Picture a football field. It's 100 yards long, and it's marked every 10 yards with those white lines. Each section between the lines is EXACTLY 10 yards - not 9 yards here and 11 yards there. That's why refs can make fair calls! If you're at the 50-yard line, you're EXACTLY in the middle. The field only works because every 10-yard section is truly equal.</p>
+        <p style="margin-top: var(--space-sm);">Or think about dividing your flag football team into groups. If you have 8 players and need 2 equal groups, each group needs EXACTLY 4 players. You can't put 5 in one group and 3 in another and call them "equal" - that wouldn't be fair!</p>
+      </div>
+
+      <div style="background: #fff3e0; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>⛏️ The Minecraft Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">In Minecraft, every block is the EXACT same size - 1 cubic meter. When you build a 4-block wide bridge, each block takes up exactly 1/4 of the width. That's why building works perfectly in Minecraft! Imagine if blocks were random sizes - your builds would be a total mess. Equal parts make everything work.</p>
+      </div>
+    </div>
+
+    <!-- Materials -->
+    <div class="materials-box">
+      <h4>📦 Materials Needed</h4>
+      <ul class="materials-list">
+        <li>📄 Several sheets of paper</li>
+        <li>✂️ Scissors</li>
+        <li>🎨 Play-doh or modeling clay</li>
+        <li>🍫 Chocolate bar (optional, for eating!)</li>
+        <li>✏️ Pencil and blank paper</li>
+      </ul>
+    </div>
+
+    <!-- CPA Stage Indicator -->
+    <div class="cpa-stages">
+      <div class="cpa-stage active" id="concreteStage">
+        <div class="cpa-stage-icon">🧱</div>
+        <div class="cpa-stage-label">Concrete</div>
+      </div>
+      <div class="cpa-stage" id="pictorialStage">
+        <div class="cpa-stage-icon">✏️</div>
+        <div class="cpa-stage-label">Pictorial</div>
+      </div>
+      <div class="cpa-stage" id="abstractStage">
+        <div class="cpa-stage-icon">🔢</div>
+        <div class="cpa-stage-label">Abstract</div>
+      </div>
+    </div>
+
+    <!-- CONCRETE Activities -->
+    <section class="activity-section">
+      <div class="activity-card">
+        <div class="activity-header concrete">
+          <span class="activity-icon">🧱</span>
+          <div>
+            <h3 style="margin:0">Concrete Activities</h3>
+            <p style="margin:0; opacity:0.9">Hands-on exploration with real objects</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <div class="activity-steps">
+            <!-- Activity 1: Paper Folding -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Paper Folding: Making Halves</h4>
+                <p>Take a sheet of paper and fold it in half.</p>
+
+                <div class="parent-script">
+                  Before you fold, here's a challenge: What should be true about the two parts when you fold it in half? Make a prediction!
+                </div>
+
+                <p>Let your child fold the paper. Then ask them to open it up.</p>
+
+                <div class="key-question">
+                  How can you PROVE these are truly equal halves? Here's a pro tip: Try stacking one part on top of the other!
+                </div>
+
+                <p>Now try folding the same paper a different way (hamburger vs hotdog fold). Ask:</p>
+
+                <div class="parent-script">
+                  Are both of these still halves? How do you know?
+                </div>
+
+                <div class="alert alert-success">
+                  <strong>Key Insight:</strong> There's more than one way to divide something into equal parts! Both are halves because both pieces are the same size, even though they're different shapes.
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity 2: Paper Folding Fourths -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Paper Folding: Making Fourths</h4>
+                <p>Now challenge your child to fold a NEW piece of paper into <strong>four equal parts</strong>.</p>
+
+                <div class="parent-script">
+                  Can you figure out how to fold this paper so you have 4 equal parts? There's more than one way to do it!
+                </div>
+
+                <p>Encourage them to try multiple approaches:</p>
+                <ul>
+                  <li>Fold in half, then in half again (makes 4 rectangles)</li>
+                  <li>Fold diagonally both ways (makes 4 triangles)</li>
+                  <li>Fold in half horizontally, then vertically (makes 4 squares)</li>
+                </ul>
+
+                <div class="key-question">
+                  Are all these fourths? How can you prove it?
+                </div>
+
+                <p>Have them cut out the pieces and stack them to verify they're equal.</p>
+              </div>
+            </div>
+
+            <!-- Activity 3: Unfair Sharing -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>The Unfair Sharing Game</h4>
+                <p>Take a piece of play-doh and make it into a rectangle (like a brownie).</p>
+
+                <div class="parent-script">
+                  I'm going to share this brownie between us... but wait, I'm going to do it UNFAIRLY on purpose. Watch carefully and catch me being sneaky!
+                </div>
+
+                <p>Deliberately cut it into unequal pieces and take the bigger one. Ham it up!</p>
+
+                <div class="key-question">
+                  Hey, is this fair? What's wrong with how I shared it? How would YOU fix it to make it truly fair?
+                </div>
+
+                <p>Let your child fix it by making truly equal parts.</p>
+
+                <div class="alert alert-info">
+                  <strong>Here's the big idea:</strong> When we say 1/2, we mean 1 of 2 EQUAL parts. If the parts aren't equal, it's not really 1/2! That's why equal parts matter so much.
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity 4: Equal Parts Detective -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Equal Parts Detective</h4>
+                <p>Make several shapes with play-doh and divide them different ways - some equal, some NOT equal.</p>
+
+                <div class="parent-script">
+                  Time to be a detective! Some of these shapes are divided into truly equal parts... and some are just PRETENDING. Can you spot the fakes?
+                </div>
+
+                <p>For each shape, ask:</p>
+                <ul>
+                  <li>"Are these equal parts? How do you know?"</li>
+                  <li>"How could you prove it?" (Take apart and compare)</li>
+                  <li>"If this isn't equal, how could you fix it?"</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PICTORIAL Activities -->
+    <section class="activity-section">
+      <div class="activity-card">
+        <div class="activity-header pictorial">
+          <span class="activity-icon">✏️</span>
+          <div>
+            <h3 style="margin:0">Pictorial Activities</h3>
+            <p style="margin:0; opacity:0.9">Drawing and visual representations</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <div class="activity-steps">
+            <!-- Activity 5: Identify Equal Parts -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Spot the Equal Parts</h4>
+                <p>Look at these shapes. Which ones are divided into TRUE equal parts?</p>
+
+                <div class="shape-grid">
+                  <div class="shape-example">
+                    <svg viewBox="0 0 100 60" width="100" height="60">
+                      <rect x="1" y="1" width="98" height="58" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+                      <line x1="50" y1="1" x2="50" y2="59" stroke="#2E7D32" stroke-width="1"/>
+                    </svg>
+                    <div class="shape-label correct">✓ Equal halves</div>
+                  </div>
+                  <div class="shape-example">
+                    <svg viewBox="0 0 100 60" width="100" height="60">
+                      <rect x="1" y="1" width="98" height="58" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+                      <line x1="30" y1="1" x2="30" y2="59" stroke="#c62828" stroke-width="1"/>
+                    </svg>
+                    <div class="shape-label incorrect">✗ NOT equal</div>
+                  </div>
+                  <div class="shape-example">
+                    <svg viewBox="0 0 100 60" width="100" height="60">
+                      <rect x="1" y="1" width="98" height="58" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+                      <line x1="25" y1="1" x2="25" y2="59" stroke="#2E7D32" stroke-width="1"/>
+                      <line x1="50" y1="1" x2="50" y2="59" stroke="#2E7D32" stroke-width="1"/>
+                      <line x1="75" y1="1" x2="75" y2="59" stroke="#2E7D32" stroke-width="1"/>
+                    </svg>
+                    <div class="shape-label correct">✓ Equal fourths</div>
+                  </div>
+                  <div class="shape-example">
+                    <svg viewBox="0 0 100 60" width="100" height="60">
+                      <rect x="1" y="1" width="98" height="58" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+                      <line x1="50" y1="1" x2="50" y2="59" stroke="#c62828" stroke-width="1"/>
+                      <line x1="50" y1="30" x2="99" y2="30" stroke="#c62828" stroke-width="1"/>
+                    </svg>
+                    <div class="shape-label incorrect">✗ NOT equal (left side is bigger than the others!)</div>
+                  </div>
+                </div>
+
+                <div class="key-question">
+                  The last shape has 3 pieces. Why isn't it divided into thirds?
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity 6: Draw Your Own -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Draw Your Own Equal Parts</h4>
+                <p>Using blank paper, draw rectangles and divide them:</p>
+
+                <ol>
+                  <li>Draw a rectangle and divide it into <strong>2 equal parts</strong> (TWO different ways)</li>
+                  <li>Draw a rectangle and divide it into <strong>4 equal parts</strong> (TWO different ways)</li>
+                  <li>Draw a rectangle and divide it into <strong>3 equal parts</strong></li>
+                </ol>
+
+                <div class="parent-script">
+                  After each one, ask: "How do you know these parts are equal?"
+                </div>
+
+                <div class="alert alert-warning">
+                  <strong>Common Challenge:</strong> Thirds are harder than halves or fourths! That's okay. The struggle is part of learning. Ask: "What makes thirds trickier?"
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity 7: Bar Model Introduction -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Introduction to Bar Models</h4>
+                <p>A <strong>bar model</strong> is a special rectangle we use to show fractions. Let's practice drawing them.</p>
+
+                <div class="visual-example">
+                  <p><strong>This bar shows 1 whole:</strong></p>
+                  <div style="display: flex; justify-content: center;">
+                    <div style="width: 300px; height: 50px; background: var(--correct-light); border: 2px solid var(--field-green); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                      1 whole
+                    </div>
+                  </div>
+                </div>
+
+                <div class="visual-example">
+                  <p><strong>This bar shows fourths:</strong></p>
+                  <div style="display: flex; justify-content: center;">
+                    <div style="width: 300px; height: 50px; display: flex; border: 2px solid var(--field-green); border-radius: 8px; overflow: hidden;">
+                      <div style="flex:1; background: var(--correct-light); border-right: 1px solid var(--field-green); display: flex; align-items: center; justify-content: center;">1/4</div>
+                      <div style="flex:1; background: var(--correct-light); border-right: 1px solid var(--field-green); display: flex; align-items: center; justify-content: center;">1/4</div>
+                      <div style="flex:1; background: var(--correct-light); border-right: 1px solid var(--field-green); display: flex; align-items: center; justify-content: center;">1/4</div>
+                      <div style="flex:1; background: var(--correct-light); display: flex; align-items: center; justify-content: center;">1/4</div>
+                    </div>
+                  </div>
+                </div>
+
+                <p>Practice drawing bar models for: halves, thirds, sixths, eighths.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Football Connection -->
+    <div class="football-callout">
+      <h3>🏈 Football Connection: Eagles Practice Drills</h3>
+      <p>Imagine you're the Eagles' coach and you need to divide the practice field into equal sections for Jalen Hurts, Cooper DeJean, and the rest of the team.</p>
+      <ul>
+        <li>If you have 2 groups (offense and defense), you need <strong>halves</strong> - 2 equal sections</li>
+        <li>If you have 4 position groups, you need <strong>fourths</strong> - 4 equal sections</li>
+        <li>The football field is 100 yards. If you divide it into 4 equal parts, how long is each part? <strong>(25 yards!)</strong></li>
+      </ul>
+
+      <div style="margin-top: var(--space-md); padding: var(--space-md); background: rgba(255,255,255,0.15); border-radius: var(--radius-md);">
+        <strong>Think like a coach:</strong> If the Packers' practice field is split unfairly, some players get more room than others. Jordan Love wouldn't have as much space to throw as he needs!
+      </div>
+
+      <p style="margin-top: var(--space-md);"><strong>Key insight:</strong> The parts MUST be equal or some players would have more room than others - not fair!</p>
+    </div>
+
+    <!-- ABSTRACT Connection -->
+    <section class="activity-section">
+      <div class="activity-card">
+        <div class="activity-header abstract">
+          <span class="activity-icon">🔢</span>
+          <div>
+            <h3 style="margin:0">Abstract: Fraction Notation</h3>
+            <p style="margin:0; opacity:0.9">Connecting to symbols</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <p>Now that you understand equal parts, let's connect to fraction notation:</p>
+
+          <div class="visual-example">
+            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-xl); flex-wrap: wrap;">
+              <div>
+                <div style="width: 200px; height: 50px; display: flex; border: 2px solid var(--field-green); border-radius: 8px; overflow: hidden;">
+                  <div style="flex:1; background: #64B5F6; border-right: 1px solid var(--field-green);"></div>
+                  <div style="flex:1; background: var(--correct-light); border-right: 1px solid var(--field-green);"></div>
+                  <div style="flex:1; background: var(--correct-light); border-right: 1px solid var(--field-green);"></div>
+                  <div style="flex:1; background: var(--correct-light);"></div>
+                </div>
+              </div>
+              <div style="font-size: 2rem;">=</div>
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <span style="font-size: 2rem; font-weight: 700; border-bottom: 3px solid var(--text);">1</span>
+                <span style="font-size: 2rem; font-weight: 700;">4</span>
+              </div>
+            </div>
+            <p class="mt-md"><strong>1/4</strong> means: 1 part out of 4 EQUAL parts</p>
+          </div>
+
+          <div class="alert alert-info mt-lg">
+            <div class="alert-title">Vocabulary Check</div>
+            <ul>
+              <li><strong>Denominator (bottom number):</strong> Tells how many EQUAL parts the whole is divided into - it's the "name" of the fraction (fourths, eighths, etc.)</li>
+              <li><strong>Numerator (top number):</strong> Tells how many parts we're talking about</li>
+            </ul>
+          </div>
+
+          <div class="key-question">
+            Why is it SO important that the parts are equal? What would happen if 1/4 didn't mean equal fourths?
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reflection -->
+    <section class="activity-section">
+      <div class="card">
+        <div class="card-header">
+          <h3 style="margin:0">💭 Lesson Reflection</h3>
+        </div>
+        <div class="card-body">
+          <p>Before finishing, have your child answer these questions:</p>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">Teach Me!</div>
+            <p>Pretend I don't know anything about fractions. Explain to me why the parts have to be EQUAL.</p>
+          </div>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">Real Life Connection</div>
+            <p>Where in real life would you need to divide something into equal parts? (pizza, fair sharing, splitting time, etc.)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mark Complete & Next Steps -->
+    <div class="lesson-complete" id="lessonComplete">
+      <h2>🎉 Great Work!</h2>
+      <p>You've completed the Equal Parts lesson. You now understand the foundation of all fractions!</p>
+      <div class="flex-center gap-md mt-lg">
+        <a href="worksheet.html" class="btn btn-primary btn-large">Complete Worksheet</a>
+        <button class="btn btn-success btn-large" onclick="markLessonComplete()">Mark Lesson Complete</button>
+      </div>
+      <p class="text-muted mt-lg">Next up: Lesson 2 - Improper Fractions & Mixed Numbers</p>
+    </div>
+  </main>
+
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/app.js"></script>
+  <script>
+    // Mark lesson as started
+    Storage.startLesson(1);
+
+    // Update CPA stages based on scroll or interaction
+    function updateCPAStages(stage) {
+      document.querySelectorAll('.cpa-stage').forEach(el => el.classList.remove('active'));
+      document.getElementById(stage + 'Stage').classList.add('active');
+    }
+
+    // Set up Intersection Observer to track which section is visible
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = {
+        concrete: document.querySelector('.activity-header.concrete')?.closest('.activity-card'),
+        pictorial: document.querySelector('.activity-header.pictorial')?.closest('.activity-card'),
+        abstract: document.querySelector('.activity-header.abstract')?.closest('.activity-card')
+      };
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -60% 0px', // Trigger when section is in upper portion of viewport
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Find which section this is
+            for (const [stage, element] of Object.entries(sections)) {
+              if (element === entry.target) {
+                updateCPAStages(stage);
+                break;
+              }
+            }
+          }
+        });
+      }, observerOptions);
+
+      // Observe each section
+      Object.values(sections).forEach(section => {
+        if (section) observer.observe(section);
+      });
+    });
+
+    function markLessonComplete() {
+      Storage.completeLesson(1);
+      App.celebrate('Lesson 1 Complete!', 'You understand equal parts - the foundation of fractions!', '🏆');
+      document.querySelector('.btn-success').textContent = '✓ Completed';
+      document.querySelector('.btn-success').disabled = true;
+    }
+
+    // Check if already completed
+    const progress = Storage.getLessonProgress();
+    if (progress[1]?.completed) {
+      document.querySelector('.btn-success').textContent = '✓ Completed';
+      document.querySelector('.btn-success').disabled = true;
+    }
+  </script>
+</body>
+</html>

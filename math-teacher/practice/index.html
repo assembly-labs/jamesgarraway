@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Practice Hub - Football Fractions</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+
+  <style>
+    .practice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-lg);
+      margin-bottom: var(--space-2xl);
+    }
+
+    .practice-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 2px 12px var(--shadow);
+      transition: all var(--transition-normal);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .practice-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px var(--shadow);
+    }
+
+    .practice-card-header {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      padding: var(--space-xl);
+      text-align: center;
+    }
+
+    .practice-icon {
+      font-size: 3rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .practice-card-header h2 {
+      margin-bottom: var(--space-sm);
+      font-size: 1.5rem;
+    }
+
+    .practice-description {
+      font-size: 0.875rem;
+      opacity: 0.9;
+    }
+
+    .practice-card-body {
+      padding: var(--space-lg);
+      flex: 1;
+    }
+
+    .practice-features {
+      list-style: none;
+      margin: var(--space-md) 0;
+    }
+
+    .practice-features li {
+      padding: var(--space-sm) 0;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--text-secondary);
+    }
+
+    .practice-features li::before {
+      content: "✓";
+      color: var(--correct);
+      font-weight: 700;
+      font-size: 1.125rem;
+    }
+
+    .practice-card-footer {
+      padding: var(--space-lg);
+      background: var(--background);
+    }
+
+    .stats-overview {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      box-shadow: 0 2px 12px var(--shadow);
+      margin-bottom: var(--space-2xl);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: var(--space-lg);
+      margin-top: var(--space-lg);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--field-green);
+      margin-bottom: var(--space-xs);
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .recent-sessions {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    .session-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-md);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .session-item:last-child {
+      border-bottom: none;
+    }
+
+    .session-type {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .session-date {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .session-score {
+      font-weight: 700;
+      font-size: 1.125rem;
+    }
+
+    .session-score.good {
+      color: var(--correct);
+    }
+
+    .session-score.ok {
+      color: var(--thinking);
+    }
+
+    .session-score.needs-work {
+      color: var(--incorrect);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        ☰
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="../diagnostic/index.html" class="nav-link">Skills Check</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Lessons</a></li>
+        <li><a href="../practice/index.html" class="nav-link active">Practice</a></li>
+        <li><a href="../tools/number-line.html" class="nav-link">Number Line</a></li>
+        <li><a href="../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <span>Practice</span>
+      </div>
+      <h1>🎯 Practice Hub</h1>
+      <p>Sharpen your fraction skills with practice problems and flashcards</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Progress Stats -->
+    <section class="stats-overview">
+      <h2>Your Practice Stats</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-value" id="practiceStreak">0</div>
+          <div class="stat-label">Day Streak 🔥</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="totalSessions">0</div>
+          <div class="stat-label">Total Sessions</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="avgScore">0%</div>
+          <div class="stat-label">Average Score</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="totalProblems">0</div>
+          <div class="stat-label">Problems Solved</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Practice Options -->
+    <section>
+      <h2>Choose Your Practice</h2>
+      <div class="practice-grid">
+        <!-- Mixed Review -->
+        <div class="practice-card">
+          <div class="practice-card-header">
+            <div class="practice-icon">📝</div>
+            <h2>Mixed Review</h2>
+            <p class="practice-description">Test yourself with 10 random problems</p>
+          </div>
+          <div class="practice-card-body">
+            <ul class="practice-features">
+              <li>10 random problems</li>
+              <li>All fraction skills mixed</li>
+              <li>Immediate feedback</li>
+              <li>Score tracking</li>
+              <li>Football-themed problems</li>
+            </ul>
+          </div>
+          <div class="practice-card-footer">
+            <a href="mixed-review.html" class="btn btn-primary btn-block">Start Mixed Review</a>
+          </div>
+        </div>
+
+        <!-- Flashcards -->
+        <div class="practice-card">
+          <div class="practice-card-header">
+            <div class="practice-icon">🃏</div>
+            <h2>Flashcards</h2>
+            <p class="practice-description">Quick review with flip cards</p>
+          </div>
+          <div class="practice-card-body">
+            <ul class="practice-features">
+              <li>Flip to reveal answers</li>
+              <li>Multiple categories</li>
+              <li>Progress tracking</li>
+              <li>Print-friendly</li>
+              <li>Self-paced review</li>
+            </ul>
+          </div>
+          <div class="practice-card-footer">
+            <a href="flashcards.html" class="btn btn-primary btn-block">Study Flashcards</a>
+          </div>
+        </div>
+
+        <!-- Number Line Tool -->
+        <div class="practice-card">
+          <div class="practice-card-header">
+            <div class="practice-icon">📏</div>
+            <h2>Number Line</h2>
+            <p class="practice-description">Interactive football field number line</p>
+          </div>
+          <div class="practice-card-body">
+            <ul class="practice-features">
+              <li>Drag fractions into place</li>
+              <li>Football field theme</li>
+              <li>Visual learning</li>
+              <li>Touch-friendly</li>
+              <li>Check your answers</li>
+            </ul>
+          </div>
+          <div class="practice-card-footer">
+            <a href="../tools/number-line.html" class="btn btn-primary btn-block">Open Number Line</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Practice Sessions -->
+      <section class="mt-xl">
+        <h2>Recent Practice Sessions</h2>
+        <div class="recent-sessions">
+          <div id="recentSessionsList">
+            <p class="text-center text-muted">No practice sessions yet. Start practicing to see your history!</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: var(--field-dark); color: white; padding: var(--space-xl) 0; text-align: center; margin-top: var(--space-2xl);">
+    <div class="container">
+      <p>Football Fractions - Practice Hub</p>
+      <p class="text-small mt-sm">
+        <a href="../parent-guide/index.html" style="color: rgba(255, 255, 255, 0.8);">Parent Guide</a> ·
+        <a href="../schedule/index.html" style="color: rgba(255, 255, 255, 0.8);">Practice Schedule</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/fractions.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    // Update practice statistics
+    function updateStats() {
+      const streak = Storage.getPracticeStreak();
+      const history = Storage.getPracticeHistory(30);
+
+      document.getElementById('practiceStreak').textContent = streak;
+      document.getElementById('totalSessions').textContent = history.length;
+
+      // Calculate average score
+      if (history.length > 0) {
+        const totalScore = history.reduce((sum, session) => sum + (session.score || 0), 0);
+        const avgScore = Math.round(totalScore / history.length);
+        document.getElementById('avgScore').textContent = avgScore + '%';
+
+        // Calculate total problems
+        const totalProblems = history.reduce((sum, session) => sum + (session.problemCount || 0), 0);
+        document.getElementById('totalProblems').textContent = totalProblems;
+      } else {
+        document.getElementById('avgScore').textContent = '0%';
+        document.getElementById('totalProblems').textContent = '0';
+      }
+    }
+
+    // Render recent practice sessions
+    function renderRecentSessions() {
+      const history = Storage.getPracticeHistory(7);
+      const container = document.getElementById('recentSessionsList');
+
+      if (history.length === 0) {
+        container.innerHTML = '<p class="text-center text-muted">No practice sessions yet. Start practicing to see your history!</p>';
+        return;
+      }
+
+      // Sort by date (most recent first)
+      history.sort((a, b) => b.timestamp - a.timestamp);
+
+      container.innerHTML = history.map(session => {
+        const score = session.score || 0;
+        const scoreClass = score >= 80 ? 'good' : score >= 60 ? 'ok' : 'needs-work';
+        const date = new Date(session.timestamp);
+        const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+        return `
+          <div class="session-item">
+            <div>
+              <div class="session-type">${session.type || 'Mixed Review'}</div>
+              <div class="session-date">${dateStr} at ${timeStr}</div>
+            </div>
+            <div class="session-score ${scoreClass}">${score}%</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      updateStats();
+      renderRecentSessions();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Mixed Review - Football Fractions</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+
+  <style>
+    .quiz-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .quiz-header {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      box-shadow: 0 2px 12px var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+
+    .quiz-progress {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .quiz-score {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--field-green);
+    }
+
+    .problem-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    .problem-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-md);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .problem-type-badge {
+      background: var(--field-green);
+      color: white;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .problem-context {
+      background: linear-gradient(135deg, #8D6E63 0%, #6D4C41 100%);
+      color: white;
+      padding: var(--space-md) var(--space-lg);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-lg);
+      font-style: italic;
+    }
+
+    .problem-question {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: var(--space-lg);
+      color: var(--text);
+    }
+
+    .answer-input {
+      width: 100%;
+      max-width: 300px;
+      padding: var(--space-md);
+      font-size: 1.125rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      margin-bottom: var(--space-md);
+    }
+
+    .answer-input:focus {
+      outline: none;
+      border-color: var(--field-green);
+    }
+
+    .answer-hint {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-lg);
+    }
+
+    .feedback-box {
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      margin-top: var(--space-lg);
+      display: none;
+    }
+
+    .feedback-box.show {
+      display: block;
+    }
+
+    .feedback-box.correct {
+      background: var(--correct-light);
+      border: 2px solid var(--correct);
+    }
+
+    .feedback-box.incorrect {
+      background: var(--incorrect-light);
+      border: 2px solid var(--incorrect);
+    }
+
+    .feedback-title {
+      font-weight: 700;
+      font-size: 1.125rem;
+      margin-bottom: var(--space-sm);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .feedback-explanation {
+      color: var(--text);
+      margin-top: var(--space-sm);
+    }
+
+    .results-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
+      text-align: center;
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+
+    .results-icon {
+      font-size: 4rem;
+      margin-bottom: var(--space-lg);
+    }
+
+    .results-score {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--field-green);
+      margin-bottom: var(--space-md);
+    }
+
+    .results-message {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-xl);
+    }
+
+    .results-breakdown {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: var(--space-lg);
+      margin: var(--space-xl) 0;
+      padding: var(--space-xl) 0;
+      border-top: 2px solid var(--border);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .breakdown-item {
+      text-align: center;
+    }
+
+    .breakdown-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: var(--space-xs);
+    }
+
+    .breakdown-value.correct {
+      color: var(--correct);
+    }
+
+    .breakdown-value.incorrect {
+      color: var(--incorrect);
+    }
+
+    .breakdown-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        ☰
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="../diagnostic/index.html" class="nav-link">Skills Check</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Lessons</a></li>
+        <li><a href="../practice/index.html" class="nav-link active">Practice</a></li>
+        <li><a href="../tools/number-line.html" class="nav-link">Number Line</a></li>
+        <li><a href="../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <a href="./index.html">Practice</a>
+        <span>/</span>
+        <span>Mixed Review</span>
+      </div>
+      <h1>📝 Mixed Review</h1>
+      <p>Test your fraction skills with 10 random problems</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="quiz-container">
+      <!-- Quiz Header -->
+      <div class="quiz-header" id="quizHeader">
+        <div class="quiz-progress">
+          <span id="currentQuestion">1</span> of <span id="totalQuestions">10</span>
+        </div>
+        <div class="quiz-score">
+          Score: <span id="currentScore">0</span>/<span id="questionsAnswered">0</span>
+        </div>
+      </div>
+
+      <!-- Quiz Area -->
+      <div id="quizArea">
+        <!-- Problem will be rendered here -->
+      </div>
+
+      <!-- Results Area -->
+      <div id="resultsArea" class="hidden">
+        <!-- Results will be shown here -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/fractions.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    const Quiz = {
+      problems: [],
+      currentIndex: 0,
+      score: 0,
+      answered: 0,
+
+      // Player and team data for personalized problems
+      players: [
+        { name: 'Jalen Hurts', team: 'Eagles', position: 'QB' },
+        { name: 'Justin Jefferson', team: 'Vikings', position: 'WR' },
+        { name: 'Cooper DeJean', team: 'Eagles', position: 'CB' },
+        { name: 'Tom Brady', team: 'the Buccaneers', position: 'QB' },
+        { name: 'Jordan Love', team: 'Packers', position: 'QB' },
+        { name: 'Lamar Jackson', team: 'Ravens', position: 'QB' }
+      ],
+
+      getRandomPlayer() {
+        return this.players[Math.floor(Math.random() * this.players.length)];
+      },
+
+      problemTypes: [
+        {
+          type: 'equal-parts',
+          name: 'Equal Parts',
+          generate: () => {
+            const denominator = [2, 3, 4, 6, 8][Math.floor(Math.random() * 5)];
+            const numerator = Math.floor(Math.random() * denominator) + 1;
+            const contexts = [
+              `The Eagles practice field is divided into ${denominator} equal sections for drills.`,
+              `Coach divided the Packers field into ${denominator} equal zones for practice.`,
+              `The Ravens training field has ${denominator} equal sections marked out.`
+            ];
+            const context = contexts[Math.floor(Math.random() * contexts.length)];
+            return {
+              context: context,
+              question: `If ${numerator} section${numerator > 1 ? 's are' : ' is'} being used, what fraction of the field is in use?`,
+              answer: `${numerator}/${denominator}`,
+              explanation: `The field has ${denominator} equal parts, and ${numerator} ${numerator > 1 ? 'are' : 'is'} being used, so the answer is ${numerator}/${denominator}.`
+            };
+          }
+        },
+        {
+          type: 'improper-fraction',
+          name: 'Improper Fractions',
+          generate: () => {
+            const denominator = [2, 3, 4][Math.floor(Math.random() * 3)];
+            const whole = Math.floor(Math.random() * 3) + 1;
+            const numerator = Math.floor(Math.random() * (denominator - 1)) + 1;
+            const improper = (whole * denominator) + numerator;
+            const players = ['Jalen Hurts', 'Lamar Jackson', 'Jordan Love', 'Tom Brady'];
+            const player = players[Math.floor(Math.random() * players.length)];
+
+            if (Math.random() > 0.5) {
+              return {
+                context: `${player} played ${whole} full games and ${numerator}/${denominator} of another game this month.`,
+                question: `Write this as an improper fraction.`,
+                answer: `${improper}/${denominator}`,
+                explanation: `${whole} whole games = ${whole * denominator}/${denominator}. Add ${numerator}/${denominator} to get ${improper}/${denominator}.`
+              };
+            } else {
+              return {
+                context: `${player}'s stats show ${improper}/${denominator} quarters played this weekend.`,
+                question: `Write this as a mixed number.`,
+                answer: `${whole} ${numerator}/${denominator}`,
+                explanation: `${improper} ÷ ${denominator} = ${whole} with remainder ${numerator}, so ${whole} ${numerator}/${denominator}.`
+              };
+            }
+          }
+        },
+        {
+          type: 'addition',
+          name: 'Adding Fractions',
+          generate: () => {
+            const denominator = [2, 4, 8, 3, 6][Math.floor(Math.random() * 5)];
+            const n1 = Math.floor(Math.random() * (denominator - 1)) + 1;
+            const n2 = Math.floor(Math.random() * (denominator - n1)) + 1;
+            const sum = n1 + n2;
+            const simplified = Fractions.simplify(sum, denominator);
+            const scenarios = [
+              { player: 'Justin Jefferson', action: 'caught two passes' },
+              { player: 'Jalen Hurts', action: 'scrambled on two plays' },
+              { player: 'Cooper DeJean', action: 'returned two kicks' }
+            ];
+            const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+
+            return {
+              context: `${scenario.player} ${scenario.action}. On the first play, he gained ${n1}/${denominator} of the field. On the second play, he gained ${n2}/${denominator} more.`,
+              question: `What fraction of the field did ${scenario.player.split(' ')[0]} gain in total?`,
+              answer: `${simplified.numerator}/${simplified.denominator}`,
+              explanation: `${n1}/${denominator} + ${n2}/${denominator} = ${sum}/${denominator}${sum !== simplified.numerator ? ` = ${simplified.numerator}/${simplified.denominator}` : ''}.`
+            };
+          }
+        },
+        {
+          type: 'subtraction',
+          name: 'Subtracting Fractions',
+          generate: () => {
+            const denominator = [2, 4, 8, 3, 6][Math.floor(Math.random() * 5)];
+            const n1 = Math.floor(Math.random() * (denominator - 2)) + 2;
+            const n2 = Math.floor(Math.random() * (n1 - 1)) + 1;
+            const diff = n1 - n2;
+            const simplified = Fractions.simplify(diff, denominator);
+            const teams = ['The Eagles', 'The Ravens', 'The Packers'];
+            const team = teams[Math.floor(Math.random() * teams.length)];
+
+            return {
+              context: `${team} need to go ${n1}/${denominator} of the field to score a touchdown. They've gone ${n2}/${denominator} so far.`,
+              question: `What fraction of the field do they still need to go?`,
+              answer: `${simplified.numerator}/${simplified.denominator}`,
+              explanation: `${n1}/${denominator} - ${n2}/${denominator} = ${diff}/${denominator}${diff !== simplified.numerator ? ` = ${simplified.numerator}/${simplified.denominator}` : ''}.`
+            };
+          }
+        },
+        {
+          type: 'simplify',
+          name: 'Simplifying',
+          generate: () => {
+            const bases = [[2,4], [2,6], [2,8], [3,6], [4,8], [6,12]];
+            const [simple, complex] = bases[Math.floor(Math.random() * bases.length)];
+            const multiplier = complex / simple;
+            const numerator = Math.floor(Math.random() * (simple - 1)) + 1;
+            const unsimplified = numerator * multiplier;
+            const qbs = [
+              { name: 'Jalen Hurts', team: 'Eagles' },
+              { name: 'Lamar Jackson', team: 'Ravens' },
+              { name: 'Jordan Love', team: 'Packers' },
+              { name: 'Tom Brady', team: 'his career' }
+            ];
+            const qb = qbs[Math.floor(Math.random() * qbs.length)];
+
+            return {
+              context: `${qb.name} completed ${unsimplified} out of ${complex} passes in ${qb.team === 'his career' ? 'one legendary game' : 'the game against the Cowboys'}.`,
+              question: `Write this completion rate as a fraction in simplest form.`,
+              answer: `${numerator}/${simple}`,
+              explanation: `Both ${unsimplified} and ${complex} can be divided by ${multiplier}. ${unsimplified}/${complex} = ${numerator}/${simple}.`
+            };
+          }
+        },
+        {
+          type: 'compare',
+          name: 'Comparing Fractions',
+          generate: () => {
+            const denominator = [2, 3, 4, 6, 8][Math.floor(Math.random() * 5)];
+            const n1 = Math.floor(Math.random() * denominator) + 1;
+            let n2 = Math.floor(Math.random() * denominator) + 1;
+            while (n2 === n1) n2 = Math.floor(Math.random() * denominator) + 1;
+
+            const symbol = n1 > n2 ? '>' : '<';
+            const matchups = [
+              { teamA: 'The Eagles', teamB: 'The Cowboys' },
+              { teamA: 'The Ravens', teamB: 'The Steelers' },
+              { teamA: 'The Packers', teamB: 'The Bears' }
+            ];
+            const matchup = matchups[Math.floor(Math.random() * matchups.length)];
+
+            return {
+              context: `${matchup.teamA} completed ${n1}/${denominator} of their plays. ${matchup.teamB} completed ${n2}/${denominator} of their plays.`,
+              question: `Which symbol makes this true? ${n1}/${denominator} ___ ${n2}/${denominator}`,
+              answer: symbol,
+              explanation: `${n1}/${denominator} ${symbol} ${n2}/${denominator} because ${n1} ${symbol} ${n2}.`,
+              isMultipleChoice: true,
+              choices: ['<', '>', '=']
+            };
+          }
+        }
+      ],
+
+      init() {
+        this.generateProblems();
+        this.renderProblem();
+      },
+
+      generateProblems() {
+        // Generate 10 random problems
+        for (let i = 0; i < 10; i++) {
+          const typeIndex = Math.floor(Math.random() * this.problemTypes.length);
+          const problemType = this.problemTypes[typeIndex];
+          const problem = problemType.generate();
+          this.problems.push({
+            ...problem,
+            type: problemType.name,
+            isMultipleChoice: problem.isMultipleChoice || false
+          });
+        }
+      },
+
+      renderProblem() {
+        const problem = this.problems[this.currentIndex];
+        const quizArea = document.getElementById('quizArea');
+
+        let answerHTML = '';
+        if (problem.isMultipleChoice) {
+          answerHTML = `
+            <div class="choice-group" id="choiceGroup">
+              ${problem.choices.map((choice, index) => `
+                <label class="choice-option" data-choice="${choice}">
+                  <input type="radio" name="answer" value="${choice}" style="display: none;">
+                  <span class="choice-letter">${String.fromCharCode(65 + index)}</span>
+                  <span>${choice}</span>
+                </label>
+              `).join('')}
+            </div>
+          `;
+        } else {
+          answerHTML = `
+            <input type="text"
+                   id="answerInput"
+                   class="answer-input"
+                   placeholder="Your answer"
+                   autocomplete="off">
+            <div class="answer-hint">For mixed numbers, use format like: 2 3/4</div>
+          `;
+        }
+
+        quizArea.innerHTML = `
+          <div class="problem-card">
+            <div class="problem-header">
+              <span class="problem-number">${this.currentIndex + 1}</span>
+              <span class="problem-type-badge">${problem.type}</span>
+            </div>
+
+            <div class="problem-context">
+              🏈 ${problem.context}
+            </div>
+
+            <div class="problem-question">
+              ${problem.question}
+            </div>
+
+            ${answerHTML}
+
+            <div class="feedback-box" id="feedbackBox"></div>
+
+            <div class="action-buttons">
+              <button class="btn btn-primary btn-large" id="submitBtn" onclick="Quiz.checkAnswer()">
+                Submit Answer
+              </button>
+            </div>
+          </div>
+        `;
+
+        // Add event listeners for multiple choice
+        if (problem.isMultipleChoice) {
+          document.querySelectorAll('.choice-option').forEach(option => {
+            option.addEventListener('click', function() {
+              document.querySelectorAll('.choice-option').forEach(o => o.classList.remove('selected'));
+              this.classList.add('selected');
+              this.querySelector('input').checked = true;
+            });
+          });
+        } else {
+          // Add enter key handler for text input
+          document.getElementById('answerInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+              this.checkAnswer();
+            }
+          });
+        }
+
+        // Update header
+        document.getElementById('currentQuestion').textContent = this.currentIndex + 1;
+      },
+
+      checkAnswer() {
+        const problem = this.problems[this.currentIndex];
+        const feedbackBox = document.getElementById('feedbackBox');
+        const submitBtn = document.getElementById('submitBtn');
+
+        let userAnswer = '';
+        if (problem.isMultipleChoice) {
+          const selected = document.querySelector('input[name="answer"]:checked');
+          if (!selected) {
+            App.showToast('Please select an answer', 'error');
+            return;
+          }
+          userAnswer = selected.value.trim();
+        } else {
+          const input = document.getElementById('answerInput');
+          userAnswer = input.value.trim();
+          if (!userAnswer) {
+            App.showToast('Please enter an answer', 'error');
+            return;
+          }
+        }
+
+        const isCorrect = this.normalizeAnswer(userAnswer) === this.normalizeAnswer(problem.answer);
+
+        if (isCorrect) {
+          this.score++;
+          feedbackBox.className = 'feedback-box correct show';
+          feedbackBox.innerHTML = `
+            <div class="feedback-title">✓ Correct!</div>
+            <div class="feedback-explanation">${problem.explanation}</div>
+          `;
+        } else {
+          feedbackBox.className = 'feedback-box incorrect show';
+          feedbackBox.innerHTML = `
+            <div class="feedback-title">✗ Not quite</div>
+            <div class="feedback-explanation">
+              The correct answer is <strong>${problem.answer}</strong>.<br>
+              ${problem.explanation}
+            </div>
+          `;
+        }
+
+        this.answered++;
+        document.getElementById('currentScore').textContent = this.score;
+        document.getElementById('questionsAnswered').textContent = this.answered;
+
+        // Disable input
+        if (problem.isMultipleChoice) {
+          document.querySelectorAll('.choice-option').forEach(option => {
+            option.style.pointerEvents = 'none';
+            if (option.dataset.choice === problem.answer) {
+              option.classList.add('correct');
+            } else if (option.classList.contains('selected')) {
+              option.classList.add('incorrect');
+            }
+          });
+        } else {
+          document.getElementById('answerInput').disabled = true;
+        }
+
+        // Change button to "Next"
+        submitBtn.textContent = this.currentIndex < this.problems.length - 1 ? 'Next Question' : 'See Results';
+        submitBtn.onclick = () => this.nextQuestion();
+      },
+
+      normalizeAnswer(answer) {
+        // Normalize answers for comparison (remove spaces, make lowercase)
+        return answer.toLowerCase().replace(/\s+/g, ' ').trim();
+      },
+
+      nextQuestion() {
+        this.currentIndex++;
+        if (this.currentIndex < this.problems.length) {
+          this.renderProblem();
+        } else {
+          this.showResults();
+        }
+      },
+
+      showResults() {
+        document.getElementById('quizHeader').classList.add('hidden');
+        document.getElementById('quizArea').classList.add('hidden');
+
+        const resultsArea = document.getElementById('resultsArea');
+        resultsArea.classList.remove('hidden');
+
+        const percentage = Math.round((this.score / this.problems.length) * 100);
+        let message = '';
+        let icon = '';
+
+        if (percentage >= 90) {
+          message = 'Outstanding! You\'re a fraction champion!';
+          icon = '🏆';
+        } else if (percentage >= 80) {
+          message = 'Great job! You\'re mastering fractions!';
+          icon = '⭐';
+        } else if (percentage >= 70) {
+          message = 'Good work! Keep practicing!';
+          icon = '👍';
+        } else if (percentage >= 60) {
+          message = 'Not bad! Review and try again!';
+          icon = '📚';
+        } else {
+          message = 'Keep learning! Practice makes perfect!';
+          icon = '💪';
+        }
+
+        resultsArea.innerHTML = `
+          <div class="results-card">
+            <div class="results-icon">${icon}</div>
+            <div class="results-score">${percentage}%</div>
+            <div class="results-message">${message}</div>
+
+            <div class="results-breakdown">
+              <div class="breakdown-item">
+                <div class="breakdown-value correct">${this.score}</div>
+                <div class="breakdown-label">Correct</div>
+              </div>
+              <div class="breakdown-item">
+                <div class="breakdown-value incorrect">${this.problems.length - this.score}</div>
+                <div class="breakdown-label">Incorrect</div>
+              </div>
+              <div class="breakdown-item">
+                <div class="breakdown-value">${this.problems.length}</div>
+                <div class="breakdown-label">Total</div>
+              </div>
+            </div>
+
+            <div class="action-buttons">
+              <button class="btn btn-primary btn-large" onclick="location.reload()">
+                Try Again
+              </button>
+              <a href="./index.html" class="btn btn-secondary btn-large">
+                Back to Practice Hub
+              </a>
+            </div>
+          </div>
+        `;
+
+        // Save practice session
+        Storage.recordPracticeSession({
+          type: 'Mixed Review',
+          score: percentage,
+          problemCount: this.problems.length,
+          correct: this.score,
+          incorrect: this.problems.length - this.score
+        });
+
+        // Show celebration for good scores
+        if (percentage >= 80) {
+          setTimeout(() => {
+            App.celebrate('Great Job!', `You scored ${percentage}%!`, icon);
+          }, 500);
+        }
+      }
+    };
+
+    // Initialize quiz
+    document.addEventListener('DOMContentLoaded', () => {
+      Quiz.init();
+    });
+  </script>
+</body>
+</html>

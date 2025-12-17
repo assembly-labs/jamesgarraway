@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lesson 5 Worksheet: Simplifying Fractions - Football Fractions</title>
+
+  <link rel="stylesheet" href="../../styles/main.css">
+  <link rel="stylesheet" href="../../styles/components.css">
+  <link rel="stylesheet" href="../../styles/print.css">
+
+  <style>
+    .worksheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 3px solid var(--field-green);
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-xl);
+    }
+
+    .worksheet-title {
+      font-size: 1.5rem;
+      color: var(--field-green);
+    }
+
+    .name-line {
+      display: block;
+      border-bottom: 1px solid var(--text);
+      width: 200px;
+      margin-top: var(--space-xs);
+    }
+
+    .problem-section {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .section-header {
+      background: var(--field-green);
+      color: white;
+      padding: var(--space-md);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    .section-body {
+      border: 2px solid var(--field-green);
+      border-top: none;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      padding: var(--space-lg);
+    }
+
+    .problem {
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-lg);
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .problem:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .problem-prompt {
+      font-weight: 600;
+      margin-bottom: var(--space-md);
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    .problem-num {
+      background: var(--field-green);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    .draw-box {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      min-height: 100px;
+      background: #fafafa;
+      margin: var(--space-md) 0;
+    }
+
+    .thinking-prompt {
+      background: var(--thinking-light);
+      border: 2px dashed var(--thinking);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    .thinking-line {
+      border-bottom: 1px solid var(--border);
+      height: 28px;
+    }
+
+    .football-context {
+      background: linear-gradient(135deg, var(--field-green) 0%, #1B5E20 100%);
+      color: white;
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .fraction-problem {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: var(--space-md) 0;
+    }
+
+    .fraction-display {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+    }
+
+    .fraction-num {
+      border-bottom: 2px solid var(--text);
+      padding: 0 8px;
+    }
+
+    .fraction-den {
+      padding: 0 8px;
+    }
+
+    .answer-blank {
+      border-bottom: 2px solid var(--text);
+      min-width: 60px;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .answer-key {
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-xl);
+      border-top: 3px solid var(--border);
+    }
+
+    .answer-key.hidden {
+      display: none;
+    }
+
+    .print-controls {
+      display: flex;
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
+      padding: var(--space-md);
+      background: var(--background);
+      border-radius: var(--radius-md);
+    }
+
+    @media print {
+      .print-controls, .nav {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">Home</a></li>
+        <li><a href="./index.html" class="nav-link">Back to Lesson</a></li>
+        <li><a href="../index.html" class="nav-link">All Lessons</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container" style="max-width: 800px; padding-top: var(--space-xl);">
+    <div class="print-controls">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print Worksheet</button>
+      <button class="btn btn-secondary" onclick="toggleAnswerKey()">Show/Hide Answer Key</button>
+      <a href="./index.html" class="btn btn-secondary">← Back to Lesson</a>
+    </div>
+
+    <div class="print-badge" style="background: #e3f2fd; border: 2px dashed #1976d2; padding: 8px 16px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
+      🖨️ <strong>PRINT WORKSHEET</strong> - This page is designed to be printed out and done with pencil and paper!
+    </div>
+    <header class="worksheet-header">
+      <div>
+        <h1 class="worksheet-title">Lesson 5: Simplifying Fractions</h1>
+        <p class="text-muted">Football Fractions Worksheet</p>
+      </div>
+      <div>
+        <div>Name: <span class="name-line"></span></div>
+        <div class="mt-sm">Date: <span class="name-line" style="width: 120px;"></span></div>
+      </div>
+    </header>
+
+    <!-- Part A: Visual Simplification -->
+    <section class="problem-section">
+      <h2 class="section-header">Part A: Show They're Equal</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">1</span>
+            <span>Draw two bar models to show that 4/6 = 2/3 (same amount, different names)</span>
+          </div>
+          <div class="draw-box" style="min-height: 120px;"></div>
+          <div class="thinking-prompt">
+            💭 Are the shaded amounts the same? _______
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">2</span>
+            <span>Draw two circles (pizzas) to show that 6/8 = 3/4</span>
+          </div>
+          <div class="draw-box" style="min-height: 120px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part B: Simplify These Fractions -->
+    <section class="problem-section">
+      <h2 class="section-header">Part B: Simplify to Lowest Terms</h2>
+      <div class="section-body">
+        <p><em>Divide both numerator and denominator by their common factor!</em></p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-top: var(--space-lg);">
+          <div class="problem">
+            <div class="problem-prompt">
+              <span class="problem-num">3</span>
+            </div>
+            <div class="fraction-problem">
+              <div class="fraction-display">
+                <span class="fraction-num">4</span>
+                <span class="fraction-den">8</span>
+              </div>
+              <span>=</span>
+              <span class="answer-blank"></span>
+            </div>
+          </div>
+
+          <div class="problem">
+            <div class="problem-prompt">
+              <span class="problem-num">4</span>
+            </div>
+            <div class="fraction-problem">
+              <div class="fraction-display">
+                <span class="fraction-num">6</span>
+                <span class="fraction-den">9</span>
+              </div>
+              <span>=</span>
+              <span class="answer-blank"></span>
+            </div>
+          </div>
+
+          <div class="problem">
+            <div class="problem-prompt">
+              <span class="problem-num">5</span>
+            </div>
+            <div class="fraction-problem">
+              <div class="fraction-display">
+                <span class="fraction-num">10</span>
+                <span class="fraction-den">15</span>
+              </div>
+              <span>=</span>
+              <span class="answer-blank"></span>
+            </div>
+          </div>
+
+          <div class="problem">
+            <div class="problem-prompt">
+              <span class="problem-num">6</span>
+            </div>
+            <div class="fraction-problem">
+              <div class="fraction-display">
+                <span class="fraction-num">8</span>
+                <span class="fraction-den">12</span>
+              </div>
+              <span>=</span>
+              <span class="answer-blank"></span>
+            </div>
+          </div>
+
+          <div class="problem">
+            <div class="problem-prompt">
+              <span class="problem-num">7</span>
+            </div>
+            <div class="fraction-problem">
+              <div class="fraction-display">
+                <span class="fraction-num">5</span>
+                <span class="fraction-den">10</span>
+              </div>
+              <span>=</span>
+              <span class="answer-blank"></span>
+            </div>
+          </div>
+
+          <div class="problem">
+            <div class="problem-prompt">
+              <span class="problem-num">8</span>
+            </div>
+            <div class="fraction-problem">
+              <div class="fraction-display">
+                <span class="fraction-num">9</span>
+                <span class="fraction-den">12</span>
+              </div>
+              <span>=</span>
+              <span class="answer-blank"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part C: Football Problems -->
+    <section class="problem-section">
+      <h2 class="section-header">Part C: Football Statistics 🏈</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="football-context">
+            🏈 A quarterback completed 12 passes out of 36 attempts.
+          </div>
+          <div class="problem-prompt">
+            <span class="problem-num">9</span>
+            <span>Write this as a fraction and simplify it.</span>
+          </div>
+          <p>Fraction: <span class="answer-blank"></span></p>
+          <p>Simplified: <span class="answer-blank"></span></p>
+          <div class="thinking-prompt">
+            💭 Explain: Which is easier to understand - 12/36 or the simplified form?
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="football-context">
+            🏈 A team won 8 games out of 12 total games this season.
+          </div>
+          <div class="problem-prompt">
+            <span class="problem-num">10</span>
+            <span>What fraction of games did they win? Simplify your answer.</span>
+          </div>
+          <p>Fraction: <span class="answer-blank"></span></p>
+          <p>Simplified: <span class="answer-blank"></span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part D: Already Simplified? -->
+    <section class="problem-section">
+      <h2 class="section-header">Part D: Can It Be Simplified?</h2>
+      <div class="section-body">
+        <p><em>Some fractions are already in simplest form. Check each one!</em></p>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">11</span>
+            <span>For each fraction, write "already simplified" OR simplify it:</span>
+          </div>
+          <div style="display: grid; gap: var(--space-md);">
+            <div>
+              a) 3/4 = <span class="answer-blank"></span>
+            </div>
+            <div>
+              b) 6/10 = <span class="answer-blank"></span>
+            </div>
+            <div>
+              c) 5/7 = <span class="answer-blank"></span>
+            </div>
+            <div>
+              d) 4/12 = <span class="answer-blank"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part E: Explain Your Thinking -->
+    <section class="problem-section">
+      <h2 class="section-header">Part E: Explain Your Thinking</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">12</span>
+            <span>Emma says: "When I simplify 6/8 to 3/4, I'm changing the amount." Is Emma correct? Why or why not?</span>
+          </div>
+          <div class="thinking-prompt" style="background: transparent; border: none; padding: 0;">
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Answer Key -->
+    <section class="answer-key hidden" id="answerKey">
+      <h3>📝 Answer Key</h3>
+      <div class="card">
+        <div class="card-body">
+          <p><strong>1.</strong> Drawings should show same amount shaded for 4/6 and 2/3. Yes, amounts are equal.</p>
+          <p><strong>2.</strong> Drawings should show same amount shaded for 6/8 and 3/4.</p>
+          <p><strong>3.</strong> 4/8 = 1/2 (divide by 4)</p>
+          <p><strong>4.</strong> 6/9 = 2/3 (divide by 3)</p>
+          <p><strong>5.</strong> 10/15 = 2/3 (divide by 5)</p>
+          <p><strong>6.</strong> 8/12 = 2/3 (divide by 4)</p>
+          <p><strong>7.</strong> 5/10 = 1/2 (divide by 5)</p>
+          <p><strong>8.</strong> 9/12 = 3/4 (divide by 3)</p>
+          <p><strong>9.</strong> 12/36 = 1/3. The simplified form (1/3) is much easier to understand - he completed 1 out of every 3 passes!</p>
+          <p><strong>10.</strong> 8/12 = 2/3 (they won 2 out of every 3 games)</p>
+          <p><strong>11.</strong> a) already simplified  b) 3/5  c) already simplified  d) 1/3</p>
+          <p><strong>12.</strong> No, Emma is not correct. Simplifying does NOT change the amount - it just gives a simpler name for the same amount. 6/8 and 3/4 represent exactly the same amount, just like "twelve inches" and "one foot" are different names for the same length. When we simplify, we divide both numerator and denominator by the same number, which keeps the fraction equivalent.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/app.js"></script>
+  <script>
+    function toggleAnswerKey() {
+      document.getElementById('answerKey').classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

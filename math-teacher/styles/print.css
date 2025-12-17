@@ -1,0 +1,387 @@
+/* Football Fractions - Print Styles */
+
+@media print {
+  /* Reset colors for printing */
+  :root {
+    --field-green: #333;
+    --field-dark: #222;
+    --background: #fff;
+    --card-bg: #fff;
+    --text: #000;
+    --border: #ccc;
+  }
+
+  /* Hide non-printable elements */
+  .nav,
+  .nav-hamburger,
+  .nav-menu,
+  .btn,
+  button,
+  .no-print,
+  .celebration-overlay,
+  .modal-overlay,
+  .tooltip::after,
+  .print-controls,
+  .print-badge,
+  .online-badge,
+  footer {
+    display: none !important;
+  }
+
+  /* Reset page */
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+
+  .page {
+    min-height: auto;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  /* Page header styling */
+  .page-header {
+    background: none !important;
+    color: black;
+    padding: 0;
+    margin-bottom: 20pt;
+    border-bottom: 2pt solid black;
+    padding-bottom: 10pt;
+  }
+
+  .page-header h1 {
+    font-size: 18pt;
+    margin-bottom: 5pt;
+  }
+
+  .page-header p {
+    font-size: 10pt;
+    color: #666;
+  }
+
+  /* Cards */
+  .card {
+    box-shadow: none;
+    border: 1pt solid #ccc;
+    page-break-inside: avoid;
+    margin-bottom: 15pt;
+  }
+
+  .card-header {
+    background: #f0f0f0 !important;
+    color: black;
+    padding: 10pt;
+    border-bottom: 1pt solid #ccc;
+  }
+
+  .card-body {
+    padding: 10pt;
+  }
+
+  /* Problems */
+  .problem {
+    page-break-inside: avoid;
+    border: 1pt solid #ccc;
+    padding: 10pt;
+    margin-bottom: 15pt;
+    box-shadow: none;
+  }
+
+  .problem-number {
+    background: #333;
+    color: white;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Answer boxes - larger for writing */
+  .answer-box {
+    border: 2pt solid #000;
+    min-height: 80pt;
+    background: white;
+  }
+
+  .answer-box-large {
+    min-height: 150pt;
+  }
+
+  /* Thinking boxes */
+  .thinking-box {
+    border: 2pt dashed #666;
+    background: #f9f9f9 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .thinking-box textarea {
+    display: none;
+  }
+
+  .thinking-box::after {
+    content: '';
+    display: block;
+    border-top: 1pt solid #ccc;
+    margin-top: 10pt;
+    height: 60pt;
+  }
+
+  /* Multiple choice */
+  .choice-option {
+    border: 1pt solid #ccc;
+    padding: 8pt;
+    margin-bottom: 5pt;
+  }
+
+  .choice-letter {
+    background: #f0f0f0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Fractions */
+  .fraction {
+    font-size: 12pt;
+  }
+
+  .fraction-numerator {
+    border-bottom: 1pt solid black;
+  }
+
+  /* Bar models */
+  .bar-model-field {
+    background: white !important;
+    border: 2pt solid black;
+  }
+
+  .bar-model-part {
+    border-right: 1pt solid black;
+    color: black;
+  }
+
+  .bar-model-part.shaded {
+    background: #ccc !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Number lines */
+  .number-line-field {
+    background: white !important;
+    border: 2pt solid black;
+    height: 50pt;
+  }
+
+  .number-line-track {
+    background: black;
+    height: 2pt;
+  }
+
+  .number-line-tick {
+    background: black;
+  }
+
+  .number-line-label {
+    color: black;
+  }
+
+  .number-line-marker {
+    display: none;
+  }
+
+  /* Football field elements */
+  .football-field {
+    background: white !important;
+    border: 2pt solid black;
+  }
+
+  .football-field::before {
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent calc(10% - 1px),
+      #ccc calc(10% - 1px),
+      #ccc 10%
+    ) !important;
+  }
+
+  /* Progress elements - hide */
+  .progress-bar,
+  .progress-ring,
+  .lesson-status {
+    display: none;
+  }
+
+  /* Callouts */
+  .callout {
+    border: 1pt solid #666;
+    background: #f9f9f9 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .callout-football {
+    background: #f0f0f0 !important;
+    color: black;
+  }
+
+  .callout-football::before {
+    display: none;
+  }
+
+  /* Alerts */
+  .alert {
+    background: white !important;
+    border: 1pt solid black;
+    border-left-width: 4pt;
+  }
+
+  /* Tables */
+  .stats-table th {
+    background: #f0f0f0 !important;
+    color: black;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Page breaks */
+  .page-break {
+    page-break-before: always;
+  }
+
+  .no-break {
+    page-break-inside: avoid;
+  }
+
+  /* Section headers */
+  .section-header {
+    border-bottom: 1pt solid #ccc;
+    margin-top: 20pt;
+  }
+
+  .section-icon {
+    background: #333;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* CPA stages */
+  .cpa-stages {
+    display: none;
+  }
+
+  /* Links - show URL */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #666;
+  }
+
+  /* Worksheet-specific */
+  .worksheet-header {
+    border-bottom: 2pt solid black;
+    padding-bottom: 10pt;
+    margin-bottom: 20pt;
+  }
+
+  .worksheet-title {
+    font-size: 16pt;
+    font-weight: bold;
+  }
+
+  .worksheet-info {
+    font-size: 10pt;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5pt;
+  }
+
+  .name-line {
+    border-bottom: 1pt solid black;
+    width: 200pt;
+    display: inline-block;
+  }
+
+  .date-line {
+    border-bottom: 1pt solid black;
+    width: 100pt;
+    display: inline-block;
+  }
+
+  /* Answer key styling */
+  .answer-key {
+    border: 2pt solid #333;
+    padding: 15pt;
+    margin-top: 30pt;
+    page-break-before: always;
+  }
+
+  .answer-key-title {
+    font-size: 14pt;
+    font-weight: bold;
+    border-bottom: 1pt solid #ccc;
+    padding-bottom: 5pt;
+    margin-bottom: 10pt;
+  }
+
+  .answer-key-item {
+    display: flex;
+    gap: 10pt;
+    margin-bottom: 5pt;
+    font-size: 10pt;
+  }
+
+  .answer-key-number {
+    font-weight: bold;
+    min-width: 20pt;
+  }
+
+  /* Hide answer key by default (toggle in JS before print) */
+  .answer-key.hidden-print {
+    display: none;
+  }
+
+  /* Instructions for drawing */
+  .draw-area {
+    border: 2pt solid black;
+    min-height: 100pt;
+    position: relative;
+  }
+
+  .draw-area::after {
+    content: 'Draw here';
+    position: absolute;
+    top: 5pt;
+    right: 5pt;
+    font-size: 8pt;
+    color: #999;
+    font-style: italic;
+  }
+
+  /* Grid paper effect for drawing areas */
+  .grid-paper {
+    background-image:
+      linear-gradient(#e0e0e0 1px, transparent 1px),
+      linear-gradient(90deg, #e0e0e0 1px, transparent 1px);
+    background-size: 10pt 10pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* Print button styling (visible on screen only) */
+@media screen {
+  .print-btn {
+    position: fixed;
+    bottom: var(--space-lg);
+    right: var(--space-lg);
+    z-index: 100;
+  }
+}

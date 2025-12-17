@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lesson 5: Simplifying Fractions - Football Fractions</title>
+
+  <link rel="stylesheet" href="../../styles/main.css">
+  <link rel="stylesheet" href="../../styles/components.css">
+  <link rel="stylesheet" href="../../styles/football-theme.css">
+  <link rel="stylesheet" href="../../styles/print.css">
+
+  <style>
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--shadow);
+      margin-bottom: var(--space-xl);
+    }
+
+    .activity-header {
+      padding: var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .activity-header.concrete {
+      background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+      color: white;
+    }
+
+    .activity-header.pictorial {
+      background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+      color: white;
+    }
+
+    .activity-header.abstract {
+      background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+      color: white;
+    }
+
+    .activity-icon {
+      font-size: 2rem;
+    }
+
+    .activity-body {
+      padding: var(--space-xl);
+    }
+
+    .activity-steps {
+      counter-reset: step;
+    }
+
+    .activity-step {
+      display: flex;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-step:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .step-number {
+      counter-increment: step;
+      width: 40px;
+      height: 40px;
+      background: var(--field-green);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-number::before {
+      content: counter(step);
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .parent-script {
+      background: #E8F5E9;
+      border-left: 4px solid var(--correct);
+      padding: var(--space-md);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin: var(--space-md) 0;
+      font-style: italic;
+    }
+
+    .parent-script::before {
+      content: "💬 Say: ";
+      font-style: normal;
+      font-weight: 700;
+      color: var(--correct);
+    }
+
+    .key-question {
+      background: var(--thinking-light);
+      border: 2px dashed var(--thinking);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin: var(--space-md) 0;
+    }
+
+    .key-question::before {
+      content: "❓ Key Question: ";
+      font-weight: 700;
+      color: #E65100;
+    }
+
+    .visual-example {
+      background: var(--background);
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      text-align: center;
+      margin: var(--space-md) 0;
+    }
+
+    .football-callout {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      padding: var(--space-xl);
+      border-radius: var(--radius-lg);
+      margin: var(--space-xl) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .football-callout::after {
+      content: "🏈";
+      position: absolute;
+      right: var(--space-lg);
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 4rem;
+      opacity: 0.2;
+    }
+
+    .materials-box {
+      background: var(--info-light);
+      border: 2px solid var(--info);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .materials-box h4 {
+      color: var(--info);
+      margin-bottom: var(--space-md);
+    }
+
+    .objective-box {
+      background: var(--correct-light);
+      border: 2px solid var(--correct);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .objective-box h4 {
+      color: #1B5E20;
+      margin-bottom: var(--space-md);
+    }
+
+    .comparison-box {
+      display: flex;
+      gap: var(--space-xl);
+      justify-content: center;
+      align-items: center;
+      margin: var(--space-lg) 0;
+      flex-wrap: wrap;
+    }
+
+    .fraction-visual {
+      text-align: center;
+    }
+
+    .bar {
+      width: 200px;
+      height: 50px;
+      display: flex;
+      border: 2px solid var(--field-green);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .bar-piece {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.75rem;
+      border-right: 1px solid var(--field-green);
+    }
+
+    .bar-piece:last-child {
+      border-right: none;
+    }
+
+    .bar-piece.shaded {
+      background: #64B5F6;
+      color: white;
+    }
+
+    .bar-piece.unshaded {
+      background: var(--correct-light);
+    }
+
+    .lesson-complete {
+      text-align: center;
+      padding: var(--space-2xl);
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">Home</a></li>
+        <li><a href="../../diagnostic/index.html" class="nav-link">Skills Check</a></li>
+        <li><a href="../index.html" class="nav-link active">Lessons</a></li>
+        <li><a href="../../practice/index.html" class="nav-link">Practice</a></li>
+        <li><a href="../../tools/number-line.html" class="nav-link">Number Line</a></li>
+        <li><a href="../../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb" style="color: rgba(255,255,255,0.8);">
+        <a href="../index.html" style="color: white;">Lessons</a>
+        <span>›</span>
+        <span>Lesson 5</span>
+      </div>
+      <h1>Lesson 5: Simplifying Fractions</h1>
+      <p>Same amount, simpler name</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Online Badge -->
+    <div class="online-badge" style="background: #e8f5e9; border: 2px solid #2E7D32; padding: 8px 16px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
+      💻 <strong>ONLINE LESSON</strong> - Do this on the computer with a parent or guardian!
+    </div>
+
+    <div class="lesson-nav">
+      <a href="../04-subtracting-fractions/index.html">← Lesson 4: Subtracting Fractions</a>
+      <a href="../06-equivalence/index.html">Lesson 6: Equivalent Fractions →</a>
+    </div>
+
+    <!-- Learning Objective -->
+    <div class="objective-box">
+      <h4>🎯 What You'll Learn</h4>
+      <p>Some fractions are WAY easier to say than others. Here's what you'll figure out:</p>
+      <ul>
+        <li>The same amount can have <strong>different names</strong> (like 2/4 and 1/2)</li>
+        <li><strong>Simplifying</strong> = finding the easiest name for a fraction</li>
+        <li>Divide BOTH top and bottom by the <strong>same number</strong> to simplify</li>
+        <li>Simpler name, EXACT same amount - pretty cool, right?</li>
+      </ul>
+    </div>
+
+    <!-- Concept Explanation -->
+    <div class="concept-box" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 4px solid var(--field-green); border-radius: var(--radius-md); padding: var(--space-lg); margin: var(--space-lg) 0;">
+      <h4 style="color: var(--field-green); margin-bottom: var(--space-md);">🧠 The Big Idea: Same Amount, Easier Name!</h4>
+
+      <div style="margin-bottom: var(--space-md);">
+        <strong>The Simple Explanation:</strong>
+        <p style="margin-top: var(--space-sm);">Sometimes fractions look complicated but can be written in a simpler way. 2/4, 3/6, 4/8, and 50/100 are ALL the same as 1/2! The amount is identical - we're just using different names for it.</p>
+        <p style="margin-top: var(--space-sm);">Simplifying means finding the EASIEST name. To simplify, divide both the top and bottom by the same number. For 4/8: divide both by 4, and you get 1/2. Same amount of pizza, but "half" is way easier to say than "four eighths"!</p>
+      </div>
+
+      <div style="background: white; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>🏈 The Football Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">Tom Brady completed 12 out of 36 passes in a quarter. That's 12/36. Sounds complicated, right? But watch this: divide both by 12, and you get 1/3. He completed 1 out of every 3 passes!</p>
+        <p style="margin-top: var(--space-sm);">Announcers don't say "He's completing twelve thirty-sixths of his passes!" They say "He's completing a third of his passes." Same stat, way easier to understand. That's the power of simplifying!</p>
+      </div>
+
+      <div style="background: #fff3e0; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>⛏️ The Minecraft Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">You collected 32 out of 64 diamonds needed for a full stack. That's 32/64. But wait - divide both by 32, and you get 1/2. You're halfway there! "Half a stack" is so much easier to think about than "thirty-two sixty-fourths."</p>
+      </div>
+
+      <div style="background: #e3f2fd; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>⚽ The Soccer Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">Your team won 6 out of 12 games this season. That's 6/12. Divide both by 6: you won 1/2 your games, or half! Same winning record, but "we won half our games" is easier to say than "we won six twelfths."</p>
+      </div>
+    </div>
+
+    <!-- Materials -->
+    <div class="materials-box">
+      <h4>📦 Materials Needed</h4>
+      <ul class="materials-list" style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-sm);">
+        <li>🔵 Fraction circles (multiple sizes)</li>
+        <li>📄 Paper and colored pencils</li>
+        <li>🍫 Chocolate bar (to break into pieces)</li>
+        <li>✏️ Pencil for drawing models</li>
+      </ul>
+    </div>
+
+    <!-- CPA Stages -->
+    <div class="cpa-stages">
+      <div class="cpa-stage active" id="concreteStage">
+        <div class="cpa-stage-icon">🧱</div>
+        <div class="cpa-stage-label">Concrete</div>
+      </div>
+      <div class="cpa-stage" id="pictorialStage">
+        <div class="cpa-stage-icon">✏️</div>
+        <div class="cpa-stage-label">Pictorial</div>
+      </div>
+      <div class="cpa-stage" id="abstractStage">
+        <div class="cpa-stage-icon">🔢</div>
+        <div class="cpa-stage-label">Abstract</div>
+      </div>
+    </div>
+
+    <!-- CONCRETE Activities -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header concrete">
+          <span class="activity-icon">🧱</span>
+          <div>
+            <h3 style="margin:0">Concrete Activities</h3>
+            <p style="margin:0; opacity:0.9">Hands-on exploration</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <div class="activity-steps">
+            <!-- Activity 1: Same Amount, Different Names -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>The "Same Amount" Discovery</h4>
+                <p>Use fraction circles. Take 2 fourths and 1 half.</p>
+
+                <div class="parent-script">
+                  Look at these two amounts: 2 fourths and 1 half. Put them side by side. What do you notice?
+                </div>
+
+                <p>Let them discover that 2/4 and 1/2 are the SAME AMOUNT!</p>
+
+                <div class="key-question">
+                  They're the same size, right? So 2/4 and 1/2 are just different NAMES for the same amount. Which name is simpler?
+                </div>
+
+                <div class="alert alert-success">
+                  <strong>Key Insight:</strong> "2/4 and 1/2 represent the exact same amount. 1/2 is the simpler name - smaller numbers, easier to say and work with!"
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity 2: Finding Simpler Names -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>The Regrouping Game</h4>
+                <p>Give your child 4 eighths pieces.</p>
+
+                <div class="parent-script">
+                  You have 4 eighths. Can you group these pieces to make larger pieces? Can you make halves instead?
+                </div>
+
+                <p>Let them discover that 4 eighths = 2 fourths = 1 half!</p>
+
+                <div class="visual-example">
+                  <p><strong>All the same amount:</strong></p>
+                  <div class="comparison-box">
+                    <div class="fraction-visual">
+                      <div class="bar">
+                        <div class="bar-piece shaded">1/8</div>
+                        <div class="bar-piece shaded">1/8</div>
+                        <div class="bar-piece shaded">1/8</div>
+                        <div class="bar-piece shaded">1/8</div>
+                        <div class="bar-piece unshaded">1/8</div>
+                        <div class="bar-piece unshaded">1/8</div>
+                        <div class="bar-piece unshaded">1/8</div>
+                        <div class="bar-piece unshaded">1/8</div>
+                      </div>
+                      <p class="mt-sm"><strong>4/8</strong></p>
+                    </div>
+                    <span style="font-size: 1.5rem;">=</span>
+                    <div class="fraction-visual">
+                      <div class="bar">
+                        <div class="bar-piece shaded">1/4</div>
+                        <div class="bar-piece shaded">1/4</div>
+                        <div class="bar-piece unshaded">1/4</div>
+                        <div class="bar-piece unshaded">1/4</div>
+                      </div>
+                      <p class="mt-sm"><strong>2/4</strong></p>
+                    </div>
+                    <span style="font-size: 1.5rem;">=</span>
+                    <div class="fraction-visual">
+                      <div class="bar">
+                        <div class="bar-piece shaded">1/2</div>
+                        <div class="bar-piece unshaded">1/2</div>
+                      </div>
+                      <p class="mt-sm"><strong>1/2 (simplest!)</strong></p>
+                    </div>
+                  </div>
+                </div>
+
+                <p>Try finding simpler names for:</p>
+                <ul>
+                  <li>6/8 (can become 3/4)</li>
+                  <li>3/6 (can become 1/2)</li>
+                  <li>2/4 (can become 1/2)</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Activity 3: When Can't We Simplify? -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Already Simplified!</h4>
+                <p>Give your child 3 fourths pieces.</p>
+
+                <div class="parent-script">
+                  You have 3 fourths. Can you regroup these into equal larger pieces? Try it!
+                </div>
+
+                <p>Let them struggle a bit - they can't! 3/4 is already simplified.</p>
+
+                <div class="key-question">
+                  Why can't we simplify 3/4? (Because 3 and 4 don't share any common factors except 1. We can't evenly divide both by the same number!)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Football Connection -->
+    <div class="football-callout">
+      <h3>🏈 Football Connection: Tom Brady's Legendary Stats</h3>
+      <p>In one of Tom Brady's legendary games, he completed 12 passes out of 36 attempts during the first half.</p>
+      <ul>
+        <li><strong>As a fraction:</strong> 12/36 (12 completions out of 36 attempts)</li>
+        <li><strong>Simplified:</strong> Both 12 and 36 can be divided by 12</li>
+        <li><strong>Simplest form:</strong> 12/36 = 1/3</li>
+      </ul>
+
+      <div class="parent-script" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">
+        Announcers would say "Tom Brady completed 1 out of every 3 throws" instead of "12 out of 36 throws" - simpler to understand, but they mean the exact same thing!
+      </div>
+
+      <div style="margin-top: var(--space-md); padding: var(--space-md); background: rgba(255,255,255,0.15); border-radius: var(--radius-md);">
+        <strong>Try this:</strong> Jalen Hurts completed 8 passes out of 16 attempts. Simplify this fraction! (Answer: 8/16 = 1/2 - he completed half his passes!)
+      </div>
+
+      <p style="margin-top: var(--space-md);"><strong>Key insight:</strong> Simpler fractions are easier to understand and compare!</p>
+    </div>
+
+    <!-- PICTORIAL Activities -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header pictorial">
+          <span class="activity-icon">✏️</span>
+          <div>
+            <h3 style="margin:0">Pictorial Activities</h3>
+            <p style="margin:0; opacity:0.9">Drawing representations</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <div class="activity-steps">
+            <!-- Drawing Equivalent Models -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Drawing to Show Equivalence</h4>
+                <p>Practice drawing bar models to show fractions are equivalent:</p>
+
+                <div class="visual-example">
+                  <p><strong>Example: Show that 6/8 = 3/4</strong></p>
+                  <div style="display: flex; flex-direction: column; gap: var(--space-md); align-items: center;">
+                    <div>
+                      <div class="bar">
+                        <div class="bar-piece shaded">1/8</div>
+                        <div class="bar-piece shaded">1/8</div>
+                        <div class="bar-piece shaded">1/8</div>
+                        <div class="bar-piece shaded">1/8</div>
+                        <div class="bar-piece shaded">1/8</div>
+                        <div class="bar-piece shaded">1/8</div>
+                        <div class="bar-piece unshaded">1/8</div>
+                        <div class="bar-piece unshaded">1/8</div>
+                      </div>
+                      <p class="mt-sm">6/8 (6 out of 8 pieces shaded)</p>
+                    </div>
+                    <div>
+                      <div class="bar">
+                        <div class="bar-piece shaded">1/4</div>
+                        <div class="bar-piece shaded">1/4</div>
+                        <div class="bar-piece shaded">1/4</div>
+                        <div class="bar-piece unshaded">1/4</div>
+                      </div>
+                      <p class="mt-sm">3/4 (same amount!)</p>
+                    </div>
+                  </div>
+                </div>
+
+                <p>Now you draw bar models to show:</p>
+                <ol>
+                  <li>4/6 = 2/3</li>
+                  <li>8/10 = 4/5</li>
+                  <li>2/8 = 1/4</li>
+                </ol>
+              </div>
+            </div>
+
+            <!-- Circle Models -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Pizza Simplification</h4>
+                <p>Draw circles (pizzas) to show equivalent fractions:</p>
+
+                <ol>
+                  <li>Draw a pizza cut into 6 slices with 4 slices shaded (4/6). Can you draw the same amount as fewer, bigger slices? (2/3)</li>
+                  <li>Draw a pizza cut into 8 slices with 4 slices shaded (4/8). What's the simplest name? (1/2)</li>
+                </ol>
+
+                <div class="parent-script">
+                  Ask: "Is the amount of pizza the same or different? Only the way we describe it changes!"
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABSTRACT Section -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header abstract">
+          <span class="activity-icon">🔢</span>
+          <div>
+            <h3 style="margin:0">Abstract: The Simplification Process</h3>
+            <p style="margin:0; opacity:0.9">Connecting to symbols and procedures</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <h4>How to Simplify Fractions</h4>
+
+          <div style="background: var(--thinking-light); padding: var(--space-lg); border-radius: var(--radius-md); margin: var(--space-lg) 0;">
+            <h4>The thinking process:</h4>
+            <ol>
+              <li><strong>Find a common factor:</strong> What number divides evenly into BOTH the numerator and denominator?</li>
+              <li><strong>Divide both by that factor:</strong> Divide the top and bottom by the same number</li>
+              <li><strong>Check if you can simplify more:</strong> Can you find another common factor?</li>
+              <li><strong>Stop when you can't simplify further:</strong> When the only common factor is 1, you're done!</li>
+            </ol>
+          </div>
+
+          <div class="visual-example">
+            <p><strong>Example: Simplify 8/12</strong></p>
+            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-lg); flex-wrap: wrap; font-size: 1.25rem; font-weight: 600;">
+              <div>
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <span style="border-bottom: 2px solid var(--text); padding: 0 8px;">8</span>
+                  <span style="padding: 0 8px;">12</span>
+                </div>
+                <p style="font-size: 0.875rem; margin-top: var(--space-sm);">Original</p>
+              </div>
+              <span>→</span>
+              <div>
+                <p style="font-size: 0.875rem; margin-bottom: var(--space-sm);">Both divide by 4</p>
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <span style="border-bottom: 2px solid var(--text); padding: 0 8px;">8 ÷ 4 = 2</span>
+                  <span style="padding: 0 8px;">12 ÷ 4 = 3</span>
+                </div>
+              </div>
+              <span>=</span>
+              <div>
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <span style="border-bottom: 2px solid var(--text); padding: 0 8px;">2</span>
+                  <span style="padding: 0 8px;">3</span>
+                </div>
+                <p style="font-size: 0.875rem; margin-top: var(--space-sm);">Simplified!</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-warning mt-lg">
+            <div class="alert-title">⚠️ Important!</div>
+            <p>You MUST divide both numerator and denominator by the SAME number. This keeps the fraction equivalent (the same amount).</p>
+          </div>
+
+          <h4 class="mt-xl">Practice Problems</h4>
+          <p>Simplify these fractions to lowest terms:</p>
+          <ol>
+            <li>6/8 = ?</li>
+            <li>9/12 = ?</li>
+            <li>10/15 = ?</li>
+            <li>4/6 = ?</li>
+            <li>5/10 = ?</li>
+          </ol>
+
+          <div class="parent-script">
+            For each one, ask: "What number can divide evenly into both the numerator and denominator?"
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Self-Explanation Prompts -->
+    <section class="activity-section">
+      <div class="card">
+        <div class="card-header">
+          <h3 style="margin:0">💭 Understanding Check</h3>
+        </div>
+        <div class="card-body">
+          <p>Before finishing, make sure you can answer these:</p>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">Does simplifying change the amount?</div>
+            <p>(No! Simplifying gives a different NAME for the same amount. 4/8 and 1/2 are the exact same amount.)</p>
+          </div>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">Why do we simplify fractions?</div>
+            <p>(Simpler fractions are easier to understand, compare, and work with. It's easier to think about 1/2 than 36/72!)</p>
+          </div>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">How do you know when a fraction is fully simplified?</div>
+            <p>(When the only number that divides evenly into both numerator and denominator is 1. The numbers have no common factors except 1.)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lesson Complete -->
+    <div class="lesson-complete">
+      <h2>🎉 Brilliant Work!</h2>
+      <p>You now understand how to simplify fractions to find simpler names for the same amount!</p>
+      <div class="flex-center gap-md mt-lg">
+        <a href="worksheet.html" class="btn btn-primary btn-large">Complete Worksheet</a>
+        <button class="btn btn-success btn-large" onclick="markLessonComplete()">Mark Lesson Complete</button>
+      </div>
+      <p class="text-muted mt-lg">Next up: Lesson 6 - Equivalent Fractions</p>
+    </div>
+  </main>
+
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/app.js"></script>
+  <script>
+    Storage.startLesson(5);
+
+    // Update CPA stages based on scroll or interaction
+    function updateCPAStages(stage) {
+      document.querySelectorAll('.cpa-stage').forEach(el => el.classList.remove('active'));
+      document.getElementById(stage + 'Stage').classList.add('active');
+    }
+
+    // Set up Intersection Observer to track which section is visible
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = {
+        concrete: document.querySelector('.activity-header.concrete')?.closest('.activity-card'),
+        pictorial: document.querySelector('.activity-header.pictorial')?.closest('.activity-card'),
+        abstract: document.querySelector('.activity-header.abstract')?.closest('.activity-card')
+      };
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -60% 0px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            for (const [stage, element] of Object.entries(sections)) {
+              if (element === entry.target) {
+                updateCPAStages(stage);
+                break;
+              }
+            }
+          }
+        });
+      }, observerOptions);
+
+      Object.values(sections).forEach(section => {
+        if (section) observer.observe(section);
+      });
+    });
+
+    function markLessonComplete() {
+      Storage.completeLesson(5);
+      App.celebrate('Lesson 5 Complete!', 'You understand simplifying fractions!', '🏆');
+      document.querySelector('.btn-success').textContent = '✓ Completed';
+      document.querySelector('.btn-success').disabled = true;
+    }
+
+    const progress = Storage.getLessonProgress();
+    if (progress[5]?.completed) {
+      document.querySelector('.btn-success').textContent = '✓ Completed';
+      document.querySelector('.btn-success').disabled = true;
+    }
+  </script>
+</body>
+</html>

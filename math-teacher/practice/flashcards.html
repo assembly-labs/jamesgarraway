@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Flashcards - Football Fractions</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+  <link rel="stylesheet" href="../styles/print.css">
+
+  <style>
+    .flashcard-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .category-selector {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    .category-btn {
+      padding: var(--space-md);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--card-bg);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-align: center;
+    }
+
+    .category-btn:hover {
+      border-color: var(--field-green);
+      background: rgba(46, 125, 50, 0.05);
+    }
+
+    .category-btn.active {
+      border-color: var(--field-green);
+      background: var(--field-green);
+      color: white;
+    }
+
+    .category-icon {
+      font-size: 2rem;
+      margin-bottom: var(--space-xs);
+    }
+
+    .category-name {
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .category-count {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: var(--space-xs);
+    }
+
+    .category-btn.active .category-count {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .flashcard-progress {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-lg);
+      margin-bottom: var(--space-lg);
+      box-shadow: 0 2px 8px var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+
+    .card-counter {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .card-nav {
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    .flashcard {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      min-height: 400px;
+      box-shadow: 0 8px 32px var(--shadow);
+      position: relative;
+      cursor: pointer;
+      transition: transform var(--transition-normal);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    .flashcard:hover {
+      transform: scale(1.02);
+    }
+
+    .flashcard.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard:hover.flipped {
+      transform: rotateY(180deg) scale(1.02);
+    }
+
+    .card-face {
+      padding: var(--space-2xl);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 400px;
+      backface-visibility: hidden;
+      position: absolute;
+      width: 100%;
+      border-radius: var(--radius-xl);
+    }
+
+    .card-front {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+    }
+
+    .card-back {
+      background: linear-gradient(135deg, #2196F3 0%, #1565C0 100%);
+      color: white;
+      transform: rotateY(180deg);
+    }
+
+    .card-label {
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.8;
+      margin-bottom: var(--space-md);
+    }
+
+    .card-content {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: var(--space-lg);
+      line-height: 1.4;
+    }
+
+    .card-hint {
+      font-size: 0.875rem;
+      opacity: 0.9;
+      margin-top: auto;
+    }
+
+    .card-context {
+      background: rgba(255, 255, 255, 0.2);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin-top: var(--space-md);
+      font-style: italic;
+      font-size: 1rem;
+    }
+
+    .controls {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      margin-top: var(--space-xl);
+      flex-wrap: wrap;
+    }
+
+    .no-cards {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
+      text-align: center;
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    .no-cards-icon {
+      font-size: 4rem;
+      margin-bottom: var(--space-lg);
+    }
+
+    @media print {
+      .flashcard-container {
+        max-width: 100%;
+      }
+
+      .category-selector,
+      .flashcard-progress,
+      .controls,
+      .nav,
+      .page-header,
+      footer {
+        display: none !important;
+      }
+
+      .flashcard {
+        page-break-inside: avoid;
+        margin-bottom: var(--space-xl);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        min-height: 300px;
+      }
+
+      .flashcard:hover {
+        transform: none;
+      }
+
+      .card-face {
+        position: relative;
+        min-height: 300px;
+      }
+
+      .card-back {
+        page-break-before: always;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        ☰
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="../diagnostic/index.html" class="nav-link">Skills Check</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Lessons</a></li>
+        <li><a href="../practice/index.html" class="nav-link active">Practice</a></li>
+        <li><a href="../tools/number-line.html" class="nav-link">Number Line</a></li>
+        <li><a href="../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <a href="./index.html">Practice</a>
+        <span>/</span>
+        <span>Flashcards</span>
+      </div>
+      <h1>🃏 Flashcards</h1>
+      <p>Click cards to flip and reveal answers</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="flashcard-container">
+      <!-- Category Selector -->
+      <div class="category-selector">
+        <h2>Choose a Category</h2>
+        <div class="category-grid" id="categoryGrid">
+          <!-- Categories will be rendered here -->
+        </div>
+      </div>
+
+      <!-- Flashcard Progress -->
+      <div class="flashcard-progress" id="progressBar" style="display: none;">
+        <div class="card-counter">
+          Card <span id="currentCard">1</span> of <span id="totalCards">0</span>
+        </div>
+        <div class="card-nav">
+          <button class="btn btn-secondary btn-small" id="prevBtn" onclick="Flashcards.prevCard()">← Previous</button>
+          <button class="btn btn-secondary btn-small" id="nextBtn" onclick="Flashcards.nextCard()">Next →</button>
+        </div>
+      </div>
+
+      <!-- Flashcard Display -->
+      <div id="flashcardDisplay">
+        <div class="no-cards">
+          <div class="no-cards-icon">👆</div>
+          <h3>Select a category above to start</h3>
+          <p class="text-muted">Choose from concepts, comparisons, visual problems, or equivalence</p>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls" id="controls" style="display: none;">
+        <button class="btn btn-secondary" onclick="Flashcards.shuffle()">🔀 Shuffle</button>
+        <button class="btn btn-secondary" onclick="Flashcards.restart()">🔄 Restart</button>
+        <button class="btn btn-secondary" onclick="window.print()">🖨️ Print</button>
+        <a href="./index.html" class="btn btn-primary">Back to Practice Hub</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: var(--field-dark); color: white; padding: var(--space-xl) 0; text-align: center; margin-top: var(--space-2xl);">
+    <div class="container">
+      <p>Football Fractions - Flashcards</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/fractions.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    const Flashcards = {
+      categories: {
+        concepts: {
+          name: 'Concepts',
+          icon: '💡',
+          cards: [
+            { front: 'What is a fraction?', back: 'A number that represents part of a whole', context: 'Like part of a football field' },
+            { front: 'What is the numerator?', back: 'The top number - tells how many parts we have', context: '3/4 ← The 3 is the numerator' },
+            { front: 'What is the denominator?', back: 'The bottom number - tells how many equal parts in total', context: '3/4 ← The 4 is the denominator' },
+            { front: 'What does 1/2 mean?', back: '1 part out of 2 equal parts', context: 'Half the football field' },
+            { front: 'What is an improper fraction?', back: 'A fraction where the numerator is larger than the denominator', context: 'Like 5/4 or 7/3' },
+            { front: 'What is a mixed number?', back: 'A whole number and a fraction together', context: 'Like 2 1/4 or 1 3/8' },
+            { front: 'What does "equivalent fractions" mean?', back: 'Different fractions that represent the same amount', context: '1/2 = 2/4 = 4/8' },
+            { front: 'What does it mean to simplify a fraction?', back: 'Write it in the smallest numbers possible', context: '4/8 simplified is 1/2' }
+          ]
+        },
+        comparisons: {
+          name: 'Comparisons',
+          icon: '⚖️',
+          cards: [
+            { front: 'Which is larger: 1/2 or 1/4?', back: '1/2 is larger', context: '1/2 = 2/4, which is more than 1/4' },
+            { front: 'Which is larger: 3/4 or 2/4?', back: '3/4 is larger', context: '3 parts is more than 2 parts' },
+            { front: 'Which is larger: 2/3 or 1/3?', back: '2/3 is larger', context: '2 parts is more than 1 part' },
+            { front: 'Are 1/2 and 2/4 equal?', back: 'Yes! They are equivalent', context: 'Both represent half' },
+            { front: 'Are 2/6 and 1/3 equal?', back: 'Yes! They are equivalent', context: '2/6 simplified is 1/3' },
+            { front: 'Which is larger: 5/8 or 3/8?', back: '5/8 is larger', context: '5 parts is more than 3 parts' },
+            { front: 'Are 4/4 and 1 equal?', back: 'Yes! 4/4 = 1 whole', context: 'All parts make one whole' },
+            { front: 'Which is smaller: 1/8 or 1/4?', back: '1/8 is smaller', context: 'Eighths are smaller than fourths' }
+          ]
+        },
+        visual: {
+          name: 'Draw It',
+          icon: '🎨',
+          cards: [
+            { front: 'Draw 1/2', back: 'A shape divided into 2 equal parts with 1 shaded', context: '🏈 Half the field' },
+            { front: 'Draw 3/4', back: 'A shape divided into 4 equal parts with 3 shaded', context: '🏈 Three quarters of the field' },
+            { front: 'Draw 2/3', back: 'A shape divided into 3 equal parts with 2 shaded', context: '🏈 Two thirds of the field' },
+            { front: 'Draw 1/4', back: 'A shape divided into 4 equal parts with 1 shaded', context: '🏈 One quarter of the field' },
+            { front: 'Show 5/4 on a number line', back: 'Mark 5/4 between 1 and 2 (at 1 1/4)', context: 'More than one whole' },
+            { front: 'Show 1 1/2 on a number line', back: 'Mark halfway between 1 and 2', context: 'One and a half' },
+            { front: 'Draw 4/8 and show it equals 1/2', back: 'Divide into 8 parts, shade 4. Same as 1/2', context: 'Equivalent fractions' },
+            { front: 'Draw 2/2', back: 'A shape divided into 2 parts with both shaded = 1 whole', context: 'All parts = 1' }
+          ]
+        },
+        equivalence: {
+          name: 'Equivalence',
+          icon: '🔄',
+          cards: [
+            { front: '1/2 = ?/4', back: '1/2 = 2/4', context: 'Multiply top and bottom by 2' },
+            { front: '1/3 = ?/6', back: '1/3 = 2/6', context: 'Multiply top and bottom by 2' },
+            { front: '2/4 = ?/2', back: '2/4 = 1/2', context: 'Divide top and bottom by 2' },
+            { front: '3/6 = ?/2', back: '3/6 = 1/2', context: 'Divide top and bottom by 3' },
+            { front: '4/8 = ?/4', back: '4/8 = 2/4', context: 'Divide top and bottom by 2' },
+            { front: '1/4 = ?/8', back: '1/4 = 2/8', context: 'Multiply top and bottom by 2' },
+            { front: '6/8 = ?/4', back: '6/8 = 3/4', context: 'Divide top and bottom by 2' },
+            { front: '2/3 = ?/6', back: '2/3 = 4/6', context: 'Multiply top and bottom by 2' }
+          ]
+        }
+      },
+
+      currentCategory: null,
+      currentCards: [],
+      currentIndex: 0,
+
+      init() {
+        this.renderCategories();
+      },
+
+      renderCategories() {
+        const grid = document.getElementById('categoryGrid');
+        grid.innerHTML = Object.keys(this.categories).map(key => {
+          const cat = this.categories[key];
+          return `
+            <div class="category-btn" onclick="Flashcards.selectCategory('${key}')">
+              <div class="category-icon">${cat.icon}</div>
+              <div class="category-name">${cat.name}</div>
+              <div class="category-count">${cat.cards.length} cards</div>
+            </div>
+          `;
+        }).join('');
+      },
+
+      selectCategory(categoryKey) {
+        this.currentCategory = categoryKey;
+        this.currentCards = [...this.categories[categoryKey].cards];
+        this.currentIndex = 0;
+
+        // Update UI
+        document.querySelectorAll('.category-btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        event.target.closest('.category-btn').classList.add('active');
+
+        document.getElementById('progressBar').style.display = 'flex';
+        document.getElementById('controls').style.display = 'flex';
+        document.getElementById('totalCards').textContent = this.currentCards.length;
+
+        this.renderCard();
+      },
+
+      renderCard() {
+        const card = this.currentCards[this.currentIndex];
+        const display = document.getElementById('flashcardDisplay');
+
+        display.innerHTML = `
+          <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="card-face card-front">
+              <div class="card-label">Question</div>
+              <div class="card-content">${card.front}</div>
+              <div class="card-hint">Click to reveal answer</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="card-label">Answer</div>
+              <div class="card-content">${card.back}</div>
+              ${card.context ? `<div class="card-context">${card.context}</div>` : ''}
+              <div class="card-hint">Click to flip back</div>
+            </div>
+          </div>
+        `;
+
+        document.getElementById('currentCard').textContent = this.currentIndex + 1;
+
+        // Update button states
+        document.getElementById('prevBtn').disabled = this.currentIndex === 0;
+        document.getElementById('nextBtn').disabled = this.currentIndex === this.currentCards.length - 1;
+      },
+
+      nextCard() {
+        if (this.currentIndex < this.currentCards.length - 1) {
+          this.currentIndex++;
+          this.renderCard();
+        }
+      },
+
+      prevCard() {
+        if (this.currentIndex > 0) {
+          this.currentIndex--;
+          this.renderCard();
+        }
+      },
+
+      shuffle() {
+        this.currentCards = App.shuffle(this.currentCards);
+        this.currentIndex = 0;
+        this.renderCard();
+        App.showToast('Cards shuffled!', 'success');
+      },
+
+      restart() {
+        this.currentIndex = 0;
+        this.renderCard();
+        App.showToast('Restarted from beginning', 'info');
+      }
+    };
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (Flashcards.currentCards.length === 0) return;
+
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        if (e.key === ' ') {
+          // Spacebar flips the card
+          document.querySelector('.flashcard')?.classList.toggle('flipped');
+        } else {
+          Flashcards.nextCard();
+        }
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        Flashcards.prevCard();
+      }
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      Flashcards.init();
+    });
+  </script>
+</body>
+</html>

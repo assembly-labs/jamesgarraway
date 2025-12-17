@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Parent Coaching Guide - Football Fractions</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+  <link rel="stylesheet" href="../styles/print.css">
+
+  <style>
+    .guide-section {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .guide-toc {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-2xl);
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    .guide-toc h3 {
+      margin-bottom: var(--space-md);
+    }
+
+    .guide-toc ol {
+      margin: 0;
+      padding-left: var(--space-lg);
+    }
+
+    .guide-toc li {
+      margin-bottom: var(--space-sm);
+    }
+
+    .guide-toc a {
+      color: var(--field-green);
+    }
+
+    .script-box {
+      background: #F3E5F5;
+      border-left: 4px solid #9C27B0;
+      padding: var(--space-lg);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin: var(--space-md) 0;
+    }
+
+    .script-box .speaker {
+      font-weight: 700;
+      color: #7B1FA2;
+    }
+
+    .script-box p {
+      margin-bottom: var(--space-sm);
+    }
+
+    .script-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .do-dont {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-lg);
+      margin: var(--space-lg) 0;
+    }
+
+    .do-box {
+      background: var(--correct-light);
+      border: 2px solid var(--correct);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+    }
+
+    .do-box h4 {
+      color: #1B5E20;
+    }
+
+    .dont-box {
+      background: var(--incorrect-light);
+      border: 2px solid var(--incorrect);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+    }
+
+    .dont-box h4 {
+      color: #B71C1C;
+    }
+
+    .question-bank {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .question-card {
+      background: var(--thinking-light);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      font-style: italic;
+    }
+
+    .question-card::before {
+      content: '"';
+      font-size: 2rem;
+      color: var(--thinking);
+      line-height: 1;
+    }
+
+    .bar-model-example {
+      background: var(--background);
+      padding: var(--space-xl);
+      border-radius: var(--radius-lg);
+      margin: var(--space-lg) 0;
+    }
+
+    .bar-model-step {
+      margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-lg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .bar-model-step:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .bar-model-visual {
+      display: flex;
+      margin: var(--space-md) 0;
+    }
+
+    .bar-part {
+      flex: 1;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--field-green);
+      background: var(--correct-light);
+      font-weight: 700;
+    }
+
+    .bar-part.empty {
+      background: white;
+    }
+
+    .bar-part:first-child {
+      border-radius: var(--radius-md) 0 0 var(--radius-md);
+    }
+
+    .bar-part:last-child {
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+
+    .red-flag {
+      background: var(--incorrect-light);
+      border: 2px solid var(--incorrect);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin: var(--space-md) 0;
+    }
+
+    .red-flag h4 {
+      color: var(--incorrect);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--space-lg) 0;
+    }
+
+    .schedule-table th,
+    .schedule-table td {
+      padding: var(--space-md);
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+
+    .schedule-table th {
+      background: var(--field-green);
+      color: white;
+    }
+
+    .schedule-table tr:nth-child(even) {
+      background: var(--background);
+    }
+
+    .cpa-explanation {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+      margin: var(--space-lg) 0;
+    }
+
+    @media (max-width: 768px) {
+      .cpa-explanation {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .cpa-stage-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      text-align: center;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+
+    .cpa-stage-card h4 {
+      color: var(--field-green);
+    }
+
+    .cpa-icon {
+      font-size: 3rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .print-btn {
+      position: fixed;
+      bottom: var(--space-lg);
+      right: var(--space-lg);
+    }
+
+    @media print {
+      .print-btn {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav no-print">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        ☰
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="../diagnostic/index.html" class="nav-link">Skills Check</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Lessons</a></li>
+        <li><a href="../practice/index.html" class="nav-link">Practice</a></li>
+        <li><a href="../tools/number-line.html" class="nav-link">Number Line</a></li>
+        <li><a href="./index.html" class="nav-link active">Parent Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <h1>👨‍👩‍👦 Parent Coaching Guide</h1>
+      <p>Everything you need to run effective fraction learning sessions at home</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Table of Contents -->
+    <nav class="guide-toc no-print">
+      <h3>📑 In This Guide</h3>
+      <ol>
+        <li><a href="#session-structure">Session Structure (10-15 Minutes)</a></li>
+        <li><a href="#questions-to-ask">Questions to Ask (Instead of Giving Answers)</a></li>
+        <li><a href="#responding-to-mistakes">Responding to Mistakes</a></li>
+        <li><a href="#bar-models">How to Use Bar Models</a></li>
+        <li><a href="#cpa-approach">The CPA Approach</a></li>
+        <li><a href="#red-flags">Red Flags to Watch For</a></li>
+        <li><a href="#when-to-go-concrete">When to Go Back to Concrete</a></li>
+        <li><a href="#weekly-schedule">Sample Weekly Schedule</a></li>
+      </ol>
+    </nav>
+
+    <!-- Section 1: Session Structure -->
+    <section id="session-structure" class="guide-section">
+      <h2>⏱️ Session Structure (10-15 Minutes)</h2>
+
+      <p>Short, focused sessions are more effective than long ones. Here's a proven structure:</p>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 style="margin:0">The 10-15 Minute Session</h3>
+        </div>
+        <div class="card-body">
+          <table class="schedule-table">
+            <tr>
+              <th style="width: 100px">Time</th>
+              <th>Activity</th>
+              <th>Purpose</th>
+            </tr>
+            <tr>
+              <td><strong>2 min</strong></td>
+              <td>Warm-up: Quick review question from previous lesson</td>
+              <td>Activate prior knowledge</td>
+            </tr>
+            <tr>
+              <td><strong>5-8 min</strong></td>
+              <td>Main activity: Concrete → Pictorial → Abstract</td>
+              <td>New learning or practice</td>
+            </tr>
+            <tr>
+              <td><strong>3-5 min</strong></td>
+              <td>Reflection: "What did you learn?" / "Teach me what you did"</td>
+              <td>Consolidate understanding</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="alert alert-info mt-lg">
+        <div class="alert-title">💡 Pro Tip</div>
+        <p>End sessions while your child is still engaged, not when they're frustrated. It's better to do 10 focused minutes than 30 struggling minutes.</p>
+      </div>
+    </section>
+
+    <!-- Section 2: Questions to Ask -->
+    <section id="questions-to-ask" class="guide-section">
+      <h2>❓ Questions to Ask (Instead of Giving Answers)</h2>
+
+      <p>Your job is not to explain - it's to help your child discover. Use these questions to guide their thinking:</p>
+
+      <h3>When Starting a Problem</h3>
+      <div class="question-bank">
+        <div class="question-card">What do you notice about this problem?</div>
+        <div class="question-card">What information do we have?</div>
+        <div class="question-card">What is the problem asking us to find?</div>
+        <div class="question-card">Does this remind you of anything we've done before?</div>
+      </div>
+
+      <h3 class="mt-lg">When They're Stuck</h3>
+      <div class="question-bank">
+        <div class="question-card">Can you draw a picture of this?</div>
+        <div class="question-card">What would this look like with real objects?</div>
+        <div class="question-card">What do you already know that might help?</div>
+        <div class="question-card">What if we tried a simpler version first?</div>
+      </div>
+
+      <h3 class="mt-lg">When They Get an Answer</h3>
+      <div class="question-bank">
+        <div class="question-card">How do you know that's right?</div>
+        <div class="question-card">Can you explain how you got that?</div>
+        <div class="question-card">Does that answer make sense? How can you check?</div>
+        <div class="question-card">Could you solve it a different way?</div>
+      </div>
+
+      <h3 class="mt-lg">For Deeper Understanding</h3>
+      <div class="question-bank">
+        <div class="question-card">Why does that work?</div>
+        <div class="question-card">What would happen if we changed this number?</div>
+        <div class="question-card">Can you teach me how to do this?</div>
+        <div class="question-card">Where else might you use this in real life?</div>
+      </div>
+
+      <div class="callout callout-parent mt-xl">
+        <div class="callout-title">🎯 The Goal</div>
+        <p>Your child should be doing 80% of the talking. If you find yourself explaining, stop and ask a question instead.</p>
+      </div>
+    </section>
+
+    <!-- Section 3: Responding to Mistakes -->
+    <section id="responding-to-mistakes" class="guide-section">
+      <h2>🌱 Responding to Mistakes</h2>
+
+      <p>How you respond to mistakes shapes whether your child sees math as threatening or as a puzzle to solve. <strong>Mistakes are not problems to fix—they're windows into your child's thinking.</strong></p>
+
+      <div class="do-dont">
+        <div class="do-box">
+          <h4>✅ Do Say</h4>
+          <ul>
+            <li>"Interesting! Tell me more about how you got that."</li>
+            <li>"I see what you're thinking. Let's look at this together."</li>
+            <li>"That's a really common thing to think. Let me show you something..."</li>
+            <li>"You're on the right track! Let's check this part."</li>
+            <li>"I love that you tried. What could we do differently?"</li>
+          </ul>
+        </div>
+        <div class="dont-box">
+          <h4>❌ Don't Say</h4>
+          <ul>
+            <li>"No, that's wrong."</li>
+            <li>"We just went over this!"</li>
+            <li>"Think harder."</li>
+            <li>"That doesn't make sense."</li>
+            <li>"You should know this by now."</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Sample Dialogue: When They Make a Mistake</h3>
+      <div class="script-box">
+        <p><span class="speaker">Child:</span> 1/3 + 1/3 = 2/6</p>
+        <p><span class="speaker">Parent:</span> Interesting! Tell me how you got 2/6.</p>
+        <p><span class="speaker">Child:</span> I added the tops and added the bottoms.</p>
+        <p><span class="speaker">Parent:</span> I see your thinking! Let's check that with our fraction tiles. Can you show me 1/3 + 1/3 with the pieces?</p>
+        <p><span class="speaker">Child:</span> [Uses tiles, discovers it's 2/3, not 2/6]</p>
+        <p><span class="speaker">Parent:</span> What do you notice? Why do you think the denominator didn't change?</p>
+      </div>
+
+      <div class="alert alert-warning mt-lg">
+        <div class="alert-title">⚠️ Important</div>
+        <p>Never show frustration, even if you feel it. Take a breath. If you're getting frustrated, it's time to take a break. Say: "Let's come back to this later with fresh eyes."</p>
+      </div>
+    </section>
+
+    <!-- Section 4: Bar Models -->
+    <section id="bar-models" class="guide-section">
+      <h2>📊 How to Use Bar Models</h2>
+
+      <p>Bar models (also called tape diagrams) are the primary visual tool in Singapore Math. They help students see the relationship between parts and wholes.</p>
+
+      <div class="bar-model-example">
+        <div class="bar-model-step">
+          <h4>Step 1: Draw a rectangle representing the whole</h4>
+          <div class="bar-model-visual">
+            <div class="bar-part empty" style="flex: 1; border-radius: var(--radius-md);">1 whole</div>
+          </div>
+          <p>Start by drawing a rectangle. This represents 1 whole (the whole pizza, the whole field, etc.)</p>
+        </div>
+
+        <div class="bar-model-step">
+          <h4>Step 2: Divide into equal parts based on the denominator</h4>
+          <div class="bar-model-visual">
+            <div class="bar-part empty">1</div>
+            <div class="bar-part empty">2</div>
+            <div class="bar-part empty">3</div>
+            <div class="bar-part empty">4</div>
+          </div>
+          <p>For fourths (denominator = 4), divide into 4 <strong>equal</strong> parts. Each part is 1/4.</p>
+        </div>
+
+        <div class="bar-model-step">
+          <h4>Step 3: Shade the parts indicated by the numerator</h4>
+          <div class="bar-model-visual">
+            <div class="bar-part">1</div>
+            <div class="bar-part">2</div>
+            <div class="bar-part">3</div>
+            <div class="bar-part empty">4</div>
+          </div>
+          <p>To show 3/4, shade 3 of the 4 parts. The shaded area represents the fraction.</p>
+        </div>
+
+        <div class="bar-model-step">
+          <h4>Using Bar Models for Addition: 2/5 + 1/5</h4>
+          <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+            <div>
+              <p class="text-small text-muted">First addend: 2/5</p>
+              <div class="bar-model-visual">
+                <div class="bar-part">1</div>
+                <div class="bar-part">2</div>
+                <div class="bar-part empty">3</div>
+                <div class="bar-part empty">4</div>
+                <div class="bar-part empty">5</div>
+              </div>
+            </div>
+            <div>
+              <p class="text-small text-muted">Second addend: 1/5</p>
+              <div class="bar-model-visual">
+                <div class="bar-part">1</div>
+                <div class="bar-part empty">2</div>
+                <div class="bar-part empty">3</div>
+                <div class="bar-part empty">4</div>
+                <div class="bar-part empty">5</div>
+              </div>
+            </div>
+            <div>
+              <p class="text-small text-muted">Combined: 3/5</p>
+              <div class="bar-model-visual">
+                <div class="bar-part">1</div>
+                <div class="bar-part">2</div>
+                <div class="bar-part">3</div>
+                <div class="bar-part empty">4</div>
+                <div class="bar-part empty">5</div>
+              </div>
+            </div>
+          </div>
+          <p class="mt-md">Notice: We're counting <strong>same-sized pieces</strong>. 2 fifths + 1 fifth = 3 fifths. The denominator (5) tells us the size of each piece - it doesn't change!</p>
+        </div>
+      </div>
+
+      <div class="alert alert-success">
+        <div class="alert-title">Key Insight for Kids</div>
+        <p>"The denominator is like a <strong>noun</strong> - it tells you what KIND of pieces you have. Just like 2 apples + 1 apple = 3 apples (not 3 oranges!), 2 fifths + 1 fifth = 3 fifths!"</p>
+      </div>
+    </section>
+
+    <!-- Section 5: CPA Approach -->
+    <section id="cpa-approach" class="guide-section">
+      <h2>🔄 The CPA Approach</h2>
+
+      <p>Every lesson in this curriculum follows the Concrete → Pictorial → Abstract (CPA) progression. This is how Singapore Math builds deep understanding.</p>
+
+      <div class="cpa-explanation">
+        <div class="cpa-stage-card">
+          <div class="cpa-icon">🧱</div>
+          <h4>CONCRETE</h4>
+          <p>Physical manipulation with real objects</p>
+          <ul class="text-small text-left">
+            <li>Fraction tiles/circles</li>
+            <li>Paper folding</li>
+            <li>Play-doh/clay</li>
+            <li>Food (pizza, chocolate bars)</li>
+            <li>Walking a number line</li>
+          </ul>
+        </div>
+        <div class="cpa-stage-card">
+          <div class="cpa-icon">✏️</div>
+          <h4>PICTORIAL</h4>
+          <p>Drawing representations</p>
+          <ul class="text-small text-left">
+            <li>Bar models</li>
+            <li>Number lines</li>
+            <li>Circles/rectangles</li>
+            <li>Drawings of situations</li>
+            <li>Diagrams</li>
+          </ul>
+        </div>
+        <div class="cpa-stage-card">
+          <div class="cpa-icon">🔢</div>
+          <h4>ABSTRACT</h4>
+          <p>Symbols and equations</p>
+          <ul class="text-small text-left">
+            <li>Fraction notation (3/4)</li>
+            <li>Equations</li>
+            <li>Algorithms</li>
+            <li>Mental math</li>
+            <li>Word problems</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-parent mt-lg">
+        <div class="callout-title">🎯 The Rule</div>
+        <p><strong>Never skip straight to abstract.</strong> If your child can do the procedure but can't explain why it works, go back to concrete or pictorial. The goal is understanding, not just correct answers.</p>
+      </div>
+    </section>
+
+    <!-- Section 6: Red Flags -->
+    <section id="red-flags" class="guide-section">
+      <h2>🚩 Red Flags to Watch For</h2>
+
+      <p>These responses indicate conceptual gaps, not careless errors:</p>
+
+      <div class="red-flag">
+        <h4>🚩 "I just memorized it"</h4>
+        <p><strong>What it means:</strong> They're doing procedures without understanding</p>
+        <p><strong>What to do:</strong> Ask "Can you show me with the tiles?" or "Can you draw it?"</p>
+      </div>
+
+      <div class="red-flag">
+        <h4>🚩 Adding denominators (1/3 + 1/3 = 2/6)</h4>
+        <p><strong>What it means:</strong> They don't understand that the denominator names the SIZE of pieces</p>
+        <p><strong>What to do:</strong> Go back to concrete with fraction tiles. Ask: "Do the pieces change size when we combine them?"</p>
+      </div>
+
+      <div class="red-flag">
+        <h4>🚩 "Larger denominator means larger fraction"</h4>
+        <p><strong>What it means:</strong> They think 1/8 > 1/4 because 8 > 4</p>
+        <p><strong>What to do:</strong> Use pizza analogy: "Would you rather have 1 slice when the pizza is cut into 4 pieces or 8 pieces?"</p>
+      </div>
+
+      <div class="red-flag">
+        <h4>🚩 "Fractions are always less than 1"</h4>
+        <p><strong>What it means:</strong> They haven't grasped improper fractions</p>
+        <p><strong>What to do:</strong> Build 5/4 with circles. Ask: "How many fourths do you have? Is that more or less than 1 whole?"</p>
+      </div>
+
+      <div class="red-flag">
+        <h4>🚩 Can't explain WHY an answer is correct</h4>
+        <p><strong>What it means:</strong> They may be pattern-matching or guessing</p>
+        <p><strong>What to do:</strong> Always ask "How do you know?" Even for correct answers!</p>
+      </div>
+
+      <div class="red-flag">
+        <h4>🚩 Consistent correct answers with no understanding</h4>
+        <p><strong>What it means:</strong> They've memorized the procedure without meaning</p>
+        <p><strong>What to do:</strong> Give them a variation they haven't seen. If they can't transfer, go back to concrete.</p>
+      </div>
+    </section>
+
+    <!-- Section 7: When to Go Concrete -->
+    <section id="when-to-go-concrete" class="guide-section">
+      <h2>🧱 When to Go Back to Concrete</h2>
+
+      <p>Go back to hands-on activities whenever you see:</p>
+
+      <ul>
+        <li>Confusion or frustration</li>
+        <li>Correct procedures without explanation</li>
+        <li>Any of the red flags above</li>
+        <li>A new concept being introduced</li>
+        <li>Questions that start with "Why..."</li>
+      </ul>
+
+      <h3 class="mt-lg">Quick Concrete Activities</h3>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-body">
+            <h4>Paper Folding</h4>
+            <p>Fold paper to show halves, fourths, eighths. Great for seeing equivalence (fold a half in half to see 2/4 = 1/2).</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h4>Fraction Tiles</h4>
+            <p>Colored tiles that snap together. Stack them to compare, combine for addition, find equivalents.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h4>Food Division</h4>
+            <p>Chocolate bars, pizza, sandwiches. Real sharing problems with real consequences!</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h4>Masking Tape Number Line</h4>
+            <p>Put tape on the floor, mark 0 and 1, then have your child physically walk to fraction positions.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="script-box mt-lg">
+        <p><span class="speaker">Parent:</span> I can see you're getting stuck. Let's get out the tiles and build this!</p>
+        <p><span class="speaker">Child:</span> But I know how to do it with numbers...</p>
+        <p><span class="speaker">Parent:</span> Great! But I want to understand it better. Can you teach me using the tiles?</p>
+      </div>
+    </section>
+
+    <!-- Section 8: Weekly Schedule -->
+    <section id="weekly-schedule" class="guide-section">
+      <h2>📅 Sample Weekly Schedule</h2>
+
+      <p>Here's a suggested 4-week schedule for 10-15 minute daily sessions:</p>
+
+      <table class="schedule-table">
+        <tr>
+          <th>Week</th>
+          <th>Focus</th>
+          <th>Daily Pattern</th>
+        </tr>
+        <tr>
+          <td><strong>Week 1</strong></td>
+          <td>Skills Check + Equal Parts (Lesson 1)</td>
+          <td>
+            <strong>Mon:</strong> Skills Check (Optional)<br>
+            <strong>Tue:</strong> L1 Concrete<br>
+            <strong>Wed:</strong> L1 Pictorial<br>
+            <strong>Thu:</strong> L1 Practice<br>
+            <strong>Fri:</strong> L1 Worksheet
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Week 2</strong></td>
+          <td>Improper Fractions & Mixed Numbers (Lesson 2)</td>
+          <td>
+            <strong>Mon:</strong> L1 Review + L2 Intro<br>
+            <strong>Tue:</strong> L2 Concrete<br>
+            <strong>Wed:</strong> L2 Pictorial<br>
+            <strong>Thu:</strong> L2 Practice<br>
+            <strong>Fri:</strong> Mixed Review (L1+L2)
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Week 3</strong></td>
+          <td>Adding & Subtracting Fractions (Lessons 3-4)</td>
+          <td>
+            <strong>Mon:</strong> L3 Concrete<br>
+            <strong>Tue:</strong> L3 Practice<br>
+            <strong>Wed:</strong> L4 Concrete<br>
+            <strong>Thu:</strong> L4 Practice<br>
+            <strong>Fri:</strong> Mixed Review (L1-4)
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Week 4</strong></td>
+          <td>Simplifying & Equivalence (Lessons 5-6)</td>
+          <td>
+            <strong>Mon:</strong> L5 Concrete<br>
+            <strong>Tue:</strong> L5 Practice<br>
+            <strong>Wed:</strong> L6 Concrete<br>
+            <strong>Thu:</strong> L6 Practice<br>
+            <strong>Fri:</strong> Cumulative Review + Celebration!
+          </td>
+        </tr>
+      </table>
+
+      <div class="alert alert-info mt-lg">
+        <div class="alert-title">💡 Flexibility</div>
+        <p>This is a guide, not a rule. If your child needs more time on a concept, take it! Understanding trumps schedule.</p>
+      </div>
+
+      <a href="../schedule/index.html" class="btn btn-primary mt-lg">View Detailed 4-Week Schedule →</a>
+    </section>
+
+    <!-- Final Note -->
+    <section class="guide-section">
+      <div class="callout-football">
+        <div class="callout-title" style="color: white;">🏈 Remember</div>
+        <p>The goal isn't to get through the curriculum—it's to build real understanding that will serve your child for years. Short, positive sessions where your child feels successful and curious are worth more than longer sessions that end in frustration.</p>
+        <p><strong>You've got this, Coach!</strong></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Print Button -->
+  <button class="btn btn-primary print-btn" onclick="window.print()">
+    🖨️ Print Guide
+  </button>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>

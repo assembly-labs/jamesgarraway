@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Skills Check - Football Fractions</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+
+  <style>
+    .diagnostic-page {
+      min-height: 100vh;
+      padding-bottom: var(--space-2xl);
+    }
+
+    .diagnostic-header {
+      margin-bottom: var(--space-xl);
+    }
+
+    .diagnostic-progress {
+      margin-bottom: var(--space-lg);
+    }
+
+    .diagnostic-section-info {
+      background: var(--background);
+      padding: var(--space-lg);
+      border-radius: var(--radius-lg);
+      border-left: 4px solid var(--field-green);
+    }
+
+    .diagnostic-section-info h3 {
+      margin-bottom: var(--space-xs);
+      color: var(--field-green);
+    }
+
+    .diagnostic-question {
+      margin-bottom: var(--space-xl);
+    }
+
+    .diagnostic-navigation {
+      display: flex;
+      justify-content: space-between;
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--border);
+    }
+
+    /* Visual choices grid */
+    .visual-choices {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .visual-choices .choice-option {
+      flex-direction: column;
+      padding: var(--space-md);
+      text-align: center;
+    }
+
+    .choice-visual {
+      margin-top: var(--space-sm);
+    }
+
+    .choice-visual svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Question visual display */
+    .question-visual {
+      display: flex;
+      justify-content: center;
+      padding: var(--space-lg);
+      background: var(--background);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    /* Comparison display */
+    .comparison-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xl);
+      padding: var(--space-xl);
+      background: var(--background);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-lg);
+    }
+
+    .comparison-option {
+      padding: var(--space-lg);
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .comparison-option:hover {
+      border-color: var(--field-green);
+    }
+
+    .comparison-option.selected {
+      border-color: var(--field-green);
+      background: rgba(46, 125, 50, 0.1);
+    }
+
+    .comparison-vs {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    /* Horizontal choice group */
+    .choice-group.horizontal {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .choice-group.horizontal .choice-option {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    /* Order items */
+    .order-items {
+      display: flex;
+      gap: var(--space-lg);
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: var(--space-lg);
+      background: var(--background);
+      border-radius: var(--radius-lg);
+    }
+
+    .order-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-lg);
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border);
+      cursor: grab;
+    }
+
+    .order-item:active {
+      cursor: grabbing;
+    }
+
+    .order-input {
+      width: 50px;
+      text-align: center;
+      padding: var(--space-sm);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .order-input:focus {
+      outline: none;
+      border-color: var(--field-green);
+    }
+
+    /* Draw area */
+    .draw-area {
+      background: var(--background);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Conversion display */
+    .conversion-display {
+      display: flex;
+      align-items: center;
+      gap: var(--space-lg);
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: var(--space-xl);
+      background: var(--background);
+      border-radius: var(--radius-lg);
+    }
+
+    .improper-fraction {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .conversion-equals {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .mixed-number-inputs {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+
+    .number-input {
+      width: 60px;
+      text-align: center;
+      padding: var(--space-sm);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .number-input:focus {
+      outline: none;
+      border-color: var(--field-green);
+    }
+
+    /* Equation display */
+    .equation-display {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: var(--space-xl);
+      background: var(--background);
+      border-radius: var(--radius-lg);
+      font-size: 1.25rem;
+    }
+
+    .operator {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    .answer-inputs {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .fraction-line {
+      width: 60px;
+      height: 2px;
+      background: var(--text);
+      margin: var(--space-xs) 0;
+    }
+
+    /* Results styles */
+    .results-header {
+      padding: var(--space-2xl) 0;
+    }
+
+    .results-header .trophy-icon {
+      font-size: 5rem;
+      animation: trophy-bounce 1s ease infinite;
+    }
+
+    /* Intro screen */
+    .intro-screen {
+      text-align: center;
+      padding: var(--space-2xl);
+    }
+
+    .intro-screen h1 {
+      margin-bottom: var(--space-md);
+    }
+
+    .intro-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-lg);
+      margin: var(--space-xl) 0;
+      text-align: left;
+    }
+
+    .intro-feature {
+      display: flex;
+      gap: var(--space-md);
+      padding: var(--space-md);
+      background: var(--background);
+      border-radius: var(--radius-md);
+    }
+
+    .intro-feature-icon {
+      font-size: 1.5rem;
+    }
+
+    .parent-note {
+      background: var(--info-light);
+      border: 2px solid var(--info);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin: var(--space-xl) 0;
+      text-align: left;
+    }
+
+    .parent-note h4 {
+      color: var(--info);
+      margin-bottom: var(--space-sm);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        ☰
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="./index.html" class="nav-link active">Skills Check</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Lessons</a></li>
+        <li><a href="../practice/index.html" class="nav-link">Practice</a></li>
+        <li><a href="../tools/number-line.html" class="nav-link">Number Line</a></li>
+        <li><a href="../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <h1>📋 Skills Check</h1>
+      <p>See what you know and find areas to level up!</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container diagnostic-page">
+    <div id="diagnosticContainer">
+      <!-- Intro screen shown first -->
+      <div class="intro-screen">
+        <h1>🏈 Ready for a Skills Check?</h1>
+        <p class="text-large">This quiz helps you see what you've got down and what might need more practice. Take it before lessons, after lessons, or anytime you want to check your skills!</p>
+
+        <div class="intro-features">
+          <div class="intro-feature">
+            <span class="intro-feature-icon">⏱️</span>
+            <div>
+              <strong>About 15-20 minutes</strong>
+              <p class="text-small text-muted">No rush - take your time on each one!</p>
+            </div>
+          </div>
+          <div class="intro-feature">
+            <span class="intro-feature-icon">📝</span>
+            <div>
+              <strong>17 Questions</strong>
+              <p class="text-small text-muted">Show us how you think!</p>
+            </div>
+          </div>
+          <div class="intro-feature">
+            <span class="intro-feature-icon">💾</span>
+            <div>
+              <strong>Auto-Saves</strong>
+              <p class="text-small text-muted">Need a break? No problem!</p>
+            </div>
+          </div>
+          <div class="intro-feature">
+            <span class="intro-feature-icon">🎯</span>
+            <div>
+              <strong>Find Your Focus Areas</strong>
+              <p class="text-small text-muted">See what to practice next!</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="parent-note">
+          <h4>👨‍👩‍👦 Coach's Note to Parents</h4>
+          <p>This skills check measures <em>understanding</em>, not just answers. Some questions ask your child to explain their thinking - that's on purpose! Encourage them to share what's in their head, even if they're not 100% sure.</p>
+          <p class="text-small text-muted mt-sm">Take this anytime - before lessons to see where to focus, or after lessons to measure progress. No pressure!</p>
+        </div>
+
+        <button class="btn btn-primary btn-large" onclick="startDiagnostic()">
+          Let's Do This! 🏈
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/fractions.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/diagnostic.js"></script>
+  <script>
+    // Check if already completed
+    const existingResults = Storage.getDiagnosticResults();
+    if (existingResults) {
+      // Show option to view results or retake
+      document.getElementById('diagnosticContainer').innerHTML = `
+        <div class="intro-screen">
+          <h1>🎉 You've Already Taken the Skills Check!</h1>
+          <p class="text-large">You completed this on ${new Date(existingResults.completedAt).toLocaleDateString()}. Want to see how you did or try again?</p>
+
+          <div class="scoreboard mt-xl" style="max-width: 300px; margin-left: auto; margin-right: auto;">
+            <div class="scoreboard-title">Your Score</div>
+            <div class="scoreboard-value">${existingResults.overallScore}%</div>
+          </div>
+
+          <div class="flex-center gap-md mt-xl">
+            <button class="btn btn-primary btn-large" onclick="viewResults()">View Results</button>
+            <button class="btn btn-secondary btn-large" onclick="retakeDiagnostic()">Take Again</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function startDiagnostic() {
+      Diagnostic.init();
+    }
+
+    function viewResults() {
+      const results = Storage.getDiagnosticResults();
+      if (results) {
+        Diagnostic.renderResults(results);
+      }
+    }
+
+    function retakeDiagnostic() {
+      if (confirm('This will clear your previous results. Are you sure?')) {
+        Storage.remove(Storage.KEYS.diagnosticResults);
+        Storage.remove(Storage.KEYS.diagnosticDate);
+        Storage.remove(Storage.KEYS.diagnosticProgress);
+        Diagnostic.init();
+      }
+    }
+  </script>
+</body>
+</html>

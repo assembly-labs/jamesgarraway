@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lessons - Football Fractions</title>
+
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+
+  <style>
+    .lessons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--space-xl);
+    }
+
+    .lesson-card-full {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--shadow);
+      transition: all var(--transition-normal);
+    }
+
+    .lesson-card-full:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px var(--shadow);
+    }
+
+    .lesson-header {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      padding: var(--space-xl);
+      position: relative;
+    }
+
+    .lesson-header.completed {
+      background: linear-gradient(135deg, var(--correct) 0%, #388E3C 100%);
+    }
+
+    .lesson-num {
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-md);
+      width: 3rem;
+      height: 3rem;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .lesson-title {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .lesson-subtitle {
+      opacity: 0.9;
+      font-size: 0.9rem;
+    }
+
+    .lesson-content {
+      padding: var(--space-xl);
+    }
+
+    .lesson-objectives {
+      margin-bottom: var(--space-lg);
+    }
+
+    .lesson-objectives h4 {
+      color: var(--field-green);
+      margin-bottom: var(--space-sm);
+    }
+
+    .lesson-objectives ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .lesson-objectives li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+      font-size: 0.9rem;
+    }
+
+    .lesson-objectives li::before {
+      content: "✓";
+      color: var(--correct);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .lesson-football {
+      background: linear-gradient(135deg, #8D6E63 0%, #6D4C41 100%);
+      color: white;
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      margin-bottom: var(--space-lg);
+    }
+
+    .lesson-actions {
+      display: flex;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+
+    .lesson-status-badge {
+      position: absolute;
+      top: var(--space-md);
+      left: var(--space-md);
+      background: rgba(255,255,255,0.9);
+      color: var(--correct);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .curriculum-overview {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-2xl);
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+
+    .curriculum-overview h2 {
+      margin-bottom: var(--space-lg);
+    }
+
+    .curriculum-path {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: center;
+    }
+
+    .path-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--background);
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+    }
+
+    .path-item.completed {
+      background: var(--correct-light);
+      color: var(--correct);
+    }
+
+    .path-item.current {
+      background: var(--thinking-light);
+      color: #E65100;
+      font-weight: 700;
+    }
+
+    .path-arrow {
+      color: var(--text-light);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="../diagnostic/index.html" class="nav-link">Skills Check</a></li>
+        <li><a href="./index.html" class="nav-link active">Lessons</a></li>
+        <li><a href="../practice/index.html" class="nav-link">Practice</a></li>
+        <li><a href="../tools/number-line.html" class="nav-link">Number Line</a></li>
+        <li><a href="../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="container">
+      <h1>📚 Lessons</h1>
+      <p>Master fractions step by step with hands-on activities and football examples</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Curriculum Path -->
+    <div class="curriculum-overview">
+      <h2>Your Learning Path</h2>
+      <div class="curriculum-path" id="curriculumPath">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Lessons Grid -->
+    <div class="lessons-grid" id="lessonsGrid">
+      <!-- Populated by JS -->
+    </div>
+  </main>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    const lessons = [
+      {
+        num: 1,
+        slug: '01-equal-parts',
+        title: 'Equal Parts',
+        subtitle: 'What makes parts TRULY equal?',
+        objectives: [
+          'Spot shapes that are REALLY split equally',
+          'Split shapes your own way - there\'s more than one!',
+          'See why fair sharing only works with equal parts',
+          'Connect equal parts to pizza, teams, and game time!'
+        ],
+        footballContext: 'Dividing the Eagles practice field into equal zones for drills',
+        materials: ['Paper for folding', 'Scissors', 'Play-doh or clay']
+      },
+      {
+        num: 2,
+        slug: '02-improper-fractions',
+        title: 'Improper Fractions & Mixed Numbers',
+        subtitle: 'Fractions can be bigger than 1!',
+        objectives: [
+          'Discover fractions that are MORE than 1 whole!',
+          'Switch between 5/4 and 1 1/4 like a pro',
+          'Draw pictures to show big fractions',
+          'Use game quarters to make it real'
+        ],
+        footballContext: 'Jalen Hurts played 7 quarters - how many complete games?',
+        materials: ['Fraction circles', 'Number line on floor (masking tape)']
+      },
+      {
+        num: 3,
+        slug: '03-adding-fractions',
+        title: 'Adding Fractions',
+        subtitle: 'Combining same-sized pieces',
+        objectives: [
+          'Add fractions when the bottom numbers match',
+          'Know WHY we don\'t add the bottom numbers (big mistake!)',
+          'Draw bar models to show adding',
+          'Add up yard gains like a stats keeper!'
+        ],
+        footballContext: 'Justin Jefferson gains 3/10 then 2/10 - total yards?',
+        materials: ['Fraction tiles', 'Bar model paper']
+      },
+      {
+        num: 4,
+        slug: '04-subtracting-fractions',
+        title: 'Subtracting Fractions',
+        subtitle: 'Finding what\'s left',
+        objectives: [
+          'Subtract fractions when bottom numbers match',
+          'Compare fractions - who has more?',
+          'Draw it out with bar models and number lines',
+          'Figure out yards to go!'
+        ],
+        footballContext: 'Lamar Jackson needs 7/10 of the field, has 3/10 - what\'s left?',
+        materials: ['Fraction tiles', 'Number line']
+      },
+      {
+        num: 5,
+        slug: '05-simplifying',
+        title: 'Simplifying Fractions',
+        subtitle: 'Same amount, simpler name',
+        objectives: [
+          'See that 2/4 and 1/2 are the SAME amount!',
+          'Find fractions that are secretly equal',
+          'Make fractions as simple as possible',
+          'Use player stats like a commentator!'
+        ],
+        footballContext: 'Tom Brady: 12/36 completions = 1/3 catch rate',
+        materials: ['Fraction tiles', 'Colored pencils']
+      },
+      {
+        num: 6,
+        slug: '06-equivalence',
+        title: 'Fraction Twins',
+        subtitle: 'Same amount, different names!',
+        objectives: [
+          'Figure out WHY some fractions are secretly equal',
+          'Create your own equivalent fractions',
+          'Use a cool trick (multiplying by 1!)',
+          'Find fraction twins on a number line'
+        ],
+        footballContext: 'Jordan Love and the Packers at midfield: 5/10 = 1/2?',
+        materials: ['Number line', 'Fraction strips']
+      }
+    ];
+
+    function renderLessons() {
+      const progress = Storage.getLessonProgress();
+      const grid = document.getElementById('lessonsGrid');
+      const path = document.getElementById('curriculumPath');
+
+      // Render path
+      let pathHTML = '';
+      lessons.forEach((lesson, i) => {
+        const status = progress[lesson.num]?.completed ? 'completed' :
+                      progress[lesson.num]?.started ? 'current' : '';
+        pathHTML += `
+          <div class="path-item ${status}">
+            ${progress[lesson.num]?.completed ? '✓' : lesson.num}
+            ${lesson.title}
+          </div>
+        `;
+        if (i < lessons.length - 1) {
+          pathHTML += '<span class="path-arrow">→</span>';
+        }
+      });
+      path.innerHTML = pathHTML;
+
+      // Render lesson cards
+      grid.innerHTML = lessons.map(lesson => {
+        const lessonProgress = progress[lesson.num] || {};
+        const headerClass = lessonProgress.completed ? 'completed' : '';
+        const statusBadge = lessonProgress.completed ?
+          '<span class="lesson-status-badge">✓ Complete</span>' : '';
+
+        return `
+          <div class="lesson-card-full">
+            <div class="lesson-header ${headerClass}">
+              ${statusBadge}
+              <span class="lesson-num">${lesson.num}</span>
+              <h3 class="lesson-title">${lesson.title}</h3>
+              <p class="lesson-subtitle">${lesson.subtitle}</p>
+            </div>
+            <div class="lesson-content">
+              <div class="lesson-objectives">
+                <h4>What You'll Learn</h4>
+                <ul>
+                  ${lesson.objectives.map(obj => `<li>${obj}</li>`).join('')}
+                </ul>
+              </div>
+              <div class="lesson-football">
+                🏈 <strong>Football Connection:</strong> ${lesson.footballContext}
+              </div>
+              <div class="lesson-actions">
+                <a href="${lesson.slug}/index.html" class="btn btn-primary">
+                  💻 ${lessonProgress.completed ? 'Review Lesson' :
+                    lessonProgress.started ? 'Continue' : 'Start Lesson'}
+                </a>
+                <a href="${lesson.slug}/worksheet.html" class="btn btn-secondary">
+                  🖨️ Print Worksheet
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', renderLessons);
+  </script>
+</body>
+</html>

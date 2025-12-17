@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lesson 1 Worksheet: Equal Parts - Football Fractions</title>
+
+  <link rel="stylesheet" href="../../styles/main.css">
+  <link rel="stylesheet" href="../../styles/components.css">
+  <link rel="stylesheet" href="../../styles/print.css">
+
+  <style>
+    .worksheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 3px solid var(--field-green);
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-xl);
+    }
+
+    .worksheet-title {
+      font-size: 1.5rem;
+      color: var(--field-green);
+      margin-bottom: var(--space-xs);
+    }
+
+    .worksheet-subtitle {
+      color: var(--text-secondary);
+    }
+
+    .worksheet-info {
+      text-align: right;
+    }
+
+    .name-line {
+      display: block;
+      border-bottom: 1px solid var(--text);
+      width: 200px;
+      margin-top: var(--space-xs);
+    }
+
+    .problem-section {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .section-header {
+      background: var(--field-green);
+      color: white;
+      padding: var(--space-md);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      margin-bottom: 0;
+    }
+
+    .section-body {
+      border: 2px solid var(--field-green);
+      border-top: none;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      padding: var(--space-lg);
+    }
+
+    .problem {
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-lg);
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .problem:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .problem-prompt {
+      font-weight: 600;
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
+
+    .problem-num {
+      background: var(--field-green);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    .shape-options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+      margin: var(--space-md) 0;
+    }
+
+    .shape-option {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      text-align: center;
+    }
+
+    .shape-option svg {
+      display: block;
+      margin: 0 auto var(--space-sm);
+    }
+
+    .choice-circle {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--text-secondary);
+      border-radius: 50%;
+      margin: 0 auto;
+    }
+
+    .draw-box {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      min-height: 120px;
+      background: #fafafa;
+      margin: var(--space-md) 0;
+    }
+
+    .draw-box.large {
+      min-height: 180px;
+    }
+
+    .thinking-prompt {
+      background: var(--thinking-light);
+      border: 2px dashed var(--thinking);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    .thinking-prompt::before {
+      content: "💭 Explain your thinking: ";
+      font-weight: 700;
+      color: #E65100;
+    }
+
+    .thinking-lines {
+      margin-top: var(--space-sm);
+    }
+
+    .thinking-line {
+      border-bottom: 1px solid var(--border);
+      height: 28px;
+    }
+
+    .football-context {
+      background: linear-gradient(135deg, var(--field-green) 0%, #1B5E20 100%);
+      color: white;
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-md);
+      font-style: italic;
+    }
+
+    .answer-key {
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-xl);
+      border-top: 3px solid var(--border);
+    }
+
+    .answer-key h3 {
+      color: var(--text-secondary);
+    }
+
+    .answer-key.hidden {
+      display: none;
+    }
+
+    .print-controls {
+      display: flex;
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
+      padding: var(--space-md);
+      background: var(--background);
+      border-radius: var(--radius-md);
+    }
+
+    @media print {
+      .print-controls, .nav {
+        display: none !important;
+      }
+
+      .worksheet-header {
+        border-bottom-width: 2pt;
+      }
+
+      .section-header {
+        background: #333 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .problem-num {
+        background: #333 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .draw-box {
+        border-width: 2pt;
+        min-height: 100pt;
+      }
+
+      .draw-box.large {
+        min-height: 150pt;
+      }
+
+      .thinking-prompt {
+        border-width: 2pt;
+      }
+
+      .answer-key {
+        page-break-before: always;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">Home</a></li>
+        <li><a href="./index.html" class="nav-link">Back to Lesson</a></li>
+        <li><a href="../index.html" class="nav-link">All Lessons</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container" style="max-width: 800px; padding-top: var(--space-xl);">
+    <!-- Print Controls -->
+    <div class="print-controls">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print Worksheet</button>
+      <button class="btn btn-secondary" onclick="toggleAnswerKey()">Show/Hide Answer Key</button>
+      <a href="./index.html" class="btn btn-secondary">← Back to Lesson</a>
+    </div>
+
+    <!-- Worksheet Header -->
+    <div class="print-badge" style="background: #e3f2fd; border: 2px dashed #1976d2; padding: 8px 16px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
+      🖨️ <strong>PRINT WORKSHEET</strong> - This page is designed to be printed out and done with pencil and paper!
+    </div>
+    <header class="worksheet-header">
+      <div>
+        <h1 class="worksheet-title">Lesson 1: Equal Parts</h1>
+        <p class="worksheet-subtitle">Football Fractions Worksheet</p>
+      </div>
+      <div class="worksheet-info">
+        <div>Name: <span class="name-line"></span></div>
+        <div class="mt-sm">Date: <span class="name-line" style="width: 120px;"></span></div>
+      </div>
+    </header>
+
+    <!-- Section A: Identify Equal Parts -->
+    <section class="problem-section">
+      <h2 class="section-header">Part A: Spot the Equal Parts</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">1</span>
+            <span>Circle ALL the shapes that are divided into <strong>equal parts</strong>.</span>
+          </div>
+          <div class="shape-options">
+            <div class="shape-option">
+              <svg viewBox="0 0 80 80" width="70" height="70">
+                <rect x="2" y="2" width="76" height="76" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+                <line x1="40" y1="2" x2="40" y2="78" stroke="#2E7D32" stroke-width="1"/>
+              </svg>
+              <div class="choice-circle"></div>
+              <div class="text-small text-muted">A</div>
+            </div>
+            <div class="shape-option">
+              <svg viewBox="0 0 80 80" width="70" height="70">
+                <rect x="2" y="2" width="76" height="76" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+                <line x1="25" y1="2" x2="25" y2="78" stroke="#2E7D32" stroke-width="1"/>
+              </svg>
+              <div class="choice-circle"></div>
+              <div class="text-small text-muted">B</div>
+            </div>
+            <div class="shape-option">
+              <svg viewBox="0 0 80 80" width="70" height="70">
+                <circle cx="40" cy="40" r="36" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+                <line x1="40" y1="4" x2="40" y2="76" stroke="#2E7D32" stroke-width="1"/>
+                <line x1="4" y1="40" x2="76" y2="40" stroke="#2E7D32" stroke-width="1"/>
+              </svg>
+              <div class="choice-circle"></div>
+              <div class="text-small text-muted">C</div>
+            </div>
+            <div class="shape-option">
+              <svg viewBox="0 0 80 80" width="70" height="70">
+                <circle cx="40" cy="40" r="36" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+                <line x1="40" y1="4" x2="40" y2="76" stroke="#2E7D32" stroke-width="1"/>
+                <line x1="40" y1="40" x2="76" y2="40" stroke="#2E7D32" stroke-width="1"/>
+              </svg>
+              <div class="choice-circle"></div>
+              <div class="text-small text-muted">D</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">2</span>
+            <span>Which rectangle shows <strong>fourths</strong> (4 equal parts)?</span>
+          </div>
+          <div class="shape-options">
+            <div class="shape-option">
+              <svg viewBox="0 0 100 50" width="90" height="45">
+                <rect x="2" y="2" width="96" height="46" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+                <line x1="25" y1="2" x2="25" y2="48" stroke="#2E7D32" stroke-width="1"/>
+                <line x1="50" y1="2" x2="50" y2="48" stroke="#2E7D32" stroke-width="1"/>
+                <line x1="75" y1="2" x2="75" y2="48" stroke="#2E7D32" stroke-width="1"/>
+              </svg>
+              <div class="choice-circle"></div>
+              <div class="text-small text-muted">A</div>
+            </div>
+            <div class="shape-option">
+              <svg viewBox="0 0 100 50" width="90" height="45">
+                <rect x="2" y="2" width="96" height="46" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+                <line x1="20" y1="2" x2="20" y2="48" stroke="#2E7D32" stroke-width="1"/>
+                <line x1="50" y1="2" x2="50" y2="48" stroke="#2E7D32" stroke-width="1"/>
+                <line x1="80" y1="2" x2="80" y2="48" stroke="#2E7D32" stroke-width="1"/>
+              </svg>
+              <div class="choice-circle"></div>
+              <div class="text-small text-muted">B</div>
+            </div>
+            <div class="shape-option">
+              <svg viewBox="0 0 100 50" width="90" height="45">
+                <rect x="2" y="2" width="96" height="46" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+                <line x1="33" y1="2" x2="33" y2="48" stroke="#2E7D32" stroke-width="1"/>
+                <line x1="66" y1="2" x2="66" y2="48" stroke="#2E7D32" stroke-width="1"/>
+              </svg>
+              <div class="choice-circle"></div>
+              <div class="text-small text-muted">C</div>
+            </div>
+            <div class="shape-option">
+              <svg viewBox="0 0 100 50" width="90" height="45">
+                <rect x="2" y="2" width="96" height="46" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+                <line x1="50" y1="2" x2="50" y2="48" stroke="#2E7D32" stroke-width="1"/>
+                <line x1="2" y1="25" x2="98" y2="25" stroke="#2E7D32" stroke-width="1"/>
+              </svg>
+              <div class="choice-circle"></div>
+              <div class="text-small text-muted">D</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">3</span>
+            <span>Cooper DeJean says this shape shows 1/3 because it has 3 pieces. Is he correct?</span>
+          </div>
+          <div class="text-center" style="margin: var(--space-md) 0;">
+            <svg viewBox="0 0 120 60" width="120" height="60">
+              <rect x="2" y="2" width="116" height="56" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+              <line x1="30" y1="2" x2="30" y2="58" stroke="#2E7D32" stroke-width="1"/>
+              <line x1="80" y1="2" x2="80" y2="58" stroke="#2E7D32" stroke-width="1"/>
+            </svg>
+          </div>
+          <div style="display: flex; gap: var(--space-xl); justify-content: center; margin: var(--space-md) 0;">
+            <label style="display: flex; align-items: center; gap: var(--space-sm);">
+              <div class="choice-circle"></div> Yes, he is correct
+            </label>
+            <label style="display: flex; align-items: center; gap: var(--space-sm);">
+              <div class="choice-circle"></div> No, he is not correct
+            </label>
+          </div>
+          <div class="thinking-prompt">
+            <div class="thinking-lines">
+              <div class="thinking-line"></div>
+              <div class="thinking-line"></div>
+              <div class="thinking-line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section B: Create Equal Parts -->
+    <section class="problem-section">
+      <h2 class="section-header">Part B: Draw Equal Parts</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">4</span>
+            <span>Divide this rectangle into <strong>2 equal parts (halves)</strong>.</span>
+          </div>
+          <div class="draw-box" style="display: flex; align-items: center; justify-content: center;">
+            <svg viewBox="0 0 200 80" width="200" height="80">
+              <rect x="2" y="2" width="196" height="76" fill="white" stroke="#333" stroke-width="2"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">5</span>
+            <span>Divide this rectangle into <strong>4 equal parts (fourths)</strong> in a DIFFERENT way than problem 4.</span>
+          </div>
+          <div class="draw-box" style="display: flex; align-items: center; justify-content: center;">
+            <svg viewBox="0 0 200 80" width="200" height="80">
+              <rect x="2" y="2" width="196" height="76" fill="white" stroke="#333" stroke-width="2"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">6</span>
+            <span>Divide this rectangle into <strong>3 equal parts (thirds)</strong>.</span>
+          </div>
+          <div class="draw-box" style="display: flex; align-items: center; justify-content: center;">
+            <svg viewBox="0 0 200 80" width="200" height="80">
+              <rect x="2" y="2" width="196" height="76" fill="white" stroke="#333" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="thinking-prompt">
+            Why is dividing into thirds harder than halves or fourths?
+            <div class="thinking-lines">
+              <div class="thinking-line"></div>
+              <div class="thinking-line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section C: Football Problems -->
+    <section class="problem-section">
+      <h2 class="section-header">Part C: Football Field Challenge 🏈</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="football-context">
+            🏈 Coach needs to divide the practice field into equal sections for drills.
+          </div>
+          <div class="problem-prompt">
+            <span class="problem-num">7</span>
+            <span>The field below needs to be divided into <strong>4 equal sections</strong>. Draw the lines.</span>
+          </div>
+          <div class="draw-box" style="background: #2E7D32; display: flex; align-items: center; justify-content: center;">
+            <svg viewBox="0 0 300 80" width="300" height="80">
+              <rect x="2" y="2" width="296" height="76" fill="#2E7D32" stroke="white" stroke-width="3"/>
+              <text x="150" y="45" fill="rgba(255,255,255,0.3)" font-size="14" text-anchor="middle">100 yards</text>
+            </svg>
+          </div>
+          <div class="thinking-prompt">
+            If the whole field is 100 yards, how many yards is each section?
+            <div style="margin-top: var(--space-sm);">
+              Answer: _______ yards each
+            </div>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="football-context">
+            🏈 The team wants to share 8 water bottles equally among 4 players.
+          </div>
+          <div class="problem-prompt">
+            <span class="problem-num">8</span>
+            <span>Draw a picture showing how to share the water bottles fairly.</span>
+          </div>
+          <div class="draw-box large"></div>
+          <div class="thinking-prompt">
+            How many bottles does each player get? _______ bottles
+            <div class="thinking-lines">
+              <div class="thinking-line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section D: Explain Your Thinking -->
+    <section class="problem-section">
+      <h2 class="section-header">Part D: Explain Your Thinking</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">9</span>
+            <span>Why is it SO important that fractions have equal parts?</span>
+          </div>
+          <div class="thinking-prompt" style="background: transparent; border: none; padding: 0;">
+            <div class="thinking-lines">
+              <div class="thinking-line"></div>
+              <div class="thinking-line"></div>
+              <div class="thinking-line"></div>
+              <div class="thinking-line"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">10</span>
+            <span>Give a real-life example where you would need to divide something into equal parts. Draw and explain.</span>
+          </div>
+          <div class="draw-box large"></div>
+          <div class="thinking-prompt" style="background: transparent; border: none; padding: 0;">
+            <div class="thinking-lines">
+              <div class="thinking-line"></div>
+              <div class="thinking-line"></div>
+              <div class="thinking-line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Answer Key -->
+    <section class="answer-key hidden" id="answerKey">
+      <h3>📝 Answer Key</h3>
+      <div class="card">
+        <div class="card-body">
+          <p><strong>1.</strong> A and C should be circled. (B has unequal parts, D has 3 unequal parts)</p>
+          <p><strong>2.</strong> Both A and D show fourths. (B has unequal parts, C shows thirds)</p>
+          <p><strong>3.</strong> No, Cooper is not correct. The shape has 3 pieces, but they are NOT equal in size. For it to be thirds, all three pieces must be the same size.</p>
+          <p><strong>4.</strong> Accept any line that creates 2 equal parts (vertical, horizontal, or diagonal)</p>
+          <p><strong>5.</strong> Accept any valid fourths (4 vertical strips, 4 horizontal strips, 2x2 grid, etc.)</p>
+          <p><strong>6.</strong> Should show 3 equal vertical or horizontal strips</p>
+          <p><strong>7.</strong> Three vertical lines creating 4 equal sections. Each section = 25 yards.</p>
+          <p><strong>8.</strong> Should show 4 groups with 2 bottles each. Each player gets 2 bottles.</p>
+          <p><strong>9.</strong> Look for: fair sharing, accurate measurement, fractions only make sense with equal parts, 1/2 must mean exactly half - not "sort of half"</p>
+          <p><strong>10.</strong> Accept reasonable examples: pizza, cake, dividing time, sharing candy, splitting money, etc.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/app.js"></script>
+  <script>
+    function toggleAnswerKey() {
+      const key = document.getElementById('answerKey');
+      key.classList.toggle('hidden');
+    }
+
+    // Mark worksheet as viewed
+    // Storage will track completion when parent marks it
+  </script>
+</body>
+</html>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lesson 2 Worksheet: Improper Fractions - Football Fractions</title>
+
+  <link rel="stylesheet" href="../../styles/main.css">
+  <link rel="stylesheet" href="../../styles/components.css">
+  <link rel="stylesheet" href="../../styles/print.css">
+
+  <style>
+    .worksheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 3px solid var(--field-green);
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-xl);
+    }
+
+    .worksheet-title {
+      font-size: 1.5rem;
+      color: var(--field-green);
+    }
+
+    .name-line {
+      display: block;
+      border-bottom: 1px solid var(--text);
+      width: 200px;
+      margin-top: var(--space-xs);
+    }
+
+    .problem-section {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .section-header {
+      background: var(--field-green);
+      color: white;
+      padding: var(--space-md);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    .section-body {
+      border: 2px solid var(--field-green);
+      border-top: none;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      padding: var(--space-lg);
+    }
+
+    .problem {
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-lg);
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .problem:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .problem-prompt {
+      font-weight: 600;
+      margin-bottom: var(--space-md);
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    .problem-num {
+      background: var(--field-green);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    .draw-box {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      min-height: 120px;
+      background: #fafafa;
+      margin: var(--space-md) 0;
+    }
+
+    .thinking-prompt {
+      background: var(--thinking-light);
+      border: 2px dashed var(--thinking);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    .thinking-line {
+      border-bottom: 1px solid var(--border);
+      height: 28px;
+    }
+
+    .football-context {
+      background: linear-gradient(135deg, var(--field-green) 0%, #1B5E20 100%);
+      color: white;
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .conversion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--space-lg);
+      margin: var(--space-md) 0;
+    }
+
+    .conversion-item {
+      text-align: center;
+      padding: var(--space-md);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+    }
+
+    .fraction-input {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: var(--space-sm) 0;
+    }
+
+    .fraction-input input {
+      width: 50px;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-xs);
+    }
+
+    .fraction-line {
+      width: 50px;
+      height: 3px;
+      background: var(--text);
+      margin: 2px 0;
+    }
+
+    .mixed-input {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+    }
+
+    .mixed-input .whole-input {
+      width: 50px;
+      font-size: 1.5rem;
+    }
+
+    .circle-grid {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      margin: var(--space-md) 0;
+    }
+
+    .circle-diagram {
+      width: 80px;
+      height: 80px;
+      border: 2px solid var(--field-green);
+      border-radius: 50%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .quarter {
+      border: 1px solid var(--field-green);
+    }
+
+    .quarter.shade {
+      background: var(--thinking);
+    }
+
+    .number-line-problem {
+      position: relative;
+      height: 80px;
+      background: var(--background);
+      border-radius: var(--radius-md);
+      margin: var(--space-lg) var(--space-xl);
+    }
+
+    .answer-key {
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-xl);
+      border-top: 3px solid var(--border);
+    }
+
+    .answer-key.hidden {
+      display: none;
+    }
+
+    .print-controls {
+      display: flex;
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
+      padding: var(--space-md);
+      background: var(--background);
+      border-radius: var(--radius-md);
+    }
+
+    @media print {
+      .print-controls, .nav {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">Home</a></li>
+        <li><a href="./index.html" class="nav-link">Back to Lesson</a></li>
+        <li><a href="../index.html" class="nav-link">All Lessons</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container" style="max-width: 800px; padding-top: var(--space-xl);">
+    <div class="print-controls">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print Worksheet</button>
+      <button class="btn btn-secondary" onclick="toggleAnswerKey()">Show/Hide Answer Key</button>
+      <a href="./index.html" class="btn btn-secondary">← Back to Lesson</a>
+    </div>
+
+    <div class="print-badge" style="background: #e3f2fd; border: 2px dashed #1976d2; padding: 8px 16px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
+      🖨️ <strong>PRINT WORKSHEET</strong> - This page is designed to be printed out and done with pencil and paper!
+    </div>
+    <header class="worksheet-header">
+      <div>
+        <h1 class="worksheet-title">Lesson 2: Improper Fractions & Mixed Numbers</h1>
+        <p class="text-muted">Football Fractions Worksheet</p>
+      </div>
+      <div>
+        <div>Name: <span class="name-line"></span></div>
+        <div class="mt-sm">Date: <span class="name-line" style="width: 120px;"></span></div>
+      </div>
+    </header>
+
+    <!-- Part A: Draw Improper Fractions -->
+    <section class="problem-section">
+      <h2 class="section-header">Part A: Draw It!</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">1</span>
+            <span>Draw a picture that shows <strong>5/4</strong>. Use circles divided into fourths.</span>
+          </div>
+          <div class="draw-box" style="min-height: 100px;"></div>
+          <div class="thinking-prompt">
+            💭 How many complete wholes? _____ How many extra fourths? _____
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">2</span>
+            <span>Draw a picture that shows <strong>7/3</strong>. Use rectangles divided into thirds.</span>
+          </div>
+          <div class="draw-box" style="min-height: 100px;"></div>
+          <div class="thinking-prompt">
+            💭 As a mixed number, 7/3 = _____ _____/3
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part B: Convert Improper to Mixed -->
+    <section class="problem-section">
+      <h2 class="section-header">Part B: Improper → Mixed Number</h2>
+      <div class="section-body">
+        <p>Convert each improper fraction to a mixed number. <em>Draw a picture if it helps!</em></p>
+
+        <div class="conversion-grid">
+          <div class="conversion-item">
+            <div class="problem-prompt" style="justify-content: center;">
+              <span class="problem-num">3</span>
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 700;">
+              <span style="border-bottom: 3px solid var(--text);">5</span><br>
+              <span>4</span>
+            </div>
+            <p>=</p>
+            <div class="mixed-input">
+              <input type="text" class="whole-input" placeholder="?">
+              <span style="font-size: 1.25rem; font-weight: 700;">
+                <span style="border-bottom: 2px solid var(--text);">
+                  <input type="text" style="width: 30px; text-align: center; border: none; font-size: 1.25rem; font-weight: 700;" placeholder="?">
+                </span><br>
+                <span>4</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="conversion-item">
+            <div class="problem-prompt" style="justify-content: center;">
+              <span class="problem-num">4</span>
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 700;">
+              <span style="border-bottom: 3px solid var(--text);">9</span><br>
+              <span>4</span>
+            </div>
+            <p>=</p>
+            <div class="mixed-input">
+              <input type="text" class="whole-input" placeholder="?">
+              <span style="font-size: 1.25rem; font-weight: 700;">
+                <span style="border-bottom: 2px solid var(--text);">
+                  <input type="text" style="width: 30px; text-align: center; border: none; font-size: 1.25rem; font-weight: 700;" placeholder="?">
+                </span><br>
+                <span>4</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="conversion-item">
+            <div class="problem-prompt" style="justify-content: center;">
+              <span class="problem-num">5</span>
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 700;">
+              <span style="border-bottom: 3px solid var(--text);">11</span><br>
+              <span>3</span>
+            </div>
+            <p>=</p>
+            <div class="mixed-input">
+              <input type="text" class="whole-input" placeholder="?">
+              <span style="font-size: 1.25rem; font-weight: 700;">
+                <span style="border-bottom: 2px solid var(--text);">
+                  <input type="text" style="width: 30px; text-align: center; border: none; font-size: 1.25rem; font-weight: 700;" placeholder="?">
+                </span><br>
+                <span>3</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part C: Convert Mixed to Improper -->
+    <section class="problem-section">
+      <h2 class="section-header">Part C: Mixed Number → Improper</h2>
+      <div class="section-body">
+        <div class="conversion-grid">
+          <div class="conversion-item">
+            <div class="problem-prompt" style="justify-content: center;">
+              <span class="problem-num">6</span>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
+              <span style="font-size: 2rem; font-weight: 700;">1</span>
+              <span style="font-size: 1.25rem; font-weight: 700;">
+                <span style="border-bottom: 2px solid var(--text);">3</span><br>
+                <span>4</span>
+              </span>
+            </div>
+            <p>=</p>
+            <div style="font-size: 1.5rem; font-weight: 700;">
+              <span style="border-bottom: 3px solid var(--text);">
+                <input type="text" style="width: 40px; text-align: center; border: none; font-size: 1.5rem; font-weight: 700;" placeholder="?">
+              </span><br>
+              <span>4</span>
+            </div>
+          </div>
+
+          <div class="conversion-item">
+            <div class="problem-prompt" style="justify-content: center;">
+              <span class="problem-num">7</span>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
+              <span style="font-size: 2rem; font-weight: 700;">2</span>
+              <span style="font-size: 1.25rem; font-weight: 700;">
+                <span style="border-bottom: 2px solid var(--text);">1</span><br>
+                <span>2</span>
+              </span>
+            </div>
+            <p>=</p>
+            <div style="font-size: 1.5rem; font-weight: 700;">
+              <span style="border-bottom: 3px solid var(--text);">
+                <input type="text" style="width: 40px; text-align: center; border: none; font-size: 1.5rem; font-weight: 700;" placeholder="?">
+              </span><br>
+              <span>2</span>
+            </div>
+          </div>
+
+          <div class="conversion-item">
+            <div class="problem-prompt" style="justify-content: center;">
+              <span class="problem-num">8</span>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
+              <span style="font-size: 2rem; font-weight: 700;">3</span>
+              <span style="font-size: 1.25rem; font-weight: 700;">
+                <span style="border-bottom: 2px solid var(--text);">2</span><br>
+                <span>3</span>
+              </span>
+            </div>
+            <p>=</p>
+            <div style="font-size: 1.5rem; font-weight: 700;">
+              <span style="border-bottom: 3px solid var(--text);">
+                <input type="text" style="width: 40px; text-align: center; border: none; font-size: 1.5rem; font-weight: 700;" placeholder="?">
+              </span><br>
+              <span>3</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part D: Football Problems -->
+    <section class="problem-section">
+      <h2 class="section-header">Part D: Football Quarters Challenge 🏈</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="football-context">
+            🏈 Remember: A football game has 4 quarters. So 4 quarters = 1 complete game.
+          </div>
+          <div class="problem-prompt">
+            <span class="problem-num">9</span>
+            <span>The star quarterback played <strong>7 quarters</strong> over the weekend. How many complete games did he play, and how many extra quarters?</span>
+          </div>
+          <p>As a fraction: _____ / 4</p>
+          <p>As a mixed number: _____ complete game(s) and _____ extra quarter(s)</p>
+          <div class="thinking-prompt">
+            💭 Explain how you figured this out:
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="football-context">
+            🏈 The running back played 2 complete games plus 1 extra quarter.
+          </div>
+          <div class="problem-prompt">
+            <span class="problem-num">10</span>
+            <span>How many total quarters did the running back play?</span>
+          </div>
+          <p>As a mixed number: 2 1/4 games</p>
+          <p>As an improper fraction: _____ / 4 quarters</p>
+          <div class="thinking-prompt">
+            💭 Show your work:
+            <div class="thinking-line"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part E: Explain Your Thinking -->
+    <section class="problem-section">
+      <h2 class="section-header">Part E: Explain Your Thinking</h2>
+      <div class="section-body">
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">11</span>
+            <span>Sarah says "Fractions are always less than 1." Is she correct? Explain why or why not.</span>
+          </div>
+          <div class="thinking-prompt" style="background: transparent; border: none; padding: 0;">
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+            <div class="thinking-line"></div>
+          </div>
+        </div>
+
+        <div class="problem">
+          <div class="problem-prompt">
+            <span class="problem-num">12</span>
+            <span>In the fraction 7/4, what does the 4 tell you? What does the 7 tell you?</span>
+          </div>
+          <p><strong>The 4 tells me:</strong></p>
+          <div class="thinking-line"></div>
+          <div class="thinking-line"></div>
+          <p class="mt-md"><strong>The 7 tells me:</strong></p>
+          <div class="thinking-line"></div>
+          <div class="thinking-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Answer Key -->
+    <section class="answer-key hidden" id="answerKey">
+      <h3>📝 Answer Key</h3>
+      <div class="card">
+        <div class="card-body">
+          <p><strong>1.</strong> Drawing should show 1 full circle + 1 quarter. 1 whole, 1 extra fourth.</p>
+          <p><strong>2.</strong> Drawing should show 2 full rectangles + 1/3. 7/3 = 2 1/3</p>
+          <p><strong>3.</strong> 5/4 = 1 1/4</p>
+          <p><strong>4.</strong> 9/4 = 2 1/4</p>
+          <p><strong>5.</strong> 11/3 = 3 2/3</p>
+          <p><strong>6.</strong> 1 3/4 = 7/4</p>
+          <p><strong>7.</strong> 2 1/2 = 5/2</p>
+          <p><strong>8.</strong> 3 2/3 = 11/3</p>
+          <p><strong>9.</strong> 7/4 quarters = 1 complete game and 3 extra quarters (1 3/4 games)</p>
+          <p><strong>10.</strong> 2 1/4 = 9/4 quarters</p>
+          <p><strong>11.</strong> No, Sarah is not correct. Improper fractions like 5/4, 7/3, etc. are greater than 1. Fractions represent any amount, including amounts greater than 1 whole.</p>
+          <p><strong>12.</strong> The 4 tells me the size of each piece (fourths - each whole is divided into 4 equal parts). The 7 tells me how many of those pieces I have (7 fourth-sized pieces).</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/app.js"></script>
+  <script>
+    function toggleAnswerKey() {
+      document.getElementById('answerKey').classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,566 @@
+/* Football Fractions - Football Theme Visuals */
+
+/* Football Field Background */
+.field-bg {
+  background: linear-gradient(
+    to bottom,
+    var(--field-green) 0%,
+    var(--field-dark) 5%,
+    var(--field-green) 10%,
+    var(--field-dark) 15%,
+    var(--field-green) 20%,
+    var(--field-dark) 25%,
+    var(--field-green) 30%,
+    var(--field-dark) 35%,
+    var(--field-green) 40%,
+    var(--field-dark) 45%,
+    var(--field-green) 50%,
+    var(--field-dark) 55%,
+    var(--field-green) 60%,
+    var(--field-dark) 65%,
+    var(--field-green) 70%,
+    var(--field-dark) 75%,
+    var(--field-green) 80%,
+    var(--field-dark) 85%,
+    var(--field-green) 90%,
+    var(--field-dark) 95%,
+    var(--field-green) 100%
+  );
+  background-size: 100% 40px;
+}
+
+/* Football Field with Yard Lines */
+.football-field {
+  position: relative;
+  background: var(--field-green);
+  border: 4px solid var(--yard-line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  overflow: hidden;
+}
+
+.football-field::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent calc(10% - 1px),
+    rgba(255, 255, 255, 0.3) calc(10% - 1px),
+    rgba(255, 255, 255, 0.3) 10%
+  );
+  pointer-events: none;
+}
+
+/* End Zones */
+.end-zone {
+  background: var(--end-zone-blue);
+  color: white;
+  padding: var(--space-lg);
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.end-zone-left {
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+}
+
+.end-zone-right {
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+}
+
+/* Football Icon */
+.football-icon {
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+  background: var(--football-brown);
+  border-radius: 50%;
+  position: relative;
+  transform: rotate(-30deg);
+}
+
+.football-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: var(--football-laces);
+  transform: translateY(-50%);
+}
+
+.football-icon::after {
+  content: '';
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  width: 2px;
+  height: 50%;
+  background: var(--football-laces);
+  transform: translateX(-50%);
+}
+
+/* Yard Line Markers */
+.yard-markers {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 8px;
+  left: var(--space-md);
+  right: var(--space-md);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Field Position Indicator */
+.field-position {
+  position: relative;
+  height: 60px;
+  background: var(--field-green);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--yard-line);
+  overflow: hidden;
+}
+
+.field-position-fill {
+  height: 100%;
+  background: var(--thinking);
+  transition: width var(--transition-normal);
+}
+
+.field-position-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--end-zone-blue);
+  transform: translateX(-50%);
+  transition: left var(--transition-normal);
+}
+
+.field-position-marker::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: var(--end-zone-blue);
+}
+
+.field-position-label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Scoreboard Style */
+.scoreboard {
+  background: #1A1A1A;
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  color: white;
+  text-align: center;
+  font-family: var(--font-mono);
+}
+
+.scoreboard-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #888;
+  margin-bottom: var(--space-sm);
+}
+
+.scoreboard-value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #FFD700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.scoreboard-label {
+  font-size: 0.875rem;
+  color: #888;
+  margin-top: var(--space-sm);
+}
+
+/* Game Clock Style */
+.game-clock {
+  display: inline-flex;
+  background: #1A1A1A;
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  color: #FF4444;
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* Quarter Indicator */
+.quarter-indicator {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.quarter {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--border);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.quarter.active {
+  background: var(--field-green);
+  color: white;
+}
+
+.quarter.completed {
+  background: var(--correct);
+  color: white;
+}
+
+/* Down & Distance */
+.down-distance {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  background: var(--card-bg);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.down-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--field-green);
+}
+
+.down-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* Play Diagram */
+.play-diagram {
+  position: relative;
+  background: var(--field-green);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  min-height: 200px;
+}
+
+.play-line {
+  stroke: var(--yard-line);
+  stroke-width: 3;
+  stroke-dasharray: 10, 5;
+  fill: none;
+}
+
+.play-marker {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--end-zone-blue);
+  border: 3px solid white;
+  position: absolute;
+}
+
+/* Stats Table */
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-lg) 0;
+}
+
+.stats-table th,
+.stats-table td {
+  padding: var(--space-md);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.stats-table th {
+  background: var(--field-green);
+  color: white;
+  font-weight: 600;
+}
+
+.stats-table tr:hover {
+  background: var(--background);
+}
+
+.stats-table .stat-value {
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+/* Player Card */
+.player-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  background: var(--card-bg);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.player-number {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--field-green);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+}
+
+.player-info {
+  flex: 1;
+}
+
+.player-name {
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.player-position {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Trophy/Achievement */
+.trophy {
+  text-align: center;
+  padding: var(--space-xl);
+}
+
+.trophy-icon {
+  font-size: 4rem;
+  margin-bottom: var(--space-md);
+  animation: trophy-bounce 1s ease infinite;
+}
+
+@keyframes trophy-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.trophy-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--field-green);
+  margin-bottom: var(--space-sm);
+}
+
+.trophy-message {
+  color: var(--text-secondary);
+}
+
+/* Fraction Bar Model - Football Theme */
+.bar-model-field {
+  background: var(--field-green);
+  border: 2px solid var(--yard-line);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  display: flex;
+  min-height: 60px;
+}
+
+.bar-model-part {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 2px solid var(--yard-line);
+  color: white;
+  font-weight: 700;
+  transition: background var(--transition-fast);
+}
+
+.bar-model-part:last-child {
+  border-right: none;
+}
+
+.bar-model-part.shaded {
+  background: var(--thinking);
+}
+
+.bar-model-part.highlighted {
+  background: var(--end-zone-blue);
+}
+
+/* Number Line - Football Field Style */
+.number-line-field {
+  position: relative;
+  background: var(--field-green);
+  height: 80px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--yard-line);
+  margin: var(--space-xl) 0;
+}
+
+.number-line-track {
+  position: absolute;
+  top: 50%;
+  left: var(--space-lg);
+  right: var(--space-lg);
+  height: 4px;
+  background: var(--yard-line);
+  transform: translateY(-50%);
+}
+
+.number-line-tick {
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 20px;
+  background: var(--yard-line);
+  transform: translate(-50%, -50%);
+}
+
+.number-line-tick.major {
+  height: 30px;
+}
+
+.number-line-label {
+  position: absolute;
+  top: calc(50% + 25px);
+  transform: translateX(-50%);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: white;
+}
+
+.number-line-marker {
+  position: absolute;
+  top: calc(50% - 35px);
+  width: 30px;
+  height: 30px;
+  background: var(--football-brown);
+  border-radius: 50%;
+  border: 3px solid white;
+  transform: translateX(-50%);
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform var(--transition-fast);
+}
+
+.number-line-marker:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.number-line-marker.dragging {
+  cursor: grabbing;
+  transform: translateX(-50%) scale(1.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Confetti Animation */
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  animation: confetti-fall 3s ease-out forwards;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Celebration Overlay */
+.celebration-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+}
+
+.celebration-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.celebration-content {
+  text-align: center;
+  color: white;
+  transform: scale(0.8);
+  transition: transform var(--transition-normal);
+}
+
+.celebration-overlay.show .celebration-content {
+  transform: scale(1);
+}
+
+.celebration-icon {
+  font-size: 5rem;
+  margin-bottom: var(--space-lg);
+  animation: trophy-bounce 0.5s ease infinite;
+}
+
+.celebration-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: var(--space-md);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.celebration-message {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  margin-bottom: var(--space-xl);
+}
