@@ -121,13 +121,30 @@
       position: absolute;
       top: calc(50% + 25px);
       transform: translateX(-50%);
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 700;
       color: white;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.6);
       padding: var(--space-xs) var(--space-sm);
       border-radius: var(--radius-sm);
       white-space: nowrap;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+      pointer-events: none;
+    }
+
+    /* Hide minor labels on high division counts to prevent overlap */
+    .number-line-label.minor {
+      font-size: 0.75rem;
+    }
+
+    @media (max-width: 600px) {
+      .number-line-label {
+        font-size: 0.75rem;
+        padding: 2px 6px;
+      }
+      .number-line-label.minor {
+        font-size: 0.65rem;
+      }
     }
 
     .fraction-markers {
@@ -552,7 +569,7 @@
           // Labels (show major ticks always, show minor based on toggle)
           if (this.showLabels) {
             const label = document.createElement('div');
-            label.className = 'number-line-label';
+            label.className = `number-line-label ${isMajor ? 'major' : 'minor'}`;
             label.style.left = `${x}px`;
 
             if (isMajor) {
@@ -620,9 +637,14 @@
 
         const container = document.getElementById('fractionMarkers');
         const containerRect = container.getBoundingClientRect();
+        const markerRect = this.marker.getBoundingClientRect();
 
-        this.marker.style.left = `${clientX - containerRect.left - 35}px`;
-        this.marker.style.top = `${clientY - containerRect.top - 22.5}px`;
+        // Use marker's actual dimensions for centering
+        const markerHalfWidth = markerRect.width / 2;
+        const markerHalfHeight = markerRect.height / 2;
+
+        this.marker.style.left = `${clientX - containerRect.left - markerHalfWidth}px`;
+        this.marker.style.top = `${clientY - containerRect.top - markerHalfHeight}px`;
       },
 
       endDrag(e) {
@@ -673,11 +695,15 @@
         const [min, max] = this.range;
         const percent = (position - min) / (max - min);
 
+        const markerRect = marker.getBoundingClientRect();
+        const markerHalfWidth = markerRect.width / 2;
+        const markerHalfHeight = markerRect.height / 2;
+
         const x = trackRect.left - containerRect.left + (trackRect.width * percent);
         const y = trackRect.top - containerRect.top + (trackRect.height / 2);
 
-        marker.style.left = `${x - 35}px`;
-        marker.style.top = `${y - 22.5}px`;
+        marker.style.left = `${x - markerHalfWidth}px`;
+        marker.style.top = `${y - markerHalfHeight}px`;
       },
 
       checkAnswer() {

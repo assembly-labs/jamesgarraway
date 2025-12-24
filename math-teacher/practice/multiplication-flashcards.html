@@ -258,11 +258,11 @@
     /* BIG Math Problem - Child-friendly */
     .math-problem {
       font-family: var(--font-math);
-      font-size: 5.5rem;
+      font-size: clamp(3rem, 8vw, 5.5rem);
       font-weight: 700;
       color: #1a1a2e;
       margin-bottom: var(--space-xl);
-      letter-spacing: 6px;
+      letter-spacing: clamp(2px, 0.5vw, 6px);
       line-height: 1.1;
     }
 
@@ -287,9 +287,9 @@
     }
 
     .answer-input {
-      width: 180px;
+      width: clamp(120px, 30vw, 180px);
       font-family: var(--font-math);
-      font-size: 3rem;
+      font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 700;
       text-align: center;
       padding: var(--space-md) var(--space-sm);
@@ -523,6 +523,21 @@
       font-size: 1rem;
     }
 
+    /* Tablet Responsive */
+    @media (max-width: 768px) {
+      .game-scoreboard {
+        padding: var(--space-md);
+      }
+
+      .score-item {
+        min-width: 80px;
+      }
+
+      .score-value {
+        font-size: 1.5rem;
+      }
+    }
+
     /* Mobile Responsive */
     @media (max-width: 600px) {
       .game-scoreboard {
@@ -535,16 +550,6 @@
 
       .score-value {
         font-size: 1.4rem;
-      }
-
-      .math-problem {
-        font-size: 3.5rem;
-        letter-spacing: 3px;
-      }
-
-      .answer-input {
-        width: 140px;
-        font-size: 2.25rem;
       }
 
       .submit-btn {

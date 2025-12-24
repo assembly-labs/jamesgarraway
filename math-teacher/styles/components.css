@@ -91,6 +91,7 @@
   justify-content: center;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-lg);
+  min-width: 120px;
   border: none;
   border-radius: var(--radius-md);
   font-family: inherit;
@@ -103,6 +104,8 @@
 
 .btn:hover {
   text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px var(--shadow);
 }
 
 .btn-primary {
@@ -160,7 +163,16 @@
   background: var(--border);
   border-radius: 6px;
   overflow: hidden;
+  position: relative;
 }
+
+/* Note: Add these ARIA attributes in HTML:
+   role="progressbar"
+   aria-valuemin="0"
+   aria-valuemax="100"
+   aria-valuenow="<current-value>"
+   aria-label="Progress"
+*/
 
 .progress-fill {
   height: 100%;
@@ -311,6 +323,27 @@
 .form-textarea:focus {
   outline: none;
   border-color: var(--field-green);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+.form-input.correct,
+.form-textarea.correct {
+  border-color: var(--correct);
+  background: var(--correct-light);
+}
+
+.form-input.correct:focus {
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+
+.form-input.incorrect,
+.form-textarea.incorrect {
+  border-color: var(--incorrect);
+  background: var(--incorrect-light);
+}
+
+.form-input.incorrect:focus {
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.2);
 }
 
 .form-textarea {
@@ -450,8 +483,16 @@
   padding: 2px var(--space-xs) 0;
 }
 
+.fraction-small {
+  font-size: 0.875rem;
+}
+
 .fraction-large {
   font-size: 1.5rem;
+}
+
+.fraction-xl {
+  font-size: 2rem;
 }
 
 /* Mixed Number */
@@ -626,10 +667,14 @@
   display: flex;
   gap: var(--space-md);
   margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .cpa-stage {
   flex: 1;
+  min-width: 140px;
+  max-width: 300px;
   padding: var(--space-md);
   border-radius: var(--radius-md);
   text-align: center;

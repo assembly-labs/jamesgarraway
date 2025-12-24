@@ -52,7 +52,7 @@
    */
   --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   --font-heading: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-  --font-math: 'Roboto', Arial, 'Comic Sans MS', sans-serif;
+  --font-math: 'Roboto', Arial, 'Segoe UI', Georgia, sans-serif;
   --font-mono: 'SF Mono', Monaco, 'Courier New', monospace;
 
   /* Spacing */
@@ -247,7 +247,6 @@ a:hover {
   }
 
   .nav-menu {
-    display: none;
     position: absolute;
     top: 100%;
     left: 0;
@@ -257,10 +256,16 @@ a:hover {
     padding: var(--space-md);
     gap: var(--space-xs);
     box-shadow: 0 4px 12px var(--shadow);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
   }
 
   .nav-menu.show {
     display: flex;
+    max-height: 500px;
+    opacity: 1;
   }
 
   .nav-link {
@@ -298,10 +303,33 @@ a:hover {
 
 .breadcrumb a {
   color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.breadcrumb a:hover {
+  color: var(--text);
+  text-decoration: underline;
 }
 
 .breadcrumb span {
   color: var(--text-light);
+}
+
+/* Breadcrumb light variant for dark backgrounds (like page headers) */
+.breadcrumb-light {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.breadcrumb-light a {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.breadcrumb-light a:hover {
+  color: white;
+}
+
+.breadcrumb-light span {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* Visibility Utilities */
