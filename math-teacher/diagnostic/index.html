@@ -328,11 +328,17 @@
       </button>
       <ul class="nav-menu" id="navMenu">
         <li><a href="../index.html" class="nav-link">Home</a></li>
-        <li><a href="./index.html" class="nav-link active">Skills Check</a></li>
-        <li><a href="../lessons/index.html" class="nav-link">Lessons</a></li>
-        <li><a href="../practice/index.html" class="nav-link">Practice</a></li>
-        <li><a href="../tools/number-line.html" class="nav-link">Number Line</a></li>
-        <li><a href="../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+        <li><a href="../practice/index.html" class="nav-link active">Practice</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../super-extra-curricular/index.html" class="nav-dropdown-link">Super Extra</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </nav>
@@ -340,8 +346,15 @@
   <!-- Page Header -->
   <header class="page-header">
     <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <a href="../practice/index.html">Practice</a>
+        <span>/</span>
+        <span>Skills Check</span>
+      </div>
       <h1>📋 Skills Check</h1>
-      <p>See what you know and find areas to level up!</p>
+      <p>Quick drill to find your strengths and level up!</p>
     </div>
   </header>
 
@@ -350,22 +363,22 @@
     <div id="diagnosticContainer">
       <!-- Intro screen shown first -->
       <div class="intro-screen">
-        <h1>🏈 Ready for a Skills Check?</h1>
-        <p class="text-large">This quiz helps you see what you've got down and what might need more practice. Take it before lessons, after lessons, or anytime you want to check your skills!</p>
+        <h1>🏈 Skills Check Drill</h1>
+        <p class="text-large">Quick drill to see what you've got down and what might need more practice!</p>
 
         <div class="intro-features">
           <div class="intro-feature">
             <span class="intro-feature-icon">⏱️</span>
             <div>
-              <strong>About 15-20 minutes</strong>
-              <p class="text-small text-muted">No rush - take your time on each one!</p>
+              <strong>10-15 minutes</strong>
+              <p class="text-small text-muted">Quick and focused!</p>
             </div>
           </div>
           <div class="intro-feature">
             <span class="intro-feature-icon">📝</span>
             <div>
-              <strong>17 Questions</strong>
-              <p class="text-small text-muted">Show us how you think!</p>
+              <strong>8 Questions</strong>
+              <p class="text-small text-muted">Show us what you know!</p>
             </div>
           </div>
           <div class="intro-feature">
@@ -378,20 +391,14 @@
           <div class="intro-feature">
             <span class="intro-feature-icon">🎯</span>
             <div>
-              <strong>Find Your Focus Areas</strong>
+              <strong>Get Tips</strong>
               <p class="text-small text-muted">See what to practice next!</p>
             </div>
           </div>
         </div>
 
-        <div class="parent-note">
-          <h4>👨‍👩‍👦 Coach's Note to Parents</h4>
-          <p>This skills check measures <em>understanding</em>, not just answers. Some questions ask your child to explain their thinking - that's on purpose! Encourage them to share what's in their head, even if they're not 100% sure.</p>
-          <p class="text-small text-muted mt-sm">Take this anytime - before lessons to see where to focus, or after lessons to measure progress. No pressure!</p>
-        </div>
-
         <button class="btn btn-primary btn-large" onclick="startDiagnostic()">
-          Let's Do This! 🏈
+          Start Drill! 🏈
         </button>
       </div>
     </div>

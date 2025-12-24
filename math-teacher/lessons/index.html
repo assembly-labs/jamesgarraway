@@ -4,20 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Lessons - Football Fractions</title>
+  <title>Playoff Journey - Football Fractions</title>
 
   <link rel="stylesheet" href="../styles/main.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/football-theme.css">
+  <link rel="stylesheet" href="../styles/broadcast-transitions.css">
 
   <style>
-    .lessons-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    /* Team Colors */
+    :root {
+      --cowboys-blue: #002244;
+      --cowboys-silver: #869397;
+      --chiefs-red: #E31837;
+      --chiefs-gold: #FFB612;
+      --lions-blue: #0076B6;
+      --lions-silver: #B0B7BC;
+      --giants-blue: #0B2265;
+      --giants-red: #A71930;
+      --bears-navy: #0B162A;
+      --bears-orange: #C83803;
+      --commanders-burgundy: #5A1414;
+      --commanders-gold: #FFB612;
+      --eagles-green: #004C54;
+      --eagles-silver: #A5ACAF;
+    }
+
+    .playoff-intro {
+      text-align: center;
+      margin-bottom: var(--space-2xl);
+      padding: var(--space-xl);
+      background: linear-gradient(135deg, var(--eagles-green) 0%, #006d5b 100%);
+      border-radius: var(--radius-xl);
+      color: white;
+    }
+
+    .playoff-intro h2 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .eagles-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+    }
+
+    .playoff-intro p {
+      font-size: 1.1rem;
+      opacity: 0.95;
+    }
+
+    .bracket-container {
+      display: flex;
+      flex-direction: column;
       gap: var(--space-xl);
     }
 
-    .lesson-card-full {
+    .matchup-card {
       background: var(--card-bg);
       border-radius: var(--radius-xl);
       overflow: hidden;
@@ -25,109 +72,253 @@
       transition: all var(--transition-normal);
     }
 
-    .lesson-card-full:hover {
+    .matchup-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 30px var(--shadow);
     }
 
-    .lesson-header {
-      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
-      color: white;
-      padding: var(--space-xl);
-      position: relative;
+    .matchup-card.defeated {
+      opacity: 0.85;
     }
 
-    .lesson-header.completed {
-      background: linear-gradient(135deg, var(--correct) 0%, #388E3C 100%);
+    .matchup-card.super-bowl {
+      border: 3px solid gold;
+      box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
     }
 
-    .lesson-num {
-      position: absolute;
-      top: var(--space-md);
-      right: var(--space-md);
-      width: 3rem;
-      height: 3rem;
-      background: rgba(255,255,255,0.2);
-      border-radius: 50%;
+    .matchup-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
+      justify-content: space-between;
+      padding: var(--space-lg);
+      background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+      color: white;
+    }
+
+    .round-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.8;
+    }
+
+    .super-bowl .round-label {
+      color: gold;
       font-weight: 700;
     }
 
-    .lesson-title {
-      font-size: 1.5rem;
-      margin-bottom: var(--space-sm);
+    .matchup-status {
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-full);
+      background: rgba(255,255,255,0.1);
     }
 
-    .lesson-subtitle {
-      opacity: 0.9;
-      font-size: 0.9rem;
+    .matchup-status.defeated {
+      background: var(--correct);
+      color: white;
     }
 
-    .lesson-content {
+    .matchup-status.locked {
+      background: #333;
+      color: #888;
+      font-size: 0.75rem;
+    }
+
+    /* Locked card styling */
+    .matchup-card:has(.matchup-status.locked) {
+      position: relative;
+      opacity: 0.7;
+    }
+
+    .matchup-card:has(.matchup-status.locked)::before {
+      content: '🔒 COMPLETE PREVIOUS GAME FIRST';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: var(--space-lg) var(--space-xl);
+      border-radius: var(--radius-lg);
+      font-size: 1.1rem;
+      font-weight: 900;
+      text-align: center;
+      z-index: 10;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      border: 3px solid #666;
+    }
+
+    .matchup-card:has(.matchup-status.locked) .matchup-body,
+    .matchup-card:has(.matchup-status.locked) .matchup-footer {
+      filter: blur(2px);
+      pointer-events: none;
+    }
+
+    .btn-locked {
+      pointer-events: none;
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .matchup-body {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
       padding: var(--space-xl);
+      gap: var(--space-lg);
     }
 
-    .lesson-objectives {
-      margin-bottom: var(--space-lg);
+    @media (max-width: 600px) {
+      .matchup-body {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .vs-divider {
+        order: -1;
+        margin-bottom: var(--space-md);
+      }
     }
 
-    .lesson-objectives h4 {
+    .team-side {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .team-side.eagles {
+      order: 0;
+    }
+
+    .team-side.opponent {
+      order: 2;
+    }
+
+    .team-logo {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      transition: transform var(--transition-fast);
+    }
+
+    .matchup-card:hover .team-logo {
+      transform: scale(1.1);
+    }
+
+    .team-name {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .team-side.eagles .team-name {
+      color: var(--eagles-green);
+    }
+
+    .vs-divider {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+      order: 1;
+    }
+
+    .vs-text {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--text-light);
+    }
+
+    .lesson-title-small {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      text-align: center;
+      max-width: 150px;
+    }
+
+    .matchup-footer {
+      padding: var(--space-lg);
+      background: var(--background);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+
+    .lesson-objectives-mini {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .learn-header {
+      font-size: 0.75rem;
+      font-weight: 700;
       color: var(--field-green);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       margin-bottom: var(--space-sm);
     }
 
-    .lesson-objectives ul {
+    .lesson-objectives-mini ul {
       list-style: none;
       padding: 0;
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
     }
 
-    .lesson-objectives li {
+    .lesson-objectives-mini li {
       display: flex;
       align-items: flex-start;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-sm);
-      font-size: 0.9rem;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-xs);
     }
 
-    .lesson-objectives li::before {
-      content: "✓";
-      color: var(--correct);
-      font-weight: 700;
-      flex-shrink: 0;
+    .lesson-objectives-mini li::before {
+      content: "•";
+      color: var(--field-green);
     }
 
-    .lesson-football {
-      background: linear-gradient(135deg, #8D6E63 0%, #6D4C41 100%);
-      color: white;
-      padding: var(--space-md);
-      border-radius: var(--radius-md);
-      font-size: 0.9rem;
-      margin-bottom: var(--space-lg);
-    }
-
-    .lesson-actions {
+    .matchup-actions {
       display: flex;
-      gap: var(--space-md);
+      gap: var(--space-sm);
       flex-wrap: wrap;
     }
 
-    .lesson-status-badge {
+    /* Defeated overlay */
+    .defeated-badge {
       position: absolute;
-      top: var(--space-md);
-      left: var(--space-md);
-      background: rgba(255,255,255,0.9);
-      color: var(--correct);
-      padding: var(--space-xs) var(--space-md);
-      border-radius: var(--radius-sm);
-      font-size: 0.75rem;
-      font-weight: 700;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg);
+      background: var(--correct);
+      color: white;
+      padding: var(--space-sm) var(--space-lg);
+      font-size: clamp(0.875rem, 3vw, 1.25rem);
+      font-weight: 900;
       text-transform: uppercase;
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 10;
+      display: none;
+      text-align: center;
+      white-space: nowrap;
     }
 
-    .curriculum-overview {
+    .matchup-card.defeated .defeated-badge {
+      display: block;
+    }
+
+    .matchup-card.defeated .matchup-body {
+      position: relative;
+    }
+
+    /* Progress tracker */
+    .progress-tracker {
       background: var(--card-bg);
       border-radius: var(--radius-xl);
       padding: var(--space-xl);
@@ -135,39 +326,120 @@
       box-shadow: 0 4px 20px var(--shadow);
     }
 
-    .curriculum-overview h2 {
+    .progress-tracker h3 {
       margin-bottom: var(--space-lg);
+      text-align: center;
     }
 
-    .curriculum-path {
+    .bracket-progress {
       display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
       flex-wrap: wrap;
-      gap: var(--space-md);
-      align-items: center;
     }
 
-    .path-item {
+    .bracket-step {
       display: flex;
       align-items: center;
-      gap: var(--space-sm);
-      padding: var(--space-sm) var(--space-md);
+      gap: var(--space-xs);
+    }
+
+    .bracket-team {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: var(--background);
-      border-radius: var(--radius-md);
-      font-size: 0.875rem;
+      border: 2px solid var(--border);
+      overflow: hidden;
     }
 
-    .path-item.completed {
+    .bracket-team img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+    }
+
+    .bracket-team.defeated {
+      border-color: var(--correct);
       background: var(--correct-light);
-      color: var(--correct);
     }
 
-    .path-item.current {
-      background: var(--thinking-light);
-      color: #E65100;
+    .bracket-team.defeated::after {
+      content: "✓";
+      position: absolute;
+      font-size: 0.75rem;
+      color: var(--correct);
       font-weight: 700;
     }
 
-    .path-arrow {
+    .bracket-team.current {
+      border-color: var(--thinking);
+      background: var(--thinking-light);
+      animation: pulse 2s infinite;
+    }
+
+    .bracket-arrow {
+      color: var(--text-light);
+      font-size: 1.25rem;
+    }
+
+    .bracket-trophy {
+      font-size: 1.5rem;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    /* Super Bowl special styling */
+    .super-bowl .matchup-header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #333 50%, #1a1a1a 100%);
+      border-bottom: 2px solid gold;
+    }
+
+    .super-bowl .vs-text {
+      color: gold;
+    }
+
+    .championship-badge {
+      display: none;
+      text-align: center;
+      padding: var(--space-lg);
+      background: linear-gradient(135deg, gold 0%, #ffd700 50%, gold 100%);
+      color: #1a1a1a;
+      font-weight: 900;
+      font-size: 1.25rem;
+    }
+
+    .super-bowl.defeated .championship-badge {
+      display: block;
+    }
+
+    /* Footer styling */
+    .site-footer {
+      background: var(--field-dark);
+      color: white;
+      padding: var(--space-xl) 0;
+      text-align: center;
+      margin-top: var(--space-2xl);
+    }
+
+    .site-footer a {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .site-footer a:hover {
+      color: white;
+    }
+
+    /* You label for Eagles team */
+    .you-label {
+      font-size: 0.75rem;
       color: var(--text-light);
     }
   </style>
@@ -182,190 +454,296 @@
       <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">☰</button>
       <ul class="nav-menu" id="navMenu">
         <li><a href="../index.html" class="nav-link">Home</a></li>
-        <li><a href="../diagnostic/index.html" class="nav-link">Skills Check</a></li>
-        <li><a href="./index.html" class="nav-link active">Lessons</a></li>
         <li><a href="../practice/index.html" class="nav-link">Practice</a></li>
-        <li><a href="../tools/number-line.html" class="nav-link">Number Line</a></li>
-        <li><a href="../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+        <li><a href="../lessons/index.html" class="nav-link active">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../super-extra-curricular/index.html" class="nav-dropdown-link">Super Extra</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </nav>
 
   <header class="page-header">
     <div class="container">
-      <h1>📚 Lessons</h1>
-      <p>Master fractions step by step with hands-on activities and football examples</p>
+      <h1>🏆 Playoff Journey</h1>
+      <p>Beat each opponent to advance to the Super Bowl!</p>
     </div>
   </header>
 
   <main class="container">
-    <!-- Curriculum Path -->
-    <div class="curriculum-overview">
-      <h2>Your Learning Path</h2>
-      <div class="curriculum-path" id="curriculumPath">
+    <!-- Eagles Intro -->
+    <div class="playoff-intro">
+      <h2>
+        <img src="../images/nfl-logos/eagles.png" alt="Eagles" class="eagles-logo">
+        You Are The Eagles
+        <img src="../images/nfl-logos/eagles.png" alt="Eagles" class="eagles-logo">
+      </h2>
+      <p>Master each fraction skill to defeat your opponent and advance through the playoffs!</p>
+    </div>
+
+    <!-- Progress Tracker -->
+    <div class="progress-tracker">
+      <h3>Your Playoff Path</h3>
+      <div class="bracket-progress" id="bracketProgress">
         <!-- Populated by JS -->
       </div>
     </div>
 
-    <!-- Lessons Grid -->
-    <div class="lessons-grid" id="lessonsGrid">
+    <!-- Matchups -->
+    <div class="bracket-container" id="bracketContainer">
       <!-- Populated by JS -->
     </div>
   </main>
 
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>Football Fractions - Playoff Journey</p>
+      <p class="text-small mt-sm">
+        <a href="../parent-guide/index.html">Parent Guide</a> ·
+        <a href="../practice/index.html">Practice Hub</a>
+      </p>
+    </div>
+  </footer>
+
   <script src="../js/storage.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/broadcast-transitions.js"></script>
   <script>
-    const lessons = [
+    const matchups = [
       {
-        num: 1,
+        round: 1,
+        roundName: 'Wild Card Round',
+        lessonNum: 1,
         slug: '01-equal-parts',
-        title: 'Equal Parts',
-        subtitle: 'What makes parts TRULY equal?',
+        lessonTitle: 'Equal Parts',
+        lessonSubtitle: 'What makes parts TRULY equal?',
+        team: 'Cowboys',
+        teamLogo: 'cowboys.png',
         objectives: [
-          'Spot shapes that are REALLY split equally',
-          'Split shapes your own way - there\'s more than one!',
-          'See why fair sharing only works with equal parts',
-          'Connect equal parts to pizza, teams, and game time!'
-        ],
-        footballContext: 'Dividing the Eagles practice field into equal zones for drills',
-        materials: ['Paper for folding', 'Scissors', 'Play-doh or clay']
+          'Spot shapes split equally',
+          'Divide shapes into equal parts',
+          'Sort equal vs not equal'
+        ]
       },
       {
-        num: 2,
+        round: 2,
+        roundName: 'Divisional Round',
+        lessonNum: 2,
         slug: '02-improper-fractions',
-        title: 'Improper Fractions & Mixed Numbers',
-        subtitle: 'Fractions can be bigger than 1!',
+        lessonTitle: 'Improper Fractions',
+        lessonSubtitle: 'Fractions bigger than 1!',
+        team: 'Chiefs',
+        teamLogo: 'chiefs.png',
         objectives: [
-          'Discover fractions that are MORE than 1 whole!',
-          'Switch between 5/4 and 1 1/4 like a pro',
-          'Draw pictures to show big fractions',
-          'Use game quarters to make it real'
-        ],
-        footballContext: 'Jalen Hurts played 7 quarters - how many complete games?',
-        materials: ['Fraction circles', 'Number line on floor (masking tape)']
+          'Build improper fractions',
+          'Convert to mixed numbers',
+          'Convert back to improper'
+        ]
       },
       {
-        num: 3,
+        round: 3,
+        roundName: 'Conference Semi-Final',
+        lessonNum: 3,
         slug: '03-adding-fractions',
-        title: 'Adding Fractions',
-        subtitle: 'Combining same-sized pieces',
+        lessonTitle: 'Adding Fractions',
+        lessonSubtitle: 'Combining same-sized pieces',
+        team: 'Lions',
+        teamLogo: 'lions.png',
         objectives: [
-          'Add fractions when the bottom numbers match',
-          'Know WHY we don\'t add the bottom numbers (big mistake!)',
-          'Draw bar models to show adding',
-          'Add up yard gains like a stats keeper!'
-        ],
-        footballContext: 'Justin Jefferson gains 3/10 then 2/10 - total yards?',
-        materials: ['Fraction tiles', 'Bar model paper']
+          'Add with bar models',
+          'Solve like-denominator problems',
+          'Tackle word problems'
+        ]
       },
       {
-        num: 4,
+        round: 4,
+        roundName: 'Conference Final',
+        lessonNum: 4,
         slug: '04-subtracting-fractions',
-        title: 'Subtracting Fractions',
-        subtitle: 'Finding what\'s left',
+        lessonTitle: 'Subtracting Fractions',
+        lessonSubtitle: 'Finding what\'s left',
+        team: 'Giants',
+        teamLogo: 'giants.png',
         objectives: [
-          'Subtract fractions when bottom numbers match',
-          'Compare fractions - who has more?',
-          'Draw it out with bar models and number lines',
-          'Figure out yards to go!'
-        ],
-        footballContext: 'Lamar Jackson needs 7/10 of the field, has 3/10 - what\'s left?',
-        materials: ['Fraction tiles', 'Number line']
+          'Subtract visually',
+          'Solve like-denominator problems',
+          'Calculate yards to go'
+        ]
       },
       {
-        num: 5,
+        round: 5,
+        roundName: 'NFC Championship',
+        lessonNum: 5,
         slug: '05-simplifying',
-        title: 'Simplifying Fractions',
-        subtitle: 'Same amount, simpler name',
+        lessonTitle: 'Simplifying Fractions',
+        lessonSubtitle: 'Same amount, simpler name',
+        team: 'Bears',
+        teamLogo: 'bears.png',
         objectives: [
-          'See that 2/4 and 1/2 are the SAME amount!',
-          'Find fractions that are secretly equal',
-          'Make fractions as simple as possible',
-          'Use player stats like a commentator!'
-        ],
-        footballContext: 'Tom Brady: 12/36 completions = 1/3 catch rate',
-        materials: ['Fraction tiles', 'Colored pencils']
+          'Match equivalent fractions',
+          'Find the GCF',
+          'Reduce to simplest form'
+        ]
       },
       {
-        num: 6,
+        round: 6,
+        roundName: 'SUPER BOWL',
+        lessonNum: 6,
         slug: '06-equivalence',
-        title: 'Fraction Twins',
-        subtitle: 'Same amount, different names!',
+        lessonTitle: 'Fraction Twins',
+        lessonSubtitle: 'Same amount, different names!',
+        team: 'Commanders',
+        teamLogo: 'commanders.png',
         objectives: [
-          'Figure out WHY some fractions are secretly equal',
-          'Create your own equivalent fractions',
-          'Use a cool trick (multiplying by 1!)',
-          'Find fraction twins on a number line'
+          'Match on number lines',
+          'Create equivalent fractions',
+          'Find missing numbers'
         ],
-        footballContext: 'Jordan Love and the Packers at midfield: 5/10 = 1/2?',
-        materials: ['Number line', 'Fraction strips']
+        isSuperBowl: true
       }
     ];
 
-    function renderLessons() {
+    function renderBracket() {
       const progress = Storage.getLessonProgress();
-      const grid = document.getElementById('lessonsGrid');
-      const path = document.getElementById('curriculumPath');
+      const container = document.getElementById('bracketContainer');
+      const progressBar = document.getElementById('bracketProgress');
 
-      // Render path
-      let pathHTML = '';
-      lessons.forEach((lesson, i) => {
-        const status = progress[lesson.num]?.completed ? 'completed' :
-                      progress[lesson.num]?.started ? 'current' : '';
-        pathHTML += `
-          <div class="path-item ${status}">
-            ${progress[lesson.num]?.completed ? '✓' : lesson.num}
-            ${lesson.title}
+      // Find current round (first incomplete lesson)
+      let currentRound = 7; // All complete
+      for (let i = 1; i <= 6; i++) {
+        if (!progress[i]?.completed) {
+          currentRound = i;
+          break;
+        }
+      }
+
+      // Render progress bar
+      let progressHTML = '';
+      matchups.forEach((m, i) => {
+        const isDefeated = progress[m.lessonNum]?.completed;
+        const isCurrent = m.lessonNum === currentRound;
+        const statusClass = isDefeated ? 'defeated' : (isCurrent ? 'current' : '');
+
+        progressHTML += `
+          <div class="bracket-step">
+            <div class="bracket-team ${statusClass}">
+              <img src="../images/nfl-logos/${m.teamLogo}" alt="${m.team}">
+            </div>
+            ${i < matchups.length - 1 ? '<span class="bracket-arrow">→</span>' : ''}
           </div>
         `;
-        if (i < lessons.length - 1) {
-          pathHTML += '<span class="path-arrow">→</span>';
-        }
       });
-      path.innerHTML = pathHTML;
+      progressHTML += '<span class="bracket-trophy">🏆</span>';
+      progressBar.innerHTML = progressHTML;
 
-      // Render lesson cards
-      grid.innerHTML = lessons.map(lesson => {
-        const lessonProgress = progress[lesson.num] || {};
-        const headerClass = lessonProgress.completed ? 'completed' : '';
-        const statusBadge = lessonProgress.completed ?
-          '<span class="lesson-status-badge">✓ Complete</span>' : '';
+      // Render matchup cards
+      container.innerHTML = matchups.map(m => {
+        const lessonProgress = progress[m.lessonNum] || {};
+        const isDefeated = lessonProgress.completed;
+        const isStarted = lessonProgress.started;
+        const isLocked = m.lessonNum > 1 && !progress[m.lessonNum - 1]?.completed;
+
+        const cardClasses = [
+          'matchup-card',
+          isDefeated ? 'defeated' : '',
+          m.isSuperBowl ? 'super-bowl' : ''
+        ].filter(Boolean).join(' ');
+
+        const statusText = isDefeated ? '✓ DEFEATED' : (isLocked ? '🔒 LOCKED' : 'READY');
+        const statusClass = isDefeated ? 'defeated' : (isLocked ? 'locked' : '');
+
+        const buttonText = isDefeated ? 'Review Game' : 'Play Game';
 
         return `
-          <div class="lesson-card-full">
-            <div class="lesson-header ${headerClass}">
-              ${statusBadge}
-              <span class="lesson-num">${lesson.num}</span>
-              <h3 class="lesson-title">${lesson.title}</h3>
-              <p class="lesson-subtitle">${lesson.subtitle}</p>
+          <div class="${cardClasses}">
+            <div class="matchup-header">
+              <span class="round-label">${m.roundName}</span>
+              <span class="matchup-status ${statusClass}">${statusText}</span>
             </div>
-            <div class="lesson-content">
-              <div class="lesson-objectives">
-                <h4>What You'll Learn</h4>
+
+            <div class="matchup-body">
+              <div class="team-side eagles">
+                <img src="../images/nfl-logos/eagles.png" alt="Eagles" class="team-logo">
+                <span class="team-name">Eagles</span>
+                <span class="you-label">(You)</span>
+              </div>
+
+              <div class="vs-divider">
+                <span class="vs-text">VS</span>
+                <span class="lesson-title-small">${m.lessonTitle}: ${m.lessonSubtitle}</span>
+              </div>
+
+              <div class="team-side opponent">
+                <img src="../images/nfl-logos/${m.teamLogo}" alt="${m.team}" class="team-logo">
+                <span class="team-name">${m.team}</span>
+              </div>
+
+              ${isDefeated ? `<div class="defeated-badge">EAGLES BEAT ${m.team.toUpperCase()}!</div>` : ''}
+            </div>
+
+            <div class="matchup-footer">
+              <div class="lesson-objectives-mini">
+                <div class="learn-header">WHAT YOU WILL LEARN:</div>
                 <ul>
-                  ${lesson.objectives.map(obj => `<li>${obj}</li>`).join('')}
+                  ${m.objectives.map(obj => `<li>${obj}</li>`).join('')}
                 </ul>
               </div>
-              <div class="lesson-football">
-                🏈 <strong>Football Connection:</strong> ${lesson.footballContext}
-              </div>
-              <div class="lesson-actions">
-                <a href="${lesson.slug}/index.html" class="btn btn-primary">
-                  💻 ${lessonProgress.completed ? 'Review Lesson' :
-                    lessonProgress.started ? 'Continue' : 'Start Lesson'}
+              <div class="matchup-actions">
+                <a href="${m.slug}/index.html"
+                   class="btn ${isDefeated ? 'btn-secondary' : 'btn-primary play-game-btn'} ${isLocked ? 'btn-locked' : ''}"
+                   data-opponent="${m.team}"
+                   data-opponent-logo="../images/nfl-logos/${m.teamLogo}"
+                   data-round="${m.roundName}">
+                  ${buttonText}
                 </a>
-                <a href="${lesson.slug}/worksheet.html" class="btn btn-secondary">
-                  🖨️ Print Worksheet
+                <a href="${m.slug}/worksheet.html" class="btn btn-secondary">
+                  Worksheet
                 </a>
               </div>
             </div>
+
+            ${m.isSuperBowl && isDefeated ? '<div class="championship-badge">🏆 SUPER BOWL CHAMPIONS! 🏆</div>' : ''}
           </div>
         `;
       }).join('');
     }
 
-    document.addEventListener('DOMContentLoaded', renderLessons);
+    document.addEventListener('DOMContentLoaded', () => {
+      renderBracket();
+
+      // Bind matchup intro transitions to Play Game buttons
+      setTimeout(() => {
+        document.querySelectorAll('.play-game-btn:not(.btn-locked)').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetUrl = btn.href;
+            const opponent = btn.dataset.opponent;
+            const opponentLogo = btn.dataset.opponentLogo;
+            const round = btn.dataset.round;
+
+            // Button slam effect
+            BroadcastTransitions.buttonSlam(btn, () => {
+              // Show matchup intro
+              BroadcastTransitions.showMatchupIntro(
+                { name: 'EAGLES', logo: '../images/nfl-logos/eagles.png' },
+                { name: opponent.toUpperCase(), logo: opponentLogo },
+                round,
+                () => {
+                  window.location.href = targetUrl;
+                }
+              );
+            });
+          });
+        });
+      }, 100);
+    });
   </script>
 </body>
 </html>

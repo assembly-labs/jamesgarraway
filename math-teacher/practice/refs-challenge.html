@@ -12,6 +12,17 @@
   <link rel="stylesheet" href="../styles/football-theme.css">
 
   <style>
+    /* Referee stripe pattern */
+    .referee-stripes {
+      background: repeating-linear-gradient(
+        0deg,
+        #000 0px,
+        #000 15px,
+        #fff 15px,
+        #fff 30px
+      );
+    }
+
     .tool-container {
       max-width: 1000px;
       margin: 0 auto;
@@ -35,49 +46,68 @@
       min-height: 280px;
     }
 
+    /* Yard line stripes aligned with number line (40px padding on each side) */
     .field-container::before {
       content: '';
       position: absolute;
       top: 0;
-      left: 0;
-      right: 0;
+      left: 40px;
+      right: 40px;
       bottom: 0;
       background: repeating-linear-gradient(
         90deg,
         transparent,
         transparent calc(10% - 1px),
-        rgba(255, 255, 255, 0.2) calc(10% - 1px),
-        rgba(255, 255, 255, 0.2) 10%
+        rgba(255, 255, 255, 0.25) calc(10% - 1px),
+        rgba(255, 255, 255, 0.25) 10%
       );
       pointer-events: none;
     }
 
+    /* End zone styling */
+    .field-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      background: linear-gradient(90deg, rgba(0,76,84,0.3), transparent);
+      pointer-events: none;
+    }
+
     .question-display {
-      background: white;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
       border-radius: var(--radius-lg);
-      padding: var(--space-lg);
+      padding: var(--space-xl);
       margin-bottom: var(--space-xl);
       text-align: center;
-      box-shadow: 0 2px 8px var(--shadow);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      border: 3px solid #444;
     }
 
     .question-text {
       font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text);
+      font-weight: 800;
+      color: white;
       margin-bottom: var(--space-sm);
     }
 
     .question-fraction {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--field-green);
+      font-size: 3rem;
+      font-weight: 900;
+      color: #FFD700;
       margin: var(--space-md) 0;
+      background: rgba(0, 0, 0, 0.3);
+      display: inline-block;
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--radius-md);
     }
 
     .question-hint {
       font-size: 1rem;
-      color: var(--text-muted);
+      font-weight: 600;
+      color: #ccc;
     }
 
     .number-line {
@@ -255,31 +285,37 @@
       gap: var(--space-xl);
       justify-content: center;
       align-items: center;
-      background: var(--card-bg);
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
       border-radius: var(--radius-lg);
       padding: var(--space-lg);
       margin-bottom: var(--space-xl);
-      box-shadow: 0 2px 8px var(--shadow);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      border: 3px solid #444;
     }
 
     .score-item {
       text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
     }
 
     .score-label {
       font-size: 0.875rem;
-      color: var(--text-muted);
+      font-weight: 700;
+      color: white;
       margin-bottom: var(--space-xs);
     }
 
     .score-value {
       font-size: 2rem;
-      font-weight: 700;
-      color: var(--field-green);
+      font-weight: 900;
+      color: #FFD700;
     }
 
     .streak-value {
-      color: var(--football-orange);
+      color: #FF6347;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), -1px -1px 2px rgba(255, 255, 255, 0.5);
     }
 
     .feedback-message {
@@ -304,63 +340,45 @@
       display: block;
     }
 
-    .toggle-switch {
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-      justify-content: center;
-      margin-top: var(--space-md);
+    /* Enhanced drop zone indicator */
+    .number-line-track.drop-ready {
+      background: #FFD700;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
     }
 
-    .toggle-label {
-      font-weight: 600;
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
+    /* Auto-advance progress indicator */
+    .auto-advance-bar {
       position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
       bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 24px;
+      left: 0;
+      height: 4px;
+      background: var(--field-green);
+      border-radius: 2px;
+      transition: width 1.5s linear;
     }
 
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
+    .question-display .auto-advance-bar {
+      width: 0;
     }
 
-    input:checked + .slider {
-      background-color: var(--field-green);
+    .question-display.advancing .auto-advance-bar {
+      width: 100%;
     }
 
-    input:checked + .slider:before {
-      transform: translateX(26px);
+    /* Improved hint styling */
+    .question-hint {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #aaa;
+      background: rgba(255, 255, 255, 0.1);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      display: inline-block;
+    }
+
+    .question-hint.drag-active {
+      background: rgba(255, 215, 0, 0.2);
+      color: #FFD700;
     }
   </style>
 </head>
@@ -377,11 +395,17 @@
       </button>
       <ul class="nav-menu" id="navMenu">
         <li><a href="../index.html" class="nav-link">Home</a></li>
-        <li><a href="../diagnostic/index.html" class="nav-link">Skills Check</a></li>
-        <li><a href="../lessons/index.html" class="nav-link">Lessons</a></li>
-        <li><a href="../practice/index.html" class="nav-link">Practice</a></li>
-        <li><a href="../tools/number-line.html" class="nav-link active">Number Line</a></li>
-        <li><a href="../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+        <li><a href="../practice/index.html" class="nav-link active">Practice</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../super-extra-curricular/index.html" class="nav-dropdown-link">Super Extra</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </nav>
@@ -389,13 +413,8 @@
   <!-- Page Header -->
   <header class="page-header">
     <div class="container">
-      <div class="breadcrumb">
-        <a href="../index.html">Home</a>
-        <span>/</span>
-        <span>Ref's Challenge</span>
-      </div>
-      <h1>🏈 Ref's Challenge: Spot the Ball</h1>
-      <p>Help the referee place the football at the correct yard line</p>
+      <h1>Ref's Challenge</h1>
+      <p>Drag the football to the correct spot on the number line!</p>
     </div>
   </header>
 
@@ -442,17 +461,6 @@
       <div class="controls">
         <button class="btn btn-primary btn-large" id="nextButton" onclick="NumberLine.nextQuestion()" style="display: none;">Next Question</button>
         <button class="btn btn-secondary" onclick="NumberLine.showAnswer()">Show Answer</button>
-        <button class="btn btn-secondary" onclick="NumberLine.resetScore()">Reset Score</button>
-        <a href="../practice/index.html" class="btn btn-secondary">Back to Practice</a>
-      </div>
-
-      <!-- Labels Toggle -->
-      <div class="toggle-switch">
-        <span class="toggle-label">Show yard line labels</span>
-        <label class="switch">
-          <input type="checkbox" id="labelsToggle" checked onchange="NumberLine.toggleLabels()">
-          <span class="slider"></span>
-        </label>
       </div>
     </div>
   </main>
@@ -472,12 +480,12 @@
       currentFraction: null,
       range: [0, 1],
       divisions: 4,
-      showLabels: true,
 
       // Drag state
       marker: null,
       draggingMarker: false,
       answered: false,
+      autoAdvanceTimeout: null,
 
       // All possible fractions (random difficulty)
       fractionPool: [
@@ -507,12 +515,12 @@
         this.newQuestion();
       },
 
-      toggleLabels() {
-        this.showLabels = document.getElementById('labelsToggle').checked;
-        this.renderNumberLine();
-      },
-
       newQuestion() {
+        // Clear any pending auto-advance
+        if (this.autoAdvanceTimeout) {
+          clearTimeout(this.autoAdvanceTimeout);
+          this.autoAdvanceTimeout = null;
+        }
         this.answered = false;
         document.getElementById('feedbackMessage').className = 'feedback-message';
         document.getElementById('nextButton').style.display = 'none';
@@ -566,21 +574,20 @@
           tick.style.left = `${x}px`;
           line.appendChild(tick);
 
-          // Labels (show major ticks always, show minor based on toggle)
-          if (this.showLabels) {
-            const label = document.createElement('div');
-            label.className = `number-line-label ${isMajor ? 'major' : 'minor'}`;
-            label.style.left = `${x}px`;
+          // Always show labels
+          const label = document.createElement('div');
+          label.className = `number-line-label ${isMajor ? 'major' : 'minor'}`;
+          label.style.left = `${x}px`;
 
-            if (isMajor) {
-              label.textContent = value.toString();
-            } else if (this.divisions <= 8) {
-              const simplified = Fractions.simplify(i, this.divisions);
-              label.textContent = `${simplified.numerator}/${simplified.denominator}`;
-            }
-
-            line.appendChild(label);
+          if (isMajor) {
+            label.textContent = value.toString();
+          } else {
+            // Simplify the fraction for display
+            const simplified = Fractions.simplify(i, this.divisions);
+            label.textContent = `${simplified.numerator}/${simplified.denominator}`;
           }
+
+          line.appendChild(label);
         }
       },
 
@@ -726,31 +733,36 @@
           this.currentStreak++;
 
           const messages = [
-            "Perfect spot! Great job, Ref! 🏈",
-            "Right on the mark! 🎯",
-            "Excellent placement! 👏",
-            "Nailed it! ✨",
-            "Spot on! Way to go! 🌟"
+            "Perfect spot! Great job, Ref!",
+            "Right on the mark!",
+            "Excellent placement!",
+            "Nailed it!",
+            "Spot on! Way to go!"
           ];
           const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 
           feedbackEl.textContent = randomMessage;
           feedbackEl.className = 'feedback-message correct';
+
+          // Auto-advance after correct answer
+          this.autoAdvanceTimeout = setTimeout(() => {
+            this.newQuestion();
+          }, 1500);
         } else {
           this.marker.classList.add('incorrect');
           this.currentStreak = 0;
 
           const simplified = Fractions.simplify(this.currentFraction.numerator, this.currentFraction.denominator);
-          feedbackEl.textContent = `Not quite! The ball should be at ${simplified.numerator}/${simplified.denominator}. Try the next one! 💪`;
+          feedbackEl.textContent = `Not quite! The ball should be at ${simplified.numerator}/${simplified.denominator}. Try the next one!`;
           feedbackEl.className = 'feedback-message incorrect';
+
+          // Show next button after incorrect answer
+          setTimeout(() => {
+            document.getElementById('nextButton').style.display = 'inline-block';
+          }, 1000);
         }
 
         this.updateScore();
-
-        // Show next button after brief delay
-        setTimeout(() => {
-          document.getElementById('nextButton').style.display = 'inline-block';
-        }, 1000);
       },
 
       showAnswer() {
@@ -773,9 +785,10 @@
         this.answered = true;
         this.currentStreak = 0;
 
-        setTimeout(() => {
-          document.getElementById('nextButton').style.display = 'inline-block';
-        }, 500);
+        // Auto-advance after showing answer
+        this.autoAdvanceTimeout = setTimeout(() => {
+          this.newQuestion();
+        }, 2500);
       },
 
       updateScore() {

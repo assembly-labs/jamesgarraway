@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lesson 3: Adding Fractions - Football Fractions</title>
+
+  <link rel="stylesheet" href="../../styles/main.css">
+  <link rel="stylesheet" href="../../styles/components.css">
+  <link rel="stylesheet" href="../../styles/football-theme.css">
+  <link rel="stylesheet" href="../../styles/print.css">
+
+  <style>
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--shadow);
+      margin-bottom: var(--space-xl);
+    }
+
+    .activity-header {
+      padding: var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .activity-header.concrete {
+      background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+      color: white;
+    }
+
+    .activity-header.pictorial {
+      background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+      color: white;
+    }
+
+    .activity-header.abstract {
+      background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+      color: white;
+    }
+
+    .activity-icon {
+      font-size: 2rem;
+    }
+
+    .activity-body {
+      padding: var(--space-xl);
+    }
+
+    .activity-steps {
+      counter-reset: step;
+    }
+
+    .activity-step {
+      display: flex;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-step:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .step-number {
+      counter-increment: step;
+      width: 40px;
+      height: 40px;
+      background: var(--field-green);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-number::before {
+      content: counter(step);
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .parent-script {
+      background: #E8F5E9;
+      border-left: 4px solid var(--correct);
+      padding: var(--space-md);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin: var(--space-md) 0;
+      font-style: italic;
+    }
+
+    .parent-script::before {
+      content: "💬 Say: ";
+      font-style: normal;
+      font-weight: 700;
+      color: var(--correct);
+    }
+
+    .key-question {
+      background: var(--thinking-light);
+      border: 2px dashed var(--thinking);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin: var(--space-md) 0;
+    }
+
+    .key-question::before {
+      content: "❓ Key Question: ";
+      font-weight: 700;
+      color: #E65100;
+    }
+
+    .visual-example {
+      background: var(--background);
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      text-align: center;
+      margin: var(--space-md) 0;
+    }
+
+    .football-callout {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      padding: var(--space-xl);
+      border-radius: var(--radius-lg);
+      margin: var(--space-xl) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .football-callout::after {
+      content: "🏈";
+      position: absolute;
+      right: var(--space-lg);
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 4rem;
+      opacity: 0.2;
+    }
+
+    .materials-box {
+      background: var(--info-light);
+      border: 2px solid var(--info);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .materials-box h4 {
+      color: var(--info);
+      margin-bottom: var(--space-md);
+    }
+
+    .objective-box {
+      background: var(--correct-light);
+      border: 2px solid var(--correct);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .objective-box h4 {
+      color: #1B5E20;
+      margin-bottom: var(--space-md);
+    }
+
+    .misconception-box {
+      background: var(--incorrect-light);
+      border: 2px solid var(--incorrect);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin: var(--space-lg) 0;
+    }
+
+    .misconception-box h4 {
+      color: var(--incorrect);
+      margin-bottom: var(--space-sm);
+    }
+
+    .bar-model {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      align-items: center;
+      margin: var(--space-lg) 0;
+    }
+
+    .bar {
+      width: 300px;
+      height: 50px;
+      display: flex;
+      border: 2px solid var(--field-green);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .bar-piece {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      border-right: 1px solid var(--field-green);
+    }
+
+    .bar-piece:last-child {
+      border-right: none;
+    }
+
+    .bar-piece.shaded {
+      background: #64B5F6;
+      color: white;
+    }
+
+    .bar-piece.unshaded {
+      background: var(--correct-light);
+    }
+
+    .lesson-complete {
+      text-align: center;
+      padding: var(--space-2xl);
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">Home</a></li>
+        <li><a href="../../practice/index.html" class="nav-link">Practice</a></li>
+        <li><a href="../../lessons/index.html" class="nav-link">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../../super-extra-curricular/index.html" class="nav-dropdown-link active">Super Extra</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb" style="color: rgba(255,255,255,0.8);">
+        <a href="../index.html" style="color: white;">Lessons</a>
+        <span>›</span>
+        <span>Lesson 3</span>
+      </div>
+      <h1>Lesson 3: Adding Fractions</h1>
+      <p>Combining same-sized pieces</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Online Badge -->
+    <div class="online-badge" style="background: #e8f5e9; border: 2px solid #2E7D32; padding: 8px 16px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
+      💻 <strong>ONLINE LESSON</strong> - Do this on the computer with a parent or guardian!
+    </div>
+
+    <div class="lesson-nav">
+      <a href="../02-improper-fractions/index.html">← Lesson 2: Improper Fractions</a>
+      <a href="../04-subtracting-fractions/index.html">Lesson 4: Subtracting Fractions →</a>
+    </div>
+
+    <!-- Misconception Alert -->
+    <div class="misconception-box">
+      <h4>🚨 Watch Out!</h4>
+      <p>Big mistake alert: Some people add BOTH numbers (like 1/4 + 2/4 = 3/8). Nope! The bottom number tells you the SIZE of the pieces - and that doesn't change when you combine!</p>
+    </div>
+
+    <!-- Learning Objective -->
+    <div class="objective-box">
+      <h4>🎯 What You'll Learn</h4>
+      <p>Adding fractions is like combining catches in a game. Here's what you'll figure out:</p>
+      <ul>
+        <li>When the <strong>bottom numbers match</strong>, you're counting same-sized pieces</li>
+        <li>Add the <strong>top numbers</strong> (how many pieces) but keep the <strong>bottom the same</strong> (piece size doesn't change!)</li>
+        <li>It answers: "How many pieces do we have now?"</li>
+      </ul>
+    </div>
+
+    <!-- Concept Explanation -->
+    <div class="concept-box" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 4px solid var(--field-green); border-radius: var(--radius-md); padding: var(--space-lg); margin: var(--space-lg) 0;">
+      <h4 style="color: var(--field-green); margin-bottom: var(--space-md);">🧠 The Big Idea: Adding Fractions = Counting More Pieces!</h4>
+
+      <div style="margin-bottom: var(--space-md);">
+        <strong>The Simple Explanation:</strong>
+        <p style="margin-top: var(--space-sm);">When you add fractions with the same bottom number, you're just counting more pieces of the SAME size. Think of it like this: if you have 2 quarters and someone gives you 1 more quarter, you now have 3 quarters. You don't suddenly have "thirds" - the pieces are still quarters!</p>
+        <p style="margin-top: var(--space-sm);">So 2/4 + 1/4 = 3/4. Add the top numbers (2 + 1 = 3), keep the bottom the same (still fourths). The bottom number tells you the SIZE of the pieces, and that doesn't change just because you have more of them!</p>
+      </div>
+
+      <div style="background: white; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>🏈 The Football Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">Imagine a football field split into 10 equal sections (each section is 10 yards). Justin Jefferson catches a pass and runs 3/10 of the field (30 yards). On the next play, he catches another and runs 2/10 more (20 yards). How far did he go total?</p>
+        <p style="margin-top: var(--space-sm);">You don't change the field into 20 sections! The field is still split into 10 parts. He just covered MORE of those parts: 3/10 + 2/10 = 5/10 of the field (50 yards). Add the catches, keep the field the same size!</p>
+      </div>
+
+      <div style="background: #fff3e0; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>⛏️ The Minecraft Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">You're building a wall that's 8 blocks wide. You place 3/8 of the blocks (3 blocks), then your friend places 4/8 more blocks (4 blocks). How much of the wall is done?</p>
+        <p style="margin-top: var(--space-sm);">The wall is still 8 blocks wide - that didn't change! You just placed more of those 8 blocks: 3/8 + 4/8 = 7/8 of the wall is complete. One more block and you're done!</p>
+      </div>
+
+      <div style="background: #e3f2fd; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>⚽ The Soccer Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">A soccer game has 2 halves. If you played 1/2 of the first game and 1/2 of the second game, you played 1/2 + 1/2 = 2/2 = 1 whole game's worth of time! The halves are still halves - you just played more of them.</p>
+      </div>
+    </div>
+
+    <!-- Materials -->
+    <div class="materials-box">
+      <h4>📦 Materials Needed</h4>
+      <ul class="materials-list" style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-sm);">
+        <li>🔵 Fraction circles or bars</li>
+        <li>📄 Paper and colored pencils</li>
+        <li>🍕 Paper plates (to draw pizza models)</li>
+        <li>✏️ Pencil for drawing bar models</li>
+      </ul>
+    </div>
+
+    <!-- CPA Stages -->
+    <div class="cpa-stages">
+      <div class="cpa-stage active" id="concreteStage">
+        <div class="cpa-stage-icon">🧱</div>
+        <div class="cpa-stage-label">Concrete</div>
+      </div>
+      <div class="cpa-stage" id="pictorialStage">
+        <div class="cpa-stage-icon">✏️</div>
+        <div class="cpa-stage-label">Pictorial</div>
+      </div>
+      <div class="cpa-stage" id="abstractStage">
+        <div class="cpa-stage-icon">🔢</div>
+        <div class="cpa-stage-label">Abstract</div>
+      </div>
+    </div>
+
+    <!-- CONCRETE Activities -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header concrete">
+          <span class="activity-icon">🧱</span>
+          <div>
+            <h3 style="margin:0">Concrete Activities</h3>
+            <p style="margin:0; opacity:0.9">Hands-on exploration</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <div class="activity-steps">
+            <!-- Activity 1: Physical Pieces -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Counting Pizza Slices</h4>
+                <p>Use fraction circles or draw two paper plate "pizzas" cut into 8 equal slices each.</p>
+
+                <div class="parent-script">
+                  You ate 2 slices from the first pizza, and 3 slices from the second pizza. Both pizzas were cut into eighths. How many eighths did you eat in total?
+                </div>
+
+                <p>Let your child physically count the pieces: 2 eighths + 3 eighths</p>
+
+                <div class="key-question">
+                  Are all the slices the same size? (Yes - they're all eighths!) So when we count them together, how many eighths do we have? (5 eighths!)
+                </div>
+
+                <div class="alert alert-success">
+                  <strong>Key Insight:</strong> "We're counting pieces of the SAME SIZE. 2 eighths + 3 eighths = 5 eighths. The denominator (8) tells us the size of each piece - that doesn't change!"
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity 2: Combining Groups -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>The "Same Size" Rule</h4>
+                <p>Set out fraction pieces in fourths. Give your child 1 fourth and then 2 fourths separately.</p>
+
+                <div class="parent-script">
+                  You have 1 fourth here, and 2 fourths here. If you push them all together, how many fourths do you have?
+                </div>
+
+                <p>Let them combine the pieces and count: 3 fourths total.</p>
+
+                <div class="key-question">
+                  Did the pieces change size when you pushed them together? (No!) So what stays the same in our answer? (The denominator - they're still fourths!)
+                </div>
+
+                <p>Now try with other denominators:</p>
+                <ul>
+                  <li>3/10 + 2/10 (using tenths)</li>
+                  <li>1/6 + 4/6 (using sixths)</li>
+                  <li>2/5 + 2/5 (using fifths)</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Activity 3: Building Understanding -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Why DON'T We Add Denominators?</h4>
+                <p>This is the most important question! Let's explore it.</p>
+
+                <div class="parent-script">
+                  Some kids think 1/4 + 2/4 = 3/8. Let's test that with real pieces. Take out 1 fourth. Now add 2 more fourths. Do you have 3 eighths, or 3 fourths?
+                </div>
+
+                <p>Let them see that the pieces are still the SAME SIZE (fourths), so we have 3 fourths, not 3 eighths.</p>
+
+                <div class="visual-example">
+                  <p><strong>Compare these:</strong></p>
+                  <div class="bar-model">
+                    <div>
+                      <div class="bar">
+                        <div class="bar-piece shaded">1/4</div>
+                        <div class="bar-piece shaded">1/4</div>
+                        <div class="bar-piece shaded">1/4</div>
+                        <div class="bar-piece unshaded">1/4</div>
+                      </div>
+                      <p class="mt-sm"><strong>3/4 (three fourths)</strong></p>
+                    </div>
+                  </div>
+                  <p>vs.</p>
+                  <div class="bar-model">
+                    <div>
+                      <div class="bar">
+                        <div class="bar-piece shaded"></div>
+                        <div class="bar-piece shaded"></div>
+                        <div class="bar-piece shaded"></div>
+                        <div class="bar-piece unshaded"></div>
+                        <div class="bar-piece unshaded"></div>
+                        <div class="bar-piece unshaded"></div>
+                        <div class="bar-piece unshaded"></div>
+                        <div class="bar-piece unshaded"></div>
+                      </div>
+                      <p class="mt-sm"><strong>3/8 (three eighths) - NOT the same amount!</strong></p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="key-question">
+                  When you add fourths to fourths, do you suddenly get eighths? (No! They're still fourths!)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Football Connection -->
+    <div class="football-callout">
+      <h3>🏈 Football Connection: Justin Jefferson's Big Catches</h3>
+      <p>Justin Jefferson catches two passes, each gaining a fraction of the field (think of the 100-yard field divided into 10 sections of 10 yards each).</p>
+      <ul>
+        <li><strong>First catch:</strong> Justin gained 3/10 of the field (30 yards)</li>
+        <li><strong>Second catch:</strong> Another great catch for 2/10 of the field (20 yards)</li>
+        <li><strong>Total yards:</strong> 3/10 + 2/10 = 5/10 of the field (50 yards)</li>
+      </ul>
+
+      <div class="parent-script" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">
+        Each section is still the same size (10 yards, or 1/10 of the field). We're just counting how many of those sections Justin covered: 3 sections + 2 sections = 5 sections!
+      </div>
+
+      <div style="margin-top: var(--space-md); padding: var(--space-md); background: rgba(255,255,255,0.15); border-radius: var(--radius-md);">
+        <strong>Try this:</strong> Cooper DeJean intercepts a pass and returns it 4/10 of the field. Then the Eagles offense gains another 3/10. What fraction of the field have the Eagles covered? (Answer: 4/10 + 3/10 = 7/10)
+      </div>
+
+      <p style="margin-top: var(--space-md);"><strong>Key insight:</strong> The size of the field sections doesn't change - we're just counting how many we've covered!</p>
+    </div>
+
+    <!-- PICTORIAL Activities -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header pictorial">
+          <span class="activity-icon">✏️</span>
+          <div>
+            <h3 style="margin:0">Pictorial Activities</h3>
+            <p style="margin:0; opacity:0.9">Drawing representations</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <div class="activity-steps">
+            <!-- Drawing Bar Models -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Bar Models for Addition</h4>
+                <p>Practice drawing bar models to show addition:</p>
+
+                <div class="visual-example">
+                  <p><strong>Example: 2/5 + 1/5</strong></p>
+                  <div style="display: flex; flex-direction: column; gap: var(--space-sm); align-items: center;">
+                    <div class="bar">
+                      <div class="bar-piece shaded"></div>
+                      <div class="bar-piece shaded"></div>
+                      <div class="bar-piece unshaded"></div>
+                      <div class="bar-piece unshaded"></div>
+                      <div class="bar-piece unshaded"></div>
+                    </div>
+                    <p style="margin: 0;">First, shade 2/5</p>
+                    <p style="margin: 0;">↓</p>
+                    <div class="bar">
+                      <div class="bar-piece shaded"></div>
+                      <div class="bar-piece shaded"></div>
+                      <div class="bar-piece shaded"></div>
+                      <div class="bar-piece unshaded"></div>
+                      <div class="bar-piece unshaded"></div>
+                    </div>
+                    <p style="margin: 0;">Then shade 1 more fifth</p>
+                    <p style="margin: 0;"><strong>Result: 3/5</strong></p>
+                  </div>
+                </div>
+
+                <p>Now you draw bar models for:</p>
+                <ol>
+                  <li>1/6 + 2/6</li>
+                  <li>3/8 + 2/8</li>
+                  <li>4/10 + 3/10</li>
+                </ol>
+
+                <div class="parent-script">
+                  For each one, ask: "How many pieces are shaded in total? What size are the pieces?"
+                </div>
+              </div>
+            </div>
+
+            <!-- Number Line Addition -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Number Line: Showing Addition as Jumps</h4>
+
+                <div class="visual-example">
+                  <p><strong>1/4 + 2/4 on a number line:</strong></p>
+                  <p>Start at 1/4, then jump 2 fourths forward → land on 3/4</p>
+                </div>
+
+                <p>Draw a number line from 0 to 1, marked in fourths. Show these additions as jumps:</p>
+                <ul>
+                  <li>1/4 + 1/4</li>
+                  <li>1/4 + 2/4</li>
+                  <li>2/4 + 1/4</li>
+                </ul>
+
+                <div class="key-question">
+                  Does the order matter? Is 1/4 + 2/4 the same as 2/4 + 1/4?
+                </div>
+              </div>
+            </div>
+
+            <!-- Circle Models -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Pizza Addition</h4>
+                <p>Draw circles (pizzas) to solve these:</p>
+
+                <ol>
+                  <li>Draw 2/8 of a pizza + 3/8 of a pizza</li>
+                  <li>Draw 1/6 of a pizza + 4/6 of a pizza</li>
+                  <li>Draw 6/10 + 5/10 (this will be more than one whole pizza!)</li>
+                </ol>
+
+                <div class="parent-script">
+                  For problem 3, ask: "What do you notice? Is the answer more than 1 whole pizza? How much more?"
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABSTRACT Section -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header abstract">
+          <span class="activity-icon">🔢</span>
+          <div>
+            <h3 style="margin:0">Abstract: The Rule</h3>
+            <p style="margin:0; opacity:0.9">Connecting to symbols and procedures</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <h4>The Addition Rule (Same Denominators)</h4>
+
+          <div class="visual-example">
+            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-xl); flex-wrap: wrap; font-size: 1.5rem; font-weight: 700;">
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <span style="border-bottom: 3px solid var(--text); padding: 0 var(--space-sm);">2</span>
+                <span style="padding: 0 var(--space-sm);">5</span>
+              </div>
+              <span>+</span>
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <span style="border-bottom: 3px solid var(--text); padding: 0 var(--space-sm);">1</span>
+                <span style="padding: 0 var(--space-sm);">5</span>
+              </div>
+              <span>=</span>
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <span style="border-bottom: 3px solid var(--text); padding: 0 var(--space-sm);">3</span>
+                <span style="padding: 0 var(--space-sm);">5</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: var(--thinking-light); padding: var(--space-lg); border-radius: var(--radius-md); margin: var(--space-lg) 0;">
+            <h4>The thinking process:</h4>
+            <ol>
+              <li><strong>Check the denominators:</strong> Are they the same? (Both are 5 - good!)</li>
+              <li><strong>Think about what that means:</strong> We're counting fifths + fifths</li>
+              <li><strong>Add the numerators:</strong> 2 fifths + 1 fifth = 3 fifths</li>
+              <li><strong>Keep the denominator:</strong> They're still fifths! So denominator stays 5</li>
+            </ol>
+          </div>
+
+          <div class="alert alert-warning mt-lg">
+            <div class="alert-title">⚠️ Critical Understanding</div>
+            <p>The procedure "add the tops, keep the bottom" only makes sense when you understand WHY. Always ask yourself: <strong>"What size pieces am I counting?"</strong></p>
+          </div>
+
+          <h4 class="mt-xl">Practice Problems</h4>
+          <p>Solve these, but for EACH one, explain your thinking out loud:</p>
+          <ol>
+            <li>3/8 + 2/8 = ?</li>
+            <li>1/6 + 4/6 = ?</li>
+            <li>5/10 + 3/10 = ?</li>
+            <li>2/4 + 3/4 = ? (This will be improper - that's okay!)</li>
+          </ol>
+
+          <div class="parent-script">
+            For each problem, have your child explain: "I have ___ [size pieces] plus ___ more [same size pieces], which gives me ___ [size pieces] altogether."
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Self-Explanation Prompts -->
+    <section class="activity-section">
+      <div class="card">
+        <div class="card-header">
+          <h3 style="margin:0">💭 Understanding Check</h3>
+        </div>
+        <div class="card-body">
+          <p>Before finishing, make sure you can answer these:</p>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">Why DON'T we add denominators?</div>
+            <p>(Because the denominator tells us the SIZE of the pieces, and that doesn't change when we combine them. We're still counting the same-sized pieces!)</p>
+          </div>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">What ARE we adding?</div>
+            <p>(The numerators - the number of pieces. We're counting how many pieces we have altogether.)</p>
+          </div>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">Can the answer be bigger than 1?</div>
+            <p>(Yes! If we add enough pieces, we can have more than one whole. For example, 3/4 + 2/4 = 5/4 = 1 1/4)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lesson Complete -->
+    <div class="lesson-complete">
+      <h2>🎉 Fantastic Work!</h2>
+      <p>You now understand how to add fractions with the same denominator. Remember: we're counting same-sized pieces!</p>
+      <div class="flex-center gap-md mt-lg">
+        <a href="worksheet.html" class="btn btn-primary btn-large">Complete Worksheet</a>
+        <button class="btn btn-success btn-large" onclick="markLessonComplete()">Mark Lesson Complete</button>
+      </div>
+      <p class="text-muted mt-lg">Next up: Lesson 4 - Subtracting Fractions</p>
+    </div>
+  </main>
+
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/app.js"></script>
+  <script>
+    Storage.startLesson(3);
+
+    // Update CPA stages based on scroll or interaction
+    function updateCPAStages(stage) {
+      document.querySelectorAll('.cpa-stage').forEach(el => el.classList.remove('active'));
+      document.getElementById(stage + 'Stage').classList.add('active');
+    }
+
+    // Set up Intersection Observer to track which section is visible
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = {
+        concrete: document.querySelector('.activity-header.concrete')?.closest('.activity-card'),
+        pictorial: document.querySelector('.activity-header.pictorial')?.closest('.activity-card'),
+        abstract: document.querySelector('.activity-header.abstract')?.closest('.activity-card')
+      };
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -60% 0px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            for (const [stage, element] of Object.entries(sections)) {
+              if (element === entry.target) {
+                updateCPAStages(stage);
+                break;
+              }
+            }
+          }
+        });
+      }, observerOptions);
+
+      Object.values(sections).forEach(section => {
+        if (section) observer.observe(section);
+      });
+    });
+
+    function markLessonComplete() {
+      Storage.completeLesson(3);
+      App.celebrate('Lesson 3 Complete!', 'You understand adding fractions!', '🏆');
+      document.querySelector('.btn-success').textContent = '✓ Completed';
+      document.querySelector('.btn-success').disabled = true;
+    }
+
+    const progress = Storage.getLessonProgress();
+    if (progress[3]?.completed) {
+      document.querySelector('.btn-success').textContent = '✓ Completed';
+      document.querySelector('.btn-success').disabled = true;
+    }
+  </script>
+</body>
+</html>

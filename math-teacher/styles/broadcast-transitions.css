@@ -1,0 +1,711 @@
+/**
+ * NFL Broadcast-Style Motion Transitions CSS
+ * Inspired by ESPN, Fox Sports, CBS, and NFL Network graphics packages
+ */
+
+/* ==========================================================================
+   BROADCAST OVERLAY CONTAINER
+   ========================================================================== */
+
+.broadcast-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.broadcast-overlay.active {
+  pointer-events: all;
+}
+
+.broadcast-overlay.matchup-mode {
+  background: rgba(0, 0, 0, 0.95);
+}
+
+/* ==========================================================================
+   DIAGONAL STRIPE WIPE
+   ========================================================================== */
+
+.diagonal-wipe-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+.diagonal-stripe {
+  flex: 1;
+  background: linear-gradient(135deg, #004C54 0%, #1B5E20 50%, #004C54 100%);
+  transform: translateY(-100%) skewY(-5deg);
+  transform-origin: top left;
+  animation: stripe-wipe-in 0.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+  position: relative;
+}
+
+.diagonal-stripe::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  animation: shimmer 0.8s ease-out forwards;
+  animation-delay: inherit;
+}
+
+@keyframes stripe-wipe-in {
+  0% {
+    transform: translateY(-100%) skewY(-5deg);
+  }
+  100% {
+    transform: translateY(0) skewY(-5deg);
+  }
+}
+
+.diagonal-wipe-container.wipe-out .diagonal-stripe {
+  animation: stripe-wipe-out 0.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+@keyframes stripe-wipe-out {
+  0% {
+    transform: translateY(0) skewY(-5deg);
+  }
+  100% {
+    transform: translateY(100%) skewY(-5deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Right to left variant */
+.wipe-right-to-left .diagonal-stripe {
+  transform: translateY(-100%) skewY(5deg);
+  animation-name: stripe-wipe-in-rtl;
+}
+
+@keyframes stripe-wipe-in-rtl {
+  0% {
+    transform: translateY(-100%) skewY(5deg);
+  }
+  100% {
+    transform: translateY(0) skewY(5deg);
+  }
+}
+
+/* ==========================================================================
+   CIRCLE IRIS WIPE
+   ========================================================================== */
+
+.iris-wipe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #004C54 0%, #1B5E20 100%);
+  clip-path: circle(0% at var(--click-x, 50%) var(--click-y, 50%));
+  animation: iris-expand 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes iris-expand {
+  0% {
+    clip-path: circle(0% at var(--click-x, 50%) var(--click-y, 50%));
+  }
+  100% {
+    clip-path: circle(150% at var(--click-x, 50%) var(--click-y, 50%));
+  }
+}
+
+.iris-wipe.iris-out {
+  animation: iris-contract 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes iris-contract {
+  0% {
+    clip-path: circle(150% at var(--click-x, 50%) var(--click-y, 50%));
+  }
+  100% {
+    clip-path: circle(0% at var(--click-x, 50%) var(--click-y, 50%));
+  }
+}
+
+/* ==========================================================================
+   BUTTON IMPACT SLAM
+   ========================================================================== */
+
+.button-slamming {
+  animation: button-slam 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important;
+  transform-origin: center center;
+}
+
+@keyframes button-slam {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.2) rotate(-2deg);
+  }
+  40% {
+    transform: scale(0.9) rotate(1deg) translateY(4px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  }
+  60% {
+    transform: scale(1.05) rotate(-0.5deg);
+  }
+  80% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ==========================================================================
+   SPARK BURST PARTICLES
+   ========================================================================== */
+
+.spark-particle {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10002;
+  animation: spark-burst 0.6s cubic-bezier(0, 0.5, 0.5, 1) forwards;
+  box-shadow: 0 0 6px currentColor;
+}
+
+@keyframes spark-burst {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  30% {
+    transform: translate(calc(-50% + var(--tx) * 0.5), calc(-50% + var(--ty) * 0.5)) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty) + 30px)) scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   SCREEN SHAKE EFFECTS
+   ========================================================================== */
+
+.screen-shake-light {
+  animation: screen-shake-light 0.15s ease-in-out;
+}
+
+@keyframes screen-shake-light {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+}
+
+.screen-shake-medium {
+  animation: screen-shake-medium 0.3s ease-in-out;
+}
+
+@keyframes screen-shake-medium {
+  0%, 100% { transform: translateX(0); }
+  10% { transform: translateX(-6px) rotate(-0.5deg); }
+  20% { transform: translateX(6px) rotate(0.5deg); }
+  30% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  50% { transform: translateX(-3px); }
+  60% { transform: translateX(3px); }
+}
+
+.screen-shake-heavy {
+  animation: screen-shake-heavy 0.5s ease-in-out;
+}
+
+@keyframes screen-shake-heavy {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  5% { transform: translateX(-12px) translateY(-2px) rotate(-1deg); }
+  10% { transform: translateX(12px) translateY(2px) rotate(1deg); }
+  15% { transform: translateX(-10px) translateY(-1px) rotate(-0.8deg); }
+  20% { transform: translateX(10px) translateY(1px) rotate(0.8deg); }
+  25% { transform: translateX(-8px) rotate(-0.5deg); }
+  30% { transform: translateX(8px) rotate(0.5deg); }
+  40% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  70% { transform: translateX(3px); }
+  80% { transform: translateX(-1px); }
+  90% { transform: translateX(1px); }
+}
+
+/* ==========================================================================
+   QUICK FLASH
+   ========================================================================== */
+
+.quick-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.9) 0%, rgba(255, 215, 0, 0.4) 40%, transparent 70%);
+  z-index: 10001;
+  pointer-events: none;
+  animation: flash-burst 0.15s ease-out forwards;
+}
+
+@keyframes flash-burst {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+}
+
+/* ==========================================================================
+   STADIUM STROBE FLASH
+   ========================================================================== */
+
+.stadium-strobe-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(
+    circle at var(--flash-x, 50%) var(--flash-y, 50%),
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 215, 0, 0.5) 25%,
+    transparent 60%
+  );
+  z-index: 10000;
+  pointer-events: none;
+  animation: strobe-flash 0.2s ease-out forwards;
+}
+
+@keyframes strobe-flash {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   MATCHUP SCOREBOARD INTRO
+   ========================================================================== */
+
+.matchup-intro {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  opacity: 0;
+}
+
+.matchup-intro.animate {
+  opacity: 1;
+}
+
+.matchup-banner {
+  transform: translateY(-100px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.matchup-intro.animate .matchup-banner {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.matchup-round {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-weight: 900;
+  color: #FFD700;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+  margin-bottom: 2rem;
+}
+
+.matchup-teams {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 5vw, 3rem);
+}
+
+.matchup-team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.matchup-team.home {
+  transform: translateX(-100px);
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.2s;
+}
+
+.matchup-team.away {
+  transform: translateX(100px);
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.2s;
+}
+
+.matchup-intro.animate .matchup-team.home,
+.matchup-intro.animate .matchup-team.away {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.matchup-team img {
+  width: clamp(80px, 15vw, 140px);
+  height: clamp(80px, 15vw, 140px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3));
+}
+
+.matchup-team .team-name {
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 900;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.matchup-vs {
+  transform: scale(0) rotate(-180deg);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.4s;
+}
+
+.matchup-intro.animate .matchup-vs {
+  transform: scale(1) rotate(0);
+  opacity: 1;
+}
+
+.matchup-vs span {
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 900;
+  color: #FFD700;
+  text-shadow:
+    0 0 30px rgba(255, 215, 0, 0.8),
+    0 0 60px rgba(255, 215, 0, 0.4),
+    0 4px 0 #B8860B;
+  animation: vs-pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes vs-pulse {
+  0% {
+    text-shadow:
+      0 0 30px rgba(255, 215, 0, 0.8),
+      0 0 60px rgba(255, 215, 0, 0.4),
+      0 4px 0 #B8860B;
+  }
+  100% {
+    text-shadow:
+      0 0 50px rgba(255, 215, 0, 1),
+      0 0 100px rgba(255, 215, 0, 0.6),
+      0 4px 0 #B8860B;
+  }
+}
+
+.matchup-intro.exit {
+  animation: matchup-exit 0.4s ease-in forwards;
+}
+
+@keyframes matchup-exit {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   KINETIC TYPOGRAPHY
+   ========================================================================== */
+
+.kinetic-text {
+  display: inline-block;
+}
+
+.kinetic-char {
+  display: inline-block;
+  opacity: 0;
+  transform: scale(0) rotate(-20deg);
+}
+
+.kinetic-text.animate .kinetic-char {
+  animation: kinetic-char-slam 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes kinetic-char-slam {
+  0% {
+    opacity: 0;
+    transform: scale(3) rotate(-15deg) translateY(-20px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(0.9) rotate(3deg) translateY(5px);
+  }
+  75% {
+    transform: scale(1.1) rotate(-1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg) translateY(0);
+  }
+}
+
+/* Wave style variant */
+.kinetic-wave .kinetic-char {
+  transform: translateY(30px);
+}
+
+.kinetic-text.kinetic-wave.animate .kinetic-char {
+  animation: kinetic-char-wave 0.6s ease-out forwards;
+}
+
+@keyframes kinetic-char-wave {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   CHROME SWEEP EFFECT
+   ========================================================================== */
+
+.chrome-sweep {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 25%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.3) 75%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  animation: chrome-sweep-idle 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes chrome-sweep-idle {
+  0%, 100% {
+    left: -100%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    left: 200%;
+    opacity: 1;
+  }
+  60%, 100% {
+    left: 200%;
+    opacity: 0;
+  }
+}
+
+/* Hover triggers immediate sweep */
+.btn-primary:hover .chrome-sweep,
+.play-game-btn:hover .chrome-sweep {
+  animation: chrome-sweep-fast 0.6s ease-out forwards;
+}
+
+@keyframes chrome-sweep-fast {
+  0% {
+    left: -100%;
+    opacity: 1;
+  }
+  100% {
+    left: 200%;
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   PANEL SLIDE ANIMATIONS
+   ========================================================================== */
+
+.panel-slide {
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.panel-slide.slide-from-left {
+  transform: translateX(-100%) skewX(-5deg);
+}
+
+.panel-slide.slide-from-right {
+  transform: translateX(100%) skewX(5deg);
+}
+
+.panel-slide.slide-from-bottom {
+  transform: translateY(100%) skewY(-3deg);
+}
+
+.panel-slide.slide-in {
+  opacity: 1;
+  transform: translateX(0) translateY(0) skewX(0) skewY(0);
+}
+
+/* ==========================================================================
+   LOWER THIRD QUESTION CARD (Minimal for lessons)
+   ========================================================================== */
+
+.lower-third-card {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 2% 100%);
+  transform: translateX(-110%);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 4px solid #004C54;
+}
+
+.lower-third-card.slide-in {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.lower-third-card.slide-out {
+  transform: translateX(110%);
+  opacity: 0;
+}
+
+/* ==========================================================================
+   PLAY GAME BUTTON ENHANCEMENTS
+   ========================================================================== */
+
+/* Pulsing glow on idle */
+.play-game-btn,
+a.btn-primary.btn-large[href*="lessons"] {
+  position: relative;
+  overflow: hidden;
+  animation: play-btn-pulse 2s ease-in-out infinite;
+}
+
+@keyframes play-btn-pulse {
+  0%, 100% {
+    box-shadow:
+      0 4px 15px rgba(0, 76, 84, 0.4),
+      0 0 30px rgba(0, 76, 84, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 4px 25px rgba(0, 76, 84, 0.6),
+      0 0 50px rgba(0, 76, 84, 0.4),
+      0 0 80px rgba(255, 215, 0, 0.2);
+  }
+}
+
+/* Hover enhancement */
+.play-game-btn:hover,
+a.btn-primary.btn-large[href*="lessons"]:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 6px 30px rgba(0, 76, 84, 0.6),
+    0 0 60px rgba(255, 215, 0, 0.3);
+}
+
+/* ==========================================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .matchup-teams {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .matchup-team.home,
+  .matchup-team.away {
+    transform: translateY(50px);
+  }
+
+  .matchup-intro.animate .matchup-team.home {
+    transform: translateY(0);
+  }
+
+  .matchup-intro.animate .matchup-team.away {
+    transform: translateY(0);
+  }
+
+  .matchup-vs span {
+    font-size: 2.5rem;
+  }
+
+  .diagonal-stripe {
+    skewY: -3deg;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .chrome-sweep {
+    display: none;
+  }
+}

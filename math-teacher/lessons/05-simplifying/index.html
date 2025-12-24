@@ -5,731 +5,406 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Lesson 5: Simplifying Fractions - Football Fractions</title>
-
   <link rel="stylesheet" href="../../styles/main.css">
   <link rel="stylesheet" href="../../styles/components.css">
   <link rel="stylesheet" href="../../styles/football-theme.css">
-  <link rel="stylesheet" href="../../styles/print.css">
-
+  <link rel="stylesheet" href="../../styles/coaches-corner.css">
   <style>
-    .lesson-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-xl);
-      padding-bottom: var(--space-md);
-      border-bottom: 1px solid var(--border);
-    }
+    .lesson-container { max-width: 900px; margin: 0 auto; }
+    .activity-section { background: var(--card-bg); border-radius: var(--radius-xl); padding: var(--space-xl); margin-bottom: var(--space-xl); box-shadow: 0 4px 20px var(--shadow); }
+    .activity-header { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg); padding-bottom: var(--space-md); border-bottom: 2px solid var(--border); }
+    .activity-number { width: 40px; height: 40px; background: var(--field-green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    .activity-title { font-size: 1.25rem; font-weight: 700; }
+    .concept-intro { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 4px solid var(--field-green); padding: var(--space-lg); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; margin-bottom: var(--space-xl); }
+    .concept-intro h3 { color: var(--field-green); margin-bottom: var(--space-md); }
+    .football-callout { background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%); color: white; padding: var(--space-lg); border-radius: var(--radius-lg); margin: var(--space-lg) 0; }
+    /* Football Field Progress Bar */
+    :root { --eagles-green: #004C54; --opponent-color: #0B162A; }
+    .field-progress { background: linear-gradient(135deg, #1a1a1a 0%, #333 100%); border-radius: var(--radius-xl); padding: var(--space-lg); margin-bottom: var(--space-xl); box-shadow: 0 4px 20px var(--shadow); }
+    .field-matchup { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-md); }
+    .field-team { display: flex; align-items: center; gap: var(--space-sm); }
+    .field-team-logo { width: 40px; height: 40px; object-fit: contain; }
+    .field-team-name { color: white; font-weight: 700; font-size: 0.875rem; }
+    .field-vs { color: #888; font-weight: 700; font-size: 0.75rem; }
+    .field-container { position: relative; height: 50px; background: linear-gradient(90deg, var(--eagles-green) 0%, var(--eagles-green) 10%, var(--field-green) 10%, var(--field-green) 90%, var(--opponent-color) 90%, var(--opponent-color) 100%); border-radius: var(--radius-md); overflow: hidden; }
+    .field-yard-markers { position: absolute; top: 0; left: 10%; right: 10%; height: 100%; display: flex; justify-content: space-between; }
+    .field-yard-marker { width: 2px; height: 100%; background: rgba(255,255,255,0.3); }
+    .field-yard-labels { display: flex; justify-content: space-between; padding: 0 10%; margin-top: var(--space-xs); }
+    .field-yard-label { color: #888; font-size: 0.625rem; font-weight: 600; }
+    .field-football { position: absolute; top: 50%; transform: translate(-50%, -50%); font-size: 1.5rem; transition: left 0.5s ease; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); z-index: 10; }
+    .field-end-zone { position: absolute; top: 0; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 0.625rem; text-transform: uppercase; }
+    .field-end-zone.eagles { left: 0; width: 10%; background: var(--eagles-green); }
+    .field-end-zone.opponent { right: 0; width: 10%; background: var(--opponent-color); }
+    .field-status { text-align: center; color: #888; font-size: 0.75rem; margin-top: var(--space-sm); }
+    .field-status strong { color: white; }
+    .score-display { display: flex; gap: var(--space-xl); justify-content: center; background: var(--background); padding: var(--space-lg); border-radius: var(--radius-lg); margin-bottom: var(--space-xl); }
+    .score-item { text-align: center; }
+    .score-value { font-size: 2rem; font-weight: 700; color: var(--field-green); }
+    .score-label { font-size: 0.875rem; color: var(--text-secondary); }
+    .feedback { padding: var(--space-lg); border-radius: var(--radius-lg); text-align: center; font-weight: 700; margin: var(--space-lg) 0; display: none; }
+    .feedback.correct { background: var(--correct-light); color: var(--correct); display: block; }
+    .feedback.incorrect { background: var(--incorrect-light); color: var(--incorrect); display: block; }
+    .activity-complete { text-align: center; padding: var(--space-xl); background: var(--correct-light); border-radius: var(--radius-lg); display: none; }
+    .activity-complete.show { display: block; }
+    .activity-complete h3 { color: var(--correct); margin-bottom: var(--space-md); }
+    .lesson-nav { display: flex; justify-content: space-between; margin-top: var(--space-2xl); margin-bottom: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--border); }
 
-    .activity-card {
-      background: var(--card-bg);
-      border-radius: var(--radius-xl);
-      overflow: hidden;
-      box-shadow: 0 4px 20px var(--shadow);
-      margin-bottom: var(--space-xl);
-    }
+    .comparison-display { display: flex; align-items: center; justify-content: center; gap: var(--space-xl); margin: var(--space-xl) 0; flex-wrap: wrap; }
+    .bar-model { display: flex; border: 3px solid var(--field-green); border-radius: var(--radius-md); overflow: hidden; height: 50px; width: 200px; }
+    .bar-section { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: 700; border-right: 1px solid var(--field-green); background: var(--field-green); color: white; font-size: 0.75rem; }
+    .bar-section:last-child { border-right: none; }
+    .bar-section.empty { background: var(--correct-light); color: var(--field-green); }
 
-    .activity-header {
-      padding: var(--space-lg);
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-    }
+    .fraction-display { text-align: center; }
+    .fraction-big { font-size: 2.5rem; font-weight: 700; }
+    .equals-sign { font-size: 2rem; font-weight: 700; color: var(--field-green); }
 
-    .activity-header.concrete {
-      background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
-      color: white;
-    }
+    .question-card { background: var(--background); border-radius: var(--radius-lg); padding: var(--space-xl); text-align: center; margin: var(--space-lg) 0; }
+    .answer-options { display: flex; flex-wrap: wrap; gap: var(--space-md); justify-content: center; margin-top: var(--space-lg); }
+    .answer-btn { padding: var(--space-md) var(--space-xl); border: 3px solid var(--border); border-radius: var(--radius-lg); background: white; cursor: pointer; font-size: 1.25rem; font-weight: 700; transition: all var(--transition-fast); }
+    .answer-btn:hover { border-color: var(--field-green); transform: scale(1.05); }
+    .answer-btn.correct { background: var(--correct-light); border-color: var(--correct); }
+    .answer-btn.incorrect { background: var(--incorrect-light); border-color: var(--incorrect); }
 
-    .activity-header.pictorial {
-      background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-      color: white;
-    }
-
-    .activity-header.abstract {
-      background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
-      color: white;
-    }
-
-    .activity-icon {
-      font-size: 2rem;
-    }
-
-    .activity-body {
-      padding: var(--space-xl);
-    }
-
-    .activity-steps {
-      counter-reset: step;
-    }
-
-    .activity-step {
-      display: flex;
-      gap: var(--space-lg);
-      margin-bottom: var(--space-xl);
-      padding-bottom: var(--space-xl);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .activity-step:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .step-number {
-      counter-increment: step;
-      width: 40px;
-      height: 40px;
-      background: var(--field-green);
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .step-number::before {
-      content: counter(step);
-    }
-
-    .step-content {
-      flex: 1;
-    }
-
-    .parent-script {
-      background: #E8F5E9;
-      border-left: 4px solid var(--correct);
-      padding: var(--space-md);
-      border-radius: 0 var(--radius-md) var(--radius-md) 0;
-      margin: var(--space-md) 0;
-      font-style: italic;
-    }
-
-    .parent-script::before {
-      content: "💬 Say: ";
-      font-style: normal;
-      font-weight: 700;
-      color: var(--correct);
-    }
-
-    .key-question {
-      background: var(--thinking-light);
-      border: 2px dashed var(--thinking);
-      padding: var(--space-md);
-      border-radius: var(--radius-md);
-      margin: var(--space-md) 0;
-    }
-
-    .key-question::before {
-      content: "❓ Key Question: ";
-      font-weight: 700;
-      color: #E65100;
-    }
-
-    .visual-example {
-      background: var(--background);
-      padding: var(--space-lg);
-      border-radius: var(--radius-md);
-      text-align: center;
-      margin: var(--space-md) 0;
-    }
-
-    .football-callout {
-      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
-      color: white;
-      padding: var(--space-xl);
-      border-radius: var(--radius-lg);
-      margin: var(--space-xl) 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .football-callout::after {
-      content: "🏈";
-      position: absolute;
-      right: var(--space-lg);
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 4rem;
-      opacity: 0.2;
-    }
-
-    .materials-box {
-      background: var(--info-light);
-      border: 2px solid var(--info);
-      border-radius: var(--radius-lg);
-      padding: var(--space-lg);
-      margin-bottom: var(--space-xl);
-    }
-
-    .materials-box h4 {
-      color: var(--info);
-      margin-bottom: var(--space-md);
-    }
-
-    .objective-box {
-      background: var(--correct-light);
-      border: 2px solid var(--correct);
-      border-radius: var(--radius-lg);
-      padding: var(--space-lg);
-      margin-bottom: var(--space-xl);
-    }
-
-    .objective-box h4 {
-      color: #1B5E20;
-      margin-bottom: var(--space-md);
-    }
-
-    .comparison-box {
-      display: flex;
-      gap: var(--space-xl);
-      justify-content: center;
-      align-items: center;
-      margin: var(--space-lg) 0;
-      flex-wrap: wrap;
-    }
-
-    .fraction-visual {
-      text-align: center;
-    }
-
-    .bar {
-      width: 200px;
-      height: 50px;
-      display: flex;
-      border: 2px solid var(--field-green);
-      border-radius: 8px;
-      overflow: hidden;
-      margin: 0 auto;
-    }
-
-    .bar-piece {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.75rem;
-      border-right: 1px solid var(--field-green);
-    }
-
-    .bar-piece:last-child {
-      border-right: none;
-    }
-
-    .bar-piece.shaded {
-      background: #64B5F6;
-      color: white;
-    }
-
-    .bar-piece.unshaded {
-      background: var(--correct-light);
-    }
-
-    .lesson-complete {
-      text-align: center;
-      padding: var(--space-2xl);
-      background: var(--card-bg);
-      border-radius: var(--radius-xl);
-      box-shadow: 0 4px 20px var(--shadow);
-    }
+    .divisor-buttons { display: flex; flex-wrap: wrap; gap: var(--space-md); justify-content: center; margin: var(--space-lg) 0; }
+    .divisor-btn { width: 60px; height: 60px; border-radius: 50%; border: 3px solid var(--border); background: white; font-size: 1.5rem; font-weight: 700; cursor: pointer; transition: all var(--transition-fast); }
+    .divisor-btn:hover { border-color: var(--field-green); transform: scale(1.1); }
+    .divisor-btn.selected { background: var(--field-green); color: white; border-color: var(--field-green); }
   </style>
 </head>
 <body>
   <nav class="nav">
     <div class="nav-container">
-      <a href="../../index.html" class="nav-brand">
-        <span>🏈</span>
-        <span>Football Fractions</span>
-      </a>
-      <button class="nav-hamburger" id="navHamburger">☰</button>
+      <a href="../../index.html" class="nav-brand"><span>🏈</span><span>Football Fractions</span></a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">☰</button>
       <ul class="nav-menu" id="navMenu">
         <li><a href="../../index.html" class="nav-link">Home</a></li>
-        <li><a href="../../diagnostic/index.html" class="nav-link">Skills Check</a></li>
-        <li><a href="../index.html" class="nav-link active">Lessons</a></li>
         <li><a href="../../practice/index.html" class="nav-link">Practice</a></li>
-        <li><a href="../../tools/number-line.html" class="nav-link">Number Line</a></li>
-        <li><a href="../../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+        <li><a href="../../lessons/index.html" class="nav-link active">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../../super-extra-curricular/index.html" class="nav-dropdown-link">Super Extra</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </nav>
 
   <header class="page-header">
     <div class="container">
-      <div class="breadcrumb" style="color: rgba(255,255,255,0.8);">
-        <a href="../index.html" style="color: white;">Lessons</a>
-        <span>›</span>
-        <span>Lesson 5</span>
-      </div>
+      <div class="breadcrumb breadcrumb-light"><a href="../index.html">Game Time</a><span>></span><span>Lesson 5</span></div>
       <h1>Lesson 5: Simplifying Fractions</h1>
       <p>Same amount, simpler name</p>
     </div>
   </header>
 
   <main class="container">
-    <!-- Online Badge -->
-    <div class="online-badge" style="background: #e8f5e9; border: 2px solid #2E7D32; padding: 8px 16px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
-      💻 <strong>ONLINE LESSON</strong> - Do this on the computer with a parent or guardian!
-    </div>
-
-    <div class="lesson-nav">
-      <a href="../04-subtracting-fractions/index.html">← Lesson 4: Subtracting Fractions</a>
-      <a href="../06-equivalence/index.html">Lesson 6: Equivalent Fractions →</a>
-    </div>
-
-    <!-- Learning Objective -->
-    <div class="objective-box">
-      <h4>🎯 What You'll Learn</h4>
-      <p>Some fractions are WAY easier to say than others. Here's what you'll figure out:</p>
-      <ul>
-        <li>The same amount can have <strong>different names</strong> (like 2/4 and 1/2)</li>
-        <li><strong>Simplifying</strong> = finding the easiest name for a fraction</li>
-        <li>Divide BOTH top and bottom by the <strong>same number</strong> to simplify</li>
-        <li>Simpler name, EXACT same amount - pretty cool, right?</li>
-      </ul>
-    </div>
-
-    <!-- Concept Explanation -->
-    <div class="concept-box" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 4px solid var(--field-green); border-radius: var(--radius-md); padding: var(--space-lg); margin: var(--space-lg) 0;">
-      <h4 style="color: var(--field-green); margin-bottom: var(--space-md);">🧠 The Big Idea: Same Amount, Easier Name!</h4>
-
-      <div style="margin-bottom: var(--space-md);">
-        <strong>The Simple Explanation:</strong>
-        <p style="margin-top: var(--space-sm);">Sometimes fractions look complicated but can be written in a simpler way. 2/4, 3/6, 4/8, and 50/100 are ALL the same as 1/2! The amount is identical - we're just using different names for it.</p>
-        <p style="margin-top: var(--space-sm);">Simplifying means finding the EASIEST name. To simplify, divide both the top and bottom by the same number. For 4/8: divide both by 4, and you get 1/2. Same amount of pizza, but "half" is way easier to say than "four eighths"!</p>
-      </div>
-
-      <div style="background: white; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
-        <strong>🏈 The Football Way to Think About It:</strong>
-        <p style="margin-top: var(--space-sm);">Tom Brady completed 12 out of 36 passes in a quarter. That's 12/36. Sounds complicated, right? But watch this: divide both by 12, and you get 1/3. He completed 1 out of every 3 passes!</p>
-        <p style="margin-top: var(--space-sm);">Announcers don't say "He's completing twelve thirty-sixths of his passes!" They say "He's completing a third of his passes." Same stat, way easier to understand. That's the power of simplifying!</p>
-      </div>
-
-      <div style="background: #fff3e0; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
-        <strong>⛏️ The Minecraft Way to Think About It:</strong>
-        <p style="margin-top: var(--space-sm);">You collected 32 out of 64 diamonds needed for a full stack. That's 32/64. But wait - divide both by 32, and you get 1/2. You're halfway there! "Half a stack" is so much easier to think about than "thirty-two sixty-fourths."</p>
-      </div>
-
-      <div style="background: #e3f2fd; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
-        <strong>⚽ The Soccer Way to Think About It:</strong>
-        <p style="margin-top: var(--space-sm);">Your team won 6 out of 12 games this season. That's 6/12. Divide both by 6: you won 1/2 your games, or half! Same winning record, but "we won half our games" is easier to say than "we won six twelfths."</p>
-      </div>
-    </div>
-
-    <!-- Materials -->
-    <div class="materials-box">
-      <h4>📦 Materials Needed</h4>
-      <ul class="materials-list" style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-sm);">
-        <li>🔵 Fraction circles (multiple sizes)</li>
-        <li>📄 Paper and colored pencils</li>
-        <li>🍫 Chocolate bar (to break into pieces)</li>
-        <li>✏️ Pencil for drawing models</li>
-      </ul>
-    </div>
-
-    <!-- CPA Stages -->
-    <div class="cpa-stages">
-      <div class="cpa-stage active" id="concreteStage">
-        <div class="cpa-stage-icon">🧱</div>
-        <div class="cpa-stage-label">Concrete</div>
-      </div>
-      <div class="cpa-stage" id="pictorialStage">
-        <div class="cpa-stage-icon">✏️</div>
-        <div class="cpa-stage-label">Pictorial</div>
-      </div>
-      <div class="cpa-stage" id="abstractStage">
-        <div class="cpa-stage-icon">🔢</div>
-        <div class="cpa-stage-label">Abstract</div>
-      </div>
-    </div>
-
-    <!-- CONCRETE Activities -->
-    <section>
-      <div class="activity-card">
-        <div class="activity-header concrete">
-          <span class="activity-icon">🧱</span>
-          <div>
-            <h3 style="margin:0">Concrete Activities</h3>
-            <p style="margin:0; opacity:0.9">Hands-on exploration</p>
+    <div class="lesson-container">
+      <!-- Football Field Progress Bar -->
+      <div class="field-progress">
+        <div class="field-matchup">
+          <div class="field-team">
+            <img src="../../images/nfl-logos/eagles.png" alt="Eagles" class="field-team-logo">
+            <span class="field-team-name">Eagles</span>
+          </div>
+          <span class="field-vs">NFC CHAMPIONSHIP</span>
+          <div class="field-team">
+            <span class="field-team-name">Bears</span>
+            <img src="../../images/nfl-logos/bears.png" alt="Bears" class="field-team-logo">
           </div>
         </div>
-        <div class="activity-body">
-          <div class="activity-steps">
-            <!-- Activity 1: Same Amount, Different Names -->
-            <div class="activity-step">
-              <div class="step-number"></div>
-              <div class="step-content">
-                <h4>The "Same Amount" Discovery</h4>
-                <p>Use fraction circles. Take 2 fourths and 1 half.</p>
-
-                <div class="parent-script">
-                  Look at these two amounts: 2 fourths and 1 half. Put them side by side. What do you notice?
-                </div>
-
-                <p>Let them discover that 2/4 and 1/2 are the SAME AMOUNT!</p>
-
-                <div class="key-question">
-                  They're the same size, right? So 2/4 and 1/2 are just different NAMES for the same amount. Which name is simpler?
-                </div>
-
-                <div class="alert alert-success">
-                  <strong>Key Insight:</strong> "2/4 and 1/2 represent the exact same amount. 1/2 is the simpler name - smaller numbers, easier to say and work with!"
-                </div>
-              </div>
-            </div>
-
-            <!-- Activity 2: Finding Simpler Names -->
-            <div class="activity-step">
-              <div class="step-number"></div>
-              <div class="step-content">
-                <h4>The Regrouping Game</h4>
-                <p>Give your child 4 eighths pieces.</p>
-
-                <div class="parent-script">
-                  You have 4 eighths. Can you group these pieces to make larger pieces? Can you make halves instead?
-                </div>
-
-                <p>Let them discover that 4 eighths = 2 fourths = 1 half!</p>
-
-                <div class="visual-example">
-                  <p><strong>All the same amount:</strong></p>
-                  <div class="comparison-box">
-                    <div class="fraction-visual">
-                      <div class="bar">
-                        <div class="bar-piece shaded">1/8</div>
-                        <div class="bar-piece shaded">1/8</div>
-                        <div class="bar-piece shaded">1/8</div>
-                        <div class="bar-piece shaded">1/8</div>
-                        <div class="bar-piece unshaded">1/8</div>
-                        <div class="bar-piece unshaded">1/8</div>
-                        <div class="bar-piece unshaded">1/8</div>
-                        <div class="bar-piece unshaded">1/8</div>
-                      </div>
-                      <p class="mt-sm"><strong>4/8</strong></p>
-                    </div>
-                    <span style="font-size: 1.5rem;">=</span>
-                    <div class="fraction-visual">
-                      <div class="bar">
-                        <div class="bar-piece shaded">1/4</div>
-                        <div class="bar-piece shaded">1/4</div>
-                        <div class="bar-piece unshaded">1/4</div>
-                        <div class="bar-piece unshaded">1/4</div>
-                      </div>
-                      <p class="mt-sm"><strong>2/4</strong></p>
-                    </div>
-                    <span style="font-size: 1.5rem;">=</span>
-                    <div class="fraction-visual">
-                      <div class="bar">
-                        <div class="bar-piece shaded">1/2</div>
-                        <div class="bar-piece unshaded">1/2</div>
-                      </div>
-                      <p class="mt-sm"><strong>1/2 (simplest!)</strong></p>
-                    </div>
-                  </div>
-                </div>
-
-                <p>Try finding simpler names for:</p>
-                <ul>
-                  <li>6/8 (can become 3/4)</li>
-                  <li>3/6 (can become 1/2)</li>
-                  <li>2/4 (can become 1/2)</li>
-                </ul>
-              </div>
-            </div>
-
-            <!-- Activity 3: When Can't We Simplify? -->
-            <div class="activity-step">
-              <div class="step-number"></div>
-              <div class="step-content">
-                <h4>Already Simplified!</h4>
-                <p>Give your child 3 fourths pieces.</p>
-
-                <div class="parent-script">
-                  You have 3 fourths. Can you regroup these into equal larger pieces? Try it!
-                </div>
-
-                <p>Let them struggle a bit - they can't! 3/4 is already simplified.</p>
-
-                <div class="key-question">
-                  Why can't we simplify 3/4? (Because 3 and 4 don't share any common factors except 1. We can't evenly divide both by the same number!)
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="field-container">
+          <div class="field-end-zone eagles">GO</div>
+          <div class="field-yard-markers"><div class="field-yard-marker"></div><div class="field-yard-marker"></div><div class="field-yard-marker"></div><div class="field-yard-marker"></div><div class="field-yard-marker"></div></div>
+          <div class="field-football" id="footballPosition" style="left: 10%;">🏈</div>
+          <div class="field-end-zone opponent">TD</div>
         </div>
+        <div class="field-yard-labels"><span class="field-yard-label">0</span><span class="field-yard-label">25</span><span class="field-yard-label">50</span><span class="field-yard-label">75</span><span class="field-yard-label">100</span></div>
+        <div class="field-status"><span id="yardsDisplay"><strong>0</strong> yards gained • <strong>100</strong> yards to TD</span></div>
       </div>
-    </section>
-
-    <!-- Football Connection -->
-    <div class="football-callout">
-      <h3>🏈 Football Connection: Tom Brady's Legendary Stats</h3>
-      <p>In one of Tom Brady's legendary games, he completed 12 passes out of 36 attempts during the first half.</p>
-      <ul>
-        <li><strong>As a fraction:</strong> 12/36 (12 completions out of 36 attempts)</li>
-        <li><strong>Simplified:</strong> Both 12 and 36 can be divided by 12</li>
-        <li><strong>Simplest form:</strong> 12/36 = 1/3</li>
-      </ul>
-
-      <div class="parent-script" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">
-        Announcers would say "Tom Brady completed 1 out of every 3 throws" instead of "12 out of 36 throws" - simpler to understand, but they mean the exact same thing!
+      <div class="score-display">
+        <div class="score-item"><div class="score-value" id="scoreValue">0</div><div class="score-label">Points</div></div>
+        <div class="score-item"><div class="score-value" id="activityNum">1</div><div class="score-label">of 3 Activities</div></div>
       </div>
 
-      <div style="margin-top: var(--space-md); padding: var(--space-md); background: rgba(255,255,255,0.15); border-radius: var(--radius-md);">
-        <strong>Try this:</strong> Jalen Hurts completed 8 passes out of 16 attempts. Simplify this fraction! (Answer: 8/16 = 1/2 - he completed half his passes!)
-      </div>
-
-      <p style="margin-top: var(--space-md);"><strong>Key insight:</strong> Simpler fractions are easier to understand and compare!</p>
-    </div>
-
-    <!-- PICTORIAL Activities -->
-    <section>
-      <div class="activity-card">
-        <div class="activity-header pictorial">
-          <span class="activity-icon">✏️</span>
-          <div>
-            <h3 style="margin:0">Pictorial Activities</h3>
-            <p style="margin:0; opacity:0.9">Drawing representations</p>
-          </div>
-        </div>
-        <div class="activity-body">
-          <div class="activity-steps">
-            <!-- Drawing Equivalent Models -->
-            <div class="activity-step">
-              <div class="step-number"></div>
-              <div class="step-content">
-                <h4>Drawing to Show Equivalence</h4>
-                <p>Practice drawing bar models to show fractions are equivalent:</p>
-
-                <div class="visual-example">
-                  <p><strong>Example: Show that 6/8 = 3/4</strong></p>
-                  <div style="display: flex; flex-direction: column; gap: var(--space-md); align-items: center;">
-                    <div>
-                      <div class="bar">
-                        <div class="bar-piece shaded">1/8</div>
-                        <div class="bar-piece shaded">1/8</div>
-                        <div class="bar-piece shaded">1/8</div>
-                        <div class="bar-piece shaded">1/8</div>
-                        <div class="bar-piece shaded">1/8</div>
-                        <div class="bar-piece shaded">1/8</div>
-                        <div class="bar-piece unshaded">1/8</div>
-                        <div class="bar-piece unshaded">1/8</div>
-                      </div>
-                      <p class="mt-sm">6/8 (6 out of 8 pieces shaded)</p>
-                    </div>
-                    <div>
-                      <div class="bar">
-                        <div class="bar-piece shaded">1/4</div>
-                        <div class="bar-piece shaded">1/4</div>
-                        <div class="bar-piece shaded">1/4</div>
-                        <div class="bar-piece unshaded">1/4</div>
-                      </div>
-                      <p class="mt-sm">3/4 (same amount!)</p>
-                    </div>
-                  </div>
-                </div>
-
-                <p>Now you draw bar models to show:</p>
-                <ol>
-                  <li>4/6 = 2/3</li>
-                  <li>8/10 = 4/5</li>
-                  <li>2/8 = 1/4</li>
-                </ol>
-              </div>
-            </div>
-
-            <!-- Circle Models -->
-            <div class="activity-step">
-              <div class="step-number"></div>
-              <div class="step-content">
-                <h4>Pizza Simplification</h4>
-                <p>Draw circles (pizzas) to show equivalent fractions:</p>
-
-                <ol>
-                  <li>Draw a pizza cut into 6 slices with 4 slices shaded (4/6). Can you draw the same amount as fewer, bigger slices? (2/3)</li>
-                  <li>Draw a pizza cut into 8 slices with 4 slices shaded (4/8). What's the simplest name? (1/2)</li>
-                </ol>
-
-                <div class="parent-script">
-                  Ask: "Is the amount of pizza the same or different? Only the way we describe it changes!"
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="concept-intro">
+        <h3>Coach's Lesson: Simplifying Fractions</h3>
+        <p><strong>The WHY:</strong> Would you rather say "I ate 4 out of 8 slices" or "I ate half the pizza"? They mean the SAME thing, but one is easier to understand! Simplifying makes fractions easier to work with and compare.</p>
+        <p style="margin-top: var(--space-md);"><strong>The Rule:</strong> 2/4 and 1/2 are the <strong>same amount</strong>! Simplifying means finding the simplest way to write a fraction by dividing both numbers by their greatest common factor (GCF).</p>
+        <p style="margin-top: var(--space-md);"><strong>How to Simplify:</strong> Find a number that divides BOTH the top AND bottom evenly. Divide both by that number. Keep going until you can't divide anymore. That's simplest form!</p>
+        <div class="football-callout" style="margin-top: var(--space-lg);">
+          <strong>Football Connection:</strong> <strong>Caleb Williams</strong> of the Bears completed 12 of 36 passes against a tough defense. That's 12/36. Both divide by 12! So 12÷12 = 1, and 36÷12 = 3. His completion rate is 1/3. When <strong>DJ Moore</strong> asks about the stats, coach <strong>Ben Johnson</strong> says "1/3" - same stat, much easier to say!
         </div>
       </div>
-    </section>
 
-    <!-- ABSTRACT Section -->
-    <section>
-      <div class="activity-card">
-        <div class="activity-header abstract">
-          <span class="activity-icon">🔢</span>
-          <div>
-            <h3 style="margin:0">Abstract: The Simplification Process</h3>
-            <p style="margin:0; opacity:0.9">Connecting to symbols and procedures</p>
-          </div>
+      <!-- Activity 1: See the Equivalence -->
+      <div class="activity-section" id="activity1">
+        <div class="activity-header">
+          <div class="activity-number">1</div>
+          <div class="activity-title">Same Amount, Different Name</div>
         </div>
-        <div class="activity-body">
-          <h4>How to Simplify Fractions</h4>
-
-          <div style="background: var(--thinking-light); padding: var(--space-lg); border-radius: var(--radius-md); margin: var(--space-lg) 0;">
-            <h4>The thinking process:</h4>
-            <ol>
-              <li><strong>Find a common factor:</strong> What number divides evenly into BOTH the numerator and denominator?</li>
-              <li><strong>Divide both by that factor:</strong> Divide the top and bottom by the same number</li>
-              <li><strong>Check if you can simplify more:</strong> Can you find another common factor?</li>
-              <li><strong>Stop when you can't simplify further:</strong> When the only common factor is 1, you're done!</li>
-            </ol>
-          </div>
-
-          <div class="visual-example">
-            <p><strong>Example: Simplify 8/12</strong></p>
-            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-lg); flex-wrap: wrap; font-size: 1.25rem; font-weight: 600;">
-              <div>
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                  <span style="border-bottom: 2px solid var(--text); padding: 0 8px;">8</span>
-                  <span style="padding: 0 8px;">12</span>
-                </div>
-                <p style="font-size: 0.875rem; margin-top: var(--space-sm);">Original</p>
-              </div>
-              <span>→</span>
-              <div>
-                <p style="font-size: 0.875rem; margin-bottom: var(--space-sm);">Both divide by 4</p>
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                  <span style="border-bottom: 2px solid var(--text); padding: 0 8px;">8 ÷ 4 = 2</span>
-                  <span style="padding: 0 8px;">12 ÷ 4 = 3</span>
-                </div>
-              </div>
-              <span>=</span>
-              <div>
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                  <span style="border-bottom: 2px solid var(--text); padding: 0 8px;">2</span>
-                  <span style="padding: 0 8px;">3</span>
-                </div>
-                <p style="font-size: 0.875rem; margin-top: var(--space-sm);">Simplified!</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="alert alert-warning mt-lg">
-            <div class="alert-title">⚠️ Important!</div>
-            <p>You MUST divide both numerator and denominator by the SAME number. This keeps the fraction equivalent (the same amount).</p>
-          </div>
-
-          <h4 class="mt-xl">Practice Problems</h4>
-          <p>Simplify these fractions to lowest terms:</p>
-          <ol>
-            <li>6/8 = ?</li>
-            <li>9/12 = ?</li>
-            <li>10/15 = ?</li>
-            <li>4/6 = ?</li>
-            <li>5/10 = ?</li>
-          </ol>
-
-          <div class="parent-script">
-            For each one, ask: "What number can divide evenly into both the numerator and denominator?"
-          </div>
+        <p>Look at these bar models. Click the pair that shows the same amount!</p>
+        <div id="matchActivity"></div>
+        <div class="feedback" id="feedback1"></div>
+        <div class="activity-complete" id="complete1">
+          <h3>Great Work!</h3>
+          <p>You can see that fractions can have different names for the same amount!</p>
+          <button class="btn btn-primary" onclick="Lesson.showActivity(2)">Continue to Activity 2</button>
         </div>
       </div>
-    </section>
 
-    <!-- Self-Explanation Prompts -->
-    <section class="activity-section">
-      <div class="card">
-        <div class="card-header">
-          <h3 style="margin:0">💭 Understanding Check</h3>
+      <!-- Activity 2: Find the GCF -->
+      <div class="activity-section" id="activity2" style="display: none;">
+        <div class="activity-header">
+          <div class="activity-number">2</div>
+          <div class="activity-title">Divide by the GCF</div>
         </div>
-        <div class="card-body">
-          <p>Before finishing, make sure you can answer these:</p>
-
-          <div class="thinking-box">
-            <div class="thinking-box-header">Does simplifying change the amount?</div>
-            <p>(No! Simplifying gives a different NAME for the same amount. 4/8 and 1/2 are the exact same amount.)</p>
-          </div>
-
-          <div class="thinking-box">
-            <div class="thinking-box-header">Why do we simplify fractions?</div>
-            <p>(Simpler fractions are easier to understand, compare, and work with. It's easier to think about 1/2 than 36/72!)</p>
-          </div>
-
-          <div class="thinking-box">
-            <div class="thinking-box-header">How do you know when a fraction is fully simplified?</div>
-            <p>(When the only number that divides evenly into both numerator and denominator is 1. The numbers have no common factors except 1.)</p>
-          </div>
+        <p>Find the number that both the top and bottom can be divided by!</p>
+        <div class="question-card" id="gcfQuestion"></div>
+        <div class="feedback" id="feedback2"></div>
+        <div class="activity-complete" id="complete2">
+          <h3>GCF Master!</h3>
+          <p>You can find common factors!</p>
+          <button class="btn btn-primary" onclick="Lesson.showActivity(3)">Continue to Activity 3</button>
         </div>
       </div>
-    </section>
 
-    <!-- Lesson Complete -->
-    <div class="lesson-complete">
-      <h2>🎉 Brilliant Work!</h2>
-      <p>You now understand how to simplify fractions to find simpler names for the same amount!</p>
-      <div class="flex-center gap-md mt-lg">
-        <a href="worksheet.html" class="btn btn-primary btn-large">Complete Worksheet</a>
-        <button class="btn btn-success btn-large" onclick="markLessonComplete()">Mark Lesson Complete</button>
+      <!-- Activity 3: Simplify Fractions -->
+      <div class="activity-section" id="activity3" style="display: none;">
+        <div class="activity-header">
+          <div class="activity-number">3</div>
+          <div class="activity-title">Simplify These Fractions</div>
+        </div>
+        <p>Reduce each fraction to its simplest form!</p>
+        <div class="question-card" id="simplifyQuestion"></div>
+        <div class="feedback" id="feedback3"></div>
+        <div class="activity-complete" id="complete3">
+          <h3>Lesson Complete!</h3>
+          <p>You can simplify fractions like a pro!</p>
+          <button class="btn btn-success btn-large" onclick="Lesson.completeLesson()">Finish Lesson</button>
+        </div>
       </div>
-      <p class="text-muted mt-lg">Next up: Lesson 6 - Equivalent Fractions</p>
+
+      <div class="lesson-nav">
+        <a href="../04-subtracting-fractions/index.html" class="btn btn-secondary">← Previous: Subtracting Fractions</a>
+        <a href="../06-equivalence/index.html" class="btn btn-secondary">Next: Equivalence →</a>
+      </div>
     </div>
   </main>
 
   <script src="../../js/storage.js"></script>
+  <script src="../../js/fractions.js"></script>
   <script src="../../js/app.js"></script>
+  <script src="../../js/coaches-corner.js"></script>
   <script>
-    Storage.startLesson(5);
+    const Lesson = {
+      score: 0, currentActivity: 1, totalActivities: 3,
 
-    // Update CPA stages based on scroll or interaction
-    function updateCPAStages(stage) {
-      document.querySelectorAll('.cpa-stage').forEach(el => el.classList.remove('active'));
-      document.getElementById(stage + 'Stage').classList.add('active');
-    }
+      matchPairs: [
+        { frac1: {n:2,d:4}, frac2: {n:1,d:2} },
+        { frac1: {n:3,d:6}, frac2: {n:1,d:2} },
+        { frac1: {n:4,d:8}, frac2: {n:1,d:2} }
+      ],
+      currentMatchIndex: 0,
 
-    // Set up Intersection Observer to track which section is visible
-    document.addEventListener('DOMContentLoaded', function() {
-      const sections = {
-        concrete: document.querySelector('.activity-header.concrete')?.closest('.activity-card'),
-        pictorial: document.querySelector('.activity-header.pictorial')?.closest('.activity-card'),
-        abstract: document.querySelector('.activity-header.abstract')?.closest('.activity-card')
-      };
+      gcfChallenges: [
+        { num: 4, den: 8, gcf: 4, simplified: '1/2' },
+        { num: 3, den: 9, gcf: 3, simplified: '1/3' },
+        { num: 6, den: 8, gcf: 2, simplified: '3/4' },
+        { num: 4, den: 6, gcf: 2, simplified: '2/3' }
+      ],
+      currentGcfIndex: 0,
 
-      const observerOptions = {
-        root: null,
-        rootMargin: '-20% 0px -60% 0px',
-        threshold: 0
-      };
+      simplifyChallenges: [
+        { num: 2, den: 4, answer: '1/2' },
+        { num: 3, den: 6, answer: '1/2' },
+        { num: 4, den: 10, answer: '2/5' },
+        { num: 6, den: 9, answer: '2/3' },
+        { num: 8, den: 12, answer: '2/3' }
+      ],
+      currentSimplifyIndex: 0,
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            for (const [stage, element] of Object.entries(sections)) {
-              if (element === entry.target) {
-                updateCPAStages(stage);
-                break;
-              }
-            }
-          }
+      init() {
+        Storage.startLesson(5);
+        this.renderMatchActivity();
+        this.renderGcfActivity();
+        this.renderSimplifyActivity();
+        this.updateProgress();
+      },
+
+      renderMatchActivity() {
+        const p = this.matchPairs[this.currentMatchIndex];
+        const wrongPairs = [
+          {n: p.frac1.n + 1, d: p.frac1.d},
+          {n: p.frac1.n, d: p.frac1.d + 2}
+        ];
+        const options = [p.frac2, ...wrongPairs].sort(() => Math.random() - 0.5);
+
+        document.getElementById('matchActivity').innerHTML = `
+          <div class="comparison-display">
+            <div>
+              <div class="bar-model">${this.renderBar(p.frac1.n, p.frac1.d)}</div>
+              <div style="text-align:center; font-size:1.5rem; font-weight:700; margin-top:var(--space-sm);">${p.frac1.n}/${p.frac1.d}</div>
+            </div>
+            <div class="equals-sign">=</div>
+            <div style="font-size:1.5rem; font-weight:700;">?</div>
+          </div>
+          <p style="text-align:center; margin-top:var(--space-lg);">Which fraction equals ${p.frac1.n}/${p.frac1.d}?</p>
+          <div class="answer-options">
+            ${options.map(o => `<button class="answer-btn" onclick="Lesson.checkMatch('${o.n}/${o.d}')">${o.n}/${o.d}</button>`).join('')}
+          </div>
+        `;
+      },
+
+      renderBar(filled, total) {
+        return Array(total).fill(0).map((_, i) => `<div class="bar-section ${i < filled ? '' : 'empty'}"></div>`).join('');
+      },
+
+      checkMatch(answer) {
+        const p = this.matchPairs[this.currentMatchIndex];
+        const correct = `${p.frac2.n}/${p.frac2.d}`;
+        const feedback = document.getElementById('feedback1');
+        document.querySelectorAll('#matchActivity .answer-btn').forEach(btn => {
+          btn.disabled = true;
+          if (btn.textContent === correct) btn.classList.add('correct');
+          else if (btn.textContent === answer) btn.classList.add('incorrect');
         });
-      }, observerOptions);
+        if (answer === correct) {
+          feedback.textContent = `Correct! ${p.frac1.n}/${p.frac1.d} = ${correct} - same amount!`;
+          feedback.className = 'feedback correct';
+          this.score += 5;
+          this.updateScore();
+        } else {
+          feedback.textContent = `${p.frac1.n}/${p.frac1.d} simplifies to ${correct}`;
+          feedback.className = 'feedback incorrect';
+        }
+        setTimeout(() => {
+          this.currentMatchIndex++;
+          if (this.currentMatchIndex < this.matchPairs.length) {
+            feedback.className = 'feedback';
+            this.renderMatchActivity();
+          } else {
+            document.getElementById('complete1').classList.add('show');
+          }
+        }, 1500);
+      },
 
-      Object.values(sections).forEach(section => {
-        if (section) observer.observe(section);
-      });
+      renderGcfActivity() {
+        const c = this.gcfChallenges[this.currentGcfIndex];
+        const divisors = [2, 3, 4, 5, 6].filter(d => c.num % d === 0 && c.den % d === 0 || d <= 3);
+        document.getElementById('gcfQuestion').innerHTML = `
+          <div style="font-size:2.5rem; font-weight:700; margin-bottom:var(--space-lg);">
+            <span style="border-bottom:3px solid var(--text);">${c.num}</span><br>${c.den}
+          </div>
+          <p>What number can divide BOTH ${c.num} and ${c.den}?</p>
+          <div class="divisor-buttons">
+            ${[2,3,4,5,6].map(d => `<button class="divisor-btn" onclick="Lesson.checkGcf(${d})">${d}</button>`).join('')}
+          </div>
+        `;
+      },
+
+      checkGcf(divisor) {
+        const c = this.gcfChallenges[this.currentGcfIndex];
+        const feedback = document.getElementById('feedback2');
+        const isCorrect = c.num % divisor === 0 && c.den % divisor === 0;
+
+        document.querySelectorAll('.divisor-btn').forEach(btn => btn.disabled = true);
+
+        if (isCorrect) {
+          feedback.textContent = `Yes! ${c.num}÷${divisor}=${c.num/divisor} and ${c.den}÷${divisor}=${c.den/divisor}, so ${c.num}/${c.den} = ${c.num/divisor}/${c.den/divisor}`;
+          feedback.className = 'feedback correct';
+          this.score += 5;
+          this.updateScore();
+        } else {
+          feedback.textContent = `${divisor} doesn't divide both evenly. Try the GCF: ${c.gcf}`;
+          feedback.className = 'feedback incorrect';
+        }
+        setTimeout(() => {
+          this.currentGcfIndex++;
+          if (this.currentGcfIndex < this.gcfChallenges.length) {
+            feedback.className = 'feedback';
+            this.renderGcfActivity();
+          } else {
+            document.getElementById('complete2').classList.add('show');
+          }
+        }, 2000);
+      },
+
+      renderSimplifyActivity() {
+        const c = this.simplifyChallenges[this.currentSimplifyIndex];
+        const wrong = [`${c.num}/${c.den+2}`, `${c.num+1}/${c.den}`, `${Math.ceil(c.num/2)}/${c.den}`].filter(w => w !== c.answer);
+        const all = [c.answer, ...wrong].slice(0,4).sort(() => Math.random() - 0.5);
+        document.getElementById('simplifyQuestion').innerHTML = `
+          <div style="font-size:2.5rem; font-weight:700; margin-bottom:var(--space-lg);">
+            Simplify: <span style="color:var(--field-green);">${c.num}/${c.den}</span>
+          </div>
+          <div class="answer-options">${all.map(a => `<button class="answer-btn" onclick="Lesson.checkSimplify('${a}')">${a}</button>`).join('')}</div>
+        `;
+      },
+
+      checkSimplify(answer) {
+        const c = this.simplifyChallenges[this.currentSimplifyIndex];
+        const feedback = document.getElementById('feedback3');
+        document.querySelectorAll('#simplifyQuestion .answer-btn').forEach(btn => {
+          btn.disabled = true;
+          if (btn.textContent === c.answer) btn.classList.add('correct');
+          else if (btn.textContent === answer) btn.classList.add('incorrect');
+        });
+        if (answer === c.answer) {
+          feedback.textContent = `Perfect! ${c.num}/${c.den} = ${c.answer}`;
+          feedback.className = 'feedback correct';
+          this.score += 10;
+          this.updateScore();
+        } else {
+          feedback.textContent = `${c.num}/${c.den} simplifies to ${c.answer}`;
+          feedback.className = 'feedback incorrect';
+        }
+        setTimeout(() => {
+          this.currentSimplifyIndex++;
+          if (this.currentSimplifyIndex < this.simplifyChallenges.length) {
+            feedback.className = 'feedback';
+            this.renderSimplifyActivity();
+          } else {
+            document.getElementById('complete3').classList.add('show');
+          }
+        }, 1500);
+      },
+
+      showActivity(num) {
+        for (let i = 1; i <= 3; i++) document.getElementById(`activity${i}`).style.display = 'none';
+        document.getElementById(`activity${num}`).style.display = 'block';
+        this.currentActivity = num;
+        document.getElementById('activityNum').textContent = num;
+        this.updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      },
+
+      updateScore() { document.getElementById('scoreValue').textContent = this.score; },
+
+      updateProgress() {
+        const progressPercent = (this.currentActivity - 1) / this.totalActivities;
+        const fieldPosition = 10 + (progressPercent * 80);
+        const yards = Math.round(progressPercent * 100);
+        document.getElementById('footballPosition').style.left = `${fieldPosition}%`;
+        document.getElementById('yardsDisplay').innerHTML = `<strong>${yards}</strong> yards gained • <strong>${100 - yards}</strong> yards to TD`;
+      },
+
+      completeLesson() {
+        Storage.completeLesson(5);
+        document.getElementById('footballPosition').style.left = '90%';
+        document.getElementById('yardsDisplay').innerHTML = '<strong>TOUCHDOWN!</strong>';
+        setTimeout(() => { App.celebrateVictory('Bears', 5, '../../images/nfl-logos/bears.png'); }, 500);
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      Lesson.init();
+      CoachesCorner.init(5);
     });
-
-    function markLessonComplete() {
-      Storage.completeLesson(5);
-      App.celebrate('Lesson 5 Complete!', 'You understand simplifying fractions!', '🏆');
-      document.querySelector('.btn-success').textContent = '✓ Completed';
-      document.querySelector('.btn-success').disabled = true;
-    }
-
-    const progress = Storage.getLessonProgress();
-    if (progress[5]?.completed) {
-      document.querySelector('.btn-success').textContent = '✓ Completed';
-      document.querySelector('.btn-success').disabled = true;
-    }
   </script>
 </body>
 </html>

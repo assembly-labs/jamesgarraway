@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/components.css">
   <link rel="stylesheet" href="styles/football-theme.css">
+  <link rel="stylesheet" href="styles/broadcast-transitions.css">
   <link rel="stylesheet" href="styles/print.css">
 
   <style>
@@ -56,11 +57,10 @@
       margin-bottom: var(--space-xl);
     }
 
-    .hero-cta {
-      display: flex;
-      gap: var(--space-md);
-      justify-content: center;
-      flex-wrap: wrap;
+    .hero-players {
+      opacity: 0.85;
+      margin-bottom: var(--space-lg);
+      font-size: 1rem;
     }
 
     .dashboard-section {
@@ -211,6 +211,252 @@
       align-items: center;
     }
 
+    /* Playoff Progress Card */
+    .playoff-card {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border-radius: var(--radius-xl);
+      padding: var(--space-2xl);
+      text-align: center;
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+
+    .playoff-card.champion {
+      border: 3px solid gold;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #3d3d00 100%);
+    }
+
+    .playoff-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xl);
+      margin-bottom: var(--space-xl);
+      flex-wrap: wrap;
+    }
+
+    .matchup-logos {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .playoff-logo {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+    }
+
+    .matchup-logos .vs {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #888;
+    }
+
+    .playoff-title {
+      text-align: left;
+    }
+
+    .playoff-label {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #FFD700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .playoff-title h3 {
+      color: white;
+      margin: var(--space-xs) 0;
+      font-size: 1.5rem;
+    }
+
+    .playoff-title p {
+      color: #aaa;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    .playoff-progress-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      margin: var(--space-lg) 0;
+    }
+
+    .progress-team {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border: 2px solid #555;
+    }
+
+    .progress-team img {
+      width: 35px;
+      height: 35px;
+      object-fit: contain;
+      opacity: 0.5;
+    }
+
+    .progress-team.defeated {
+      background: var(--correct);
+      border-color: var(--correct);
+    }
+
+    .progress-team.defeated img {
+      opacity: 1;
+    }
+
+    .progress-team.defeated span {
+      position: absolute;
+      bottom: -5px;
+      right: -5px;
+      background: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--correct);
+      font-weight: 900;
+    }
+
+    .progress-team.current {
+      border-color: #FFD700;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+      animation: pulse 2s infinite;
+    }
+
+    .progress-team.current img {
+      opacity: 1;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+      50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+    }
+
+    .trophy, .trophy-target {
+      font-size: 2rem;
+      margin-left: var(--space-sm);
+    }
+
+    .trophy-target {
+      opacity: 0.5;
+    }
+
+    /* Welcome section */
+    .welcome-intro {
+      text-align: center;
+      margin-bottom: var(--space-xl);
+    }
+
+    .welcome-intro h2 {
+      color: var(--field-dark);
+      margin-bottom: var(--space-sm);
+    }
+
+    .intro-text {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+
+    /* Content cards grid */
+    .content-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--space-xl);
+      margin-bottom: var(--space-xl);
+    }
+
+    .content-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      box-shadow: 0 4px 20px var(--shadow);
+      transition: all var(--transition-normal);
+      border: 3px solid transparent;
+    }
+
+    .content-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px var(--shadow);
+    }
+
+    .game-time-card:hover {
+      border-color: var(--field-green);
+    }
+
+    .practice-card:hover {
+      border-color: var(--field-green);
+    }
+
+    .content-card-icon {
+      text-align: center;
+      margin-bottom: var(--space-md);
+    }
+
+    .card-logo {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+    }
+
+    .practice-icon-emoji {
+      font-size: 4rem;
+      display: block;
+    }
+
+    .content-card h3 {
+      text-align: center;
+      color: var(--field-dark);
+      margin-bottom: var(--space-md);
+      font-size: 1.5rem;
+    }
+
+    .card-description {
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: var(--space-lg);
+      line-height: 1.6;
+    }
+
+    .card-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 var(--space-xl) 0;
+    }
+
+    .card-features li {
+      padding: var(--space-sm) 0;
+      padding-left: var(--space-lg);
+      position: relative;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .card-features li::before {
+      content: "🏈";
+      position: absolute;
+      left: 0;
+      font-size: 0.875rem;
+    }
+
+    .btn-block {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
     footer {
       background: var(--field-dark);
       color: white;
@@ -241,11 +487,17 @@
       </button>
       <ul class="nav-menu" id="navMenu">
         <li><a href="index.html" class="nav-link active">Home</a></li>
-        <li><a href="diagnostic/index.html" class="nav-link">Skills Check</a></li>
-        <li><a href="lessons/index.html" class="nav-link">Lessons</a></li>
         <li><a href="practice/index.html" class="nav-link">Practice</a></li>
-        <li><a href="tools/number-line.html" class="nav-link">Number Line</a></li>
-        <li><a href="parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+        <li><a href="lessons/index.html" class="nav-link">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="super-extra-curricular/index.html" class="nav-dropdown-link">Super Extra</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </nav>
@@ -255,24 +507,59 @@
     <div class="hero-content container">
       <h1>🏈 Football Fractions</h1>
       <p class="hero-subtitle">Master fractions like Jalen Hurts masters the game!</p>
-      <p style="opacity: 0.85; margin-bottom: var(--space-lg); font-size: 1rem;">
+      <p class="hero-players">
         Featuring your favorite players: <strong>Jalen Hurts</strong>, <strong>Justin Jefferson</strong>, <strong>Cooper DeJean</strong>, <strong>Tom Brady</strong> & more!
       </p>
-      <div class="hero-cta">
-        <a href="lessons/index.html" class="btn btn-primary btn-large" id="ctaButton">
-          Start Learning! 🏈
-        </a>
-        <a href="parent-guide/index.html" class="btn btn-secondary btn-large">
-          Parent Guide
-        </a>
-      </div>
     </div>
   </section>
 
   <!-- Main Content -->
   <main class="container">
+    <!-- Welcome Section - Educational for Kids -->
+    <section class="dashboard-section">
+      <div class="welcome-intro">
+        <h2>Welcome to Football Fractions!</h2>
+        <p class="intro-text">Learn fractions the fun way - with football! Here's how it works:</p>
+      </div>
+
+      <div class="content-cards">
+        <!-- Game Time Card -->
+        <div class="content-card game-time-card">
+          <div class="content-card-icon">
+            <img src="images/nfl-logos/eagles.png" alt="Eagles" class="card-logo">
+          </div>
+          <h3>Game Time</h3>
+          <p class="card-description">Play as the Eagles and beat 6 NFL teams on your way to the Super Bowl! Each game teaches you a new fraction skill.</p>
+          <ul class="card-features">
+            <li>Beat the Cowboys by learning <strong>equal parts</strong></li>
+            <li>Defeat the Chiefs with <strong>improper fractions</strong></li>
+            <li>Take down the Lions by <strong>adding fractions</strong></li>
+            <li>And more teams on your championship run!</li>
+          </ul>
+          <a href="lessons/index.html" class="btn btn-primary btn-block">Start Your Playoff Journey</a>
+        </div>
+
+        <!-- Practice Card -->
+        <div class="content-card practice-card">
+          <div class="content-card-icon">
+            <span class="practice-icon-emoji">👟</span>
+          </div>
+          <h3>Practice</h3>
+          <p class="card-description">Sharpen your skills between games! Just like real football players practice every day, you can train your math brain here.</p>
+          <ul class="card-features">
+            <li><strong>Times & Division Touchdown</strong> - Score TDs with multiplication!</li>
+            <li><strong>Mixed Review</strong> - Test all your fraction skills</li>
+            <li><strong>Ref's Challenge</strong> - Spot the ball on the number line</li>
+            <li><strong>Skills Check</strong> - Find out what you're great at</li>
+          </ul>
+          <a href="practice/index.html" class="btn btn-primary btn-block">Go to Practice</a>
+        </div>
+      </div>
+    </section>
+
     <!-- Progress Overview -->
     <section class="dashboard-section">
+      <h2>Your Stats</h2>
       <div class="progress-overview">
         <div class="progress-stat">
           <div class="progress-stat-value" id="overallProgress">0%</div>
@@ -280,53 +567,22 @@
         </div>
         <div class="progress-stat">
           <div class="progress-stat-value" id="lessonsCompleted">0/6</div>
-          <div class="progress-stat-label">Lessons Completed</div>
+          <div class="progress-stat-label">Games Won</div>
         </div>
         <div class="progress-stat">
           <div class="progress-stat-value" id="practiceStreak">0</div>
-          <div class="progress-stat-label">Day Streak 🔥</div>
-        </div>
-        <div class="progress-stat">
-          <div class="progress-stat-value" id="diagnosticStatus">Not Taken</div>
-          <div class="progress-stat-label">Skills Check</div>
+          <div class="progress-stat-label">Day Streak</div>
         </div>
       </div>
     </section>
 
-    <!-- Quick Actions -->
+    <!-- Game Time - Playoff Progress -->
     <section class="dashboard-section">
       <div class="section-title">
-        <h2>Quick Start</h2>
+        <h2>Your Playoff Journey</h2>
       </div>
-      <div class="quick-actions">
-        <a href="lessons/index.html" class="action-card">
-          <div class="action-icon">📚</div>
-          <h3>Start Learning</h3>
-          <p>Jump into lessons with hands-on activities and football examples!</p>
-          <span class="btn btn-primary">View Lessons</span>
-        </a>
-        <a href="practice/mixed-review.html" class="action-card">
-          <div class="action-icon">🎯</div>
-          <h3>Practice Problems</h3>
-          <p>Test your skills with random fraction problems.</p>
-          <span class="btn btn-primary">Start Practice</span>
-        </a>
-        <a href="diagnostic/index.html" class="action-card">
-          <div class="action-icon">📋</div>
-          <h3>Skills Check</h3>
-          <p>Take anytime! See what you know and find areas to improve.</p>
-          <span class="btn btn-secondary">Take Skills Check</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- Lessons Overview -->
-    <section class="dashboard-section">
-      <div class="section-title">
-        <h2>📚 Lessons</h2>
-      </div>
-      <div class="lesson-grid" id="lessonGrid">
-        <!-- Lesson cards will be populated by JavaScript -->
+      <div class="playoff-progress-card" id="playoffProgress">
+        <!-- Playoff progress will be populated by JavaScript -->
       </div>
     </section>
   </main>
@@ -346,6 +602,7 @@
   <script src="js/storage.js"></script>
   <script src="js/fractions.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/broadcast-transitions.js"></script>
   <script>
     // Lesson data
     const lessons = [
@@ -395,52 +652,96 @@
         title: 'Equivalence',
         description: 'Secret: Some fractions are twins in disguise!',
         topics: ['Multiplying by 1', 'Multiple names', 'Number lines'],
-        footballContext: 'Different ways to describe the Packers\' field position'
+        footballContext: 'Different ways to describe the Commanders\' field position'
       }
     ];
 
-    // Render lesson cards
-    function renderLessons() {
-      const grid = document.getElementById('lessonGrid');
+    // Team matchups for playoff
+    const matchups = [
+      { num: 1, team: 'Cowboys', logo: 'cowboys.png', round: 'Wild Card' },
+      { num: 2, team: 'Chiefs', logo: 'chiefs.png', round: 'Divisional' },
+      { num: 3, team: 'Lions', logo: 'lions.png', round: 'Conference Semi' },
+      { num: 4, team: 'Giants', logo: 'giants.png', round: 'Conference Final' },
+      { num: 5, team: 'Bears', logo: 'bears.png', round: 'NFC Championship' },
+      { num: 6, team: 'Commanders', logo: 'commanders.png', round: 'Super Bowl' }
+    ];
+
+    // Render playoff progress card
+    function renderPlayoffProgress() {
+      const container = document.getElementById('playoffProgress');
       const progress = Storage.getLessonProgress();
 
-      grid.innerHTML = lessons.map(lesson => {
-        const lessonProgress = progress[lesson.num] || {};
-        const status = lessonProgress.completed ? 'completed' :
-                      lessonProgress.started ? 'in-progress' : 'not-started';
-        const headerClass = lessonProgress.completed ? 'completed' : '';
+      // Find current round
+      let currentRound = 1;
+      let completedCount = 0;
+      for (let i = 1; i <= 6; i++) {
+        if (progress[i]?.completed) {
+          completedCount++;
+          currentRound = i + 1;
+        } else {
+          break;
+        }
+      }
 
-        const statusBadge = lessonProgress.completed ?
-          '<span class="lesson-status completed">✓ Completed</span>' :
-          lessonProgress.started ?
-          '<span class="lesson-status in-progress">In Progress</span>' : '';
+      // All completed?
+      const allComplete = completedCount === 6;
+      const currentMatchup = allComplete ? null : matchups[currentRound - 1];
+      const lesson = allComplete ? null : lessons[currentRound - 1];
 
-        return `
-          <div class="lesson-card">
-            <div class="lesson-card-header ${headerClass}">
-              <span class="lesson-number">${lesson.num}</span>
-              <div>
-                <h3 style="margin: 0; font-size: 1.125rem;">${lesson.title}</h3>
+      if (allComplete) {
+        container.innerHTML = `
+          <div class="playoff-card champion">
+            <div class="playoff-header">
+              <img src="images/nfl-logos/eagles.png" alt="Eagles" class="playoff-logo">
+              <div class="playoff-title">
+                <span class="playoff-label">SUPER BOWL CHAMPIONS!</span>
+                <h3>You've mastered all fraction skills!</h3>
               </div>
             </div>
-            <div class="lesson-card-body">
-              <p>${lesson.description}</p>
-              <div class="lesson-topics">
-                ${lesson.topics.map(t => `<span class="lesson-topic">${t}</span>`).join('')}
-              </div>
-              <div class="callout-football" style="padding: var(--space-sm) var(--space-md); font-size: 0.875rem;">
-                🏈 ${lesson.footballContext}
-              </div>
+            <div class="playoff-progress-bar">
+              ${matchups.map((m, i) => `
+                <div class="progress-team defeated">
+                  <img src="images/nfl-logos/${m.logo}" alt="${m.team}">
+                  <span>✓</span>
+                </div>
+              `).join('')}
+              <span class="trophy">🏆</span>
             </div>
-            <div class="lesson-card-footer">
-              ${statusBadge}
-              <a href="lessons/${lesson.slug}/index.html" class="btn btn-primary btn-small">
-                ${lessonProgress.completed ? 'Review' : lessonProgress.started ? 'Continue' : 'Start'}
-              </a>
-            </div>
+            <a href="lessons/index.html" class="btn btn-secondary btn-large mt-lg">Review Your Journey</a>
           </div>
         `;
-      }).join('');
+      } else {
+        container.innerHTML = `
+          <div class="playoff-card">
+            <div class="playoff-header">
+              <div class="matchup-logos">
+                <img src="images/nfl-logos/eagles.png" alt="Eagles" class="playoff-logo">
+                <span class="vs">VS</span>
+                <img src="images/nfl-logos/${currentMatchup.logo}" alt="${currentMatchup.team}" class="playoff-logo">
+              </div>
+              <div class="playoff-title">
+                <span class="playoff-label">${currentMatchup.round} • Game ${currentRound} of 6</span>
+                <h3>Eagles vs ${currentMatchup.team}</h3>
+                <p>${lesson.title}: ${lesson.description}</p>
+              </div>
+            </div>
+            <div class="playoff-progress-bar">
+              ${matchups.map((m, i) => {
+                const isDefeated = progress[m.num]?.completed;
+                const isCurrent = m.num === currentRound;
+                return `
+                  <div class="progress-team ${isDefeated ? 'defeated' : ''} ${isCurrent ? 'current' : ''}">
+                    <img src="images/nfl-logos/${m.logo}" alt="${m.team}">
+                    ${isDefeated ? '<span>✓</span>' : ''}
+                  </div>
+                `;
+              }).join('')}
+              <span class="trophy-target">🏆</span>
+            </div>
+            <a href="lessons/index.html" class="btn btn-primary btn-large mt-lg play-game-btn">Play Game</a>
+          </div>
+        `;
+      }
     }
 
     // Update progress stats
@@ -453,20 +754,12 @@
       document.getElementById('overallProgress').textContent = overallProgress + '%';
       document.getElementById('lessonsCompleted').textContent = completedCount + '/6';
       document.getElementById('practiceStreak').textContent = streak;
-      document.getElementById('diagnosticStatus').textContent = diagnosticResults ? 'Complete' : 'Not Started';
 
-      // Update CTA button text based on progress
-      const ctaButton = document.getElementById('ctaButton');
-      if (diagnosticResults) {
-        ctaButton.textContent = 'View Results';
-      } else {
-        ctaButton.textContent = 'Start Learning! 🏈';
-      }
     }
 
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
-      renderLessons();
+      renderPlayoffProgress();
       updateProgressStats();
     });
   </script>

@@ -207,7 +207,8 @@ a:hover {
 .nav-menu {
   display: flex;
   list-style: none;
-  gap: var(--space-sm);
+  gap: var(--space-xs);
+  align-items: center;
 }
 
 .nav-link {
@@ -217,6 +218,9 @@ a:hover {
   font-weight: 500;
   font-size: 0.9rem;
   transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -228,6 +232,72 @@ a:hover {
 .nav-link.active {
   background: var(--field-light);
   color: white;
+}
+
+/* Dropdown Menu */
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-item .nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.nav-item .nav-link .dropdown-arrow {
+  margin-left: 2px;
+}
+
+.nav-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--field-dark);
+  min-width: 180px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  padding: var(--space-sm);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all var(--transition-fast);
+  z-index: 1000;
+  list-style: none;
+}
+
+.nav-item:hover .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-dropdown-link {
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.nav-dropdown-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  text-decoration: none;
+}
+
+.dropdown-arrow {
+  font-size: 0.7rem;
+  transition: transform var(--transition-fast);
+}
+
+.nav-item:hover .dropdown-arrow {
+  transform: rotate(180deg);
 }
 
 .nav-hamburger {
@@ -264,12 +334,34 @@ a:hover {
 
   .nav-menu.show {
     display: flex;
-    max-height: 500px;
+    max-height: 700px;
     opacity: 1;
   }
 
   .nav-link {
     padding: var(--space-md);
+  }
+
+  /* Mobile dropdown */
+  .nav-dropdown {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    background: rgba(255, 255, 255, 0.05);
+    margin-top: var(--space-xs);
+    padding: var(--space-xs);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .nav-item:hover .nav-dropdown {
+    max-height: 200px;
+  }
+
+  .dropdown-arrow {
+    margin-left: auto;
   }
 }
 

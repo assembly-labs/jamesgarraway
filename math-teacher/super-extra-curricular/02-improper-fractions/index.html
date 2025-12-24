@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lesson 2: Improper Fractions & Mixed Numbers - Football Fractions</title>
+
+  <link rel="stylesheet" href="../../styles/main.css">
+  <link rel="stylesheet" href="../../styles/components.css">
+  <link rel="stylesheet" href="../../styles/football-theme.css">
+  <link rel="stylesheet" href="../../styles/print.css">
+
+  <style>
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--shadow);
+      margin-bottom: var(--space-xl);
+    }
+
+    .activity-header {
+      padding: var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .activity-header.concrete {
+      background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+      color: white;
+    }
+
+    .activity-header.pictorial {
+      background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+      color: white;
+    }
+
+    .activity-header.abstract {
+      background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+      color: white;
+    }
+
+    .activity-icon {
+      font-size: 2rem;
+    }
+
+    .activity-body {
+      padding: var(--space-xl);
+    }
+
+    .activity-steps {
+      counter-reset: step;
+    }
+
+    .activity-step {
+      display: flex;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-step:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .step-number {
+      counter-increment: step;
+      width: 40px;
+      height: 40px;
+      background: var(--field-green);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-number::before {
+      content: counter(step);
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .parent-script {
+      background: #E8F5E9;
+      border-left: 4px solid var(--correct);
+      padding: var(--space-md);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin: var(--space-md) 0;
+      font-style: italic;
+    }
+
+    .parent-script::before {
+      content: "💬 Say: ";
+      font-style: normal;
+      font-weight: 700;
+      color: var(--correct);
+    }
+
+    .key-question {
+      background: var(--thinking-light);
+      border: 2px dashed var(--thinking);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin: var(--space-md) 0;
+    }
+
+    .key-question::before {
+      content: "❓ Key Question: ";
+      font-weight: 700;
+      color: #E65100;
+    }
+
+    .visual-example {
+      background: var(--background);
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      text-align: center;
+      margin: var(--space-md) 0;
+    }
+
+    .football-callout {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      padding: var(--space-xl);
+      border-radius: var(--radius-lg);
+      margin: var(--space-xl) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .football-callout::after {
+      content: "🏈";
+      position: absolute;
+      right: var(--space-lg);
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 4rem;
+      opacity: 0.2;
+    }
+
+    .materials-box {
+      background: var(--info-light);
+      border: 2px solid var(--info);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .materials-box h4 {
+      color: var(--info);
+      margin-bottom: var(--space-md);
+    }
+
+    .objective-box {
+      background: var(--correct-light);
+      border: 2px solid var(--correct);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .objective-box h4 {
+      color: #1B5E20;
+      margin-bottom: var(--space-md);
+    }
+
+    .misconception-box {
+      background: var(--incorrect-light);
+      border: 2px solid var(--incorrect);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin: var(--space-lg) 0;
+    }
+
+    .misconception-box h4 {
+      color: var(--incorrect);
+      margin-bottom: var(--space-sm);
+    }
+
+    .circle-model {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: var(--space-md) 0;
+    }
+
+    .circle-whole {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 3px solid var(--field-green);
+      display: flex;
+      flex-wrap: wrap;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .quarter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      width: 100%;
+      height: 100%;
+    }
+
+    .quarter-piece {
+      border: 1px solid var(--field-green);
+    }
+
+    .quarter-piece.filled {
+      background: #64B5F6;
+    }
+
+    .quarter-piece.empty {
+      background: var(--correct-light);
+    }
+
+    .number-line-visual {
+      position: relative;
+      height: 80px;
+      background: var(--background);
+      border-radius: var(--radius-md);
+      margin: var(--space-lg) 0;
+      padding: 0 var(--space-lg);
+    }
+
+    .number-line-track {
+      position: absolute;
+      top: 50%;
+      left: var(--space-lg);
+      right: var(--space-lg);
+      height: 4px;
+      background: var(--field-green);
+      transform: translateY(-50%);
+    }
+
+    .number-line-tick {
+      position: absolute;
+      top: 50%;
+      width: 2px;
+      height: 20px;
+      background: var(--field-green);
+      transform: translate(-50%, -50%);
+    }
+
+    .number-line-tick.major {
+      height: 30px;
+      width: 3px;
+    }
+
+    .number-line-label {
+      position: absolute;
+      top: calc(50% + 25px);
+      transform: translateX(-50%);
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+
+    .conversion-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xl);
+      flex-wrap: wrap;
+      padding: var(--space-xl);
+      background: var(--background);
+      border-radius: var(--radius-lg);
+      margin: var(--space-lg) 0;
+    }
+
+    .fraction-display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .fraction-num {
+      font-size: 2rem;
+      font-weight: 700;
+      border-bottom: 3px solid var(--text);
+      padding: 0 var(--space-sm);
+    }
+
+    .fraction-den {
+      font-size: 2rem;
+      font-weight: 700;
+      padding: 0 var(--space-sm);
+    }
+
+    .equals-sign {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    .mixed-number-display {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .whole-part {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .lesson-complete {
+      text-align: center;
+      padding: var(--space-2xl);
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../../index.html" class="nav-link">Home</a></li>
+        <li><a href="../../practice/index.html" class="nav-link">Practice</a></li>
+        <li><a href="../../lessons/index.html" class="nav-link">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../../super-extra-curricular/index.html" class="nav-dropdown-link active">Super Extra</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb" style="color: rgba(255,255,255,0.8);">
+        <a href="../index.html" style="color: white;">Lessons</a>
+        <span>›</span>
+        <span>Lesson 2</span>
+      </div>
+      <h1>Lesson 2: Fractions Bigger Than 1!</h1>
+      <p>Wait... fractions can be MORE than 1 whole? Let's find out!</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Online Badge -->
+    <div class="online-badge" style="background: #e8f5e9; border: 2px solid #2E7D32; padding: 8px 16px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
+      💻 <strong>ONLINE LESSON</strong> - Do this on the computer with a parent or guardian!
+    </div>
+
+    <div class="lesson-nav">
+      <a href="../01-equal-parts/index.html">← Lesson 1: Equal Parts</a>
+      <a href="../03-adding-fractions/index.html">Lesson 3: Adding Fractions →</a>
+    </div>
+
+    <!-- Misconception Alert -->
+    <div class="misconception-box">
+      <h4>🚨 Heads Up!</h4>
+      <p>A lot of people think fractions have to be smaller than 1. Surprise - they don't! Fractions can be <strong>bigger than 1 whole</strong>. This lesson is all about understanding how that works.</p>
+    </div>
+
+    <!-- Learning Objective -->
+    <div class="objective-box">
+      <h4>🎯 What You'll Learn</h4>
+      <p>By the end of this lesson, you'll know:</p>
+      <ul>
+        <li>The <strong>bottom number</strong> (denominator) tells you the SIZE of each piece</li>
+        <li>The <strong>top number</strong> (numerator) tells you HOW MANY pieces you have</li>
+        <li>You can have MORE pieces than fit in one whole - that's called an <strong>improper fraction</strong></li>
+        <li>You can write the same amount two different ways (like 5/4 and 1 1/4 - same thing!)</li>
+      </ul>
+    </div>
+
+    <!-- Concept Explanation -->
+    <div class="concept-box" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 4px solid var(--field-green); border-radius: var(--radius-md); padding: var(--space-lg); margin: var(--space-lg) 0;">
+      <h4 style="color: var(--field-green); margin-bottom: var(--space-md);">🧠 The Big Idea: Fractions Can Be MORE Than 1!</h4>
+
+      <div style="margin-bottom: var(--space-md);">
+        <strong>The Simple Explanation:</strong>
+        <p style="margin-top: var(--space-sm);">Most people think fractions are always less than 1, like 1/2 or 3/4. But surprise - fractions can be BIGGER than 1 whole! Here's the secret: the bottom number (denominator) just tells you what SIZE your pieces are. The top number (numerator) tells you how MANY pieces you have. And you can have as many pieces as you want!</p>
+        <p style="margin-top: var(--space-sm);">If each piece is 1/4 (a quarter), and you have 5 of them, that's 5/4. That's MORE than one whole! We call this an "improper fraction." You can also write it as 1 1/4 (one and one-fourth) - same exact amount, just written differently.</p>
+      </div>
+
+      <div style="background: white; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>🏈 The Football Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">A football game has 4 quarters, right? So 1 quarter = 1/4 of a game. But what if the Eagles play a game that goes into overtime? They might play 5 quarters! That's 5/4 of a regular game - more than one whole game!</p>
+        <p style="margin-top: var(--space-sm);">Or think about Jalen Hurts throwing touchdown passes. If he throws 7 touchdowns over a weekend (in 2 games), and each game has 4 quarters, he played 8 quarters total. But 7 touchdowns in those 8 quarters means... wait, that's a LOT of scoring! The point is: you can count MORE quarters than fit in one game.</p>
+      </div>
+
+      <div style="background: #fff3e0; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>⛏️ The Minecraft Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">In Minecraft, a stack of items is 64. So 1 item = 1/64 of a stack. But what if you're mining diamonds and you collect 80 diamonds? That's 80/64 of a stack - more than one full stack! You'd have 1 full stack of 64, plus 16 extra. That's the same as 1 and 16/64 (or 1 and 1/4 of a stack). Same amount, two ways to write it!</p>
+      </div>
+
+      <div style="background: #e3f2fd; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
+        <strong>🥋 The Jiu-Jitsu Way to Think About It:</strong>
+        <p style="margin-top: var(--space-sm);">In jiu-jitsu class, let's say each round of sparring is 5 minutes. If you roll for 12 minutes straight, that's 12/5 of a round - more than 2 whole rounds! You could say you did 2 full rounds plus 2/5 of another round. Same training time, just counted differently.</p>
+      </div>
+    </div>
+
+    <!-- Materials -->
+    <div class="materials-box">
+      <h4>📦 Materials Needed</h4>
+      <ul class="materials-list" style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-sm);">
+        <li>🔵 Fraction circles (or paper circles)</li>
+        <li>📏 Masking tape for floor number line</li>
+        <li>🍕 Paper plates (or draw circles)</li>
+        <li>✏️ Pencil and paper</li>
+      </ul>
+    </div>
+
+    <!-- CPA Stages -->
+    <div class="cpa-stages">
+      <div class="cpa-stage active" id="concreteStage">
+        <div class="cpa-stage-icon">🧱</div>
+        <div class="cpa-stage-label">Concrete</div>
+      </div>
+      <div class="cpa-stage" id="pictorialStage">
+        <div class="cpa-stage-icon">✏️</div>
+        <div class="cpa-stage-label">Pictorial</div>
+      </div>
+      <div class="cpa-stage" id="abstractStage">
+        <div class="cpa-stage-icon">🔢</div>
+        <div class="cpa-stage-label">Abstract</div>
+      </div>
+    </div>
+
+    <!-- CONCRETE Activities -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header concrete">
+          <span class="activity-icon">🧱</span>
+          <div>
+            <h3 style="margin:0">Concrete Activities</h3>
+            <p style="margin:0; opacity:0.9">Hands-on exploration</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <div class="activity-steps">
+            <!-- Activity 1: Building 5/4 -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>The "Too Many Pieces" Challenge</h4>
+                <p>Give your child fraction circles cut into fourths (4 pieces each). Give them TWO complete circles.</p>
+
+                <div class="parent-script">
+                  Here's your challenge: Count out 5 fourths. Put 5 quarter pieces in front of you. You've got this!
+                </div>
+
+                <p>Let them work. They'll figure out they need pieces from BOTH circles!</p>
+
+                <div class="key-question">
+                  Whoa, what do you notice? How many complete circles did you make? And how many extra pieces are left over?
+                </div>
+
+                <div class="visual-example">
+                  <p><strong>5/4 looks like this:</strong></p>
+                  <div class="circle-model">
+                    <div class="circle-whole">
+                      <div class="quarter-grid">
+                        <div class="quarter-piece filled"></div>
+                        <div class="quarter-piece filled"></div>
+                        <div class="quarter-piece filled"></div>
+                        <div class="quarter-piece filled"></div>
+                      </div>
+                    </div>
+                    <span style="font-size: 1.5rem; color: var(--text-secondary);">+</span>
+                    <div class="circle-whole">
+                      <div class="quarter-grid">
+                        <div class="quarter-piece filled"></div>
+                        <div class="quarter-piece empty"></div>
+                        <div class="quarter-piece empty"></div>
+                        <div class="quarter-piece empty"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-md"><strong>1 whole circle + 1 extra quarter = 1 1/4</strong></p>
+                </div>
+
+                <div class="alert alert-success">
+                  <strong>Key Insight:</strong> "5/4 means 5 pieces where each piece is 1/4 of a circle. You have MORE than one whole circle's worth!"
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity 2: Vocabulary Builder -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>What Do the Numbers Mean?</h4>
+                <p>Build several improper fractions together and discuss each part:</p>
+
+                <div class="parent-script">
+                  Let's build 7/4. First, what does the 4 tell us?
+                </div>
+
+                <p>Guide them to understand:</p>
+                <ul>
+                  <li><strong>Denominator (4):</strong> "Each whole is cut into 4 pieces. Each piece is called a FOURTH."</li>
+                  <li><strong>Numerator (7):</strong> "We have 7 of those fourth-sized pieces."</li>
+                </ul>
+
+                <div class="key-question">
+                  If someone has 7 fourths, do they have more or less than 1 whole? How do you know?
+                </div>
+
+                <p>Now try: 6/4, 9/4, 10/4 - build each one!</p>
+              </div>
+            </div>
+
+            <!-- Activity 3: Floor Number Line -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Walk the Number Line</h4>
+                <p>Create a number line on the floor with masking tape. Mark 0, 1, and 2.</p>
+
+                <div class="parent-script">
+                  This is our fraction number line. We're going to WALK to different fractions. I want you to walk to 5/4. Where do you think that is?
+                </div>
+
+                <p>Key points to make:</p>
+                <ul>
+                  <li>4/4 = 1 (standing at 1)</li>
+                  <li>5/4 is ONE MORE fourth past 1</li>
+                  <li>8/4 = 2 (standing at 2)</li>
+                </ul>
+
+                <div class="number-line-visual">
+                  <div class="number-line-track"></div>
+                  <!-- 0 -->
+                  <div class="number-line-tick major" style="left: 10%;"></div>
+                  <div class="number-line-label" style="left: 10%;">0</div>
+                  <!-- 1 = 4/4 (same position!) -->
+                  <div class="number-line-tick major" style="left: 55%;"></div>
+                  <div class="number-line-label" style="left: 55%;">1 <span style="font-size: 0.75em; color: var(--text-secondary);">(= 4/4)</span></div>
+                  <!-- 5/4 - one quarter past 1 -->
+                  <div class="number-line-tick" style="left: 66.25%;"></div>
+                  <div class="number-line-label" style="left: 66.25%; color: var(--info); font-weight: bold;">5/4</div>
+                  <!-- 2 = 8/4 -->
+                  <div class="number-line-tick major" style="left: 100%;"></div>
+                  <div class="number-line-label" style="left: 100%;">2</div>
+                </div>
+
+                <div class="key-question">
+                  What's another name for 5/4? (1 and 1/4, or 1 1/4)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Football Connection -->
+    <div class="football-callout">
+      <h3>🏈 Football Connection: Quarters Played</h3>
+      <p>A football game has <strong>4 quarters</strong>. That's a perfect connection to fourths!</p>
+      <ul>
+        <li><strong>4/4 = 1 game</strong> (all 4 quarters of one game)</li>
+        <li><strong>5/4 = ?</strong> "Jalen Hurts played 5 quarters last weekend. How many complete games is that?"</li>
+        <li><strong>7/4 = ?</strong> "Lamar Jackson played 7 quarters over the weekend. That's..."</li>
+      </ul>
+
+      <div class="parent-script" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">
+        If Tom Brady played 7 quarters in his final season, how would you describe that? Did he play more than one game?
+      </div>
+
+      <p><strong>Answer: 7/4 = 1 complete game + 3 extra quarters = 1 3/4 games</strong></p>
+
+      <div style="margin-top: var(--space-md); padding: var(--space-md); background: rgba(255,255,255,0.15); border-radius: var(--radius-md);">
+        <strong>Challenge:</strong> Justin Jefferson caught passes for 9 quarters of games last month. Write that as a mixed number!
+        <div style="margin-top: var(--space-sm); font-size: 0.9em; opacity: 0.9;">(Answer: 9/4 = 2 1/4 games)</div>
+      </div>
+    </div>
+
+    <!-- PICTORIAL Activities -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header pictorial">
+          <span class="activity-icon">✏️</span>
+          <div>
+            <h3 style="margin:0">Pictorial Activities</h3>
+            <p style="margin:0; opacity:0.9">Drawing representations</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <div class="activity-steps">
+            <!-- Drawing improper fractions -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Draw It Out</h4>
+                <p>Practice drawing these improper fractions:</p>
+
+                <ol>
+                  <li>Draw 5/3 using circles divided into thirds</li>
+                  <li>Draw 7/4 using rectangles divided into fourths</li>
+                  <li>Draw 9/8 using bars divided into eighths</li>
+                </ol>
+
+                <div class="parent-script">
+                  For each one, ask: "How many complete wholes? How many extra pieces?"
+                </div>
+              </div>
+            </div>
+
+            <!-- Bar Models for Conversion -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Bar Models: Seeing the Conversion</h4>
+
+                <div class="visual-example">
+                  <p><strong>Converting 7/4 to a mixed number:</strong></p>
+                  <div style="display: flex; flex-direction: column; gap: var(--space-md); align-items: center;">
+                    <div style="display: flex; gap: var(--space-sm);">
+                      <div style="width: 200px; height: 50px; display: flex; border: 2px solid var(--field-green); border-radius: 8px; overflow: hidden;">
+                        <div style="flex:1; background: #64B5F6; border-right: 1px solid var(--field-green);"></div>
+                        <div style="flex:1; background: #64B5F6; border-right: 1px solid var(--field-green);"></div>
+                        <div style="flex:1; background: #64B5F6; border-right: 1px solid var(--field-green);"></div>
+                        <div style="flex:1; background: #64B5F6;"></div>
+                      </div>
+                      <span style="display: flex; align-items: center; font-weight: bold;">1 whole</span>
+                    </div>
+                    <div style="display: flex; gap: var(--space-sm);">
+                      <div style="width: 200px; height: 50px; display: flex; border: 2px solid var(--field-green); border-radius: 8px; overflow: hidden;">
+                        <div style="flex:1; background: #64B5F6; border-right: 1px solid var(--field-green);"></div>
+                        <div style="flex:1; background: #64B5F6; border-right: 1px solid var(--field-green);"></div>
+                        <div style="flex:1; background: #64B5F6; border-right: 1px solid var(--field-green);"></div>
+                        <div style="flex:1; background: var(--correct-light);"></div>
+                      </div>
+                      <span style="display: flex; align-items: center; font-weight: bold;">3/4 more</span>
+                    </div>
+                  </div>
+                  <p class="mt-md"><strong>7/4 = 1 3/4</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Number Line Drawing -->
+            <div class="activity-step">
+              <div class="step-number"></div>
+              <div class="step-content">
+                <h4>Number Line Placement</h4>
+                <p>Draw a number line from 0 to 2. Mark these fractions:</p>
+                <ul>
+                  <li>5/4</li>
+                  <li>3/2</li>
+                  <li>7/4</li>
+                </ul>
+
+                <div class="key-question">
+                  Which is larger: 5/4 or 3/2? How can you tell from the number line?
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABSTRACT Section -->
+    <section>
+      <div class="activity-card">
+        <div class="activity-header abstract">
+          <span class="activity-icon">🔢</span>
+          <div>
+            <h3 style="margin:0">Abstract: The Conversion</h3>
+            <p style="margin:0; opacity:0.9">Connecting to symbols and procedures</p>
+          </div>
+        </div>
+        <div class="activity-body">
+          <h4>Converting Improper Fractions to Mixed Numbers</h4>
+
+          <div class="conversion-visual">
+            <div class="fraction-display">
+              <span class="fraction-num">7</span>
+              <span class="fraction-den">4</span>
+            </div>
+            <span class="equals-sign">=</span>
+            <div class="mixed-number-display">
+              <span class="whole-part">1</span>
+              <div class="fraction-display" style="font-size: 1.5rem;">
+                <span class="fraction-num" style="font-size: 1.5rem; border-bottom-width: 2px;">3</span>
+                <span class="fraction-den" style="font-size: 1.5rem;">4</span>
+              </div>
+            </div>
+          </div>
+
+          <p><strong>The thinking:</strong></p>
+          <ul>
+            <li>"How many complete groups of 4 can I make from 7?" → <strong>1 group</strong> (that's 1 whole)</li>
+            <li>"How many left over?" → <strong>3 fourths</strong></li>
+            <li>So 7/4 = 1 3/4</li>
+          </ul>
+
+          <div class="alert alert-warning mt-lg">
+            <div class="alert-title">⚠️ Important</div>
+            <p>The procedure (divide numerator by denominator) only makes sense AFTER you understand what the numbers mean. Always be able to explain WHY with a picture!</p>
+          </div>
+
+          <h4 class="mt-xl">Converting Mixed Numbers to Improper Fractions</h4>
+
+          <div class="conversion-visual">
+            <div class="mixed-number-display">
+              <span class="whole-part">2</span>
+              <div class="fraction-display">
+                <span class="fraction-num">1</span>
+                <span class="fraction-den">4</span>
+              </div>
+            </div>
+            <span class="equals-sign">=</span>
+            <div class="fraction-display">
+              <span class="fraction-num">9</span>
+              <span class="fraction-den">4</span>
+            </div>
+          </div>
+
+          <p><strong>The thinking:</strong></p>
+          <ul>
+            <li>"2 wholes, and each whole has 4 fourths" → <strong>2 × 4 = 8 fourths</strong></li>
+            <li>"Plus 1 more fourth" → <strong>8 + 1 = 9 fourths</strong></li>
+            <li>So 2 1/4 = 9/4</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Self-Explanation Prompts -->
+    <section class="activity-section">
+      <div class="card">
+        <div class="card-header">
+          <h3 style="margin:0">💭 Understanding Check</h3>
+        </div>
+        <div class="card-body">
+          <p>Before finishing, make sure you can answer these:</p>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">Trick Question!</div>
+            <p>"Can a fraction be bigger than 1?" (YES! This whole lesson shows that!)</p>
+          </div>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">What does the 4 in 7/4 tell you?</div>
+            <p>(The size of each piece - fourths. Each whole is divided into 4 equal parts.)</p>
+          </div>
+
+          <div class="thinking-box">
+            <div class="thinking-box-header">What does the 7 in 7/4 tell you?</div>
+            <p>(How many pieces you have - 7 pieces, each one being a fourth.)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lesson Complete -->
+    <div class="lesson-complete">
+      <h2>🎉 Excellent Work!</h2>
+      <p>You now understand that fractions can be bigger than 1! Improper fractions and mixed numbers are just two ways to describe the same amount.</p>
+      <div class="flex-center gap-md mt-lg">
+        <a href="worksheet.html" class="btn btn-primary btn-large">Complete Worksheet</a>
+        <button class="btn btn-success btn-large" onclick="markLessonComplete()">Mark Lesson Complete</button>
+      </div>
+      <p class="text-muted mt-lg">Next up: Lesson 3 - Adding Fractions</p>
+    </div>
+  </main>
+
+  <script src="../../js/storage.js"></script>
+  <script src="../../js/app.js"></script>
+  <script>
+    Storage.startLesson(2);
+
+    // Update CPA stages based on scroll or interaction
+    function updateCPAStages(stage) {
+      document.querySelectorAll('.cpa-stage').forEach(el => el.classList.remove('active'));
+      document.getElementById(stage + 'Stage').classList.add('active');
+    }
+
+    // Set up Intersection Observer to track which section is visible
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = {
+        concrete: document.querySelector('.activity-header.concrete')?.closest('.activity-card'),
+        pictorial: document.querySelector('.activity-header.pictorial')?.closest('.activity-card'),
+        abstract: document.querySelector('.activity-header.abstract')?.closest('.activity-card')
+      };
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -60% 0px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            for (const [stage, element] of Object.entries(sections)) {
+              if (element === entry.target) {
+                updateCPAStages(stage);
+                break;
+              }
+            }
+          }
+        });
+      }, observerOptions);
+
+      Object.values(sections).forEach(section => {
+        if (section) observer.observe(section);
+      });
+    });
+
+    function markLessonComplete() {
+      Storage.completeLesson(2);
+      App.celebrate('Lesson 2 Complete!', 'You understand improper fractions and mixed numbers!', '🏆');
+      document.querySelector('.btn-success').textContent = '✓ Completed';
+      document.querySelector('.btn-success').disabled = true;
+    }
+
+    const progress = Storage.getLessonProgress();
+    if (progress[2]?.completed) {
+      document.querySelector('.btn-success').textContent = '✓ Completed';
+      document.querySelector('.btn-success').disabled = true;
+    }
+  </script>
+</body>
+</html>

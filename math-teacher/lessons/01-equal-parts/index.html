@@ -9,86 +9,32 @@
   <link rel="stylesheet" href="../../styles/main.css">
   <link rel="stylesheet" href="../../styles/components.css">
   <link rel="stylesheet" href="../../styles/football-theme.css">
-  <link rel="stylesheet" href="../../styles/print.css">
+  <link rel="stylesheet" href="../../styles/coaches-corner.css">
 
   <style>
-    .lesson-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-xl);
-      padding-bottom: var(--space-md);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .lesson-nav a {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
+    .lesson-container {
+      max-width: 900px;
+      margin: 0 auto;
     }
 
     .activity-section {
-      margin-bottom: var(--space-2xl);
-    }
-
-    .activity-card {
       background: var(--card-bg);
       border-radius: var(--radius-xl);
-      overflow: hidden;
-      box-shadow: 0 4px 20px var(--shadow);
+      padding: var(--space-xl);
       margin-bottom: var(--space-xl);
+      box-shadow: 0 4px 20px var(--shadow);
     }
 
     .activity-header {
-      padding: var(--space-lg);
       display: flex;
       align-items: center;
       gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-md);
+      border-bottom: 2px solid var(--border);
     }
 
-    .activity-header.concrete {
-      background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
-      color: white;
-    }
-
-    .activity-header.pictorial {
-      background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-      color: white;
-    }
-
-    .activity-header.abstract {
-      background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
-      color: white;
-    }
-
-    .activity-icon {
-      font-size: 2rem;
-    }
-
-    .activity-body {
-      padding: var(--space-xl);
-    }
-
-    .activity-steps {
-      counter-reset: step;
-    }
-
-    .activity-step {
-      display: flex;
-      gap: var(--space-lg);
-      margin-bottom: var(--space-xl);
-      padding-bottom: var(--space-xl);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .activity-step:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .step-number {
-      counter-increment: step;
+    .activity-number {
       width: 40px;
       height: 40px;
       background: var(--field-green);
@@ -98,71 +44,76 @@
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      flex-shrink: 0;
+      font-size: 1.25rem;
     }
 
-    .step-number::before {
-      content: counter(step);
-    }
-
-    .step-content {
-      flex: 1;
-    }
-
-    .step-content h4 {
-      margin-bottom: var(--space-sm);
-    }
-
-    .parent-script {
-      background: #E8F5E9;
-      border-left: 4px solid var(--correct);
-      padding: var(--space-md);
-      border-radius: 0 var(--radius-md) var(--radius-md) 0;
-      margin: var(--space-md) 0;
-      font-style: italic;
-    }
-
-    .parent-script::before {
-      content: "💬 Say: ";
-      font-style: normal;
+    .activity-title {
+      font-size: 1.25rem;
       font-weight: 700;
-      color: var(--correct);
+      color: var(--text);
     }
 
-    .key-question {
-      background: var(--thinking-light);
-      border: 2px dashed var(--thinking);
-      padding: var(--space-md);
-      border-radius: var(--radius-md);
-      margin: var(--space-md) 0;
-    }
-
-    .key-question::before {
-      content: "❓ Key Question: ";
-      font-weight: 700;
-      color: #E65100;
-    }
-
-    .visual-example {
-      background: var(--background);
+    .concept-intro {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      border-left: 4px solid var(--field-green);
       padding: var(--space-lg);
-      border-radius: var(--radius-md);
-      text-align: center;
-      margin: var(--space-md) 0;
+      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+      margin-bottom: var(--space-xl);
     }
 
-    .shape-grid {
+    .concept-intro h3 {
+      color: var(--field-green);
+      margin-bottom: var(--space-md);
+    }
+
+    .football-callout {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      padding: var(--space-lg);
+      border-radius: var(--radius-lg);
+      margin: var(--space-lg) 0;
+    }
+
+    .shapes-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: var(--space-lg);
-      margin: var(--space-md) 0;
+      margin: var(--space-xl) 0;
     }
 
-    .shape-example {
+    .shape-card {
+      background: var(--background);
+      border: 3px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
       text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
     }
 
-    .shape-example svg {
+    .shape-card:hover {
+      transform: scale(1.05);
+      border-color: var(--field-green);
+    }
+
+    .shape-card.selected {
+      border-color: var(--info);
+      background: var(--info-light);
+    }
+
+    .shape-card.correct {
+      border-color: var(--correct);
+      background: var(--correct-light);
+    }
+
+    .shape-card.incorrect {
+      border-color: var(--incorrect);
+      background: var(--incorrect-light);
+    }
+
+    .shape-card svg {
+      width: 100%;
+      height: 80px;
       margin-bottom: var(--space-sm);
     }
 
@@ -171,40 +122,158 @@
       color: var(--text-secondary);
     }
 
-    .shape-label.correct {
-      color: var(--correct);
-      font-weight: 700;
+    .divide-container {
+      background: var(--background);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      text-align: center;
+      margin: var(--space-lg) 0;
     }
 
-    .shape-label.incorrect {
+    .divide-shape {
+      position: relative;
+      width: 300px;
+      height: 80px;
+      background: var(--correct-light);
+      border: 3px solid var(--field-green);
+      border-radius: var(--radius-md);
+      margin: var(--space-lg) auto;
+      display: flex;
+    }
+
+    .divide-section {
+      flex: 1;
+      border-right: 2px dashed var(--field-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--field-green);
+    }
+
+    .divide-section:last-child {
+      border-right: none;
+    }
+
+    .divide-controls {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      margin-top: var(--space-lg);
+    }
+
+    .divide-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      background: var(--field-green);
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .divide-btn:hover {
+      transform: scale(1.1);
+      background: var(--field-dark);
+    }
+
+    .divide-btn:disabled {
+      background: var(--border);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .sorting-area {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      margin: var(--space-xl) 0;
+    }
+
+    @media (max-width: 600px) {
+      .sorting-area {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sort-bin {
+      background: var(--background);
+      border: 3px dashed var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      min-height: 200px;
+      transition: all var(--transition-fast);
+    }
+
+    .sort-bin.equal-bin {
+      border-color: var(--correct);
+    }
+
+    .sort-bin.not-equal-bin {
+      border-color: var(--incorrect);
+    }
+
+    .sort-bin.drag-over {
+      background: var(--info-light);
+      transform: scale(1.02);
+    }
+
+    .sort-bin-title {
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .sort-bin.equal-bin .sort-bin-title {
+      color: var(--correct);
+    }
+
+    .sort-bin.not-equal-bin .sort-bin-title {
       color: var(--incorrect);
     }
 
-    .football-callout {
-      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
-      color: white;
-      padding: var(--space-xl);
-      border-radius: var(--radius-lg);
-      margin: var(--space-xl) 0;
-      position: relative;
-      overflow: hidden;
+    .sort-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      justify-content: center;
+      min-height: 100px;
     }
 
-    .football-callout::after {
-      content: "🏈";
-      position: absolute;
-      right: var(--space-lg);
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 4rem;
-      opacity: 0.2;
+    .sort-item {
+      width: 80px;
+      height: 60px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: grab;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-fast);
+      touch-action: none;
     }
 
-    .football-callout h3 {
-      margin-bottom: var(--space-md);
+    .sort-item:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px var(--shadow);
     }
 
-    .materials-box {
+    .sort-item.dragging {
+      opacity: 0.5;
+      cursor: grabbing;
+    }
+
+    .sort-item svg {
+      width: 60px;
+      height: 40px;
+    }
+
+    .unsorted-area {
       background: var(--info-light);
       border: 2px solid var(--info);
       border-radius: var(--radius-lg);
@@ -212,49 +281,228 @@
       margin-bottom: var(--space-xl);
     }
 
-    .materials-box h4 {
+    .unsorted-title {
+      text-align: center;
       color: var(--info);
+      font-weight: 700;
       margin-bottom: var(--space-md);
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
     }
 
-    .materials-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: var(--space-sm);
-    }
-
-    .materials-list li {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-
-    .objective-box {
-      background: var(--correct-light);
-      border: 2px solid var(--correct);
-      border-radius: var(--radius-lg);
+    /* Football Field Progress Bar */
+    .field-progress {
+      background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+      border-radius: var(--radius-xl);
       padding: var(--space-lg);
       margin-bottom: var(--space-xl);
-    }
-
-    .objective-box h4 {
-      color: #1B5E20;
-      margin-bottom: var(--space-md);
-    }
-
-    .lesson-complete {
-      text-align: center;
-      padding: var(--space-2xl);
-      background: var(--card-bg);
-      border-radius: var(--radius-xl);
       box-shadow: 0 4px 20px var(--shadow);
     }
 
-    .lesson-complete h2 {
+    .field-matchup {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-md);
+    }
+
+    .field-team {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .field-team-logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .field-team-name {
+      color: white;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+
+    .field-vs {
+      color: #888;
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+
+    .field-container {
+      position: relative;
+      height: 50px;
+      background: linear-gradient(90deg,
+        var(--eagles-green, #004C54) 0%,
+        var(--eagles-green, #004C54) 10%,
+        var(--field-green) 10%,
+        var(--field-green) 90%,
+        var(--opponent-color, #002244) 90%,
+        var(--opponent-color, #002244) 100%);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .field-yard-markers {
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .field-yard-marker {
+      width: 2px;
+      height: 100%;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .field-yard-labels {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 10%;
+      margin-top: var(--space-xs);
+    }
+
+    .field-yard-label {
+      color: #888;
+      font-size: 0.625rem;
+      font-weight: 600;
+    }
+
+    .field-football {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.5rem;
+      transition: left 0.5s ease;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+      z-index: 10;
+    }
+
+    .field-end-zone {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .field-end-zone.eagles {
+      left: 0;
+      width: 10%;
+      background: var(--eagles-green, #004C54);
+    }
+
+    .field-end-zone.opponent {
+      right: 0;
+      width: 10%;
+      background: var(--opponent-color, #002244);
+    }
+
+    .field-status {
+      text-align: center;
+      color: #888;
+      font-size: 0.75rem;
+      margin-top: var(--space-sm);
+    }
+
+    .field-status strong {
+      color: white;
+    }
+
+    :root {
+      --eagles-green: #004C54;
+      --opponent-color: #002244; /* Cowboys blue */
+    }
+
+    .feedback {
+      padding: var(--space-lg);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      font-weight: 700;
+      margin: var(--space-lg) 0;
+      display: none;
+    }
+
+    .feedback.correct {
+      background: var(--correct-light);
       color: var(--correct);
+      display: block;
+    }
+
+    .feedback.incorrect {
+      background: var(--incorrect-light);
+      color: var(--incorrect);
+      display: block;
+    }
+
+    .feedback.info {
+      background: var(--info-light);
+      color: var(--info);
+      display: block;
+    }
+
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: var(--space-2xl);
+      margin-bottom: var(--space-2xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--border);
+    }
+
+    .score-display {
+      display: flex;
+      gap: var(--space-xl);
+      justify-content: center;
+      background: var(--background);
+      padding: var(--space-lg);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .score-item {
+      text-align: center;
+    }
+
+    .score-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--field-green);
+    }
+
+    .score-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .activity-complete {
+      text-align: center;
+      padding: var(--space-xl);
+      background: var(--correct-light);
+      border-radius: var(--radius-lg);
+      display: none;
+    }
+
+    .activity-complete.show {
+      display: block;
+    }
+
+    .activity-complete h3 {
+      color: var(--correct);
+      margin-bottom: var(--space-md);
+    }
+
+    .check-btn {
+      margin-top: var(--space-lg);
     }
   </style>
 </head>
@@ -268,11 +516,17 @@
       <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">☰</button>
       <ul class="nav-menu" id="navMenu">
         <li><a href="../../index.html" class="nav-link">Home</a></li>
-        <li><a href="../../diagnostic/index.html" class="nav-link">Skills Check</a></li>
-        <li><a href="../index.html" class="nav-link active">Lessons</a></li>
         <li><a href="../../practice/index.html" class="nav-link">Practice</a></li>
-        <li><a href="../../tools/number-line.html" class="nav-link">Number Line</a></li>
-        <li><a href="../../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+        <li><a href="../../lessons/index.html" class="nav-link active">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../../super-extra-curricular/index.html" class="nav-dropdown-link">Super Extra</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </nav>
@@ -281,7 +535,7 @@
     <div class="container">
       <div class="breadcrumb breadcrumb-light">
         <a href="../index.html">Lessons</a>
-        <span>›</span>
+        <span>></span>
         <span>Lesson 1</span>
       </div>
       <h1>Lesson 1: Equal Parts</h1>
@@ -290,463 +544,527 @@
   </header>
 
   <main class="container">
-    <!-- Online Badge -->
-    <div class="online-badge" style="background: #e8f5e9; border: 2px solid #2E7D32; padding: 8px 16px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
-      💻 <strong>ONLINE LESSON</strong> - Do this on the computer with a parent or guardian!
-    </div>
-
-    <!-- Lesson Navigation -->
-    <div class="lesson-nav">
-      <span class="text-muted">← No previous lesson</span>
-      <a href="../02-improper-fractions/index.html">Lesson 2: Improper Fractions →</a>
-    </div>
-
-    <!-- Learning Objective -->
-    <div class="objective-box">
-      <h4>🎯 What You'll Learn</h4>
-      <p>Fractions only work when something is split into <strong>truly equal parts</strong>. By the end of this lesson, you'll be able to spot equal parts AND create them yourself!</p>
-    </div>
-
-    <!-- Concept Explanation -->
-    <div class="concept-box" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 4px solid var(--field-green); border-radius: var(--radius-md); padding: var(--space-lg); margin: var(--space-lg) 0;">
-      <h4 style="color: var(--field-green); margin-bottom: var(--space-md);">🧠 The Big Idea: What Are Equal Parts?</h4>
-
-      <div style="margin-bottom: var(--space-md);">
-        <strong>The Simple Explanation:</strong>
-        <p style="margin-top: var(--space-sm);">When you cut something into pieces, those pieces are "equal" only if they're the EXACT same size. Not "kinda the same" or "close enough" - they have to be EXACTLY the same. If you cut a pizza into 4 slices but one slice is huge and another is tiny, those aren't equal parts! Fractions only work when every piece is the same size as the others.</p>
-      </div>
-
-      <div style="background: white; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
-        <strong>🏈 The Football Way to Think About It:</strong>
-        <p style="margin-top: var(--space-sm);">Picture a football field. It's 100 yards long, and it's marked every 10 yards with those white lines. Each section between the lines is EXACTLY 10 yards - not 9 yards here and 11 yards there. That's why refs can make fair calls! If you're at the 50-yard line, you're EXACTLY in the middle. The field only works because every 10-yard section is truly equal.</p>
-        <p style="margin-top: var(--space-sm);">Or think about dividing your flag football team into groups. If you have 8 players and need 2 equal groups, each group needs EXACTLY 4 players. You can't put 5 in one group and 3 in another and call them "equal" - that wouldn't be fair!</p>
-      </div>
-
-      <div style="background: #fff3e0; border-radius: var(--radius-sm); padding: var(--space-md); margin-top: var(--space-md);">
-        <strong>⛏️ The Minecraft Way to Think About It:</strong>
-        <p style="margin-top: var(--space-sm);">In Minecraft, every block is the EXACT same size - 1 cubic meter. When you build a 4-block wide bridge, each block takes up exactly 1/4 of the width. That's why building works perfectly in Minecraft! Imagine if blocks were random sizes - your builds would be a total mess. Equal parts make everything work.</p>
-      </div>
-    </div>
-
-    <!-- Materials -->
-    <div class="materials-box">
-      <h4>📦 Materials Needed</h4>
-      <ul class="materials-list">
-        <li>📄 Several sheets of paper</li>
-        <li>✂️ Scissors</li>
-        <li>🎨 Play-doh or modeling clay</li>
-        <li>🍫 Chocolate bar (optional, for eating!)</li>
-        <li>✏️ Pencil and blank paper</li>
-      </ul>
-    </div>
-
-    <!-- CPA Stage Indicator -->
-    <div class="cpa-stages">
-      <div class="cpa-stage active" id="concreteStage">
-        <div class="cpa-stage-icon">🧱</div>
-        <div class="cpa-stage-label">Concrete</div>
-      </div>
-      <div class="cpa-stage" id="pictorialStage">
-        <div class="cpa-stage-icon">✏️</div>
-        <div class="cpa-stage-label">Pictorial</div>
-      </div>
-      <div class="cpa-stage" id="abstractStage">
-        <div class="cpa-stage-icon">🔢</div>
-        <div class="cpa-stage-label">Abstract</div>
-      </div>
-    </div>
-
-    <!-- CONCRETE Activities -->
-    <section class="activity-section">
-      <div class="activity-card">
-        <div class="activity-header concrete">
-          <span class="activity-icon">🧱</span>
-          <div>
-            <h3 style="margin:0">Concrete Activities</h3>
-            <p style="margin:0; opacity:0.9">Hands-on exploration with real objects</p>
+    <div class="lesson-container">
+      <!-- Football Field Progress Bar -->
+      <div class="field-progress">
+        <div class="field-matchup">
+          <div class="field-team">
+            <img src="../../images/nfl-logos/eagles.png" alt="Eagles" class="field-team-logo">
+            <span class="field-team-name">Eagles</span>
+          </div>
+          <span class="field-vs">WILD CARD ROUND</span>
+          <div class="field-team">
+            <span class="field-team-name">Cowboys</span>
+            <img src="../../images/nfl-logos/cowboys.png" alt="Cowboys" class="field-team-logo">
           </div>
         </div>
-        <div class="activity-body">
-          <div class="activity-steps">
-            <!-- Activity 1: Paper Folding -->
-            <div class="activity-step">
-              <div class="step-number"></div>
-              <div class="step-content">
-                <h4>Paper Folding: Making Halves</h4>
-                <p>Take a sheet of paper and fold it in half.</p>
-
-                <div class="parent-script">
-                  Before you fold, here's a challenge: What should be true about the two parts when you fold it in half? Make a prediction!
-                </div>
-
-                <p>Let your child fold the paper. Then ask them to open it up.</p>
-
-                <div class="key-question">
-                  How can you PROVE these are truly equal halves? Here's a pro tip: Try stacking one part on top of the other!
-                </div>
-
-                <p>Now try folding the same paper a different way (hamburger vs hotdog fold). Ask:</p>
-
-                <div class="parent-script">
-                  Are both of these still halves? How do you know?
-                </div>
-
-                <div class="alert alert-success">
-                  <strong>Key Insight:</strong> There's more than one way to divide something into equal parts! Both are halves because both pieces are the same size, even though they're different shapes.
-                </div>
-              </div>
-            </div>
-
-            <!-- Activity 2: Paper Folding Fourths -->
-            <div class="activity-step">
-              <div class="step-number"></div>
-              <div class="step-content">
-                <h4>Paper Folding: Making Fourths</h4>
-                <p>Now challenge your child to fold a NEW piece of paper into <strong>four equal parts</strong>.</p>
-
-                <div class="parent-script">
-                  Can you figure out how to fold this paper so you have 4 equal parts? There's more than one way to do it!
-                </div>
-
-                <p>Encourage them to try multiple approaches:</p>
-                <ul>
-                  <li>Fold in half, then in half again (makes 4 rectangles)</li>
-                  <li>Fold diagonally both ways (makes 4 triangles)</li>
-                  <li>Fold in half horizontally, then vertically (makes 4 squares)</li>
-                </ul>
-
-                <div class="key-question">
-                  Are all these fourths? How can you prove it?
-                </div>
-
-                <p>Have them cut out the pieces and stack them to verify they're equal.</p>
-              </div>
-            </div>
-
-            <!-- Activity 3: Unfair Sharing -->
-            <div class="activity-step">
-              <div class="step-number"></div>
-              <div class="step-content">
-                <h4>The Unfair Sharing Game</h4>
-                <p>Take a piece of play-doh and make it into a rectangle (like a brownie).</p>
-
-                <div class="parent-script">
-                  I'm going to share this brownie between us... but wait, I'm going to do it UNFAIRLY on purpose. Watch carefully and catch me being sneaky!
-                </div>
-
-                <p>Deliberately cut it into unequal pieces and take the bigger one. Ham it up!</p>
-
-                <div class="key-question">
-                  Hey, is this fair? What's wrong with how I shared it? How would YOU fix it to make it truly fair?
-                </div>
-
-                <p>Let your child fix it by making truly equal parts.</p>
-
-                <div class="alert alert-info">
-                  <strong>Here's the big idea:</strong> When we say 1/2, we mean 1 of 2 EQUAL parts. If the parts aren't equal, it's not really 1/2! That's why equal parts matter so much.
-                </div>
-              </div>
-            </div>
-
-            <!-- Activity 4: Equal Parts Detective -->
-            <div class="activity-step">
-              <div class="step-number"></div>
-              <div class="step-content">
-                <h4>Equal Parts Detective</h4>
-                <p>Make several shapes with play-doh and divide them different ways - some equal, some NOT equal.</p>
-
-                <div class="parent-script">
-                  Time to be a detective! Some of these shapes are divided into truly equal parts... and some are just PRETENDING. Can you spot the fakes?
-                </div>
-
-                <p>For each shape, ask:</p>
-                <ul>
-                  <li>"Are these equal parts? How do you know?"</li>
-                  <li>"How could you prove it?" (Take apart and compare)</li>
-                  <li>"If this isn't equal, how could you fix it?"</li>
-                </ul>
-              </div>
-            </div>
+        <div class="field-container">
+          <div class="field-end-zone eagles">GO</div>
+          <div class="field-yard-markers">
+            <div class="field-yard-marker"></div>
+            <div class="field-yard-marker"></div>
+            <div class="field-yard-marker"></div>
+            <div class="field-yard-marker"></div>
+            <div class="field-yard-marker"></div>
           </div>
+          <div class="field-football" id="footballPosition" style="left: 10%;">🏈</div>
+          <div class="field-end-zone opponent">TD</div>
+        </div>
+        <div class="field-yard-labels">
+          <span class="field-yard-label">0</span>
+          <span class="field-yard-label">25</span>
+          <span class="field-yard-label">50</span>
+          <span class="field-yard-label">75</span>
+          <span class="field-yard-label">100</span>
+        </div>
+        <div class="field-status">
+          <span id="yardsDisplay"><strong>0</strong> yards gained • <strong>100</strong> yards to TD</span>
         </div>
       </div>
-    </section>
 
-    <!-- PICTORIAL Activities -->
-    <section class="activity-section">
-      <div class="activity-card">
-        <div class="activity-header pictorial">
-          <span class="activity-icon">✏️</span>
-          <div>
-            <h3 style="margin:0">Pictorial Activities</h3>
-            <p style="margin:0; opacity:0.9">Drawing and visual representations</p>
-          </div>
+      <!-- Score Display -->
+      <div class="score-display">
+        <div class="score-item">
+          <div class="score-value" id="scoreValue">0</div>
+          <div class="score-label">Points</div>
         </div>
-        <div class="activity-body">
-          <div class="activity-steps">
-            <!-- Activity 5: Identify Equal Parts -->
-            <div class="activity-step">
-              <div class="step-number"></div>
-              <div class="step-content">
-                <h4>Spot the Equal Parts</h4>
-                <p>Look at these shapes. Which ones are divided into TRUE equal parts?</p>
-
-                <div class="shape-grid">
-                  <div class="shape-example">
-                    <svg viewBox="0 0 100 60" width="100" height="60">
-                      <rect x="1" y="1" width="98" height="58" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
-                      <line x1="50" y1="1" x2="50" y2="59" stroke="#2E7D32" stroke-width="1"/>
-                    </svg>
-                    <div class="shape-label correct">✓ Equal halves</div>
-                  </div>
-                  <div class="shape-example">
-                    <svg viewBox="0 0 100 60" width="100" height="60">
-                      <rect x="1" y="1" width="98" height="58" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
-                      <line x1="30" y1="1" x2="30" y2="59" stroke="#c62828" stroke-width="1"/>
-                    </svg>
-                    <div class="shape-label incorrect">✗ NOT equal</div>
-                  </div>
-                  <div class="shape-example">
-                    <svg viewBox="0 0 100 60" width="100" height="60">
-                      <rect x="1" y="1" width="98" height="58" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
-                      <line x1="25" y1="1" x2="25" y2="59" stroke="#2E7D32" stroke-width="1"/>
-                      <line x1="50" y1="1" x2="50" y2="59" stroke="#2E7D32" stroke-width="1"/>
-                      <line x1="75" y1="1" x2="75" y2="59" stroke="#2E7D32" stroke-width="1"/>
-                    </svg>
-                    <div class="shape-label correct">✓ Equal fourths</div>
-                  </div>
-                  <div class="shape-example">
-                    <svg viewBox="0 0 100 60" width="100" height="60">
-                      <rect x="1" y="1" width="98" height="58" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
-                      <line x1="50" y1="1" x2="50" y2="59" stroke="#c62828" stroke-width="1"/>
-                      <line x1="50" y1="30" x2="99" y2="30" stroke="#c62828" stroke-width="1"/>
-                    </svg>
-                    <div class="shape-label incorrect">✗ NOT equal (left side is bigger than the others!)</div>
-                  </div>
-                </div>
-
-                <div class="key-question">
-                  The last shape has 3 pieces. Why isn't it divided into thirds?
-                </div>
-              </div>
-            </div>
-
-            <!-- Activity 6: Draw Your Own -->
-            <div class="activity-step">
-              <div class="step-number"></div>
-              <div class="step-content">
-                <h4>Draw Your Own Equal Parts</h4>
-                <p>Using blank paper, draw rectangles and divide them:</p>
-
-                <ol>
-                  <li>Draw a rectangle and divide it into <strong>2 equal parts</strong> (TWO different ways)</li>
-                  <li>Draw a rectangle and divide it into <strong>4 equal parts</strong> (TWO different ways)</li>
-                  <li>Draw a rectangle and divide it into <strong>3 equal parts</strong></li>
-                </ol>
-
-                <div class="parent-script">
-                  After each one, ask: "How do you know these parts are equal?"
-                </div>
-
-                <div class="alert alert-warning">
-                  <strong>Common Challenge:</strong> Thirds are harder than halves or fourths! That's okay. The struggle is part of learning. Ask: "What makes thirds trickier?"
-                </div>
-              </div>
-            </div>
-
-            <!-- Activity 7: Bar Model Introduction -->
-            <div class="activity-step">
-              <div class="step-number"></div>
-              <div class="step-content">
-                <h4>Introduction to Bar Models</h4>
-                <p>A <strong>bar model</strong> is a special rectangle we use to show fractions. Let's practice drawing them.</p>
-
-                <div class="visual-example">
-                  <p><strong>This bar shows 1 whole:</strong></p>
-                  <div style="display: flex; justify-content: center;">
-                    <div style="width: 300px; height: 50px; background: var(--correct-light); border: 2px solid var(--field-green); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
-                      1 whole
-                    </div>
-                  </div>
-                </div>
-
-                <div class="visual-example">
-                  <p><strong>This bar shows fourths:</strong></p>
-                  <div style="display: flex; justify-content: center;">
-                    <div style="width: 300px; height: 50px; display: flex; border: 2px solid var(--field-green); border-radius: 8px; overflow: hidden;">
-                      <div style="flex:1; background: var(--correct-light); border-right: 1px solid var(--field-green); display: flex; align-items: center; justify-content: center;">1/4</div>
-                      <div style="flex:1; background: var(--correct-light); border-right: 1px solid var(--field-green); display: flex; align-items: center; justify-content: center;">1/4</div>
-                      <div style="flex:1; background: var(--correct-light); border-right: 1px solid var(--field-green); display: flex; align-items: center; justify-content: center;">1/4</div>
-                      <div style="flex:1; background: var(--correct-light); display: flex; align-items: center; justify-content: center;">1/4</div>
-                    </div>
-                  </div>
-                </div>
-
-                <p>Practice drawing bar models for: halves, thirds, sixths, eighths.</p>
-              </div>
-            </div>
-          </div>
+        <div class="score-item">
+          <div class="score-value" id="activityNum">1</div>
+          <div class="score-label">of 3 Activities</div>
         </div>
       </div>
-    </section>
 
-    <!-- Football Connection -->
-    <div class="football-callout">
-      <h3>🏈 Football Connection: Eagles Practice Drills</h3>
-      <p>Imagine you're the Eagles' coach and you need to divide the practice field into equal sections for Jalen Hurts, Cooper DeJean, and the rest of the team.</p>
-      <ul>
-        <li>If you have 2 groups (offense and defense), you need <strong>halves</strong> - 2 equal sections</li>
-        <li>If you have 4 position groups, you need <strong>fourths</strong> - 4 equal sections</li>
-        <li>The football field is 100 yards. If you divide it into 4 equal parts, how long is each part? <strong>(25 yards!)</strong></li>
-      </ul>
-
-      <div style="margin-top: var(--space-md); padding: var(--space-md); background: rgba(255,255,255,0.15); border-radius: var(--radius-md);">
-        <strong>Think like a coach:</strong> If the Packers' practice field is split unfairly, some players get more room than others. Jordan Love wouldn't have as much space to throw as he needs!
-      </div>
-
-      <p style="margin-top: var(--space-md);"><strong>Key insight:</strong> The parts MUST be equal or some players would have more room than others - not fair!</p>
-    </div>
-
-    <!-- ABSTRACT Connection -->
-    <section class="activity-section">
-      <div class="activity-card">
-        <div class="activity-header abstract">
-          <span class="activity-icon">🔢</span>
-          <div>
-            <h3 style="margin:0">Abstract: Fraction Notation</h3>
-            <p style="margin:0; opacity:0.9">Connecting to symbols</p>
-          </div>
-        </div>
-        <div class="activity-body">
-          <p>Now that you understand equal parts, let's connect to fraction notation:</p>
-
-          <div class="visual-example">
-            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-xl); flex-wrap: wrap;">
-              <div>
-                <div style="width: 200px; height: 50px; display: flex; border: 2px solid var(--field-green); border-radius: 8px; overflow: hidden;">
-                  <div style="flex:1; background: #64B5F6; border-right: 1px solid var(--field-green);"></div>
-                  <div style="flex:1; background: var(--correct-light); border-right: 1px solid var(--field-green);"></div>
-                  <div style="flex:1; background: var(--correct-light); border-right: 1px solid var(--field-green);"></div>
-                  <div style="flex:1; background: var(--correct-light);"></div>
-                </div>
-              </div>
-              <div style="font-size: 2rem;">=</div>
-              <div style="display: flex; flex-direction: column; align-items: center;">
-                <span style="font-size: 2rem; font-weight: 700; border-bottom: 3px solid var(--text);">1</span>
-                <span style="font-size: 2rem; font-weight: 700;">4</span>
-              </div>
-            </div>
-            <p class="mt-md"><strong>1/4</strong> means: 1 part out of 4 EQUAL parts</p>
-          </div>
-
-          <div class="alert alert-info mt-lg">
-            <div class="alert-title">Vocabulary Check</div>
-            <ul>
-              <li><strong>Denominator (bottom number):</strong> Tells how many EQUAL parts the whole is divided into - it's the "name" of the fraction (fourths, eighths, etc.)</li>
-              <li><strong>Numerator (top number):</strong> Tells how many parts we're talking about</li>
-            </ul>
-          </div>
-
-          <div class="key-question">
-            Why is it SO important that the parts are equal? What would happen if 1/4 didn't mean equal fourths?
-          </div>
+      <!-- Concept Introduction -->
+      <div class="concept-intro">
+        <h3>Coach's Lesson: What Are Equal Parts?</h3>
+        <p><strong>The WHY:</strong> Equal parts matter because fractions only work when every piece is the EXACT same size. If you cut a pizza into "halves" but one piece is bigger, that's not fair - and it's not really halves!</p>
+        <p style="margin-top: var(--space-md);"><strong>The Rule:</strong> When you divide something into pieces, those pieces are "equal" only if they're the <strong>EXACT same size</strong>. Not "kinda the same" or "close enough" - they have to be EXACTLY the same!</p>
+        <p style="margin-top: var(--space-md);"><strong>How to Check:</strong> Imagine cutting out each piece and stacking them. If they match up perfectly, they're equal. If one hangs over the edge, they're NOT equal.</p>
+        <div class="football-callout" style="margin-top: var(--space-lg);">
+          <strong>Football Connection:</strong> Picture a football field - it's 100 yards, marked every 10 yards. Each section is EXACTLY 10 yards, not 9 here and 11 there. When <strong>Jalen Hurts</strong> throws to <strong>A.J. Brown</strong>, they know EXACTLY how far to run because those yard lines are equal parts. Coach <strong>Nick Sirianni</strong> divides practice time so each drill gets the SAME amount - that's fair. The Eagles win because they understand equal parts. The Cowboys? Let's just say their playbook might not be divided so perfectly...
         </div>
       </div>
-    </section>
 
-    <!-- Reflection -->
-    <section class="activity-section">
-      <div class="card">
-        <div class="card-header">
-          <h3 style="margin:0">💭 Lesson Reflection</h3>
+      <!-- Activity 1: Spot the Equal Parts -->
+      <div class="activity-section" id="activity1">
+        <div class="activity-header">
+          <div class="activity-number">1</div>
+          <div class="activity-title">Spot the Equal Parts</div>
         </div>
-        <div class="card-body">
-          <p>Before finishing, have your child answer these questions:</p>
+        <p>Click on ALL the shapes that are divided into <strong>truly equal parts</strong>. Be careful - some look close but aren't equal!</p>
 
-          <div class="thinking-box">
-            <div class="thinking-box-header">Teach Me!</div>
-            <p>Pretend I don't know anything about fractions. Explain to me why the parts have to be EQUAL.</p>
-          </div>
+        <div class="shapes-grid" id="shapesGrid">
+          <!-- Shapes will be rendered by JS -->
+        </div>
 
-          <div class="thinking-box">
-            <div class="thinking-box-header">Real Life Connection</div>
-            <p>Where in real life would you need to divide something into equal parts? (pizza, fair sharing, splitting time, etc.)</p>
-          </div>
+        <div class="feedback" id="feedback1"></div>
+
+        <button class="btn btn-primary btn-large check-btn" id="checkBtn1" onclick="Lesson.checkActivity1()">Check My Answers</button>
+
+        <div class="activity-complete" id="complete1">
+          <h3>Great Job!</h3>
+          <p>You correctly identified the equal parts!</p>
+          <button class="btn btn-primary" onclick="Lesson.showActivity(2)">Continue to Activity 2</button>
         </div>
       </div>
-    </section>
 
-    <!-- Mark Complete & Next Steps -->
-    <div class="lesson-complete" id="lessonComplete">
-      <h2>🎉 Great Work!</h2>
-      <p>You've completed the Equal Parts lesson. You now understand the foundation of all fractions!</p>
-      <div class="flex-center gap-md mt-lg">
-        <a href="worksheet.html" class="btn btn-primary btn-large">Complete Worksheet</a>
-        <button class="btn btn-success btn-large" onclick="markLessonComplete()">Mark Lesson Complete</button>
+      <!-- Activity 2: Divide the Shape -->
+      <div class="activity-section" id="activity2" style="display: none;">
+        <div class="activity-header">
+          <div class="activity-number">2</div>
+          <div class="activity-title">Divide the Bar</div>
+        </div>
+        <p>Use the + and - buttons to divide this bar into the number of <strong>equal parts</strong> shown. Watch how the parts change!</p>
+
+        <div id="divideChallenge">
+          <!-- Will be rendered by JS -->
+        </div>
+
+        <div class="feedback" id="feedback2"></div>
+
+        <div class="activity-complete" id="complete2">
+          <h3>Perfect Division!</h3>
+          <p>You understand how to create equal parts!</p>
+          <button class="btn btn-primary" onclick="Lesson.showActivity(3)">Continue to Activity 3</button>
+        </div>
       </div>
-      <p class="text-muted mt-lg">Next up: Lesson 2 - Improper Fractions & Mixed Numbers</p>
+
+      <!-- Activity 3: Sort the Shapes -->
+      <div class="activity-section" id="activity3" style="display: none;">
+        <div class="activity-header">
+          <div class="activity-number">3</div>
+          <div class="activity-title">Sort Equal vs Not Equal</div>
+        </div>
+        <p>Drag each shape into the correct bin. Does it have equal parts or not?</p>
+
+        <div class="unsorted-area" id="unsortedArea">
+          <div class="unsorted-title">Drag these shapes to the correct bin:</div>
+          <div class="sort-items" id="unsortedItems">
+            <!-- Items will be rendered by JS -->
+          </div>
+        </div>
+
+        <div class="sorting-area">
+          <div class="sort-bin equal-bin" id="equalBin">
+            <div class="sort-bin-title">Equal Parts</div>
+            <div class="sort-items" id="equalItems"></div>
+          </div>
+          <div class="sort-bin not-equal-bin" id="notEqualBin">
+            <div class="sort-bin-title">NOT Equal Parts</div>
+            <div class="sort-items" id="notEqualItems"></div>
+          </div>
+        </div>
+
+        <div class="feedback" id="feedback3"></div>
+
+        <button class="btn btn-primary btn-large check-btn" id="checkBtn3" onclick="Lesson.checkActivity3()">Check My Sorting</button>
+
+        <div class="activity-complete" id="complete3">
+          <h3>Lesson Complete!</h3>
+          <p>You now understand equal parts - the foundation of fractions!</p>
+          <button class="btn btn-success btn-large" onclick="Lesson.completeLesson()">Finish Lesson</button>
+        </div>
+      </div>
+
+      <!-- Lesson Navigation -->
+      <div class="lesson-nav">
+        <span class="text-muted">← First Lesson</span>
+        <a href="../02-improper-fractions/index.html" class="btn btn-secondary">Next: Improper Fractions →</a>
+      </div>
     </div>
   </main>
 
   <script src="../../js/storage.js"></script>
+  <script src="../../js/fractions.js"></script>
   <script src="../../js/app.js"></script>
+  <script src="../../js/coaches-corner.js"></script>
   <script>
-    // Mark lesson as started
-    Storage.startLesson(1);
+    const Lesson = {
+      score: 0,
+      currentActivity: 1,
+      totalActivities: 3,
 
-    // Update CPA stages based on scroll or interaction
-    function updateCPAStages(stage) {
-      document.querySelectorAll('.cpa-stage').forEach(el => el.classList.remove('active'));
-      document.getElementById(stage + 'Stage').classList.add('active');
-    }
+      // Activity 1 data - shapes to identify
+      activity1Shapes: [
+        { id: 1, isEqual: true, svg: '<rect x="2" y="10" width="76" height="40" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/><line x1="40" y1="10" x2="40" y2="50" stroke="#2E7D32" stroke-width="1.5"/>', label: 'Halves' },
+        { id: 2, isEqual: false, svg: '<rect x="2" y="10" width="76" height="40" fill="#fff3e0" stroke="#E65100" stroke-width="2"/><line x1="25" y1="10" x2="25" y2="50" stroke="#E65100" stroke-width="1.5"/>', label: 'Two parts' },
+        { id: 3, isEqual: true, svg: '<rect x="2" y="10" width="76" height="40" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/><line x1="20" y1="10" x2="20" y2="50" stroke="#2E7D32" stroke-width="1"/><line x1="40" y1="10" x2="40" y2="50" stroke="#2E7D32" stroke-width="1"/><line x1="60" y1="10" x2="60" y2="50" stroke="#2E7D32" stroke-width="1"/>', label: 'Fourths' },
+        { id: 4, isEqual: false, svg: '<rect x="2" y="10" width="76" height="40" fill="#fff3e0" stroke="#E65100" stroke-width="2"/><line x1="40" y1="10" x2="40" y2="50" stroke="#E65100" stroke-width="1"/><line x1="40" y1="30" x2="78" y2="30" stroke="#E65100" stroke-width="1"/>', label: 'Three parts' },
+        { id: 5, isEqual: true, svg: '<circle cx="40" cy="30" r="25" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/><line x1="40" y1="5" x2="40" y2="55" stroke="#2E7D32" stroke-width="1.5"/>', label: 'Circle halves' },
+        { id: 6, isEqual: false, svg: '<circle cx="40" cy="30" r="25" fill="#fff3e0" stroke="#E65100" stroke-width="2"/><line x1="40" y1="5" x2="40" y2="55" stroke="#E65100" stroke-width="1"/><line x1="40" y1="30" x2="65" y2="30" stroke="#E65100" stroke-width="1"/>', label: 'Circle parts' },
+      ],
+      activity1Selected: new Set(),
 
-    // Set up Intersection Observer to track which section is visible
-    document.addEventListener('DOMContentLoaded', function() {
-      const sections = {
-        concrete: document.querySelector('.activity-header.concrete')?.closest('.activity-card'),
-        pictorial: document.querySelector('.activity-header.pictorial')?.closest('.activity-card'),
-        abstract: document.querySelector('.activity-header.abstract')?.closest('.activity-card')
-      };
+      // Activity 2 data - divide challenges
+      divideGoals: [2, 4, 3],
+      currentDivideIndex: 0,
+      currentDivisions: 1,
 
-      const observerOptions = {
-        root: null,
-        rootMargin: '-20% 0px -60% 0px', // Trigger when section is in upper portion of viewport
-        threshold: 0
-      };
+      // Activity 3 data - sorting
+      activity3Shapes: [
+        { id: 's1', isEqual: true, svg: '<rect x="2" y="5" width="56" height="30" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/><line x1="30" y1="5" x2="30" y2="35" stroke="#2E7D32" stroke-width="1.5"/>' },
+        { id: 's2', isEqual: false, svg: '<rect x="2" y="5" width="56" height="30" fill="#fff3e0" stroke="#E65100" stroke-width="2"/><line x1="20" y1="5" x2="20" y2="35" stroke="#E65100" stroke-width="1.5"/>' },
+        { id: 's3', isEqual: true, svg: '<rect x="2" y="5" width="56" height="30" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/><line x1="15" y1="5" x2="15" y2="35" stroke="#2E7D32" stroke-width="1"/><line x1="30" y1="5" x2="30" y2="35" stroke="#2E7D32" stroke-width="1"/><line x1="45" y1="5" x2="45" y2="35" stroke="#2E7D32" stroke-width="1"/>' },
+        { id: 's4', isEqual: false, svg: '<rect x="2" y="5" width="56" height="30" fill="#fff3e0" stroke="#E65100" stroke-width="2"/><line x1="30" y1="5" x2="30" y2="35" stroke="#E65100" stroke-width="1"/><line x1="45" y1="5" x2="45" y2="35" stroke="#E65100" stroke-width="1"/>' },
+        { id: 's5', isEqual: true, svg: '<circle cx="30" cy="20" r="15" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/><line x1="15" y1="20" x2="45" y2="20" stroke="#2E7D32" stroke-width="1.5"/>' },
+        { id: 's6', isEqual: false, svg: '<circle cx="30" cy="20" r="15" fill="#fff3e0" stroke="#E65100" stroke-width="2"/><line x1="30" y1="5" x2="30" y2="35" stroke="#E65100" stroke-width="1"/><line x1="30" y1="20" x2="45" y2="20" stroke="#E65100" stroke-width="1"/>' },
+      ],
+      sortedItems: { equal: [], notEqual: [] },
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            // Find which section this is
-            for (const [stage, element] of Object.entries(sections)) {
-              if (element === entry.target) {
-                updateCPAStages(stage);
-                break;
+      init() {
+        Storage.startLesson(1);
+        this.renderActivity1();
+        this.renderActivity2();
+        this.renderActivity3();
+        this.setupDragAndDrop();
+        this.updateProgress();
+      },
+
+      renderActivity1() {
+        const grid = document.getElementById('shapesGrid');
+        grid.innerHTML = this.activity1Shapes.map(shape => `
+          <div class="shape-card" data-id="${shape.id}" onclick="Lesson.toggleShape(${shape.id})">
+            <svg viewBox="0 0 80 60">${shape.svg}</svg>
+            <div class="shape-label">${shape.label}</div>
+          </div>
+        `).join('');
+      },
+
+      toggleShape(id) {
+        if (this.activity1Selected.has(id)) {
+          this.activity1Selected.delete(id);
+        } else {
+          this.activity1Selected.add(id);
+        }
+
+        // Update visual
+        const card = document.querySelector(`[data-id="${id}"]`);
+        card.classList.toggle('selected', this.activity1Selected.has(id));
+
+        // Clear previous feedback
+        document.getElementById('feedback1').className = 'feedback';
+      },
+
+      checkActivity1() {
+        const correctIds = this.activity1Shapes.filter(s => s.isEqual).map(s => s.id);
+        const selectedArray = Array.from(this.activity1Selected);
+
+        const allCorrectSelected = correctIds.every(id => selectedArray.includes(id));
+        const noIncorrectSelected = selectedArray.every(id => correctIds.includes(id));
+
+        const feedback = document.getElementById('feedback1');
+
+        if (allCorrectSelected && noIncorrectSelected) {
+          feedback.textContent = "Perfect! You found all the shapes with equal parts!";
+          feedback.className = 'feedback correct';
+          this.score += 10;
+          this.updateScore();
+          document.getElementById('checkBtn1').style.display = 'none';
+          document.getElementById('complete1').classList.add('show');
+
+          // Mark shapes
+          this.activity1Shapes.forEach(shape => {
+            const card = document.querySelector(`[data-id="${shape.id}"]`);
+            card.classList.remove('selected');
+            card.classList.add(shape.isEqual ? 'correct' : 'incorrect');
+          });
+        } else if (selectedArray.length === 0) {
+          feedback.textContent = "Click on the shapes that have equal parts, then check again!";
+          feedback.className = 'feedback info';
+        } else {
+          feedback.textContent = "Not quite! Remember: equal parts must be the EXACT same size. Try again!";
+          feedback.className = 'feedback incorrect';
+        }
+      },
+
+      renderActivity2() {
+        const container = document.getElementById('divideChallenge');
+        this.renderDivideChallenge(container);
+      },
+
+      renderDivideChallenge(container) {
+        const goal = this.divideGoals[this.currentDivideIndex];
+        container.innerHTML = `
+          <div class="divide-container">
+            <p style="font-size: 1.25rem; margin-bottom: var(--space-md);">
+              Divide this bar into <strong style="color: var(--field-green); font-size: 1.5rem;">${goal}</strong> equal parts
+            </p>
+
+            <div class="divide-shape" id="divideShape">
+              ${this.renderDivideSections()}
+            </div>
+
+            <p style="margin-top: var(--space-md);">
+              Current: <strong>${this.currentDivisions}</strong> part${this.currentDivisions > 1 ? 's' : ''}
+            </p>
+
+            <div class="divide-controls">
+              <button class="divide-btn" onclick="Lesson.changeDivisions(-1)" ${this.currentDivisions <= 1 ? 'disabled' : ''}>-</button>
+              <button class="divide-btn" onclick="Lesson.changeDivisions(1)" ${this.currentDivisions >= 8 ? 'disabled' : ''}>+</button>
+            </div>
+          </div>
+        `;
+      },
+
+      renderDivideSections() {
+        let html = '';
+        for (let i = 0; i < this.currentDivisions; i++) {
+          html += `<div class="divide-section">1/${this.currentDivisions}</div>`;
+        }
+        return html;
+      },
+
+      changeDivisions(delta) {
+        this.currentDivisions = Math.max(1, Math.min(8, this.currentDivisions + delta));
+        this.renderActivity2();
+
+        // Check if correct
+        const goal = this.divideGoals[this.currentDivideIndex];
+        if (this.currentDivisions === goal) {
+          const feedback = document.getElementById('feedback2');
+          feedback.textContent = `Yes! You divided it into ${goal} equal parts!`;
+          feedback.className = 'feedback correct';
+          this.score += 5;
+          this.updateScore();
+
+          setTimeout(() => {
+            this.currentDivideIndex++;
+            if (this.currentDivideIndex < this.divideGoals.length) {
+              this.currentDivisions = 1;
+              feedback.className = 'feedback';
+              this.renderActivity2();
+            } else {
+              document.getElementById('complete2').classList.add('show');
+            }
+          }, 1000);
+        }
+      },
+
+      renderActivity3() {
+        const container = document.getElementById('unsortedItems');
+        // Shuffle the shapes
+        const shuffled = [...this.activity3Shapes].sort(() => Math.random() - 0.5);
+        container.innerHTML = shuffled.map(shape => `
+          <div class="sort-item" draggable="true" data-id="${shape.id}" data-equal="${shape.isEqual}">
+            <svg viewBox="0 0 60 40">${shape.svg}</svg>
+          </div>
+        `).join('');
+      },
+
+      setupDragAndDrop() {
+        document.addEventListener('dragstart', (e) => {
+          if (e.target.classList.contains('sort-item')) {
+            e.target.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', e.target.dataset.id);
+          }
+        });
+
+        document.addEventListener('dragend', (e) => {
+          if (e.target.classList.contains('sort-item')) {
+            e.target.classList.remove('dragging');
+          }
+        });
+
+        document.addEventListener('dragover', (e) => {
+          if (e.target.closest('.sort-bin')) {
+            e.preventDefault();
+            e.target.closest('.sort-bin').classList.add('drag-over');
+          }
+        });
+
+        document.addEventListener('dragleave', (e) => {
+          if (e.target.closest('.sort-bin')) {
+            e.target.closest('.sort-bin').classList.remove('drag-over');
+          }
+        });
+
+        document.addEventListener('drop', (e) => {
+          const bin = e.target.closest('.sort-bin');
+          if (bin) {
+            e.preventDefault();
+            bin.classList.remove('drag-over');
+
+            const itemId = e.dataTransfer.getData('text/plain');
+            const item = document.querySelector(`.sort-item[data-id="${itemId}"]`);
+            const itemsContainer = bin.querySelector('.sort-items');
+
+            if (item && itemsContainer) {
+              itemsContainer.appendChild(item);
+
+              const isEqualBin = bin.classList.contains('equal-bin');
+
+              // Remove from tracking
+              this.sortedItems.equal = this.sortedItems.equal.filter(id => id !== itemId);
+              this.sortedItems.notEqual = this.sortedItems.notEqual.filter(id => id !== itemId);
+
+              // Add to correct tracking
+              if (isEqualBin) {
+                this.sortedItems.equal.push(itemId);
+              } else {
+                this.sortedItems.notEqual.push(itemId);
               }
             }
           }
         });
-      }, observerOptions);
 
-      // Observe each section
-      Object.values(sections).forEach(section => {
-        if (section) observer.observe(section);
-      });
+        // Touch support
+        let draggedItem = null;
+        let touchOffsetX = 0;
+        let touchOffsetY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+          const item = e.target.closest('.sort-item');
+          if (item) {
+            draggedItem = item;
+            const rect = item.getBoundingClientRect();
+            touchOffsetX = e.touches[0].clientX - rect.left;
+            touchOffsetY = e.touches[0].clientY - rect.top;
+            draggedItem.classList.add('dragging');
+          }
+        }, { passive: false });
+
+        document.addEventListener('touchmove', (e) => {
+          if (draggedItem) {
+            e.preventDefault();
+          }
+        }, { passive: false });
+
+        document.addEventListener('touchend', (e) => {
+          if (draggedItem) {
+            const touch = e.changedTouches[0];
+            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+            const bin = dropTarget?.closest('.sort-bin');
+
+            if (bin) {
+              const itemsContainer = bin.querySelector('.sort-items');
+              if (itemsContainer) {
+                itemsContainer.appendChild(draggedItem);
+
+                const itemId = draggedItem.dataset.id;
+                const isEqualBin = bin.classList.contains('equal-bin');
+
+                this.sortedItems.equal = this.sortedItems.equal.filter(id => id !== itemId);
+                this.sortedItems.notEqual = this.sortedItems.notEqual.filter(id => id !== itemId);
+
+                if (isEqualBin) {
+                  this.sortedItems.equal.push(itemId);
+                } else {
+                  this.sortedItems.notEqual.push(itemId);
+                }
+              }
+            }
+
+            draggedItem.classList.remove('dragging');
+            draggedItem = null;
+          }
+        });
+      },
+
+      checkActivity3() {
+        const unsorted = document.getElementById('unsortedItems').children.length;
+
+        if (unsorted > 0) {
+          const feedback = document.getElementById('feedback3');
+          feedback.textContent = "Sort all the shapes into bins first!";
+          feedback.className = 'feedback info';
+          return;
+        }
+
+        let allCorrect = true;
+
+        // Check equal bin
+        this.sortedItems.equal.forEach(id => {
+          const shape = this.activity3Shapes.find(s => s.id === id);
+          if (!shape.isEqual) allCorrect = false;
+        });
+
+        // Check not equal bin
+        this.sortedItems.notEqual.forEach(id => {
+          const shape = this.activity3Shapes.find(s => s.id === id);
+          if (shape.isEqual) allCorrect = false;
+        });
+
+        const feedback = document.getElementById('feedback3');
+
+        if (allCorrect) {
+          feedback.textContent = "Amazing! You sorted all the shapes correctly!";
+          feedback.className = 'feedback correct';
+          this.score += 15;
+          this.updateScore();
+          document.getElementById('checkBtn3').style.display = 'none';
+          document.getElementById('complete3').classList.add('show');
+        } else {
+          feedback.textContent = "Some shapes are in the wrong bin. Look carefully at whether the parts are the same size!";
+          feedback.className = 'feedback incorrect';
+        }
+      },
+
+      showActivity(num) {
+        for (let i = 1; i <= this.totalActivities; i++) {
+          document.getElementById(`activity${i}`).style.display = 'none';
+        }
+
+        document.getElementById(`activity${num}`).style.display = 'block';
+        this.currentActivity = num;
+        document.getElementById('activityNum').textContent = num;
+        this.updateProgress();
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      },
+
+      updateScore() {
+        document.getElementById('scoreValue').textContent = this.score;
+      },
+
+      updateProgress() {
+        // Calculate field position (10% = start, 90% = touchdown)
+        const progressPercent = (this.currentActivity - 1) / this.totalActivities;
+        const fieldPosition = 10 + (progressPercent * 80); // 10% to 90%
+        const yards = Math.round(progressPercent * 100);
+
+        document.getElementById('footballPosition').style.left = `${fieldPosition}%`;
+        document.getElementById('yardsDisplay').innerHTML =
+          `<strong>${yards}</strong> yards gained • <strong>${100 - yards}</strong> yards to TD`;
+      },
+
+      completeLesson() {
+        Storage.completeLesson(1);
+
+        // Move football to end zone
+        document.getElementById('footballPosition').style.left = '90%';
+        document.getElementById('yardsDisplay').innerHTML = '<strong>TOUCHDOWN!</strong>';
+
+        // Trigger victory celebration
+        setTimeout(() => {
+          App.celebrateVictory('Cowboys', 1, '../../images/nfl-logos/cowboys.png');
+        }, 500);
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      Lesson.init();
+      CoachesCorner.init(1);
     });
-
-    function markLessonComplete() {
-      Storage.completeLesson(1);
-      App.celebrate('Lesson 1 Complete!', 'You understand equal parts - the foundation of fractions!', '🏆');
-      document.querySelector('.btn-success').textContent = '✓ Completed';
-      document.querySelector('.btn-success').disabled = true;
-    }
-
-    // Check if already completed
-    const progress = Storage.getLessonProgress();
-    if (progress[1]?.completed) {
-      document.querySelector('.btn-success').textContent = '✓ Completed';
-      document.querySelector('.btn-success').disabled = true;
-    }
   </script>
 </body>
 </html>

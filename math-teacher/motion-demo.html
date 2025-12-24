@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Motion Effects Demo - Football Fractions</title>
+
+  <link rel="stylesheet" href="./styles/main.css">
+  <link rel="stylesheet" href="./styles/broadcast-transitions.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
+      min-height: 100vh;
+      color: white;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 2rem;
+    }
+
+    .demo-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .demo-header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #FFD700 0%, #FF6B35 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .demo-header p {
+      color: #888;
+      font-size: 1.1rem;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .demo-category {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .category-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .category-title .icon {
+      font-size: 1.5rem;
+    }
+
+    .demo-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .demo-btn {
+      background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+      color: white;
+      border: none;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .demo-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(46, 125, 50, 0.4);
+    }
+
+    .demo-btn:active {
+      transform: translateY(0);
+    }
+
+    .demo-btn .emoji {
+      font-size: 1.25rem;
+    }
+
+    .demo-btn.gold {
+      background: linear-gradient(135deg, #FFD700 0%, #FFA000 100%);
+      color: #1a1a2e;
+    }
+
+    .demo-btn.red {
+      background: linear-gradient(135deg, #E53935 0%, #B71C1C 100%);
+    }
+
+    .demo-btn.blue {
+      background: linear-gradient(135deg, #1E88E5 0%, #0D47A1 100%);
+    }
+
+    .demo-btn.purple {
+      background: linear-gradient(135deg, #8E24AA 0%, #4A148C 100%);
+    }
+
+    .demo-btn.teal {
+      background: linear-gradient(135deg, #00897B 0%, #004D40 100%);
+    }
+
+    .btn-description {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      font-weight: 400;
+      display: block;
+      margin-top: 0.25rem;
+    }
+
+    /* Toast styles */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 24px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 500;
+      z-index: 1000;
+      animation: slideUp 0.3s ease;
+    }
+
+    /* Confetti styles */
+    .confetti {
+      position: fixed;
+      top: -20px;
+      width: 10px;
+      height: 10px;
+      animation: confetti-fall linear forwards;
+      z-index: 10001;
+      pointer-events: none;
+    }
+
+    .explosion-confetti, .td-confetti, .hard-confetti {
+      position: fixed;
+      pointer-events: none;
+      z-index: 10001;
+    }
+
+    /* Animation Keyframes */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translate(-50%, 20px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 1; transform: translate(-50%, 0); }
+      to { opacity: 0; transform: translate(-50%, 20px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    @keyframes confetti-fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    @keyframes explosion-burst {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+      20% { transform: translate(calc(-50% + var(--tx) * 0.3), calc(-50% + var(--ty) * 0.3)) scale(1.2) rotate(calc(var(--rotation) * 0.3)); opacity: 1; }
+      100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty) + 200px)) scale(0.3) rotate(var(--rotation)); opacity: 0; }
+    }
+
+    @keyframes screen-shake {
+      0%, 100% { transform: translateX(0); }
+      10% { transform: translateX(-10px) rotate(-1deg); }
+      20% { transform: translateX(10px) rotate(1deg); }
+      30% { transform: translateX(-8px) rotate(-0.5deg); }
+      40% { transform: translateX(8px) rotate(0.5deg); }
+      50% { transform: translateX(-5px); }
+      60% { transform: translateX(5px); }
+      70% { transform: translateX(-3px); }
+      80% { transform: translateX(3px); }
+      90% { transform: translateX(-1px); }
+    }
+
+    @keyframes stadium-flash-anim {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes td-text-zoom {
+      0% { transform: translateX(-50%) scale(0) rotate(-10deg); opacity: 0; }
+      50% { transform: translateX(-50%) scale(1.3) rotate(5deg); opacity: 1; }
+      100% { transform: translateX(-50%) scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes gif-zoom-in {
+      0% { transform: scale(0.3); opacity: 0; }
+      60% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes victory-modal-entrance {
+      0% { transform: scale(0.5) translateY(50px); opacity: 0; }
+      60% { transform: scale(1.05) translateY(-10px); opacity: 1; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    @keyframes icon-bounce {
+      0% { transform: scale(1) translateY(0); }
+      100% { transform: scale(1.1) translateY(-5px); }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 5px rgba(0, 76, 84, 0.5), 0 0 20px rgba(0, 76, 84, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(0, 76, 84, 0.8), 0 0 40px rgba(0, 76, 84, 0.5), 0 0 60px rgba(255, 215, 0, 0.3); }
+    }
+
+    @keyframes confetti-burst {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+      10% { transform: translate(var(--tx), var(--ty)) scale(1) rotate(0deg); opacity: 1; }
+      100% { transform: translate(var(--tx), calc(var(--ty) + 400px)) scale(0.5) rotate(720deg); opacity: 0; }
+    }
+
+    @keyframes hard-confetti-burst {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+      10% { transform: translate(var(--tx), var(--ty)) scale(1) rotate(0deg); opacity: 1; }
+      100% { transform: translate(var(--tx), calc(var(--ty) + 250px)) scale(0.4) rotate(540deg); opacity: 0; }
+    }
+
+    @keyframes td-flash-anim {
+      0% { opacity: 0; transform: scale(0.5); }
+      30% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0; transform: scale(2); }
+    }
+
+    @keyframes hard-flash-anim {
+      0% { opacity: 0; transform: scale(0.8); }
+      30% { opacity: 1; transform: scale(1.1); }
+      100% { opacity: 0; transform: scale(1.5); }
+    }
+
+    .celebration-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .celebration-content {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem 3rem;
+      text-align: center;
+      max-width: 90%;
+      color: #1a1a2e;
+    }
+
+    .celebration-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .celebration-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .celebration-message {
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+      color: white;
+    }
+
+    .btn-large {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+    }
+
+    /* Full-width category for victory */
+    .demo-category.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .demo-category.full-width .demo-buttons {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .demo-category.full-width .demo-btn {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    /* Info box */
+    .info-box {
+      background: rgba(33, 150, 243, 0.1);
+      border: 1px solid rgba(33, 150, 243, 0.3);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    .info-box p {
+      margin: 0;
+      color: #64B5F6;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-header">
+    <h1>Motion Effects Showcase</h1>
+    <p>Click any button to preview the animation effect</p>
+  </div>
+
+  <div class="info-box">
+    <p>This page is for local development only. Not accessible from navigation.</p>
+  </div>
+
+  <div class="demo-grid">
+    <!-- Victory & Celebration Effects -->
+    <div class="demo-category full-width">
+      <div class="category-title">
+        <span class="icon">🏆</span>
+        Victory & Game End Celebrations
+      </div>
+      <div class="demo-buttons">
+        <button class="demo-btn gold" onclick="Demo.showTouchdownGif()">
+          <span class="emoji">🏈</span>
+          <span>
+            Touchdown GIF (4 sec)
+            <span class="btn-description">Full-screen celebration GIF with "TOUCHDOWN!" text</span>
+          </span>
+        </button>
+        <button class="demo-btn gold" onclick="Demo.celebrateVictory('Cowboys', 1)">
+          <span class="emoji">🦅</span>
+          <span>
+            Victory: Beat Cowboys
+            <span class="btn-description">Full victory sequence - shake, flash, confetti, GIF, modal</span>
+          </span>
+        </button>
+        <button class="demo-btn gold" onclick="Demo.celebrateVictory('Commanders', 6)">
+          <span class="emoji">🏆</span>
+          <span>
+            Super Bowl Victory
+            <span class="btn-description">Extra intense celebration for championship win</span>
+          </span>
+        </button>
+        <button class="demo-btn" onclick="Demo.celebrate('Great Job!', 'You completed the activity!', '⭐')">
+          <span class="emoji">🎉</span>
+          <span>
+            Basic Celebration
+            <span class="btn-description">Simple celebration modal with confetti</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Confetti Effects -->
+    <div class="demo-category">
+      <div class="category-title">
+        <span class="icon">🎊</span>
+        Confetti Effects
+      </div>
+      <div class="demo-buttons">
+        <button class="demo-btn" onclick="Demo.fireConfetti()">
+          <span class="emoji">🎉</span>
+          <span>
+            Basic Confetti
+            <span class="btn-description">50 pieces, falling from top</span>
+          </span>
+        </button>
+        <button class="demo-btn purple" onclick="Demo.fireRainbowConfetti()">
+          <span class="emoji">🌈</span>
+          <span>
+            Rainbow Confetti
+            <span class="btn-description">150 pieces, intense colors</span>
+          </span>
+        </button>
+        <button class="demo-btn red" onclick="Demo.fireExplosionConfetti()">
+          <span class="emoji">💥</span>
+          <span>
+            Explosion Confetti
+            <span class="btn-description">200 pieces, bursts from center</span>
+          </span>
+        </button>
+        <button class="demo-btn teal" onclick="Demo.touchdownConfetti()">
+          <span class="emoji">🏈</span>
+          <span>
+            Touchdown Confetti
+            <span class="btn-description">Rainbow burst with flash effect</span>
+          </span>
+        </button>
+        <button class="demo-btn" onclick="Demo.hardQuestionConfetti()">
+          <span class="emoji">🔥</span>
+          <span>
+            Hard Question Confetti
+            <span class="btn-description">Green/gold mini celebration</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Screen Effects -->
+    <div class="demo-category">
+      <div class="category-title">
+        <span class="icon">📺</span>
+        Screen Effects
+      </div>
+      <div class="demo-buttons">
+        <button class="demo-btn red" onclick="Demo.shakeScreen()">
+          <span class="emoji">📳</span>
+          <span>
+            Screen Shake
+            <span class="btn-description">Impact shake effect</span>
+          </span>
+        </button>
+        <button class="demo-btn gold" onclick="Demo.stadiumFlash()">
+          <span class="emoji">💡</span>
+          <span>
+            Stadium Flash
+            <span class="btn-description">5 light bursts sequence</span>
+          </span>
+        </button>
+        <button class="demo-btn blue" onclick="Demo.quickFlash()">
+          <span class="emoji">⚡</span>
+          <span>
+            Quick Flash
+            <span class="btn-description">Single bright flash</span>
+          </span>
+        </button>
+        <button class="demo-btn purple" onclick="Demo.stadiumStrobe()">
+          <span class="emoji">🔦</span>
+          <span>
+            Stadium Strobe
+            <span class="btn-description">5 positional flashes</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Broadcast Transitions -->
+    <div class="demo-category">
+      <div class="category-title">
+        <span class="icon">📡</span>
+        Broadcast Transitions
+      </div>
+      <div class="demo-buttons">
+        <button class="demo-btn blue" onclick="Demo.diagonalWipe()">
+          <span class="emoji">📐</span>
+          <span>
+            Diagonal Stripe Wipe
+            <span class="btn-description">NFL replay-style transition</span>
+          </span>
+        </button>
+        <button class="demo-btn purple" onclick="Demo.irisWipe()">
+          <span class="emoji">🔘</span>
+          <span>
+            Iris Wipe
+            <span class="btn-description">Expanding circular reveal</span>
+          </span>
+        </button>
+        <button class="demo-btn" onclick="Demo.buttonSlam(event)">
+          <span class="emoji">👊</span>
+          <span>
+            Button Slam
+            <span class="btn-description">Scale + overshoot + sparks</span>
+          </span>
+        </button>
+        <button class="demo-btn teal" onclick="Demo.sparkBurst(event)">
+          <span class="emoji">✨</span>
+          <span>
+            Spark Burst
+            <span class="btn-description">24 radiating particles</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="demo-category">
+      <div class="category-title">
+        <span class="icon">💬</span>
+        Toast Notifications
+      </div>
+      <div class="demo-buttons">
+        <button class="demo-btn" onclick="Demo.showToast('Great play! +10 yards', 'success')">
+          <span class="emoji">✅</span>
+          <span>
+            Success Toast
+            <span class="btn-description">Green notification</span>
+          </span>
+        </button>
+        <button class="demo-btn red" onclick="Demo.showToast('Incomplete pass!', 'error')">
+          <span class="emoji">❌</span>
+          <span>
+            Error Toast
+            <span class="btn-description">Red notification</span>
+          </span>
+        </button>
+        <button class="demo-btn blue" onclick="Demo.showToast('Hint: Check the denominator', 'info')">
+          <span class="emoji">ℹ️</span>
+          <span>
+            Info Toast
+            <span class="btn-description">Blue notification</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Matchup Intro -->
+    <div class="demo-category">
+      <div class="category-title">
+        <span class="icon">🏟️</span>
+        Matchup & Game Intros
+      </div>
+      <div class="demo-buttons">
+        <button class="demo-btn gold" onclick="Demo.showMatchupIntro('Cowboys')">
+          <span class="emoji">🤠</span>
+          <span>
+            Eagles vs Cowboys
+            <span class="btn-description">Wild Card Round matchup intro</span>
+          </span>
+        </button>
+        <button class="demo-btn red" onclick="Demo.showMatchupIntro('Chiefs')">
+          <span class="emoji">🪶</span>
+          <span>
+            Eagles vs Chiefs
+            <span class="btn-description">Divisional Round matchup intro</span>
+          </span>
+        </button>
+        <button class="demo-btn blue" onclick="Demo.showMatchupIntro('Lions')">
+          <span class="emoji">🦁</span>
+          <span>
+            Eagles vs Lions
+            <span class="btn-description">Conference Semi matchup intro</span>
+          </span>
+        </button>
+        <button class="demo-btn purple" onclick="Demo.showMatchupIntro('Commanders')">
+          <span class="emoji">🏆</span>
+          <span>
+            Eagles vs Commanders
+            <span class="btn-description">SUPER BOWL matchup intro</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Screen Shake Intensities -->
+    <div class="demo-category">
+      <div class="category-title">
+        <span class="icon">📳</span>
+        Shake Intensities
+      </div>
+      <div class="demo-buttons">
+        <button class="demo-btn" onclick="Demo.shakeLight()">
+          <span class="emoji">〰️</span>
+          <span>
+            Light Shake
+            <span class="btn-description">Subtle vibration</span>
+          </span>
+        </button>
+        <button class="demo-btn blue" onclick="Demo.shakeMedium()">
+          <span class="emoji">📳</span>
+          <span>
+            Medium Shake
+            <span class="btn-description">Moderate impact</span>
+          </span>
+        </button>
+        <button class="demo-btn red" onclick="Demo.shakeHeavy()">
+          <span class="emoji">💥</span>
+          <span>
+            Heavy Shake
+            <span class="btn-description">Intense impact</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Combined Effects -->
+    <div class="demo-category">
+      <div class="category-title">
+        <span class="icon">🎬</span>
+        Combined Effects
+      </div>
+      <div class="demo-buttons">
+        <button class="demo-btn gold" onclick="Demo.fullCelebration()">
+          <span class="emoji">🎆</span>
+          <span>
+            Full Celebration Sequence
+            <span class="btn-description">All effects combined</span>
+          </span>
+        </button>
+        <button class="demo-btn purple" onclick="Demo.victoryTransition(false)">
+          <span class="emoji">🎯</span>
+          <span>
+            Victory Transition
+            <span class="btn-description">Broadcast-style win effect</span>
+          </span>
+        </button>
+        <button class="demo-btn gold" onclick="Demo.victoryTransition(true)">
+          <span class="emoji">🏆</span>
+          <span>
+            Super Bowl Transition
+            <span class="btn-description">Championship win effect</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/broadcast-transitions.js"></script>
+  <script>
+    const Demo = {
+      // Touchdown GIF - 4 second full-screen display
+      showTouchdownGif() {
+        const gifs = [];
+        for (let i = 1; i <= 28; i++) {
+          gifs.push(`giphy-${i}.gif`);
+        }
+        gifs.push('giphy.gif');
+
+        const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
+
+        const overlay = document.createElement('div');
+        overlay.className = 'td-gif-overlay';
+        overlay.innerHTML = `
+          <div class="td-text-banner">TOUCHDOWN!</div>
+          <img src="./images/touchdowns/${randomGif}" alt="Touchdown celebration" onerror="this.src='./images/touchdowns/giphy.gif'">
+        `;
+        overlay.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0,0,0,0.85);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          z-index: 10000;
+          animation: fadeIn 0.3s ease;
+          cursor: pointer;
+        `;
+        overlay.querySelector('.td-text-banner').style.cssText = `
+          position: absolute;
+          top: 5%;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: clamp(2.5rem, 8vw, 4rem);
+          font-weight: 900;
+          color: #FFD700;
+          text-shadow: 0 0 30px #FFD700, 0 0 60px #FF6B35, 0 4px 0 #E65100;
+          animation: td-text-zoom 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+          letter-spacing: 0.1em;
+          z-index: 10001;
+          text-align: center;
+        `;
+        overlay.querySelector('img').style.cssText = `
+          width: 100vw;
+          height: 100vh;
+          object-fit: cover;
+          animation: gif-zoom-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        `;
+
+        // Click to dismiss early
+        overlay.addEventListener('click', () => {
+          overlay.style.animation = 'fadeOut 0.3s ease';
+          setTimeout(() => overlay.remove(), 300);
+        });
+
+        document.body.appendChild(overlay);
+
+        // Display for 4 seconds, then fade out
+        setTimeout(() => {
+          if (document.body.contains(overlay)) {
+            overlay.style.animation = 'fadeOut 0.5s ease';
+            setTimeout(() => overlay.remove(), 500);
+          }
+        }, 4000);
+      },
+
+      // Basic confetti
+      fireConfetti() {
+        const colors = ['#4CAF50', '#2196F3', '#FFD700', '#E53935', '#9C27B0'];
+        const confettiCount = 50;
+
+        for (let i = 0; i < confettiCount; i++) {
+          setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.cssText = `
+              left: ${Math.random() * 100}vw;
+              background: ${colors[Math.floor(Math.random() * colors.length)]};
+              animation-duration: ${2 + Math.random() * 2}s;
+            `;
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 4000);
+          }, i * 30);
+        }
+      },
+
+      // Rainbow confetti
+      fireRainbowConfetti() {
+        const colors = ['#E31837', '#FF6B35', '#FFD700', '#FFEC00', '#4CAF50', '#00BCD4', '#2196F3', '#9C27B0', '#E91E63'];
+        const confettiCount = 150;
+
+        for (let i = 0; i < confettiCount; i++) {
+          setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti victory-confetti';
+            confetti.style.cssText = `
+              left: ${Math.random() * 100}vw;
+              background: ${colors[Math.floor(Math.random() * colors.length)]};
+              animation-duration: ${2 + Math.random() * 2}s;
+              width: ${8 + Math.random() * 8}px;
+              height: ${8 + Math.random() * 8}px;
+            `;
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 4000);
+          }, i * 10);
+        }
+      },
+
+      // Explosion confetti
+      fireExplosionConfetti() {
+        const colors = ['#E31837', '#FF6B35', '#FFD700', '#FFEC00', '#4CAF50', '#00BCD4', '#2196F3', '#9C27B0', '#E91E63', '#00FF00', '#FF00FF', '#00FFFF'];
+        const confettiCount = 200;
+
+        for (let i = 0; i < confettiCount; i++) {
+          const confetti = document.createElement('div');
+          const angle = (Math.random() * 360) * (Math.PI / 180);
+          const velocity = 300 + Math.random() * 500;
+          const tx = Math.cos(angle) * velocity;
+          const ty = Math.sin(angle) * velocity;
+          const size = 10 + Math.random() * 15;
+          const rotation = Math.random() * 1080;
+
+          confetti.className = 'explosion-confetti';
+          confetti.style.cssText = `
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: ${size}px;
+            height: ${size}px;
+            background: ${colors[Math.floor(Math.random() * colors.length)]};
+            border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+            z-index: 10001;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            animation: explosion-burst 2s cubic-bezier(0, 0.5, 0.5, 1) forwards;
+            --tx: ${tx}px;
+            --ty: ${ty}px;
+            --rotation: ${rotation}deg;
+            animation-delay: ${Math.random() * 0.1}s;
+          `;
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), 2500);
+        }
+      },
+
+      // Touchdown confetti (rainbow burst with flash)
+      touchdownConfetti() {
+        const colors = [
+          '#FF0000', '#FF4500', '#FF8C00', '#FFD700', '#FFFF00',
+          '#9ACD32', '#32CD32', '#00FA9A', '#00CED1', '#1E90FF',
+          '#4169E1', '#8A2BE2', '#9932CC', '#FF1493', '#FF69B4',
+        ];
+
+        const confettiCount = 150;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        // Flash effect
+        const flash = document.createElement('div');
+        flash.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: radial-gradient(circle, rgba(255,215,0,0.4) 0%, rgba(255,215,0,0) 70%);
+          z-index: 9999;
+          pointer-events: none;
+          animation: td-flash-anim 0.6s ease-out forwards;
+        `;
+        document.body.appendChild(flash);
+        setTimeout(() => flash.remove(), 600);
+
+        // Confetti
+        for (let i = 0; i < confettiCount; i++) {
+          setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.className = 'td-confetti';
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+            const size = 4 + Math.random() * 8;
+            confetti.style.width = size + 'px';
+            confetti.style.height = size + 'px';
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : (Math.random() > 0.5 ? '0' : '2px');
+            confetti.style.left = centerX + 'px';
+            confetti.style.top = centerY + 'px';
+
+            const angle = (Math.random() * 360) * (Math.PI / 180);
+            const velocity = 100 + Math.random() * 300;
+            const tx = Math.cos(angle) * velocity;
+            const ty = Math.sin(angle) * velocity - 200;
+
+            confetti.style.setProperty('--tx', tx + 'px');
+            confetti.style.setProperty('--ty', ty + 'px');
+            confetti.style.animation = 'confetti-burst 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 2500);
+          }, i * 8);
+        }
+      },
+
+      // Hard question confetti
+      hardQuestionConfetti() {
+        const colors = ['#4CAF50', '#66BB6A', '#81C784', '#FFD700', '#FFC107', '#FFEB3B', '#8BC34A', '#CDDC39'];
+        const confettiCount = 50;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        // Flash
+        const flash = document.createElement('div');
+        flash.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: radial-gradient(circle, rgba(76,175,80,0.25) 0%, rgba(76,175,80,0) 50%);
+          z-index: 9999;
+          pointer-events: none;
+          animation: hard-flash-anim 0.4s ease-out forwards;
+        `;
+        document.body.appendChild(flash);
+        setTimeout(() => flash.remove(), 400);
+
+        for (let i = 0; i < confettiCount; i++) {
+          setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.className = 'hard-confetti';
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+            const size = 3 + Math.random() * 6;
+            confetti.style.width = size + 'px';
+            confetti.style.height = size + 'px';
+            if (Math.random() > 0.5) confetti.style.borderRadius = '50%';
+            confetti.style.left = centerX + 'px';
+            confetti.style.top = centerY + 'px';
+
+            const angle = (Math.random() * 360) * (Math.PI / 180);
+            const velocity = 80 + Math.random() * 150;
+            const tx = Math.cos(angle) * velocity;
+            const ty = Math.sin(angle) * velocity - 100;
+
+            confetti.style.setProperty('--tx', tx + 'px');
+            confetti.style.setProperty('--ty', ty + 'px');
+            confetti.style.animation = 'hard-confetti-burst 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 1500);
+          }, i * 6);
+        }
+      },
+
+      // Screen shake
+      shakeScreen() {
+        document.body.style.animation = 'screen-shake 0.5s ease-in-out';
+        setTimeout(() => { document.body.style.animation = ''; }, 500);
+      },
+
+      // Stadium flash
+      stadiumFlash() {
+        const flashCount = 5;
+        for (let i = 0; i < flashCount; i++) {
+          setTimeout(() => {
+            const flash = document.createElement('div');
+            flash.className = 'stadium-flash';
+            flash.style.cssText = `
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100vw;
+              height: 100vh;
+              background: radial-gradient(circle at ${30 + Math.random() * 40}% ${30 + Math.random() * 40}%, rgba(255,255,255,0.9) 0%, rgba(255,215,0,0.4) 30%, transparent 70%);
+              z-index: 9999;
+              pointer-events: none;
+              animation: stadium-flash-anim 0.2s ease-out forwards;
+            `;
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 200);
+          }, i * 100);
+        }
+      },
+
+      // Quick flash
+      quickFlash() {
+        if (typeof BroadcastTransitions !== 'undefined') {
+          BroadcastTransitions.quickFlash();
+        } else {
+          const flash = document.createElement('div');
+          flash.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 9999;
+            pointer-events: none;
+            animation: fadeOut 0.2s ease-out forwards;
+          `;
+          document.body.appendChild(flash);
+          setTimeout(() => flash.remove(), 200);
+        }
+      },
+
+      // Stadium strobe
+      stadiumStrobe() {
+        if (typeof BroadcastTransitions !== 'undefined') {
+          BroadcastTransitions.stadiumStrobe();
+        } else {
+          this.stadiumFlash();
+        }
+      },
+
+      // Shake intensities
+      shakeLight() {
+        if (typeof BroadcastTransitions !== 'undefined') {
+          BroadcastTransitions.screenShake('light');
+        }
+      },
+
+      shakeMedium() {
+        if (typeof BroadcastTransitions !== 'undefined') {
+          BroadcastTransitions.screenShake('medium');
+        }
+      },
+
+      shakeHeavy() {
+        if (typeof BroadcastTransitions !== 'undefined') {
+          BroadcastTransitions.screenShake('heavy');
+        }
+      },
+
+      // Toast notification
+      showToast(message, type = 'info') {
+        const existing = document.querySelector('.toast');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          padding: 12px 24px;
+          border-radius: 8px;
+          color: white;
+          font-weight: 500;
+          z-index: 1000;
+          animation: slideUp 0.3s ease;
+          background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#E53935' : '#2196F3'};
+        `;
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.animation = 'slideDown 0.3s ease';
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      },
+
+      // Basic celebration
+      celebrate(title, message, icon = '🏆') {
+        const overlay = document.createElement('div');
+        overlay.className = 'celebration-overlay';
+        overlay.innerHTML = `
+          <div class="celebration-content">
+            <div class="celebration-icon">${icon}</div>
+            <h2 class="celebration-title">${title}</h2>
+            <p class="celebration-message">${message}</p>
+            <button class="btn btn-primary btn-large" onclick="this.closest('.celebration-overlay').remove()">
+              Continue
+            </button>
+          </div>
+        `;
+
+        document.body.appendChild(overlay);
+        this.fireConfetti();
+
+        setTimeout(() => {
+          if (document.body.contains(overlay)) {
+            overlay.remove();
+          }
+        }, 5000);
+      },
+
+      // Full victory celebration
+      celebrateVictory(teamName, lessonNum) {
+        const isSuperBowl = lessonNum === 6;
+
+        // Screen shake
+        this.shakeScreen();
+
+        // Stadium flash
+        this.stadiumFlash();
+
+        // Explosion confetti
+        this.fireExplosionConfetti();
+
+        // Show touchdown GIF
+        setTimeout(() => this.showTouchdownGif(), 200);
+
+        // Rainbow confetti waves
+        setTimeout(() => this.fireRainbowConfetti(), 300);
+        setTimeout(() => this.fireRainbowConfetti(), 800);
+        setTimeout(() => this.fireRainbowConfetti(), 1300);
+
+        // Extra for Super Bowl
+        if (isSuperBowl) {
+          setTimeout(() => this.fireExplosionConfetti(), 1000);
+          setTimeout(() => this.fireRainbowConfetti(), 1800);
+          setTimeout(() => this.fireExplosionConfetti(), 2300);
+          setTimeout(() => this.stadiumFlash(), 2000);
+        }
+
+        // Victory modal
+        setTimeout(() => {
+          const overlay = document.createElement('div');
+          overlay.className = 'celebration-overlay';
+
+          const title = isSuperBowl ? 'SUPER BOWL CHAMPIONS!' : `EAGLES DEFEAT THE ${teamName.toUpperCase()}!`;
+          const message = isSuperBowl
+            ? 'You\'ve mastered all fraction skills and won the championship!'
+            : `You've advanced to the next round of the playoffs!`;
+          const icon = isSuperBowl ? '🏆' : '🦅';
+
+          overlay.innerHTML = `
+            <div class="celebration-content victory-celebration" style="animation: victory-modal-entrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;">
+              <div class="celebration-icon" style="font-size: 5rem; animation: icon-bounce 0.5s ease infinite alternate;">${icon}</div>
+              <h2 class="celebration-title" style="color: #004C54; font-size: 2rem;">${title}</h2>
+              <p class="celebration-message">${message}</p>
+              <button class="btn btn-primary btn-large" style="animation: pulse-glow 1s ease infinite;" onclick="this.closest('.celebration-overlay').remove()">
+                ${isSuperBowl ? '🏆 Celebrate!' : '🏈 Continue'}
+              </button>
+            </div>
+          `;
+
+          document.body.appendChild(overlay);
+          this.fireRainbowConfetti();
+
+          overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+              overlay.remove();
+            }
+          });
+        }, 4000);
+      },
+
+      // Diagonal wipe
+      diagonalWipe() {
+        if (typeof BroadcastTransitions !== 'undefined') {
+          BroadcastTransitions.diagonalStripeWipe(() => {
+            console.log('Diagonal wipe complete');
+          });
+        }
+      },
+
+      // Iris wipe
+      irisWipe() {
+        if (typeof BroadcastTransitions !== 'undefined') {
+          BroadcastTransitions.irisWipe(window.innerWidth / 2, window.innerHeight / 2, () => {
+            console.log('Iris wipe complete');
+          });
+        }
+      },
+
+      // Button slam
+      buttonSlam(event) {
+        if (typeof BroadcastTransitions !== 'undefined') {
+          BroadcastTransitions.buttonSlam(event.target, () => {
+            console.log('Button slam complete');
+          });
+        }
+      },
+
+      // Spark burst
+      sparkBurst(event) {
+        if (typeof BroadcastTransitions !== 'undefined') {
+          const rect = event.target.getBoundingClientRect();
+          BroadcastTransitions.sparkBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, true);
+        }
+      },
+
+      // Matchup intro
+      showMatchupIntro(opponent) {
+        if (typeof BroadcastTransitions !== 'undefined') {
+          const rounds = {
+            'Cowboys': 'Wild Card Round',
+            'Chiefs': 'Divisional Round',
+            'Lions': 'Conference Semi-Final',
+            'Giants': 'Conference Final',
+            'Bears': 'NFC Championship',
+            'Commanders': 'SUPER BOWL'
+          };
+
+          BroadcastTransitions.showMatchupIntro(
+            { name: 'EAGLES', logo: './images/nfl-logos/eagles.png' },
+            { name: opponent.toUpperCase(), logo: `./images/nfl-logos/${opponent.toLowerCase()}.png` },
+            rounds[opponent] || 'Playoff Game',
+            () => {
+              console.log('Matchup intro complete');
+            }
+          );
+        }
+      },
+
+      // Victory transition
+      victoryTransition(isSuperBowl) {
+        if (typeof BroadcastTransitions !== 'undefined') {
+          BroadcastTransitions.victoryTransition(isSuperBowl);
+        }
+      },
+
+      // Full celebration (all effects)
+      fullCelebration() {
+        this.shakeScreen();
+        this.stadiumFlash();
+        this.fireExplosionConfetti();
+        setTimeout(() => this.touchdownConfetti(), 500);
+        setTimeout(() => this.fireRainbowConfetti(), 800);
+        setTimeout(() => this.fireRainbowConfetti(), 1200);
+        setTimeout(() => {
+          this.celebrate('AMAZING!', 'All effects combined!', '🎆');
+        }, 1500);
+      }
+    };
+  </script>
+</body>
+</html>

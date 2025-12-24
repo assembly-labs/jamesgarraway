@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Multiplication Game - Football Fractions</title>
+  <title>Times & Division Touchdown - Football Fractions</title>
 
   <!-- Styles -->
   <link rel="stylesheet" href="../styles/main.css">
@@ -704,11 +704,17 @@
       </button>
       <ul class="nav-menu" id="navMenu">
         <li><a href="../index.html" class="nav-link">Home</a></li>
-        <li><a href="../diagnostic/index.html" class="nav-link">Skills Check</a></li>
-        <li><a href="../lessons/index.html" class="nav-link">Lessons</a></li>
         <li><a href="../practice/index.html" class="nav-link active">Practice</a></li>
-        <li><a href="../tools/number-line.html" class="nav-link">Number Line</a></li>
-        <li><a href="../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../super-extra-curricular/index.html" class="nav-dropdown-link">Super Extra</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </nav>
@@ -721,10 +727,10 @@
         <span>/</span>
         <a href="./index.html">Practice</a>
         <span>/</span>
-        <span>Multiplication Game</span>
+        <span>Times & Division Touchdown</span>
       </div>
-      <h1>🏈 Multiplication Touchdown</h1>
-      <p>Score touchdowns by solving math problems!</p>
+      <h1>🏈 Times & Division Touchdown</h1>
+      <p>Score touchdowns with multiplication & division!</p>
     </div>
   </header>
 
@@ -813,7 +819,7 @@
 
         <!-- Controls -->
         <div class="game-controls">
-          <button class="btn btn-secondary btn-large" onclick="Game.restart()">🔄 New Game</button>
+          <button class="btn btn-secondary btn-large" onclick="Game.restart()">New Game</button>
         </div>
       </div>
 
@@ -837,7 +843,7 @@
             </ul>
           </div>
           <button class="btn btn-primary btn-large" onclick="Game.start()">
-            🏈 Start Game!
+            Start Game
           </button>
         </div>
       </div>
@@ -861,7 +867,7 @@
               <div class="complete-stat-label">Accuracy</div>
             </div>
           </div>
-          <button class="btn btn-primary btn-large" onclick="Game.restart()">🏈 New Game</button>
+          <button class="btn btn-primary btn-large" onclick="Game.restart()">New Game</button>
         </div>
       </div>
     </div>
@@ -1060,11 +1066,11 @@
         overlay.classList.add('show');
       });
 
-      // Remove after 3 seconds
+      // Display for 4 seconds, then fade out
       setTimeout(() => {
         overlay.classList.remove('show');
         setTimeout(() => overlay.remove(), 300); // Wait for fade-out transition
-      }, 3000);
+      }, 4000);
     }
 
     // Generate 100 flash cards (60 multiplication, 40 division)

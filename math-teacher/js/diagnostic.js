@@ -8,14 +8,14 @@ const Diagnostic = {
 
   sections: [
     {
-      id: 'equal-parts-recognition',
-      title: 'Spotting Equal Parts',
-      description: 'Let\'s see if you can find shapes split into TRULY equal pieces!',
+      id: 'equal-parts',
+      title: 'Equal Parts',
+      description: 'Can you spot shapes split into TRULY equal pieces?',
       questions: [
         {
           id: 'epr1',
           type: 'multiple-choice-visual',
-          prompt: 'Look carefully! Which rectangle is cut into 4 EQUAL parts? (Hint: Equal means same size!)',
+          prompt: 'Which rectangle is cut into 4 EQUAL parts?',
           options: [
             { id: 'a', svg: 'rect-unequal-1', label: 'A' },
             { id: 'b', svg: 'rect-equal-4', label: 'B', correct: true },
@@ -41,88 +41,18 @@ const Diagnostic = {
             correct: 'Understands unit fractions visually',
             incorrect: 'May not connect fraction notation to visual representation'
           }
-        },
-        {
-          id: 'epr3',
-          type: 'multiple-choice-visual',
-          prompt: 'Coach needs to split the practice field in half. Which field is divided into 2 EQUAL halves?',
-          options: [
-            { id: 'a', svg: 'field-unequal-half', label: 'A' },
-            { id: 'b', svg: 'field-equal-half', label: 'B', correct: true },
-            { id: 'c', svg: 'field-thirds', label: 'C' },
-            { id: 'd', svg: 'field-unequal-half-2', label: 'D' }
-          ],
-          footballContext: true,
-          interpretation: {
-            correct: 'Applies equal parts concept to real contexts',
-            incorrect: 'Needs practice with equal parts in applied settings'
-          }
-        },
-        {
-          id: 'epr4',
-          type: 'select-all',
-          prompt: 'This one\'s tricky! Pick ALL the shapes that are split into equal parts. (There\'s more than one!)',
-          options: [
-            { id: 'a', svg: 'shape-equal-1', label: 'A', correct: true },
-            { id: 'b', svg: 'shape-unequal-1', label: 'B' },
-            { id: 'c', svg: 'shape-equal-2', label: 'C', correct: true },
-            { id: 'd', svg: 'shape-unequal-2', label: 'D' },
-            { id: 'e', svg: 'shape-equal-3', label: 'E', correct: true }
-          ],
-          interpretation: {
-            allCorrect: 'Strong understanding of equal parts',
-            someCorrect: 'Partial understanding - review with physical manipulatives',
-            incorrect: 'Fundamental gap - start with concrete activities'
-          }
-        },
-        {
-          id: 'epr5',
-          type: 'yes-no-explain',
-          prompt: 'Your teammate says "This shape shows 1/4 because it has 4 pieces." Do you agree? Look at the shape and decide!',
-          svg: 'rect-4-unequal',
-          correctAnswer: 'no',
-          interpretation: {
-            correct: 'Understands equal parts requirement',
-            incorrect: 'Conflates "number of pieces" with "equal parts"'
-          }
-        }
-      ]
-    },
-    {
-      id: 'equal-parts-creation',
-      title: 'Making Equal Parts',
-      description: 'Now YOU get to divide shapes into equal pieces!',
-      questions: [
-        {
-          id: 'epc1',
-          type: 'draw',
-          prompt: 'Draw lines to split this rectangle into 4 EQUAL parts. Here\'s a secret: there\'s more than one way to do it!',
-          svg: 'empty-rectangle',
-          interpretation: {
-            note: 'Review manually - look for equal-sized regions'
-          }
-        },
-        {
-          id: 'epc2',
-          type: 'draw',
-          prompt: 'The Eagles need this practice field split into 10 equal zones for drills. Can you draw the lines to make 10 equal sections?',
-          svg: 'empty-field',
-          footballContext: true,
-          interpretation: {
-            note: 'Should show 9 vertical lines creating 10 equal strips'
-          }
         }
       ]
     },
     {
       id: 'fraction-magnitude',
       title: 'Comparing Fractions',
-      description: 'Let\'s see if you can figure out which fraction is bigger!',
+      description: 'Which fraction is bigger?',
       questions: [
         {
           id: 'fm1',
           type: 'compare-explain',
-          prompt: 'Here\'s a brain teaser: Which is bigger, 1/3 or 1/4? Think about it - and tell me WHY you chose your answer!',
+          prompt: 'Which is bigger, 1/3 or 1/4?',
           fractionA: { num: 1, den: 3 },
           fractionB: { num: 1, den: 4 },
           correctAnswer: 'a',
@@ -132,21 +62,9 @@ const Diagnostic = {
           }
         },
         {
-          id: 'fm2',
-          type: 'compare-explain',
-          prompt: 'Which is bigger: 3/8 or 5/8? How do you know?',
-          fractionA: { num: 3, den: 8 },
-          fractionB: { num: 5, den: 8 },
-          correctAnswer: 'b',
-          interpretation: {
-            correct: 'Understands more pieces of same size = larger',
-            incorrect: 'May have difficulty with same-denominator comparisons'
-          }
-        },
-        {
           id: 'fm3',
           type: 'compare-explain',
-          prompt: 'Interesting one: Which is bigger, 2/4 or 1/2? Or... is there a twist here?',
+          prompt: 'Which is bigger, 2/4 or 1/2? Or... is there a twist?',
           fractionA: { num: 2, den: 4 },
           fractionB: { num: 1, den: 2 },
           correctAnswer: 'equal',
@@ -154,50 +72,27 @@ const Diagnostic = {
             correct: 'Recognizes equivalent fractions',
             incorrect: 'May not see equivalence - key concept gap'
           }
-        },
-        {
-          id: 'fm4',
-          type: 'order',
-          prompt: 'Can you put these in order from smallest to biggest? 1/2, 1/8, 1/4. Drag them into the right spots!',
-          fractions: [
-            { num: 1, den: 2 },
-            { num: 1, den: 8 },
-            { num: 1, den: 4 }
-          ],
-          correctOrder: [1, 2, 0], // indices: 1/8, 1/4, 1/2
-          interpretation: {
-            correct: 'Can order unit fractions correctly',
-            incorrect: 'Needs work on unit fraction magnitude'
-          }
         }
       ]
     },
     {
       id: 'improper-fractions',
       title: 'Fractions Bigger Than 1',
-      description: 'Did you know fractions can be MORE than 1 whole? Let\'s check it out!',
+      description: 'Fractions can be MORE than 1 whole!',
       questions: [
         {
           id: 'if1',
           type: 'open-response',
-          prompt: 'What does 5/4 mean? Try to explain it in your own words. (Hint: Think about pizzas cut into 4 slices!)',
+          prompt: 'What does 5/4 mean? Explain in your own words. (Hint: Think about pizzas cut into 4 slices!)',
           interpretation: {
             lookFor: ['more than 1 whole', '5 pieces when each whole has 4', '1 and 1/4'],
             redFlag: 'Answer suggests fraction must be less than 1'
           }
         },
         {
-          id: 'if2',
-          type: 'draw',
-          prompt: 'Can you draw a picture that shows 5/4? Here\'s a hint: you\'ll need more than one whole shape!',
-          interpretation: {
-            note: 'Should show 1 complete shape plus 1/4 of another'
-          }
-        },
-        {
           id: 'if3',
           type: 'convert',
-          prompt: 'Jalen Hurts and the Eagles played for 7 quarters over the weekend. How many complete games is that, plus how many extra quarters?',
+          prompt: 'Jalen Hurts played for 7 quarters over the weekend. Write this as a mixed number (complete games + fraction of a game).',
           footballContext: true,
           improperFraction: { num: 7, den: 4 },
           correctMixed: { whole: 1, num: 3, den: 4 },
@@ -211,12 +106,12 @@ const Diagnostic = {
     {
       id: 'operations',
       title: 'Adding Fractions',
-      description: 'Time to put those fractions together!',
+      description: 'Time to combine fractions!',
       questions: [
         {
           id: 'op1',
           type: 'solve-explain',
-          prompt: 'What\'s 2/5 + 1/5? Take your time!',
+          prompt: 'What\'s 2/5 + 1/5?',
           operation: 'add',
           fractionA: { num: 2, den: 5 },
           fractionB: { num: 1, den: 5 },
@@ -227,19 +122,9 @@ const Diagnostic = {
           }
         },
         {
-          id: 'op2',
-          type: 'explain-why',
-          prompt: 'Here\'s a thinking question: WHY does 2/5 + 1/5 equal 3/5 and NOT 3/10? What would you tell a friend who wasn\'t sure?',
-          relatedTo: 'op1',
-          interpretation: {
-            lookFor: ['same size pieces', 'counting fifths', 'denominator names the size'],
-            redFlag: 'Cannot explain why denominators stay same'
-          }
-        },
-        {
           id: 'op3',
           type: 'word-problem',
-          prompt: 'Justin Jefferson makes two amazing catches! On the first play, he gains 3/10 of the field. On the second play, he gains 4/10 more. What fraction of the field did Justin cover in total?',
+          prompt: 'Justin Jefferson gains 3/10 of the field on the first catch, then 4/10 more on the second. What fraction of the field did Justin cover in total?',
           footballContext: true,
           correctAnswer: { num: 7, den: 10 },
           interpretation: {
@@ -484,18 +369,24 @@ const Diagnostic = {
     const recommendations = [];
 
     // Equal parts
-    if (results.sections['equal-parts-recognition']?.percentage < 80 ||
-        results.sections['equal-parts-creation']?.percentage < 80) {
+    if (results.sections['equal-parts']?.percentage < 80) {
       recommendations.push({
         lesson: 1,
         title: 'Equal Parts',
         priority: 'high',
-        reason: 'Let\'s nail down equal parts first - it\'s the key to everything!',
-        activities: [
-          'Paper folding activities',
-          'Play-doh division',
-          'Fair sharing problems'
-        ]
+        reason: 'Nail down equal parts first - it\'s the key to everything!',
+        activities: ['Paper folding', 'Fair sharing problems']
+      });
+    }
+
+    // Fraction magnitude
+    if (results.sections['fraction-magnitude']?.percentage < 70) {
+      recommendations.push({
+        lesson: 6,
+        title: 'Comparing Fractions',
+        priority: 'medium',
+        reason: 'Get better at knowing which fractions are bigger or equal!',
+        activities: ['Number line placement', 'Fraction comparison games']
       });
     }
 
@@ -505,12 +396,8 @@ const Diagnostic = {
         lesson: 2,
         title: 'Fractions Bigger Than 1',
         priority: 'high',
-        reason: 'Time to see that fractions can be MORE than 1 whole!',
-        activities: [
-          'Build fractions with circles/tiles',
-          'Football quarters context',
-          'Number line walks'
-        ]
+        reason: 'Fractions can be MORE than 1 whole!',
+        activities: ['Build fractions with tiles', 'Football quarters context']
       });
     }
 
@@ -520,27 +407,8 @@ const Diagnostic = {
         lesson: 3,
         title: 'Adding Fractions',
         priority: 'medium',
-        reason: 'Let\'s practice combining fractions - like adding up yard gains!',
-        activities: [
-          'Combine fraction pieces physically',
-          'Bar model addition',
-          '"Same sized pieces" emphasis'
-        ]
-      });
-    }
-
-    // Fraction magnitude
-    if (results.sections['fraction-magnitude']?.percentage < 70) {
-      recommendations.push({
-        lesson: 6,
-        title: 'Fraction Twins',
-        priority: 'medium',
-        reason: 'Let\'s get better at knowing which fractions are bigger or equal!',
-        activities: [
-          'Number line placement',
-          'Fraction comparison games',
-          'Benchmark fractions (1/2, 1/4)'
-        ]
+        reason: 'Practice combining fractions - like adding yard gains!',
+        activities: ['Bar model addition', 'Combine fraction pieces']
       });
     }
 
@@ -754,7 +622,7 @@ const Diagnostic = {
               <span>and</span>
               <input type="number" id="numInput" min="0" placeholder="?" class="number-input">
               <span>/</span>
-              <input type="number" id="denInput" min="1" placeholder="?" class="number-input"> extra quarters
+              <input type="number" id="denInput" min="1" placeholder="?" class="number-input"> of a game
             </div>
           </div>
         `;
@@ -872,8 +740,6 @@ const Diagnostic = {
       'field-equal-half': `<svg viewBox="0 0 120 60" width="120" height="60">
         <rect x="1" y="1" width="118" height="58" fill="#2E7D32" stroke="#fff" stroke-width="2"/>
         <line x1="60" y1="1" x2="60" y2="59" stroke="#fff" stroke-width="2"/>
-        <text x="30" y="35" fill="#fff" font-size="10" text-anchor="middle">50%</text>
-        <text x="90" y="35" fill="#fff" font-size="10" text-anchor="middle">50%</text>
       </svg>`,
       'field-unequal-half': `<svg viewBox="0 0 120 60" width="120" height="60">
         <rect x="1" y="1" width="118" height="58" fill="#2E7D32" stroke="#fff" stroke-width="2"/>
@@ -885,8 +751,8 @@ const Diagnostic = {
       </svg>`,
       'field-thirds': `<svg viewBox="0 0 120 60" width="120" height="60">
         <rect x="1" y="1" width="118" height="58" fill="#2E7D32" stroke="#fff" stroke-width="2"/>
-        <line x1="40" y1="1" x2="40" y2="59" stroke="#fff" stroke-width="2"/>
-        <line x1="80" y1="1" x2="80" y2="59" stroke="#fff" stroke-width="2"/>
+        <line x1="40.33" y1="1" x2="40.33" y2="59" stroke="#fff" stroke-width="2"/>
+        <line x1="79.67" y1="1" x2="79.67" y2="59" stroke="#fff" stroke-width="2"/>
       </svg>`,
       'rect-4-unequal': `<svg viewBox="0 0 100 60" width="100" height="60">
         <rect x="1" y="1" width="98" height="58" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>

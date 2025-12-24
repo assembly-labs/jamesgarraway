@@ -254,6 +254,265 @@ const App = {
   },
 
   /**
+   * Fire rainbow confetti explosion (more intense for victories)
+   */
+  fireRainbowConfetti() {
+    const colors = ['#E31837', '#FF6B35', '#FFD700', '#FFEC00', '#4CAF50', '#00BCD4', '#2196F3', '#9C27B0', '#E91E63'];
+    const confettiCount = 150;
+
+    for (let i = 0; i < confettiCount; i++) {
+      setTimeout(() => {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti victory-confetti';
+        confetti.style.cssText = `
+          left: ${Math.random() * 100}vw;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          animation-duration: ${2 + Math.random() * 2}s;
+          width: ${8 + Math.random() * 8}px;
+          height: ${8 + Math.random() * 8}px;
+        `;
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 4000);
+      }, i * 10);
+    }
+  },
+
+  /**
+   * MEGA confetti explosion - bursts from center like a bomb!
+   */
+  fireExplosionConfetti() {
+    const colors = ['#E31837', '#FF6B35', '#FFD700', '#FFEC00', '#4CAF50', '#00BCD4', '#2196F3', '#9C27B0', '#E91E63', '#00FF00', '#FF00FF', '#00FFFF'];
+    const confettiCount = 200;
+
+    for (let i = 0; i < confettiCount; i++) {
+      const confetti = document.createElement('div');
+      const angle = (Math.random() * 360) * (Math.PI / 180);
+      const velocity = 300 + Math.random() * 500;
+      const tx = Math.cos(angle) * velocity;
+      const ty = Math.sin(angle) * velocity;
+      const size = 10 + Math.random() * 15;
+      const rotation = Math.random() * 1080;
+
+      confetti.className = 'explosion-confetti';
+      confetti.style.cssText = `
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: ${size}px;
+        height: ${size}px;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+        z-index: 10001;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        animation: explosion-burst 2s cubic-bezier(0, 0.5, 0.5, 1) forwards;
+        --tx: ${tx}px;
+        --ty: ${ty}px;
+        --rotation: ${rotation}deg;
+        animation-delay: ${Math.random() * 0.1}s;
+      `;
+      document.body.appendChild(confetti);
+
+      setTimeout(() => confetti.remove(), 2500);
+    }
+  },
+
+  /**
+   * Screen shake effect
+   */
+  shakeScreen() {
+    document.body.style.animation = 'screen-shake 0.5s ease-in-out';
+    setTimeout(() => {
+      document.body.style.animation = '';
+    }, 500);
+  },
+
+  /**
+   * Stadium flash effect - multiple bursts like stadium lights going crazy
+   */
+  stadiumFlash() {
+    const flashCount = 5;
+    for (let i = 0; i < flashCount; i++) {
+      setTimeout(() => {
+        const flash = document.createElement('div');
+        flash.className = 'stadium-flash';
+        flash.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: radial-gradient(circle at ${30 + Math.random() * 40}% ${30 + Math.random() * 40}%, rgba(255,255,255,0.9) 0%, rgba(255,215,0,0.4) 30%, transparent 70%);
+          z-index: 9999;
+          pointer-events: none;
+          animation: stadium-flash-anim 0.2s ease-out forwards;
+        `;
+        document.body.appendChild(flash);
+        setTimeout(() => flash.remove(), 200);
+      }, i * 100);
+    }
+  },
+
+  /**
+   * Get the base path for assets (handles being loaded from different page depths)
+   */
+  getBasePath() {
+    const path = window.location.pathname;
+    // Count directory depth from root
+    const depth = (path.match(/\//g) || []).length - 1;
+    if (depth <= 1) return './';
+    if (depth === 2) return '../';
+    if (depth >= 3) return '../../';
+    return './';
+  },
+
+  /**
+   * Show touchdown GIF overlay with EPIC full-screen display
+   * GIF plays for 4 seconds before fading out
+   */
+  showTouchdownGif() {
+    const gifs = [];
+    for (let i = 1; i <= 28; i++) {
+      gifs.push(`giphy-${i}.gif`);
+    }
+    gifs.push('giphy.gif');
+
+    const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
+    const basePath = this.getBasePath();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'td-gif-overlay';
+    overlay.innerHTML = `
+      <div class="td-text-banner">TOUCHDOWN!</div>
+      <img src="${basePath}images/touchdowns/${randomGif}" alt="Touchdown celebration" onerror="this.src='${basePath}images/touchdowns/giphy.gif'">
+    `;
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      animation: fadeIn 0.3s ease;
+    `;
+    overlay.querySelector('.td-text-banner').style.cssText = `
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 900;
+      color: #FFD700;
+      text-shadow: 0 0 30px #FFD700, 0 0 60px #FF6B35, 0 4px 0 #E65100;
+      animation: td-text-zoom 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+      letter-spacing: 0.1em;
+      z-index: 10001;
+      text-align: center;
+    `;
+    overlay.querySelector('img').style.cssText = `
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      animation: gif-zoom-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Display for 4 seconds, then fade out
+    setTimeout(() => {
+      overlay.style.animation = 'fadeOut 0.5s ease';
+      setTimeout(() => overlay.remove(), 500);
+    }, 4000);
+  },
+
+  /**
+   * Celebrate victory over opponent team - NOW WITH EPIC EFFECTS!
+   * @param {string} teamName - The defeated team name
+   * @param {number} lessonNum - Lesson number (6 = Super Bowl)
+   * @param {string} teamLogo - Path to team logo
+   */
+  celebrateVictory(teamName, lessonNum, teamLogo) {
+    const isSuperBowl = lessonNum === 6;
+
+    // Use broadcast transitions if available for maximum impact
+    if (typeof BroadcastTransitions !== 'undefined') {
+      BroadcastTransitions.victoryTransition(isSuperBowl);
+    }
+
+    // SCREEN SHAKE - Feel the impact!
+    this.shakeScreen();
+
+    // STADIUM FLASH - Multiple light bursts!
+    this.stadiumFlash();
+
+    // MEGA EXPLOSION CONFETTI - Bursts from center!
+    this.fireExplosionConfetti();
+
+    // Show the epic GIF with TOUCHDOWN text
+    setTimeout(() => this.showTouchdownGif(), 200);
+
+    // WAVE 1: Rainbow confetti from above
+    setTimeout(() => this.fireRainbowConfetti(), 300);
+
+    // WAVE 2: More confetti for ALL lessons now!
+    setTimeout(() => this.fireRainbowConfetti(), 800);
+
+    // WAVE 3: Even more for all lessons!
+    setTimeout(() => this.fireRainbowConfetti(), 1300);
+
+    // Super Bowl gets EXTRA waves!
+    if (isSuperBowl) {
+      setTimeout(() => this.fireExplosionConfetti(), 1000);
+      setTimeout(() => this.fireRainbowConfetti(), 1800);
+      setTimeout(() => this.fireExplosionConfetti(), 2300);
+      setTimeout(() => this.stadiumFlash(), 2000);
+    }
+
+    // Show victory overlay after GIF with animated entrance
+    setTimeout(() => {
+      const overlay = document.createElement('div');
+      overlay.className = 'celebration-overlay show';
+
+      const title = isSuperBowl ? 'SUPER BOWL CHAMPIONS!' : `EAGLES DEFEAT THE ${teamName.toUpperCase()}!`;
+      const message = isSuperBowl
+        ? 'You\'ve mastered all fraction skills and won the championship!'
+        : `You've advanced to the next round of the playoffs!`;
+      const icon = isSuperBowl ? '🏆' : '🦅';
+
+      overlay.innerHTML = `
+        <div class="celebration-content victory-celebration" style="animation: victory-modal-entrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;">
+          <div class="celebration-icon" style="font-size: 5rem; animation: icon-bounce 0.5s ease infinite alternate;">${icon}</div>
+          <h2 class="celebration-title" style="color: #004C54; font-size: 2rem; text-shadow: 0 2px 10px rgba(0,76,84,0.3);">${title}</h2>
+          <p class="celebration-message" style="font-size: 1.1rem;">${message}</p>
+          <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+            <a href="../index.html" class="btn btn-primary btn-large" style="animation: pulse-glow 1s ease infinite; font-size: 1.1rem; padding: 1rem 2rem;">
+              ${isSuperBowl ? '🏆 Celebrate!' : '🏈 Continue Playoffs'}
+            </a>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(overlay);
+
+      // One more confetti burst when modal appears!
+      this.fireRainbowConfetti();
+
+      // Click to dismiss
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          window.location.href = '../index.html';
+        }
+      });
+    }, 4000);
+  },
+
+  /**
    * Create a progress ring SVG
    * @param {number} progress - 0 to 100
    * @param {number} size - Size in pixels
@@ -354,7 +613,7 @@ const App = {
   }
 };
 
-// Add CSS animation keyframes
+// Add CSS animation keyframes for EPIC celebrations
 const style = document.createElement('style');
 style.textContent = `
   @keyframes slideUp {
@@ -375,6 +634,143 @@ style.textContent = `
     to {
       opacity: 0;
       transform: translate(-50%, 20px);
+    }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  @keyframes td-flash-anim {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* EPIC CELEBRATION ANIMATIONS */
+
+  /* Explosion confetti burst from center */
+  @keyframes explosion-burst {
+    0% {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 1;
+    }
+    20% {
+      transform: translate(calc(-50% + var(--tx) * 0.3), calc(-50% + var(--ty) * 0.3)) scale(1.2) rotate(calc(var(--rotation) * 0.3));
+      opacity: 1;
+    }
+    100% {
+      transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty) + 200px)) scale(0.3) rotate(var(--rotation));
+      opacity: 0;
+    }
+  }
+
+  /* Screen shake effect */
+  @keyframes screen-shake {
+    0%, 100% { transform: translateX(0); }
+    10% { transform: translateX(-10px) rotate(-1deg); }
+    20% { transform: translateX(10px) rotate(1deg); }
+    30% { transform: translateX(-8px) rotate(-0.5deg); }
+    40% { transform: translateX(8px) rotate(0.5deg); }
+    50% { transform: translateX(-5px); }
+    60% { transform: translateX(5px); }
+    70% { transform: translateX(-3px); }
+    80% { transform: translateX(3px); }
+    90% { transform: translateX(-1px); }
+  }
+
+  /* Stadium flash animation */
+  @keyframes stadium-flash-anim {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* Touchdown text zoom in */
+  @keyframes td-text-zoom {
+    0% {
+      transform: scale(0) rotate(-10deg);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.3) rotate(5deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+
+  /* GIF zoom in with bounce */
+  @keyframes gif-zoom-in {
+    0% {
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Victory modal entrance */
+  @keyframes victory-modal-entrance {
+    0% {
+      transform: scale(0.5) translateY(50px);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.05) translateY(-10px);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Icon bounce */
+  @keyframes icon-bounce {
+    0% { transform: scale(1) translateY(0); }
+    100% { transform: scale(1.1) translateY(-5px); }
+  }
+
+  /* Pulse glow for button */
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(0, 76, 84, 0.5), 0 0 20px rgba(0, 76, 84, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(0, 76, 84, 0.8), 0 0 40px rgba(0, 76, 84, 0.5), 0 0 60px rgba(255, 215, 0, 0.3);
+    }
+  }
+
+  /* Confetti fall animation (existing, enhanced) */
+  .confetti {
+    position: fixed;
+    top: -20px;
+    width: 10px;
+    height: 10px;
+    animation: confetti-fall linear forwards;
+    z-index: 10001;
+    pointer-events: none;
+  }
+
+  @keyframes confetti-fall {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(720deg);
+      opacity: 0;
     }
   }
 `;

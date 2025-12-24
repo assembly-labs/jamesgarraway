@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Super Extra Curricular - Football Fractions</title>
+
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+
+  <style>
+    .enrichment-header {
+      background: linear-gradient(135deg, #6A1B9A 0%, #4A148C 100%);
+      color: white;
+      padding: var(--space-xl);
+      border-radius: var(--radius-xl);
+      margin-bottom: var(--space-2xl);
+      text-align: center;
+    }
+
+    .enrichment-header h2 {
+      margin-bottom: var(--space-md);
+    }
+
+    .enrichment-header p {
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .enrichment-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-full);
+      font-size: 0.875rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .activities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--space-xl);
+    }
+
+    .activity-card-full {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--shadow);
+      transition: all var(--transition-normal);
+    }
+
+    .activity-card-full:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px var(--shadow);
+    }
+
+    .activity-header {
+      background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+      color: white;
+      padding: var(--space-xl);
+      position: relative;
+    }
+
+    .activity-num {
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-md);
+      width: 3rem;
+      height: 3rem;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .activity-title {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .activity-subtitle {
+      opacity: 0.9;
+      font-size: 0.9rem;
+    }
+
+    .activity-content {
+      padding: var(--space-xl);
+    }
+
+    .activity-description {
+      margin-bottom: var(--space-lg);
+      color: var(--text-secondary);
+    }
+
+    .materials-needed {
+      background: var(--info-light);
+      border-left: 4px solid var(--info);
+      padding: var(--space-md);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin-bottom: var(--space-lg);
+    }
+
+    .materials-needed h4 {
+      color: var(--info);
+      margin-bottom: var(--space-sm);
+      font-size: 0.9rem;
+    }
+
+    .materials-needed ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.85rem;
+    }
+
+    .materials-needed li {
+      margin-bottom: var(--space-xs);
+    }
+
+    .activity-actions {
+      display: flex;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-xl);
+    }
+
+    .back-link:hover {
+      color: var(--field-green);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="../practice/index.html" class="nav-link">Practice</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../super-extra-curricular/index.html" class="nav-dropdown-link active">Super Extra</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header" style="background: linear-gradient(135deg, #6A1B9A 0%, #4A148C 100%);">
+    <div class="container">
+      <h1>Super Extra Curricular</h1>
+      <p>Hands-on enrichment activities for when you have time for real-world exploration</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <a href="../lessons/index.html" class="back-link">
+      <span>←</span> Back to Main Lessons
+    </a>
+
+    <!-- Enrichment Intro -->
+    <div class="enrichment-header">
+      <span class="enrichment-badge">HANDS-ON LEARNING</span>
+      <h2>Physical Activities & Worksheets</h2>
+      <p>These activities use real materials like paper, scissors, Play-doh, and fraction tiles. Perfect for deeper exploration when you have time away from screens!</p>
+    </div>
+
+    <!-- Activities Grid -->
+    <div class="activities-grid" id="activitiesGrid">
+      <!-- Populated by JS -->
+    </div>
+  </main>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    const activities = [
+      {
+        num: 1,
+        slug: '01-equal-parts',
+        title: 'Equal Parts Explorer',
+        subtitle: 'Hands-on discovery with folding and cutting',
+        description: 'Use paper folding, Play-doh, and scissors to physically explore what makes parts truly equal. Perfect for tactile learners!',
+        materials: ['Paper for folding', 'Scissors', 'Play-doh or clay', 'Pencil'],
+        footballContext: 'Dividing the Eagles practice field into equal zones'
+      },
+      {
+        num: 2,
+        slug: '02-improper-fractions',
+        title: 'Improper Fractions Lab',
+        subtitle: 'Build mixed numbers with real objects',
+        description: 'Use fraction circles and physical number lines to understand fractions greater than 1 whole.',
+        materials: ['Fraction circles', 'Masking tape for floor number line', 'Index cards'],
+        footballContext: 'Jalen Hurts played 7 quarters - how many complete games?'
+      },
+      {
+        num: 3,
+        slug: '03-adding-fractions',
+        title: 'Adding Fractions Workshop',
+        subtitle: 'Combine pieces with fraction tiles',
+        description: 'Physically combine fraction tiles to see how adding fractions works with like denominators.',
+        materials: ['Fraction tiles', 'Bar model paper', 'Colored pencils'],
+        footballContext: 'Justin Jefferson gains 3/10 then 2/10 - total yards?'
+      },
+      {
+        num: 4,
+        slug: '04-subtracting-fractions',
+        title: 'Subtracting Fractions Workshop',
+        subtitle: 'Take away and compare with tiles',
+        description: 'Use fraction tiles to physically remove parts and find what remains.',
+        materials: ['Fraction tiles', 'Number line', 'Colored pencils'],
+        footballContext: 'How many yards left to the goal?'
+      },
+      {
+        num: 5,
+        slug: '05-simplifying',
+        title: 'Simplifying Discovery',
+        subtitle: 'Find equivalent fractions hands-on',
+        description: 'Use fraction tiles to discover that different fractions can represent the same amount.',
+        materials: ['Fraction tiles', 'Colored pencils', 'Paper'],
+        footballContext: 'Tom Brady\'s completion rates simplified'
+      },
+      {
+        num: 6,
+        slug: '06-equivalence',
+        title: 'Equivalence Exploration',
+        subtitle: 'Fraction twins with manipulatives',
+        description: 'Build physical models to prove that fractions like 1/2 and 2/4 are the same size.',
+        materials: ['Number line', 'Fraction strips', 'Colored paper'],
+        footballContext: 'The Packers at midfield: 5/10 = 1/2?'
+      }
+    ];
+
+    function renderActivities() {
+      const grid = document.getElementById('activitiesGrid');
+
+      grid.innerHTML = activities.map(activity => {
+        return `
+          <div class="activity-card-full">
+            <div class="activity-header">
+              <span class="activity-num">${activity.num}</span>
+              <h3 class="activity-title">${activity.title}</h3>
+              <p class="activity-subtitle">${activity.subtitle}</p>
+            </div>
+            <div class="activity-content">
+              <p class="activity-description">${activity.description}</p>
+
+              <div class="materials-needed">
+                <h4>Materials Needed:</h4>
+                <ul>
+                  ${activity.materials.map(m => `<li>• ${m}</li>`).join('')}
+                </ul>
+              </div>
+
+              <div class="callout-football" style="padding: var(--space-sm) var(--space-md); font-size: 0.875rem; margin-bottom: var(--space-lg);">
+                🏈 ${activity.footballContext}
+              </div>
+
+              <div class="activity-actions">
+                <a href="${activity.slug}/index.html" class="btn btn-primary">
+                  Start Activity
+                </a>
+                <a href="${activity.slug}/worksheet.html" class="btn btn-secondary">
+                  Print Worksheet
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', renderActivities);
+  </script>
+</body>
+</html>
