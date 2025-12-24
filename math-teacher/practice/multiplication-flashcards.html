@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Multiplication Game - Football Fractions</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+  <link rel="stylesheet" href="../styles/print.css">
+
+  <style>
+    /* Math font - Optimized for child readability based on research */
+    .math-font {
+      font-family: var(--font-math);
+    }
+
+    .game-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Compact Scoreboard */
+    .game-scoreboard {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-lg);
+      margin-bottom: var(--space-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      position: relative;
+      z-index: 10; /* Above confetti */
+    }
+
+    .score-item {
+      text-align: center;
+      min-width: 100px;
+    }
+
+    .score-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #999;
+      margin-bottom: 2px;
+    }
+
+    .score-value {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #FFD700;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+    }
+
+    .score-value.streak {
+      color: #FF6B6B;
+      font-size: 1.5rem;
+    }
+
+    /* Football Field Progress - Wider and shorter */
+    .football-field-wrapper {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+      margin-bottom: var(--space-lg);
+      position: relative;
+      z-index: 10; /* Above confetti */
+    }
+
+    .field-container {
+      position: relative;
+      height: 50px;
+      background: var(--field-green);
+      border-radius: var(--radius-md);
+      border: 3px solid white;
+      overflow: hidden;
+    }
+
+    .end-zone {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 10%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.6rem;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .end-zone-left {
+      left: 0;
+      background: #1565C0;
+      border-radius: 5px 0 0 5px;
+    }
+
+    .end-zone-right {
+      right: 0;
+      background: #E53935;
+      border-radius: 0 5px 5px 0;
+    }
+
+    .field-area {
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      top: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--field-green) 0%,
+        var(--field-green) 9%,
+        rgba(255, 255, 255, 0.25) 9%,
+        rgba(255, 255, 255, 0.25) 10%
+      );
+    }
+
+    .football-marker {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.75rem;
+      transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.5));
+      z-index: 10;
+    }
+
+    .football-marker.touchdown-anim {
+      animation: touchdownCelebrate 0.6s ease;
+    }
+
+    @keyframes touchdownCelebrate {
+      0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+      25% { transform: translate(-50%, -50%) scale(1.4) rotate(-15deg); }
+      50% { transform: translate(-50%, -50%) scale(1.6) rotate(15deg); }
+      75% { transform: translate(-50%, -50%) scale(1.4) rotate(-10deg); }
+    }
+
+    .yard-labels {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 10% 0;
+      font-size: 0.6rem;
+      color: #888;
+      font-weight: 600;
+    }
+
+    /* Progress Text */
+    .progress-text {
+      text-align: center;
+      font-weight: 600;
+      color: white;
+      font-size: 0.9rem;
+      margin-top: var(--space-sm);
+    }
+
+    /* Encouraging Message Overlay on Field */
+    .field-message {
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(90deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.9) 50%, rgba(26, 26, 46, 0.95) 100%);
+      border-radius: 0;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .field-message.show {
+      opacity: 1;
+    }
+
+    .field-message-text {
+      font-family: var(--font-family);
+      font-size: 1rem;
+      font-weight: 700;
+      color: #FFD700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+      text-align: center;
+      padding: 0 var(--space-sm);
+    }
+
+    @media (max-width: 600px) {
+      .field-message-text {
+        font-size: 0.75rem;
+      }
+    }
+
+    /* Flash Card - Clean design */
+    .flashcard-area {
+      margin-bottom: var(--space-lg);
+      position: relative;
+      z-index: 10; /* Above confetti */
+    }
+
+    .flashcard {
+      background: linear-gradient(145deg, #ffffff 0%, #f8f8f8 100%);
+      border-radius: var(--radius-xl);
+      min-height: 320px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-xl) var(--space-2xl);
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .flashcard.correct {
+      animation: correctPulse 0.5s ease;
+      background: linear-gradient(145deg, #E8F5E9 0%, #C8E6C9 100%);
+    }
+
+    .flashcard.incorrect {
+      animation: shake 0.5s ease;
+      background: linear-gradient(145deg, #FFEBEE 0%, #FFCDD2 100%);
+    }
+
+    @keyframes correctPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.015); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-8px); }
+      80% { transform: translateX(8px); }
+    }
+
+    .card-number {
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-lg);
+      color: #bbb;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    /* BIG Math Problem - Child-friendly */
+    .math-problem {
+      font-family: var(--font-math);
+      font-size: 5.5rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: var(--space-xl);
+      letter-spacing: 6px;
+      line-height: 1.1;
+    }
+
+    /* Answer Section - Contained */
+    .answer-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-lg);
+      width: 100%;
+      max-width: 320px;
+    }
+
+    /* Hide number spinners */
+    .answer-input::-webkit-outer-spin-button,
+    .answer-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .answer-input[type=number] {
+      -moz-appearance: textfield;
+    }
+
+    .answer-input {
+      width: 180px;
+      font-family: var(--font-math);
+      font-size: 3rem;
+      font-weight: 700;
+      text-align: center;
+      padding: var(--space-md) var(--space-sm);
+      border: 4px solid #ddd;
+      border-radius: var(--radius-lg);
+      transition: all var(--transition-fast);
+      background: white;
+      color: #1a1a2e;
+    }
+
+    .answer-input:focus {
+      outline: none;
+      border-color: var(--field-green);
+      box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.15);
+    }
+
+    .answer-input.correct {
+      border-color: var(--correct);
+      background: #E8F5E9;
+    }
+
+    .answer-input.incorrect {
+      border-color: var(--incorrect);
+      background: #FFEBEE;
+    }
+
+    .submit-btn {
+      width: 70px;
+      height: 70px;
+      min-width: 70px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      border: none;
+      font-size: 1.75rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      box-shadow: 0 4px 15px rgba(46, 125, 50, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .submit-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 20px rgba(46, 125, 50, 0.5);
+    }
+
+    .submit-btn:active {
+      transform: scale(0.95);
+    }
+
+    .feedback-message {
+      margin-top: var(--space-lg);
+      font-family: var(--font-family);
+      font-size: 1.4rem;
+      font-weight: 700;
+      min-height: 2rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .feedback-message.show {
+      opacity: 1;
+    }
+
+    .feedback-message.correct {
+      color: var(--correct);
+    }
+
+    .feedback-message.incorrect {
+      color: var(--incorrect);
+    }
+
+    /* Controls - Centered single button */
+    .game-controls {
+      display: flex;
+      justify-content: center;
+      margin-bottom: var(--space-xl);
+    }
+
+    /* Game Complete */
+    .game-complete {
+      background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+      border-radius: var(--radius-xl);
+      padding: var(--space-2xl);
+      text-align: center;
+      color: white;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .complete-icon {
+      font-size: 5rem;
+      margin-bottom: var(--space-lg);
+      animation: trophy-bounce 1s ease infinite;
+    }
+
+    @keyframes trophy-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .complete-title {
+      font-family: var(--font-family);
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: var(--space-md);
+      color: #FFD700;
+    }
+
+    .complete-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      margin: var(--space-xl) 0;
+    }
+
+    .complete-stat {
+      background: rgba(255, 255, 255, 0.1);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+    }
+
+    .complete-stat-value {
+      font-family: var(--font-family);
+      font-size: 2rem;
+      font-weight: 700;
+      color: #FFD700;
+    }
+
+    .complete-stat-label {
+      font-size: 0.75rem;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: var(--space-xs);
+    }
+
+    /* Saved Stats Banner */
+    .saved-stats-banner {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-lg);
+      margin-bottom: var(--space-lg);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+
+    .saved-stats-item {
+      text-align: center;
+    }
+
+    .saved-stats-value {
+      font-family: var(--font-family);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--field-green);
+    }
+
+    .saved-stats-label {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Start Screen */
+    .start-screen {
+      background: linear-gradient(145deg, #ffffff 0%, #f5f5f5 100%);
+      border-radius: var(--radius-xl);
+      padding: var(--space-2xl);
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .start-icon {
+      font-size: 5rem;
+      margin-bottom: var(--space-lg);
+    }
+
+    .start-title {
+      font-family: var(--font-family);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--field-dark);
+      margin-bottom: var(--space-md);
+    }
+
+    .start-description {
+      color: var(--text-secondary);
+      margin-bottom: var(--space-xl);
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+
+    .start-rules {
+      background: rgba(46, 125, 50, 0.1);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      text-align: left;
+    }
+
+    .start-rules h3 {
+      color: var(--field-green);
+      margin-bottom: var(--space-md);
+      font-size: 1.1rem;
+    }
+
+    .start-rules ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .start-rules li {
+      padding: var(--space-xs) 0;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .start-rules li::before {
+      content: "🏈";
+      font-size: 1rem;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 600px) {
+      .game-scoreboard {
+        padding: var(--space-sm) var(--space-md);
+      }
+
+      .score-item {
+        min-width: 70px;
+      }
+
+      .score-value {
+        font-size: 1.4rem;
+      }
+
+      .math-problem {
+        font-size: 3.5rem;
+        letter-spacing: 3px;
+      }
+
+      .answer-input {
+        width: 140px;
+        font-size: 2.25rem;
+      }
+
+      .submit-btn {
+        width: 60px;
+        height: 60px;
+        min-width: 60px;
+        font-size: 1.5rem;
+      }
+
+      .complete-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .feedback-message {
+        font-size: 1.1rem;
+      }
+    }
+
+    /* Rainbow Confetti Explosion */
+    .td-confetti {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 5; /* Behind game modules, above background */
+    }
+
+    /* Hard Question Confetti - smaller celebration */
+    .hard-confetti {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 5; /* Behind game modules, above background */
+    }
+
+    @keyframes confetti-burst {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+      }
+      10% {
+        transform: translate(var(--tx), var(--ty)) scale(1) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--tx), calc(var(--ty) + 400px)) scale(0.5) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .td-confetti.burst {
+      animation: confetti-burst 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    /* Touchdown flash overlay */
+    .td-flash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle, rgba(255,215,0,0.4) 0%, rgba(255,215,0,0) 70%);
+      z-index: 4;
+      pointer-events: none;
+      animation: td-flash-anim 0.6s ease-out forwards;
+    }
+
+    /* Hard question flash - smaller effect */
+    .hard-flash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle, rgba(76,175,80,0.25) 0%, rgba(76,175,80,0) 50%);
+      z-index: 4;
+      pointer-events: none;
+      animation: hard-flash-anim 0.4s ease-out forwards;
+    }
+
+    @keyframes td-flash-anim {
+      0% { opacity: 0; transform: scale(0.5); }
+      30% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0; transform: scale(2); }
+    }
+
+    @keyframes hard-flash-anim {
+      0% { opacity: 0; transform: scale(0.8); }
+      30% { opacity: 1; transform: scale(1.1); }
+      100% { opacity: 0; transform: scale(1.5); }
+    }
+
+    @keyframes hard-confetti-burst {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+      }
+      10% {
+        transform: translate(var(--tx), var(--ty)) scale(1) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--tx), calc(var(--ty) + 250px)) scale(0.4) rotate(540deg);
+        opacity: 0;
+      }
+    }
+
+    .hard-confetti.burst {
+      animation: hard-confetti-burst 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    /* Touchdown Celebration GIF Overlay */
+    .touchdown-gif-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 3; /* Behind modules (10) and confetti (5), above background (0) */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .touchdown-gif-overlay.show {
+      opacity: 1;
+    }
+
+    .touchdown-gif-overlay img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover; /* Fill screen edge-to-edge, crop to fit */
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        ☰
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="../diagnostic/index.html" class="nav-link">Skills Check</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Lessons</a></li>
+        <li><a href="../practice/index.html" class="nav-link active">Practice</a></li>
+        <li><a href="../tools/number-line.html" class="nav-link">Number Line</a></li>
+        <li><a href="../parent-guide/index.html" class="nav-link">Parent Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <a href="./index.html">Practice</a>
+        <span>/</span>
+        <span>Multiplication Game</span>
+      </div>
+      <h1>🏈 Multiplication Touchdown</h1>
+      <p>Score touchdowns by solving math problems!</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="game-container">
+      <!-- Saved Stats Banner -->
+      <div class="saved-stats-banner" id="savedStatsBanner" style="display: none;">
+        <div class="saved-stats-item">
+          <div class="saved-stats-value" id="savedTouchdowns">0</div>
+          <div class="saved-stats-label">Total Touchdowns</div>
+        </div>
+        <div class="saved-stats-item">
+          <div class="saved-stats-value" id="savedAccuracy">0%</div>
+          <div class="saved-stats-label">Best Accuracy</div>
+        </div>
+        <div class="saved-stats-item">
+          <div class="saved-stats-value" id="savedGames">0</div>
+          <div class="saved-stats-label">Games Played</div>
+        </div>
+      </div>
+
+      <!-- Game Area (hidden until start) -->
+      <div id="gameArea" style="display: none;">
+        <!-- Compact Scoreboard -->
+        <div class="game-scoreboard">
+          <div class="score-item">
+            <div class="score-label">Touchdowns</div>
+            <div class="score-value"><span id="touchdownCount">0</span> 🏈</div>
+          </div>
+          <div class="score-item">
+            <div class="score-label">Question</div>
+            <div class="score-value"><span id="currentQuestion">1</span>/<span id="totalQuestions">100</span></div>
+          </div>
+          <div class="score-item">
+            <div class="score-label">Streak</div>
+            <div class="score-value streak" id="streakCount">0 🔥</div>
+          </div>
+        </div>
+
+        <!-- Football Field Progress -->
+        <div class="football-field-wrapper">
+          <div class="field-container">
+            <div class="end-zone end-zone-left">GO</div>
+            <div class="field-area"></div>
+            <div class="end-zone end-zone-right">TD!</div>
+            <div class="football-marker" id="footballPosition">🏈</div>
+            <div class="field-message" id="fieldMessage">
+              <div class="field-message-text" id="fieldMessageText"></div>
+            </div>
+          </div>
+          <div class="yard-labels">
+            <span>0</span>
+            <span>20</span>
+            <span>40</span>
+            <span>60</span>
+            <span>80</span>
+            <span>100</span>
+          </div>
+          <div class="progress-text">
+            <span id="yardProgress">100</span> yards to touchdown!
+          </div>
+        </div>
+
+        <!-- Flash Card -->
+        <div class="flashcard-area">
+          <div class="flashcard" id="flashcard">
+            <div class="card-number" id="cardNumber">#1</div>
+            <div class="math-problem" id="mathProblem">6 × 7 =</div>
+            <div class="answer-section">
+              <input
+                type="number"
+                class="answer-input"
+                id="answerInput"
+                placeholder="?"
+                autocomplete="off"
+                inputmode="numeric"
+              >
+              <button class="submit-btn" id="submitBtn" onclick="Game.checkAnswer()">
+                ➜
+              </button>
+            </div>
+            <div class="feedback-message" id="feedbackMessage"></div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="game-controls">
+          <button class="btn btn-secondary btn-large" onclick="Game.restart()">🔄 New Game</button>
+        </div>
+      </div>
+
+      <!-- Start Screen -->
+      <div id="startScreen">
+        <div class="start-screen">
+          <div class="start-icon">🏈</div>
+          <h2 class="start-title">Multiplication Touchdown!</h2>
+          <p class="start-description">
+            Drive down the field by answering multiplication and division problems.<br>
+            Every correct answer = 10 yards. Score a touchdown every 10 questions!
+          </p>
+          <div class="start-rules">
+            <h3>How to Play</h3>
+            <ul>
+              <li>Right answer = +10 yards</li>
+              <li>Hard question right = +30 yards! 🔥</li>
+              <li>Wrong answer = -10 yards</li>
+              <li>100 yards = TOUCHDOWN!</li>
+              <li>10 questions = 1 game (keep going for bonus!)</li>
+            </ul>
+          </div>
+          <button class="btn btn-primary btn-large" onclick="Game.start()">
+            🏈 Start Game!
+          </button>
+        </div>
+      </div>
+
+      <!-- Game Complete Screen -->
+      <div id="completeScreen" style="display: none;">
+        <div class="game-complete">
+          <div class="complete-icon">🏆</div>
+          <h2 class="complete-title">Game Complete!</h2>
+          <div class="complete-stats">
+            <div class="complete-stat">
+              <div class="complete-stat-value" id="finalTouchdowns">0</div>
+              <div class="complete-stat-label">Touchdowns</div>
+            </div>
+            <div class="complete-stat">
+              <div class="complete-stat-value" id="finalCorrect">0/100</div>
+              <div class="complete-stat-label">Correct</div>
+            </div>
+            <div class="complete-stat">
+              <div class="complete-stat-value" id="finalAccuracy">0%</div>
+              <div class="complete-stat-label">Accuracy</div>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-large" onclick="Game.restart()">🏈 New Game</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: var(--field-dark); color: white; padding: var(--space-xl) 0; text-align: center; margin-top: var(--space-2xl);">
+    <div class="container">
+      <p>Football Fractions - Multiplication Touchdown</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/fractions.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    // Rainbow Touchdown Confetti Explosion
+    function touchdownConfetti() {
+      // Rainbow colors
+      const colors = [
+        '#FF0000', // Red
+        '#FF4500', // Orange Red
+        '#FF8C00', // Dark Orange
+        '#FFD700', // Gold
+        '#FFFF00', // Yellow
+        '#9ACD32', // Yellow Green
+        '#32CD32', // Lime Green
+        '#00FA9A', // Medium Spring Green
+        '#00CED1', // Dark Turquoise
+        '#1E90FF', // Dodger Blue
+        '#4169E1', // Royal Blue
+        '#8A2BE2', // Blue Violet
+        '#9932CC', // Dark Orchid
+        '#FF1493', // Deep Pink
+        '#FF69B4', // Hot Pink
+      ];
+
+      const confettiCount = 150; // Plentiful!
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+
+      // Create flash effect
+      const flash = document.createElement('div');
+      flash.className = 'td-flash';
+      document.body.appendChild(flash);
+      setTimeout(() => flash.remove(), 600);
+
+      // Create confetti pieces
+      for (let i = 0; i < confettiCount; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'td-confetti';
+
+          // Random rainbow color
+          confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+          // Random size (small pieces)
+          const size = 4 + Math.random() * 8;
+          confetti.style.width = size + 'px';
+          confetti.style.height = size + 'px';
+
+          // Random shape
+          if (Math.random() > 0.5) {
+            confetti.style.borderRadius = '50%';
+          } else {
+            confetti.style.borderRadius = Math.random() > 0.5 ? '0' : '2px';
+          }
+
+          // Start from center
+          confetti.style.left = centerX + 'px';
+          confetti.style.top = centerY + 'px';
+
+          // Random burst direction (explode outward)
+          const angle = (Math.random() * 360) * (Math.PI / 180);
+          const velocity = 100 + Math.random() * 300;
+          const tx = Math.cos(angle) * velocity;
+          const ty = Math.sin(angle) * velocity - 200; // Bias upward
+
+          confetti.style.setProperty('--tx', tx + 'px');
+          confetti.style.setProperty('--ty', ty + 'px');
+
+          document.body.appendChild(confetti);
+
+          // Trigger animation
+          requestAnimationFrame(() => {
+            confetti.classList.add('burst');
+          });
+
+          // Remove after animation
+          setTimeout(() => confetti.remove(), 2500);
+        }, i * 8); // Stagger slightly for wave effect
+      }
+    }
+
+    // Smaller confetti for hard questions - 30 yard bonus!
+    function hardQuestionConfetti() {
+      // Green/gold colors for hard question success
+      const colors = [
+        '#4CAF50', // Green
+        '#66BB6A', // Light Green
+        '#81C784', // Lighter Green
+        '#FFD700', // Gold
+        '#FFC107', // Amber
+        '#FFEB3B', // Yellow
+        '#8BC34A', // Light Green
+        '#CDDC39', // Lime
+      ];
+
+      const confettiCount = 50; // Smaller celebration
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+
+      // Create flash effect
+      const flash = document.createElement('div');
+      flash.className = 'hard-flash';
+      document.body.appendChild(flash);
+      setTimeout(() => flash.remove(), 400);
+
+      // Create confetti pieces
+      for (let i = 0; i < confettiCount; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'hard-confetti';
+
+          // Random green/gold color
+          confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+          // Random size (smaller pieces)
+          const size = 3 + Math.random() * 6;
+          confetti.style.width = size + 'px';
+          confetti.style.height = size + 'px';
+
+          // Random shape
+          if (Math.random() > 0.5) {
+            confetti.style.borderRadius = '50%';
+          }
+
+          // Start from center
+          confetti.style.left = centerX + 'px';
+          confetti.style.top = centerY + 'px';
+
+          // Random burst direction (more contained)
+          const angle = (Math.random() * 360) * (Math.PI / 180);
+          const velocity = 80 + Math.random() * 150;
+          const tx = Math.cos(angle) * velocity;
+          const ty = Math.sin(angle) * velocity - 100; // Less upward bias
+
+          confetti.style.setProperty('--tx', tx + 'px');
+          confetti.style.setProperty('--ty', ty + 'px');
+
+          document.body.appendChild(confetti);
+
+          // Trigger animation
+          requestAnimationFrame(() => {
+            confetti.classList.add('burst');
+          });
+
+          // Remove after animation
+          setTimeout(() => confetti.remove(), 1500);
+        }, i * 6); // Slightly faster stagger
+      }
+    }
+
+    // Touchdown Celebration GIF - Easter Egg!
+    function showTouchdownGif() {
+      // Array of all touchdown celebration GIFs
+      const touchdownGifs = [
+        'giphy.gif', 'giphy-1.gif', 'giphy-2.gif', 'giphy-3.gif', 'giphy-4.gif',
+        'giphy-5.gif', 'giphy-6.gif', 'giphy-7.gif', 'giphy-8.gif', 'giphy-9.gif',
+        'giphy-10.gif', 'giphy-11.gif', 'giphy-12.gif', 'giphy-13.gif', 'giphy-14.gif',
+        'giphy-15.gif', 'giphy-16.gif', 'giphy-17.gif', 'giphy-18.gif', 'giphy-19.gif',
+        'giphy-20.gif', 'giphy-21.gif', 'giphy-22.gif', 'giphy-23.gif', 'giphy-24.gif',
+        'giphy-25.gif', 'giphy-26.gif', 'giphy-27.gif', 'giphy-28.gif'
+      ];
+
+      // Randomly select a GIF
+      const randomGif = touchdownGifs[Math.floor(Math.random() * touchdownGifs.length)];
+      const gifPath = `../images/touchdowns/${randomGif}`;
+
+      // Create overlay container
+      const overlay = document.createElement('div');
+      overlay.className = 'touchdown-gif-overlay';
+
+      // Create image element
+      const img = document.createElement('img');
+      img.src = gifPath;
+      img.alt = 'Touchdown celebration!';
+
+      // Append image to overlay
+      overlay.appendChild(img);
+      document.body.appendChild(overlay);
+
+      // Fade in
+      requestAnimationFrame(() => {
+        overlay.classList.add('show');
+      });
+
+      // Remove after 3 seconds
+      setTimeout(() => {
+        overlay.classList.remove('show');
+        setTimeout(() => overlay.remove(), 300); // Wait for fade-out transition
+      }, 3000);
+    }
+
+    // Generate 100 flash cards (60 multiplication, 40 division)
+    function generateCards() {
+      const cards = [];
+
+      // 60 Multiplication cards - mix of difficulties
+      const multProblems = [
+        // Easy (2s, 5s, 10s) - 15 cards
+        { a: 2, b: 3 }, { a: 2, b: 4 }, { a: 2, b: 6 }, { a: 2, b: 7 }, { a: 2, b: 8 },
+        { a: 5, b: 3 }, { a: 5, b: 4 }, { a: 5, b: 6 }, { a: 5, b: 7 }, { a: 5, b: 8 },
+        { a: 10, b: 3 }, { a: 10, b: 4 }, { a: 10, b: 6 }, { a: 10, b: 7 }, { a: 10, b: 8 },
+
+        // Medium (3s, 4s, 6s) - 20 cards
+        { a: 3, b: 3 }, { a: 3, b: 4 }, { a: 3, b: 6 }, { a: 3, b: 7 }, { a: 3, b: 8 }, { a: 3, b: 9 }, { a: 3, b: 12 },
+        { a: 4, b: 4 }, { a: 4, b: 6 }, { a: 4, b: 7 }, { a: 4, b: 8 }, { a: 4, b: 9 }, { a: 4, b: 12 },
+        { a: 6, b: 6 }, { a: 6, b: 7 }, { a: 6, b: 8 }, { a: 6, b: 9 }, { a: 6, b: 11 }, { a: 6, b: 12 },
+        { a: 11, b: 11 },
+
+        // Hard (7s, 8s, 9s, 12s) - 25 cards
+        { a: 7, b: 7 }, { a: 7, b: 8 }, { a: 7, b: 9 }, { a: 7, b: 11 }, { a: 7, b: 12 },
+        { a: 8, b: 8 }, { a: 8, b: 9 }, { a: 8, b: 11 }, { a: 8, b: 12 },
+        { a: 9, b: 9 }, { a: 9, b: 11 }, { a: 9, b: 12 },
+        { a: 11, b: 12 }, { a: 12, b: 12 },
+        { a: 7, b: 4 }, { a: 8, b: 3 }, { a: 9, b: 4 }, { a: 9, b: 6 },
+        { a: 12, b: 3 }, { a: 12, b: 4 }, { a: 12, b: 5 }, { a: 12, b: 6 },
+        { a: 11, b: 3 }, { a: 11, b: 4 }, { a: 11, b: 5 }
+      ];
+
+      multProblems.forEach((p, index) => {
+        // Determine difficulty based on position in array
+        let difficulty = 'easy';
+        if (index >= 15 && index < 35) difficulty = 'medium';
+        if (index >= 35) difficulty = 'hard';
+
+        cards.push({
+          type: 'multiply',
+          a: p.a,
+          b: p.b,
+          display: `${p.a} × ${p.b} =`,
+          answer: p.a * p.b,
+          difficulty: difficulty
+        });
+      });
+
+      // 40 Division cards - inverse of multiplication facts
+      const divProblems = [
+        // Easy
+        { dividend: 12, divisor: 2 }, { dividend: 16, divisor: 2 }, { dividend: 18, divisor: 2 },
+        { dividend: 25, divisor: 5 }, { dividend: 35, divisor: 5 }, { dividend: 45, divisor: 5 },
+        { dividend: 40, divisor: 10 }, { dividend: 70, divisor: 10 }, { dividend: 90, divisor: 10 },
+
+        // Medium
+        { dividend: 18, divisor: 3 }, { dividend: 24, divisor: 3 }, { dividend: 27, divisor: 3 },
+        { dividend: 24, divisor: 4 }, { dividend: 32, divisor: 4 }, { dividend: 36, divisor: 4 },
+        { dividend: 36, divisor: 6 }, { dividend: 48, divisor: 6 }, { dividend: 54, divisor: 6 },
+        { dividend: 42, divisor: 6 }, { dividend: 72, divisor: 6 },
+
+        // Hard
+        { dividend: 49, divisor: 7 }, { dividend: 56, divisor: 7 }, { dividend: 63, divisor: 7 },
+        { dividend: 77, divisor: 7 }, { dividend: 84, divisor: 7 },
+        { dividend: 64, divisor: 8 }, { dividend: 72, divisor: 8 }, { dividend: 88, divisor: 8 },
+        { dividend: 96, divisor: 8 },
+        { dividend: 81, divisor: 9 }, { dividend: 99, divisor: 9 }, { dividend: 108, divisor: 9 },
+        { dividend: 72, divisor: 9 },
+        { dividend: 121, divisor: 11 }, { dividend: 132, divisor: 11 }, { dividend: 110, divisor: 11 },
+        { dividend: 144, divisor: 12 }, { dividend: 108, divisor: 12 }, { dividend: 96, divisor: 12 },
+        { dividend: 84, divisor: 12 }
+      ];
+
+      divProblems.forEach((p, index) => {
+        // Determine difficulty based on position in array
+        let difficulty = 'easy';
+        if (index >= 9 && index < 20) difficulty = 'medium';
+        if (index >= 20) difficulty = 'hard';
+
+        cards.push({
+          type: 'divide',
+          dividend: p.dividend,
+          divisor: p.divisor,
+          display: `${p.dividend} ÷ ${p.divisor} =`,
+          answer: p.dividend / p.divisor,
+          difficulty: difficulty
+        });
+      });
+
+      return cards;
+    }
+
+    // Format touchdowns as fractions
+    function formatTouchdowns(correct) {
+      const touchdowns = correct / 10;
+      const whole = Math.floor(touchdowns);
+      const remainder = correct % 10;
+
+      if (remainder === 0) {
+        return whole.toString();
+      }
+
+      // Simplify the fraction
+      const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+      const divisor = gcd(remainder, 10);
+      const num = remainder / divisor;
+      const den = 10 / divisor;
+
+      if (whole === 0) {
+        return `${num}/${den}`;
+      }
+
+      return `${whole} ${num}/${den}`;
+    }
+
+    const Game = {
+      cards: [],
+      currentIndex: 0,
+      correctCount: 0,
+      questionsAnswered: 0,
+      fieldPosition: 0, // 0-100 yards (separate from correctCount)
+      touchdowns: 0,
+      streak: 0,
+      bestStreak: 0,
+      started: false,
+      bonusMode: false, // True after 10 questions
+
+      // Encouraging messages for bonus mode
+      bonusMessages: [
+        "You're smashing them!",
+        "Unstoppable!",
+        "The defense can't stop you!",
+        "MVP performance!",
+        "On fire!",
+        "Crushing it!",
+        "Total domination!",
+        "They can't keep up!",
+        "Legend mode!",
+        "Keep rolling!"
+      ],
+
+      init() {
+        this.cards = generateCards();
+        this.loadSavedStats();
+        this.setupEventListeners();
+      },
+
+      loadSavedStats() {
+        const stats = Storage.get('multiplication.stats', {
+          totalTouchdowns: 0,
+          bestAccuracy: 0,
+          gamesPlayed: 0
+        });
+
+        if (stats.gamesPlayed > 0) {
+          document.getElementById('savedStatsBanner').style.display = 'flex';
+          document.getElementById('savedTouchdowns').textContent = stats.totalTouchdowns;
+          document.getElementById('savedAccuracy').textContent = stats.bestAccuracy + '%';
+          document.getElementById('savedGames').textContent = stats.gamesPlayed;
+        }
+      },
+
+      saveStats() {
+        const currentStats = Storage.get('multiplication.stats', {
+          totalTouchdowns: 0,
+          bestAccuracy: 0,
+          gamesPlayed: 0
+        });
+
+        const accuracy = Math.round((this.correctCount / this.questionsAnswered) * 100);
+
+        currentStats.totalTouchdowns += this.touchdowns;
+        currentStats.bestAccuracy = Math.max(currentStats.bestAccuracy, accuracy);
+        currentStats.gamesPlayed += 1;
+
+        Storage.set('multiplication.stats', currentStats);
+
+        // Also record as practice session
+        Storage.recordPracticeSession({
+          type: 'Multiplication Touchdown',
+          score: accuracy,
+          problemCount: this.questionsAnswered,
+          correctCount: this.correctCount,
+          touchdowns: this.touchdowns
+        });
+      },
+
+      setupEventListeners() {
+        const input = document.getElementById('answerInput');
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            this.checkAnswer();
+          }
+        });
+      },
+
+      start() {
+        this.started = true;
+        this.currentIndex = 0;
+        this.correctCount = 0;
+        this.questionsAnswered = 0;
+        this.fieldPosition = 0;
+        this.touchdowns = 0;
+        this.streak = 0;
+        this.bonusMode = false;
+        this.cards = App.shuffle(generateCards());
+
+        document.getElementById('startScreen').style.display = 'none';
+        document.getElementById('completeScreen').style.display = 'none';
+        document.getElementById('gameArea').style.display = 'block';
+        document.getElementById('totalQuestions').textContent = '10';
+
+        // Hide field message
+        document.getElementById('fieldMessage').classList.remove('show');
+
+        this.updateUI();
+        this.focusInput();
+      },
+
+      restart() {
+        this.started = false;
+        this.currentIndex = 0;
+        this.correctCount = 0;
+        this.questionsAnswered = 0;
+        this.fieldPosition = 0;
+        this.touchdowns = 0;
+        this.streak = 0;
+        this.bonusMode = false;
+
+        document.getElementById('startScreen').style.display = 'block';
+        document.getElementById('completeScreen').style.display = 'none';
+        document.getElementById('gameArea').style.display = 'none';
+        document.getElementById('fieldMessage').classList.remove('show');
+
+        this.loadSavedStats();
+      },
+
+      showBonusMessage() {
+        const msg = this.bonusMessages[Math.floor(Math.random() * this.bonusMessages.length)];
+        const msgEl = document.getElementById('fieldMessage');
+        const msgText = document.getElementById('fieldMessageText');
+
+        msgText.textContent = msg;
+        msgEl.classList.add('show');
+
+        // Hide after 2 seconds
+        setTimeout(() => {
+          msgEl.classList.remove('show');
+        }, 2000);
+      },
+
+      checkAnswer() {
+        const input = document.getElementById('answerInput');
+        const userAnswer = parseInt(input.value);
+        const card = this.cards[this.currentIndex];
+        const flashcard = document.getElementById('flashcard');
+        const feedback = document.getElementById('feedbackMessage');
+
+        if (isNaN(userAnswer)) {
+          input.focus();
+          return;
+        }
+
+        const isCorrect = userAnswer === card.answer;
+        this.questionsAnswered++;
+
+        if (isCorrect) {
+          this.correctCount++;
+          this.streak++;
+          this.bestStreak = Math.max(this.bestStreak, this.streak);
+
+          // Determine yards based on difficulty
+          const isHard = card.difficulty === 'hard';
+          const yardsGained = isHard ? 30 : 10;
+          this.fieldPosition += yardsGained;
+
+          // Update field position immediately for visual feedback
+          const fieldPercent = 10 + (this.fieldPosition / 100) * 80;
+          document.getElementById('footballPosition').style.left = fieldPercent + '%';
+          document.getElementById('yardProgress').textContent = 100 - this.fieldPosition;
+
+          flashcard.classList.add('correct');
+          input.classList.add('correct');
+
+          // Show special message for hard questions
+          if (isHard) {
+            feedback.textContent = `🔥 AMAZING! +${yardsGained} yards!`;
+            // Trigger hard question confetti
+            setTimeout(() => hardQuestionConfetti(), 300);
+          } else {
+            feedback.textContent = this.getCorrectMessage();
+          }
+          feedback.className = 'feedback-message show correct';
+
+          // Check for touchdown (100 yards)
+          if (this.fieldPosition >= 100) {
+            this.touchdowns++;
+            this.fieldPosition = 0; // Reset to start of field
+
+            // Show random celebration GIF (Easter egg!)
+            showTouchdownGif();
+
+            const football = document.getElementById('footballPosition');
+            football.classList.add('touchdown-anim');
+            setTimeout(() => {
+              football.classList.remove('touchdown-anim');
+              touchdownConfetti(); // Rainbow explosion!
+            }, 600);
+          }
+
+          // Show bonus message if in bonus mode
+          if (this.bonusMode && Math.random() > 0.5) {
+            setTimeout(() => this.showBonusMessage(), 300);
+          }
+        } else {
+          this.streak = 0;
+
+          // Move back 10 yards (min 0)
+          this.fieldPosition = Math.max(0, this.fieldPosition - 10);
+
+          // Update field position immediately for visual feedback
+          const fieldPercent = 10 + (this.fieldPosition / 100) * 80;
+          document.getElementById('footballPosition').style.left = fieldPercent + '%';
+          document.getElementById('yardProgress').textContent = 100 - this.fieldPosition;
+
+          flashcard.classList.add('incorrect');
+          input.classList.add('incorrect');
+          feedback.textContent = `Not quite! It's ${card.answer}`;
+          feedback.className = 'feedback-message show incorrect';
+        }
+
+        // Move to next card after delay
+        setTimeout(() => {
+          flashcard.classList.remove('correct', 'incorrect');
+          input.classList.remove('correct', 'incorrect');
+          feedback.classList.remove('show');
+
+          this.currentIndex++;
+
+          // Check if game is "complete" (10 questions)
+          if (this.questionsAnswered === 10 && !this.bonusMode) {
+            this.bonusMode = true;
+            this.showBonusMessage(); // Show first bonus message
+          }
+
+          // Check if we've run out of cards
+          if (this.currentIndex >= this.cards.length) {
+            this.endGame();
+          } else {
+            this.updateUI();
+            this.focusInput();
+          }
+        }, isCorrect ? 800 : 1500);
+      },
+
+      getCorrectMessage() {
+        const messages = [
+          'Touchdown drive!',
+          'Great play!',
+          'First down!',
+          'Keep it going!',
+          'Nice one!',
+          'You got it!',
+          'Score!',
+          'Perfect!',
+          'Way to go!',
+          'Awesome!'
+        ];
+        return messages[Math.floor(Math.random() * messages.length)];
+      },
+
+      updateUI() {
+        const card = this.cards[this.currentIndex];
+
+        // Update card display
+        document.getElementById('mathProblem').textContent = card.display;
+        document.getElementById('cardNumber').textContent = `#${this.questionsAnswered + 1}`;
+        document.getElementById('answerInput').value = '';
+
+        // Update scoreboard
+        const questionDisplay = this.bonusMode
+          ? `${this.questionsAnswered + 1}+`
+          : `${this.questionsAnswered + 1}/10`;
+        document.getElementById('currentQuestion').textContent = this.questionsAnswered + 1;
+        document.getElementById('totalQuestions').textContent = this.bonusMode ? '+' : '10';
+        document.getElementById('touchdownCount').textContent = this.touchdowns;
+        document.getElementById('streakCount').textContent = this.streak + ' 🔥';
+
+        // Update football position on field (10% end zones, 80% playing area)
+        const fieldPercent = 10 + (this.fieldPosition / 100) * 80;
+        document.getElementById('footballPosition').style.left = fieldPercent + '%';
+        document.getElementById('yardProgress').textContent = 100 - this.fieldPosition;
+      },
+
+      focusInput() {
+        setTimeout(() => {
+          document.getElementById('answerInput').focus();
+        }, 100);
+      },
+
+      endGame() {
+        this.saveStats();
+
+        const accuracy = this.questionsAnswered > 0
+          ? Math.round((this.correctCount / this.questionsAnswered) * 100)
+          : 0;
+
+        document.getElementById('gameArea').style.display = 'none';
+        document.getElementById('completeScreen').style.display = 'block';
+        document.getElementById('finalTouchdowns').textContent = this.touchdowns;
+        document.getElementById('finalCorrect').textContent = `${this.correctCount}/${this.questionsAnswered}`;
+        document.getElementById('finalAccuracy').textContent = accuracy + '%';
+
+        // Big celebration for good scores
+        if (accuracy >= 80) {
+          App.celebrate(
+            '🏆 Amazing Game!',
+            `You scored ${this.touchdowns} touchdowns with ${accuracy}% accuracy!`,
+            '🏈'
+          );
+        } else if (accuracy >= 60) {
+          App.celebrate(
+            'Great Effort!',
+            `${this.touchdowns} touchdowns! Keep practicing!`,
+            '⭐'
+          );
+        }
+      }
+    };
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', () => {
+      Game.init();
+    });
+  </script>
+</body>
+</html>

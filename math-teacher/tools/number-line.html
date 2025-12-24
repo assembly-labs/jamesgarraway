@@ -32,6 +32,7 @@
       margin: var(--space-xl) 0;
       position: relative;
       overflow: hidden;
+      min-height: 280px;
     }
 
     .field-container::before {
@@ -49,6 +50,34 @@
         rgba(255, 255, 255, 0.2) 10%
       );
       pointer-events: none;
+    }
+
+    .question-display {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      text-align: center;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+
+    .question-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: var(--space-sm);
+    }
+
+    .question-fraction {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--field-green);
+      margin: var(--space-md) 0;
+    }
+
+    .question-hint {
+      font-size: 1rem;
+      color: var(--text-muted);
     }
 
     .number-line {
@@ -103,29 +132,65 @@
 
     .fraction-markers {
       position: relative;
-      height: 60px;
+      height: 100px;
       margin-bottom: var(--space-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .fraction-marker {
       position: absolute;
-      width: 50px;
-      height: 50px;
+      width: 70px;
+      height: 45px;
       background: var(--football-brown);
       border-radius: 50%;
-      border: 3px solid white;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
       font-weight: 700;
-      font-size: 0.875rem;
+      font-size: 1rem;
       cursor: grab;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       transition: transform var(--transition-fast);
       user-select: none;
       touch-action: none;
       z-index: 10;
+    }
+
+    /* Football laces */
+    .fraction-marker::before {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 2px;
+      background: white;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .fraction-marker::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 20px;
+      background: white;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow:
+        -6px 0 0 white,
+        6px 0 0 white,
+        -12px 0 0 white,
+        12px 0 0 white;
+    }
+
+    .fraction-value {
+      position: relative;
+      z-index: 1;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     }
 
     .fraction-marker:hover {
@@ -137,10 +202,6 @@
       transform: scale(1.15);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
       z-index: 20;
-    }
-
-    .fraction-marker.placed {
-      background: var(--end-zone-blue);
     }
 
     .fraction-marker.correct {
@@ -172,60 +233,26 @@
       margin-top: var(--space-xl);
     }
 
-    .settings-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: var(--space-md);
-      margin-bottom: var(--space-lg);
-    }
-
-    .setting-option {
-      padding: var(--space-md);
-      border: 2px solid var(--border);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      text-align: center;
-    }
-
-    .setting-option:hover {
-      border-color: var(--field-green);
-    }
-
-    .setting-option.active {
-      border-color: var(--field-green);
-      background: rgba(46, 125, 50, 0.1);
-    }
-
-    .setting-label {
-      font-weight: 600;
-      font-size: 0.875rem;
-      color: var(--text);
-    }
-
-    .instructions {
-      background: var(--info-light);
-      border-left: 4px solid var(--info);
-      padding: var(--space-md) var(--space-lg);
-      border-radius: var(--radius-md);
-      margin-bottom: var(--space-lg);
-    }
-
-    .instructions-title {
-      font-weight: 700;
-      margin-bottom: var(--space-sm);
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-
     .score-display {
+      display: flex;
+      gap: var(--space-xl);
+      justify-content: center;
+      align-items: center;
       background: var(--card-bg);
       border-radius: var(--radius-lg);
       padding: var(--space-lg);
-      text-align: center;
       margin-bottom: var(--space-xl);
       box-shadow: 0 2px 8px var(--shadow);
+    }
+
+    .score-item {
+      text-align: center;
+    }
+
+    .score-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: var(--space-xs);
     }
 
     .score-value {
@@ -234,16 +261,44 @@
       color: var(--field-green);
     }
 
+    .streak-value {
+      color: var(--football-orange);
+    }
+
+    .feedback-message {
+      text-align: center;
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: var(--space-lg);
+      display: none;
+    }
+
+    .feedback-message.correct {
+      background: var(--correct-light);
+      color: var(--correct);
+      display: block;
+    }
+
+    .feedback-message.incorrect {
+      background: var(--incorrect-light);
+      color: var(--incorrect);
+      display: block;
+    }
+
     .toggle-switch {
       display: flex;
       align-items: center;
       gap: var(--space-md);
       justify-content: center;
-      margin-bottom: var(--space-lg);
+      margin-top: var(--space-md);
     }
 
     .toggle-label {
       font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--text-muted);
     }
 
     .switch {
@@ -320,74 +375,43 @@
       <div class="breadcrumb">
         <a href="../index.html">Home</a>
         <span>/</span>
-        <span>Number Line Tool</span>
+        <span>Ref's Challenge</span>
       </div>
-      <h1>📏 Interactive Number Line</h1>
-      <p>Drag fractions to their correct positions on the football field</p>
+      <h1>🏈 Ref's Challenge: Spot the Ball</h1>
+      <p>Help the referee place the football at the correct yard line</p>
     </div>
   </header>
 
   <!-- Main Content -->
   <main class="container">
     <div class="tool-container">
-      <!-- Instructions -->
-      <div class="instructions">
-        <div class="instructions-title">
-          <span>ℹ️</span>
-          <span>How to Use</span>
-        </div>
-        <ul style="margin-left: var(--space-lg); margin-top: var(--space-sm);">
-          <li>Drag the fraction footballs to their correct positions on the number line</li>
-          <li>Use the yard lines to help you estimate positions</li>
-          <li>Click "Check Answer" to see if you placed them correctly</li>
-          <li>Toggle labels on/off to challenge yourself</li>
-        </ul>
-      </div>
-
-      <!-- Settings -->
-      <div class="tool-card">
-        <h2>Choose Difficulty</h2>
-        <div class="settings-grid" id="difficultySettings">
-          <div class="setting-option active" data-difficulty="halves" onclick="NumberLine.setDifficulty('halves')">
-            <div class="setting-label">Halves (0-1)</div>
-            <div class="text-small text-muted">1/2</div>
-          </div>
-          <div class="setting-option" data-difficulty="fourths" onclick="NumberLine.setDifficulty('fourths')">
-            <div class="setting-label">Fourths (0-1)</div>
-            <div class="text-small text-muted">1/4, 2/4, 3/4</div>
-          </div>
-          <div class="setting-option" data-difficulty="eighths" onclick="NumberLine.setDifficulty('eighths')">
-            <div class="setting-label">Eighths (0-1)</div>
-            <div class="text-small text-muted">1/8, 2/8, etc.</div>
-          </div>
-          <div class="setting-option" data-difficulty="mixed" onclick="NumberLine.setDifficulty('mixed')">
-            <div class="setting-label">Mixed (0-2)</div>
-            <div class="text-small text-muted">Includes improper</div>
-          </div>
-        </div>
-
-        <!-- Labels Toggle -->
-        <div class="toggle-switch">
-          <span class="toggle-label">Show Labels</span>
-          <label class="switch">
-            <input type="checkbox" id="labelsToggle" checked onchange="NumberLine.toggleLabels()">
-            <span class="slider"></span>
-          </label>
-        </div>
-      </div>
-
       <!-- Score Display -->
-      <div class="score-display" id="scoreDisplay" style="display: none;">
-        <div class="score-value">
-          <span id="correctCount">0</span> / <span id="totalCount">0</span> Correct
+      <div class="score-display">
+        <div class="score-item">
+          <div class="score-label">Score</div>
+          <div class="score-value"><span id="correctCount">0</span> / <span id="totalCount">0</span></div>
+        </div>
+        <div class="score-item">
+          <div class="score-label">Streak</div>
+          <div class="score-value streak-value"><span id="streakCount">0</span> 🔥</div>
         </div>
       </div>
 
-      <!-- Number Line -->
+      <!-- Question Display -->
+      <div class="question-display">
+        <div class="question-text">The ref needs to spot the ball at:</div>
+        <div class="question-fraction" id="questionFraction">1/2</div>
+        <div class="question-hint">Drag the football to the correct position</div>
+      </div>
+
+      <!-- Feedback Message -->
+      <div class="feedback-message" id="feedbackMessage"></div>
+
+      <!-- Football Field -->
       <div class="field-container">
-        <!-- Fraction Markers (to drag) -->
+        <!-- Football to drag -->
         <div class="fraction-markers" id="fractionMarkers">
-          <!-- Markers will be rendered here -->
+          <!-- Marker will be rendered here -->
         </div>
 
         <!-- Number Line -->
@@ -399,10 +423,19 @@
 
       <!-- Controls -->
       <div class="controls">
-        <button class="btn btn-success btn-large" onclick="NumberLine.checkAnswers()">Check Answer</button>
-        <button class="btn btn-secondary" onclick="NumberLine.reset()">Reset</button>
-        <button class="btn btn-secondary" onclick="NumberLine.newProblem()">New Problem</button>
-        <a href="../practice/index.html" class="btn btn-primary">Back to Practice</a>
+        <button class="btn btn-primary btn-large" id="nextButton" onclick="NumberLine.nextQuestion()" style="display: none;">Next Question</button>
+        <button class="btn btn-secondary" onclick="NumberLine.showAnswer()">Show Answer</button>
+        <button class="btn btn-secondary" onclick="NumberLine.resetScore()">Reset Score</button>
+        <a href="../practice/index.html" class="btn btn-secondary">Back to Practice</a>
+      </div>
+
+      <!-- Labels Toggle -->
+      <div class="toggle-switch">
+        <span class="toggle-label">Show yard line labels</span>
+        <label class="switch">
+          <input type="checkbox" id="labelsToggle" checked onchange="NumberLine.toggleLabels()">
+          <span class="slider"></span>
+        </label>
       </div>
     </div>
   </main>
@@ -413,39 +446,48 @@
   <script src="../js/app.js"></script>
   <script>
     const NumberLine = {
-      difficulty: 'halves',
-      range: [0, 1],
-      divisions: 2,
-      fractions: [],
-      showLabels: true,
-      markers: [],
-      draggingMarker: null,
-      checked: false,
+      // Score tracking
+      totalAttempts: 0,
+      correctAttempts: 0,
+      currentStreak: 0,
 
-      difficulties: {
-        halves: { range: [0, 1], divisions: 2, count: 1 },
-        fourths: { range: [0, 1], divisions: 4, count: 3 },
-        eighths: { range: [0, 1], divisions: 8, count: 4 },
-        mixed: { range: [0, 2], divisions: 4, count: 5 }
-      },
+      // Current question
+      currentFraction: null,
+      range: [0, 1],
+      divisions: 4,
+      showLabels: true,
+
+      // Drag state
+      marker: null,
+      draggingMarker: false,
+      answered: false,
+
+      // All possible fractions (random difficulty)
+      fractionPool: [
+        // Easy (halves and quarters)
+        { numerator: 1, denominator: 2, divisions: 2 },
+        { numerator: 1, denominator: 4, divisions: 4 },
+        { numerator: 2, denominator: 4, divisions: 4 },
+        { numerator: 3, denominator: 4, divisions: 4 },
+        // Medium (eighths and thirds)
+        { numerator: 1, denominator: 8, divisions: 8 },
+        { numerator: 3, denominator: 8, divisions: 8 },
+        { numerator: 5, denominator: 8, divisions: 8 },
+        { numerator: 7, denominator: 8, divisions: 8 },
+        { numerator: 1, denominator: 3, divisions: 6 },
+        { numerator: 2, denominator: 3, divisions: 6 },
+        // Harder (sixths and fifths)
+        { numerator: 1, denominator: 6, divisions: 6 },
+        { numerator: 5, denominator: 6, divisions: 6 },
+        { numerator: 1, denominator: 5, divisions: 10 },
+        { numerator: 2, denominator: 5, divisions: 10 },
+        { numerator: 3, denominator: 5, divisions: 10 },
+        { numerator: 4, denominator: 5, divisions: 10 }
+      ],
 
       init() {
         this.setupEventListeners();
-        this.newProblem();
-      },
-
-      setDifficulty(difficulty) {
-        this.difficulty = difficulty;
-        const config = this.difficulties[difficulty];
-        this.range = config.range;
-        this.divisions = config.divisions;
-
-        // Update active button
-        document.querySelectorAll('.setting-option').forEach(opt => {
-          opt.classList.toggle('active', opt.dataset.difficulty === difficulty);
-        });
-
-        this.newProblem();
+        this.newQuestion();
       },
 
       toggleLabels() {
@@ -453,37 +495,33 @@
         this.renderNumberLine();
       },
 
-      newProblem() {
-        this.checked = false;
-        document.getElementById('scoreDisplay').style.display = 'none';
-        this.generateFractions();
+      newQuestion() {
+        this.answered = false;
+        document.getElementById('feedbackMessage').className = 'feedback-message';
+        document.getElementById('nextButton').style.display = 'none';
+
+        // Pick random fraction
+        const randomIndex = Math.floor(Math.random() * this.fractionPool.length);
+        const fractionData = this.fractionPool[randomIndex];
+
+        this.currentFraction = {
+          numerator: fractionData.numerator,
+          denominator: fractionData.denominator,
+          position: null
+        };
+
+        this.divisions = fractionData.divisions;
+
+        // Display question
+        const simplified = Fractions.simplify(this.currentFraction.numerator, this.currentFraction.denominator);
+        document.getElementById('questionFraction').textContent = `${simplified.numerator}/${simplified.denominator}`;
+
         this.renderNumberLine();
-        this.renderMarkers();
+        this.renderMarker();
       },
 
-      generateFractions() {
-        this.fractions = [];
-        const config = this.difficulties[this.difficulty];
-        const [min, max] = this.range;
-        const count = config.count;
-
-        // Generate unique fractions
-        const possibleNumerators = [];
-        for (let i = 1; i < max * this.divisions; i++) {
-          if (this.difficulty === 'mixed' || i < this.divisions) {
-            possibleNumerators.push(i);
-          }
-        }
-
-        // Shuffle and take the first 'count' fractions
-        const shuffled = App.shuffle(possibleNumerators);
-        for (let i = 0; i < Math.min(count, shuffled.length); i++) {
-          this.fractions.push({
-            numerator: shuffled[i],
-            denominator: this.divisions,
-            position: null
-          });
-        }
+      nextQuestion() {
+        this.newQuestion();
       },
 
       renderNumberLine() {
@@ -502,7 +540,6 @@
         // Render ticks and labels
         for (let i = 0; i <= totalDivisions; i++) {
           const value = min + (i / this.divisions);
-          const percent = (i / totalDivisions) * 100;
           const x = startX + (lineWidth * i / totalDivisions);
 
           // Major tick for whole numbers
@@ -512,15 +549,15 @@
           tick.style.left = `${x}px`;
           line.appendChild(tick);
 
-          // Labels
-          if (this.showLabels && (isMajor || this.difficulty === 'fourths' || this.difficulty === 'eighths')) {
+          // Labels (show major ticks always, show minor based on toggle)
+          if (this.showLabels) {
             const label = document.createElement('div');
             label.className = 'number-line-label';
             label.style.left = `${x}px`;
 
             if (isMajor) {
               label.textContent = value.toString();
-            } else {
+            } else if (this.divisions <= 8) {
               const simplified = Fractions.simplify(i, this.divisions);
               label.textContent = `${simplified.numerator}/${simplified.denominator}`;
             }
@@ -530,25 +567,22 @@
         }
       },
 
-      renderMarkers() {
+      renderMarker() {
         const container = document.getElementById('fractionMarkers');
         container.innerHTML = '';
 
-        this.markers = this.fractions.map((fraction, index) => {
-          const marker = document.createElement('div');
-          marker.className = 'fraction-marker';
-          marker.dataset.index = index;
+        const marker = document.createElement('div');
+        marker.className = 'fraction-marker';
 
-          const simplified = Fractions.simplify(fraction.numerator, fraction.denominator);
-          marker.textContent = `${simplified.numerator}/${simplified.denominator}`;
+        // No text on the football - the question shows the fraction
 
-          // Position markers in a row at the top
-          marker.style.left = `${60 + index * 70}px`;
-          marker.style.top = '5px';
+        // Center the football at the top
+        marker.style.left = '50%';
+        marker.style.top = '20px';
+        marker.style.transform = 'translateX(-50%)';
 
-          container.appendChild(marker);
-          return marker;
-        });
+        container.appendChild(marker);
+        this.marker = marker;
       },
 
       setupEventListeners() {
@@ -567,10 +601,11 @@
 
       startDrag(e) {
         const target = e.target.closest('.fraction-marker');
-        if (!target || this.checked) return;
+        if (!target || this.answered) return;
 
-        this.draggingMarker = target;
-        this.draggingMarker.classList.add('dragging');
+        this.draggingMarker = true;
+        this.marker.classList.add('dragging');
+        this.marker.style.transform = 'none';
 
         e.preventDefault();
       },
@@ -586,26 +621,25 @@
         const container = document.getElementById('fractionMarkers');
         const containerRect = container.getBoundingClientRect();
 
-        this.draggingMarker.style.left = `${clientX - containerRect.left - 25}px`;
-        this.draggingMarker.style.top = `${clientY - containerRect.top - 25}px`;
+        this.marker.style.left = `${clientX - containerRect.left - 35}px`;
+        this.marker.style.top = `${clientY - containerRect.top - 22.5}px`;
       },
 
       endDrag(e) {
         if (!this.draggingMarker) return;
 
-        const marker = this.draggingMarker;
-        marker.classList.remove('dragging');
+        this.marker.classList.remove('dragging');
+        this.draggingMarker = false;
 
-        const index = parseInt(marker.dataset.index);
-        const position = this.getDropPosition(marker);
+        const position = this.getDropPosition(this.marker);
 
         if (position !== null) {
-          this.snapToPosition(marker, position);
-          this.fractions[index].position = position;
-          marker.classList.add('placed');
-        }
+          this.snapToPosition(this.marker, position);
+          this.currentFraction.position = position;
 
-        this.draggingMarker = null;
+          // Auto-check the answer
+          this.checkAnswer();
+        }
       },
 
       getDropPosition(marker) {
@@ -617,7 +651,7 @@
         const markerCenterY = markerRect.top + markerRect.height / 2;
 
         // Check if marker is near the track
-        const isNearTrack = Math.abs(markerCenterY - (trackRect.top + trackRect.height / 2)) < 80;
+        const isNearTrack = Math.abs(markerCenterY - (trackRect.top + trackRect.height / 2)) < 100;
         if (!isNearTrack) return null;
 
         // Calculate position as a fraction
@@ -642,57 +676,96 @@
         const x = trackRect.left - containerRect.left + (trackRect.width * percent);
         const y = trackRect.top - containerRect.top + (trackRect.height / 2);
 
-        marker.style.left = `${x - 25}px`;
-        marker.style.top = `${y - 25}px`;
+        marker.style.left = `${x - 35}px`;
+        marker.style.top = `${y - 22.5}px`;
       },
 
-      checkAnswers() {
-        if (this.checked) return;
-        this.checked = true;
+      checkAnswer() {
+        if (this.answered) return;
+        this.answered = true;
 
-        let correct = 0;
-        const total = this.fractions.length;
+        const correctPosition = this.currentFraction.numerator / this.currentFraction.denominator;
+        const tolerance = 0.08; // 8% tolerance
 
-        this.fractions.forEach((fraction, index) => {
-          const marker = this.markers[index];
-          const correctPosition = fraction.numerator / fraction.denominator;
-          const tolerance = 0.05; // 5% tolerance
+        const isCorrect = this.currentFraction.position !== null &&
+                         Math.abs(this.currentFraction.position - correctPosition) < tolerance;
 
-          if (fraction.position !== null) {
-            const isCorrect = Math.abs(fraction.position - correctPosition) < tolerance;
+        this.totalAttempts++;
 
-            if (isCorrect) {
-              marker.classList.add('correct');
-              correct++;
-            } else {
-              marker.classList.add('incorrect');
-            }
-          } else {
-            marker.classList.add('incorrect');
-          }
-        });
+        const feedbackEl = document.getElementById('feedbackMessage');
 
-        // Show score
-        document.getElementById('correctCount').textContent = correct;
-        document.getElementById('totalCount').textContent = total;
-        document.getElementById('scoreDisplay').style.display = 'block';
+        if (isCorrect) {
+          this.marker.classList.add('correct');
+          this.correctAttempts++;
+          this.currentStreak++;
 
-        if (correct === total) {
-          setTimeout(() => {
-            App.celebrate('Perfect!', 'You placed all fractions correctly!', '🎯');
-          }, 500);
-        } else if (correct > 0) {
-          App.showToast(`${correct} out of ${total} correct!`, 'success');
+          const messages = [
+            "Perfect spot! Great job, Ref! 🏈",
+            "Right on the mark! 🎯",
+            "Excellent placement! 👏",
+            "Nailed it! ✨",
+            "Spot on! Way to go! 🌟"
+          ];
+          const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+          feedbackEl.textContent = randomMessage;
+          feedbackEl.className = 'feedback-message correct';
         } else {
-          App.showToast('Try again! Use the yard lines to help estimate.', 'error');
+          this.marker.classList.add('incorrect');
+          this.currentStreak = 0;
+
+          const simplified = Fractions.simplify(this.currentFraction.numerator, this.currentFraction.denominator);
+          feedbackEl.textContent = `Not quite! The ball should be at ${simplified.numerator}/${simplified.denominator}. Try the next one! 💪`;
+          feedbackEl.className = 'feedback-message incorrect';
         }
+
+        this.updateScore();
+
+        // Show next button after brief delay
+        setTimeout(() => {
+          document.getElementById('nextButton').style.display = 'inline-block';
+        }, 1000);
       },
 
-      reset() {
-        this.checked = false;
-        document.getElementById('scoreDisplay').style.display = 'none';
-        this.fractions.forEach(f => f.position = null);
-        this.renderMarkers();
+      showAnswer() {
+        if (this.answered) return;
+
+        const correctPosition = this.currentFraction.numerator / this.currentFraction.denominator;
+        this.snapToPosition(this.marker, correctPosition);
+        this.currentFraction.position = correctPosition;
+
+        this.marker.style.background = 'var(--info)';
+
+        const simplified = Fractions.simplify(this.currentFraction.numerator, this.currentFraction.denominator);
+        const feedbackEl = document.getElementById('feedbackMessage');
+        feedbackEl.textContent = `The correct position is ${simplified.numerator}/${simplified.denominator}. Study it, then try the next one!`;
+        feedbackEl.className = 'feedback-message';
+        feedbackEl.style.display = 'block';
+        feedbackEl.style.background = 'var(--info-light)';
+        feedbackEl.style.color = 'var(--info)';
+
+        this.answered = true;
+        this.currentStreak = 0;
+
+        setTimeout(() => {
+          document.getElementById('nextButton').style.display = 'inline-block';
+        }, 500);
+      },
+
+      updateScore() {
+        document.getElementById('correctCount').textContent = this.correctAttempts;
+        document.getElementById('totalCount').textContent = this.totalAttempts;
+        document.getElementById('streakCount').textContent = this.currentStreak;
+      },
+
+      resetScore() {
+        if (confirm('Reset your score and start fresh?')) {
+          this.totalAttempts = 0;
+          this.correctAttempts = 0;
+          this.currentStreak = 0;
+          this.updateScore();
+          this.newQuestion();
+        }
       }
     };
 
