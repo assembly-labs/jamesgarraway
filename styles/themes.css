@@ -6,6 +6,15 @@
   --cardBg: #1A2822;
   --text: #E8F5F3;
   --sithI: 0.9; /* Sith-only per-widget intensity (updated via JS when Sith is active) */
+
+  /* Animation timing variables */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --transition-bounce: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --animation-duration-short: 0.3s;
+  --animation-duration-medium: 0.6s;
+  --animation-duration-long: 1s;
 }
 
 /* Blaster canvases: one behind, one above */

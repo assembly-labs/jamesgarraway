@@ -291,6 +291,28 @@ body.has-navigation {
     border-radius: 4px;
 }
 
+/* Focus-visible for keyboard navigation */
+:focus-visible {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible,
+a:focus-visible {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.3);
+}
+
+/* Remove default focus for mouse users */
+:focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
+}
+
 /* Skip Navigation Link (Accessibility) */
 .skip-nav {
     position: absolute;

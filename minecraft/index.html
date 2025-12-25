@@ -580,20 +580,20 @@
 
         <!-- Date Navigation -->
         <div class="date-nav">
-            <button class="date-btn" onclick="changeDate(-1)">←</button>
+            <button class="date-btn" onclick="changeDate(-1)" aria-label="Previous day">←</button>
             <div class="current-date" id="currentDate">Today</div>
-            <button class="date-btn" id="nextBtn" onclick="changeDate(1)">→</button>
+            <button class="date-btn" id="nextBtn" onclick="changeDate(1)" aria-label="Next day">→</button>
         </div>
 
         <!-- Calendar Toggle -->
-        <button class="calendar-btn" onclick="toggleCalendar()">📅 View Calendar</button>
+        <button class="calendar-btn" onclick="toggleCalendar()" aria-label="View Calendar">📅 View Calendar</button>
 
         <!-- Calendar View -->
         <div class="calendar-view" id="calendarView">
             <div class="calendar-header">
-                <button class="calendar-nav-btn" onclick="changeCalendarMonth(-1)">←</button>
+                <button class="calendar-nav-btn" onclick="changeCalendarMonth(-1)" aria-label="Previous month">←</button>
                 <div class="calendar-month" id="calendarMonth">November 2024</div>
-                <button class="calendar-nav-btn" onclick="changeCalendarMonth(1)">→</button>
+                <button class="calendar-nav-btn" onclick="changeCalendarMonth(1)" aria-label="Next month">→</button>
             </div>
             <div class="calendar-grid" id="calendarGrid">
                 <!-- Calendar will be rendered here -->
@@ -603,7 +603,7 @@
         <!-- Day Detail Modal -->
         <div class="modal-overlay" id="modalOverlay" onclick="closeDayDetail()"></div>
         <div class="day-detail-modal" id="dayDetailModal">
-            <button class="modal-close" onclick="closeDayDetail()">×</button>
+            <button class="modal-close" onclick="closeDayDetail()" aria-label="Close modal">×</button>
             <div id="dayDetailContent">
                 <!-- Day details will be rendered here -->
             </div>
@@ -1248,9 +1248,9 @@
                 return `<div class="counter-task">
                     <span class="task-name">${task.name}</span>
                     <div class="counter-controls">
-                        <button class="counter-btn" onclick="updateRecreation('${task.id}', -1)" ${count === 0 ? 'disabled' : ''}>-</button>
+                        <button class="counter-btn" onclick="updateRecreation('${task.id}', -1)" ${count === 0 ? 'disabled' : ''} aria-label="Decrease ${task.name}">-</button>
                         <span class="counter-value">${count}</span>
-                        <button class="counter-btn" onclick="updateRecreation('${task.id}', 1)" ${count >= 3 ? 'disabled' : ''}>+</button>
+                        <button class="counter-btn" onclick="updateRecreation('${task.id}', 1)" ${count >= 3 ? 'disabled' : ''} aria-label="Increase ${task.name}">+</button>
                         <span class="task-value">+${task.coins}</span>
                     </div>
                 </div>`;
@@ -1263,9 +1263,9 @@
                 return `<div class="counter-task">
                     <span class="task-name">${penalty.name}</span>
                     <div class="counter-controls">
-                        <button class="counter-btn" onclick="updatePenalty('${penalty.id}', -1)" ${count === 0 ? 'disabled' : ''}>-</button>
+                        <button class="counter-btn" onclick="updatePenalty('${penalty.id}', -1)" ${count === 0 ? 'disabled' : ''} aria-label="Decrease ${penalty.name}">-</button>
                         <span class="counter-value">${count}</span>
-                        <button class="counter-btn" onclick="updatePenalty('${penalty.id}', 1)">+</button>
+                        <button class="counter-btn" onclick="updatePenalty('${penalty.id}', 1)" aria-label="Increase ${penalty.name}">+</button>
                         <span class="task-value" style="color: #ff6b6b">${penalty.coins}</span>
                     </div>
                 </div>`;
@@ -1279,9 +1279,9 @@
                 return `<div class="counter-task">
                     <span class="task-name">${talk.name}</span>
                     <div class="counter-controls">
-                        <button class="counter-btn" onclick="updateSelfTalk('${talk.id}', -1)" ${count === 0 ? 'disabled' : ''}>-</button>
+                        <button class="counter-btn" onclick="updateSelfTalk('${talk.id}', -1)" ${count === 0 ? 'disabled' : ''} aria-label="Decrease ${talk.name}">-</button>
                         <span class="counter-value">${count}</span>
-                        <button class="counter-btn" onclick="updateSelfTalk('${talk.id}', 1)">+</button>
+                        <button class="counter-btn" onclick="updateSelfTalk('${talk.id}', 1)" aria-label="Increase ${talk.name}">+</button>
                         <span class="task-value" style="color: ${isPositive ? '#ffD700' : '#ff6b6b'}">${isPositive ? '+' : ''}${talk.coins}</span>
                     </div>
                 </div>`;

@@ -27,7 +27,8 @@ body {
   gap: 8px;
   z-index: 1000;
 }
-.controls select {
+.controls select,
+.controls .export-btn {
   border-radius: 12px;
   border: 2px solid var(--accent);
   padding: 10px 16px 10px 12px;
@@ -38,10 +39,15 @@ body {
   color: var(--text);
   cursor: pointer;
   box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-  transition: all .2s ease;
+  transition: all var(--transition-fast, .2s ease);
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.controls .export-btn {
+  font-size: 18px;
+  padding: 10px 14px;
 }
 .controls select:hover {
   transform: translateY(-2px);
