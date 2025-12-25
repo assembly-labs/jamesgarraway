@@ -249,3 +249,45 @@ setInterval(() => {
     performDailyReset();
   }
 }, 5 * 60 * 1000); // Check every 5 minutes
+
+// ======= Data Export =======
+const exportBtn = $('#exportBtn');
+if (exportBtn) {
+  exportBtn.addEventListener('click', () => {
+    // Collect all localStorage data
+    const exportData = {
+      exportDate: new Date().toISOString(),
+      version: '1.0',
+      data: {}
+    };
+
+    // Get all localStorage keys for this app
+    const keysToExport = Object.keys(localStorage).filter(key =>
+      key.startsWith('champion_') || key === 'minecoins'
+    );
+
+    keysToExport.forEach(key => {
+      try {
+        const value = localStorage.getItem(key);
+        exportData.data[key] = JSON.parse(value);
+      } catch {
+        exportData.data[key] = localStorage.getItem(key);
+      }
+    });
+
+    // Create and download the file
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `champion-backup-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    // Visual feedback
+    exportBtn.textContent = '✅';
+    setTimeout(() => { exportBtn.textContent = '💾'; }, 2000);
+  });
+}
