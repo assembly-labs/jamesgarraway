@@ -286,7 +286,8 @@
         let html = '';
         for (let i = 0; i < totalPieces; i++) {
           const wholeNum = Math.floor(i / challenge.den);
-          html += `<div class="piece" data-index="${i}" onclick="Lesson.togglePiece(${i})">${i % challenge.den + 1}/${challenge.den}</div>`;
+          const numerator = (i % challenge.den) + 1;
+          html += `<div class="piece" data-index="${i}" data-numerator="${numerator}" data-denominator="${challenge.den}" onclick="Lesson.togglePiece(${i})">${numerator}/${challenge.den}</div>`;
         }
         builder.innerHTML = html;
 
@@ -299,13 +300,14 @@
 
       togglePiece(index) {
         const piece = document.querySelector(`[data-index="${index}"]`);
+        const numerator = parseInt(piece.getAttribute('data-numerator'));
 
         if (piece.classList.contains('selected')) {
           piece.classList.remove('selected');
-          this.selectedPieces--;
+          this.selectedPieces -= numerator;
         } else {
           piece.classList.add('selected');
-          this.selectedPieces++;
+          this.selectedPieces += numerator;
         }
 
         document.getElementById('selectedCount').textContent = this.selectedPieces;
@@ -334,7 +336,12 @@
             }
           }, 1500);
         } else {
-          feedback.textContent = `You selected ${this.selectedPieces} pieces, but need exactly ${challenge.num} pieces.`;
+          const selectedFraction = `${this.selectedPieces}/${challenge.den}`;
+          if (this.selectedPieces < challenge.num) {
+            feedback.textContent = `You built ${selectedFraction}, but need ${challenge.num}/${challenge.den}. Add more pieces!`;
+          } else {
+            feedback.textContent = `You built ${selectedFraction}, but need ${challenge.num}/${challenge.den}. Remove some pieces!`;
+          }
           feedback.className = 'feedback incorrect';
         }
       },

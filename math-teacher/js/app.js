@@ -488,8 +488,8 @@ const App = {
       overlay.innerHTML = `
         <div class="celebration-content victory-celebration" style="animation: victory-modal-entrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;">
           <div class="celebration-icon" style="font-size: 5rem; animation: icon-bounce 0.5s ease infinite alternate;">${icon}</div>
-          <h2 class="celebration-title" style="color: #004C54; font-size: 2rem; text-shadow: 0 2px 10px rgba(0,76,84,0.3);">${title}</h2>
-          <p class="celebration-message" style="font-size: 1.1rem;">${message}</p>
+          <h2 class="celebration-title" style="color: #FFD700; font-size: 2rem; text-shadow: 0 0 20px #FFD700, 0 0 40px #FF6B35, 0 4px 0 #E65100;">${title}</h2>
+          <p class="celebration-message" style="font-size: 1.1rem; color: #FFFFFF;">${message}</p>
           <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
             <a href="../index.html" class="btn btn-primary btn-large" style="animation: pulse-glow 1s ease infinite; font-size: 1.1rem; padding: 1rem 2rem;">
               ${isSuperBowl ? '🏆 Celebrate!' : '🏈 Continue Playoffs'}
