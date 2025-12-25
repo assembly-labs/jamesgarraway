@@ -459,6 +459,7 @@
 
       <!-- Controls -->
       <div class="controls">
+        <button class="btn btn-primary btn-large" id="submitButton" onclick="NumberLine.submitAnswer()">Submit Answer</button>
         <button class="btn btn-primary btn-large" id="nextButton" onclick="NumberLine.nextQuestion()" style="display: none;">Next Question</button>
         <button class="btn btn-secondary" onclick="NumberLine.showAnswer()">Show Answer</button>
       </div>
@@ -524,6 +525,7 @@
         this.answered = false;
         document.getElementById('feedbackMessage').className = 'feedback-message';
         document.getElementById('nextButton').style.display = 'none';
+        document.getElementById('submitButton').style.display = 'inline-block';
 
         // Pick random fraction
         const randomIndex = Math.floor(Math.random() * this.fractionPool.length);
@@ -665,10 +667,30 @@
         if (position !== null) {
           this.snapToPosition(this.marker, position);
           this.currentFraction.position = position;
-
-          // Auto-check the answer
-          this.checkAnswer();
+          // Clear any "position the ball" message
+          const feedbackEl = document.getElementById('feedbackMessage');
+          if (feedbackEl.classList.contains('info')) {
+            feedbackEl.className = 'feedback-message';
+          }
         }
+      },
+
+      submitAnswer() {
+        if (this.answered) return;
+
+        // Check if user has positioned the ball on the number line
+        if (this.currentFraction.position === null) {
+          const feedbackEl = document.getElementById('feedbackMessage');
+          feedbackEl.textContent = 'Drag the football to a position on the number line first!';
+          feedbackEl.className = 'feedback-message';
+          feedbackEl.classList.add('info');
+          feedbackEl.style.display = 'block';
+          feedbackEl.style.background = 'var(--info-light)';
+          feedbackEl.style.color = 'var(--info)';
+          return;
+        }
+
+        this.checkAnswer();
       },
 
       getDropPosition(marker) {
@@ -727,6 +749,9 @@
 
         const feedbackEl = document.getElementById('feedbackMessage');
 
+        // Hide submit button, show next button
+        document.getElementById('submitButton').style.display = 'none';
+
         if (isCorrect) {
           this.marker.classList.add('correct');
           this.correctAttempts++;
@@ -744,10 +769,10 @@
           feedbackEl.textContent = randomMessage;
           feedbackEl.className = 'feedback-message correct';
 
-          // Auto-advance after correct answer
-          this.autoAdvanceTimeout = setTimeout(() => {
-            this.newQuestion();
-          }, 1500);
+          // Show next button after correct answer
+          setTimeout(() => {
+            document.getElementById('nextButton').style.display = 'inline-block';
+          }, 500);
         } else {
           this.marker.classList.add('incorrect');
           this.currentStreak = 0;
@@ -759,7 +784,7 @@
           // Show next button after incorrect answer
           setTimeout(() => {
             document.getElementById('nextButton').style.display = 'inline-block';
-          }, 1000);
+          }, 500);
         }
 
         this.updateScore();
@@ -785,10 +810,9 @@
         this.answered = true;
         this.currentStreak = 0;
 
-        // Auto-advance after showing answer
-        this.autoAdvanceTimeout = setTimeout(() => {
-          this.newQuestion();
-        }, 2500);
+        // Hide submit, show next
+        document.getElementById('submitButton').style.display = 'none';
+        document.getElementById('nextButton').style.display = 'inline-block';
       },
 
       updateScore() {

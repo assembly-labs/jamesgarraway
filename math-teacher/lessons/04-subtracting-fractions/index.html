@@ -67,6 +67,7 @@
     .answer-options { display: flex; flex-wrap: wrap; gap: var(--space-md); justify-content: center; margin-top: var(--space-lg); }
     .answer-btn { padding: var(--space-md) var(--space-xl); border: 3px solid var(--border); border-radius: var(--radius-lg); background: white; cursor: pointer; font-size: 1.25rem; font-weight: 700; transition: all var(--transition-fast); }
     .answer-btn:hover { border-color: var(--field-green); transform: scale(1.05); }
+    .answer-btn.selected { background: var(--info-light); border-color: var(--info); transform: scale(1.05); }
     .answer-btn.correct { background: var(--correct-light); border-color: var(--correct); }
     .answer-btn.incorrect { background: var(--incorrect-light); border-color: var(--incorrect); }
   </style>
@@ -218,6 +219,7 @@
         { num1: 7, num2: 4, den: 10, answer: '3/10' }
       ],
       currentSubIndex: 0,
+      selectedSubAnswer: null,
 
       wordProblems: [
         { text: 'The Eagles have 6/8 of the field to go. They run for 3/8. How much is left?', answer: '3/8' },
@@ -225,6 +227,7 @@
         { text: 'Cooper DeJean needs to cover 9/10 of the field. He runs 5/10. How much more?', answer: '4/10' }
       ],
       currentWordIndex: 0,
+      selectedWordAnswer: null,
 
       init() {
         Storage.startLesson(4);
@@ -250,6 +253,7 @@
             ${Array(c.den).fill(0).map((_, i) => `<div class="bar-section ${i < c.total ? 'remaining clickable' : ''}" data-idx="${i}" ${i < c.total ? `onclick="Lesson.removeSection(${i})"` : ''}>1/${c.den}</div>`).join('')}
           </div>
           <p style="text-align:center;">Removed: <strong id="removedCount">0</strong> / ${c.remove}</p>
+          <button class="btn btn-primary" id="submitBar" onclick="Lesson.checkBar()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
@@ -267,13 +271,20 @@
         }
         document.getElementById('removedCount').textContent = this.removedSections.size;
         document.getElementById('resultNum').textContent = this.removedSections.size === c.remove ? (c.total - c.remove) : '?';
+        // Clear any previous feedback
+        document.getElementById('feedback1').className = 'feedback';
+      },
+
+      checkBar() {
+        const c = this.barChallenges[this.currentBarIndex];
+        const feedback = document.getElementById('feedback1');
 
         if (this.removedSections.size === c.remove) {
-          const feedback = document.getElementById('feedback1');
           feedback.textContent = `Correct! ${c.total}/${c.den} - ${c.remove}/${c.den} = ${c.total-c.remove}/${c.den}`;
           feedback.className = 'feedback correct';
           this.score += 5;
           this.updateScore();
+          document.getElementById('submitBar').disabled = true;
           setTimeout(() => {
             this.currentBarIndex++;
             if (this.currentBarIndex < this.barChallenges.length) {
@@ -283,11 +294,15 @@
               document.getElementById('complete1').classList.add('show');
             }
           }, 1500);
+        } else {
+          feedback.textContent = `You removed ${this.removedSections.size} sections, but need to remove exactly ${c.remove}.`;
+          feedback.className = 'feedback incorrect';
         }
       },
 
       renderSubActivity() {
         const c = this.subChallenges[this.currentSubIndex];
+        this.selectedSubAnswer = null;
         const wrong = [`${c.num1-c.num2+1}/${c.den}`, `${c.num1-c.num2}/${c.den*2}`, `${c.num1+c.num2}/${c.den}`];
         const all = [c.answer, ...wrong.filter(w => w !== c.answer)].slice(0,4).sort(() => Math.random() - 0.5);
         document.getElementById('subQuestion').innerHTML = `
@@ -298,18 +313,36 @@
             <span class="operator">=</span>
             <span style="font-size:2rem;">?</span>
           </div>
-          <div class="answer-options">${all.map(a => `<button class="answer-btn" onclick="Lesson.checkSub('${a}')">${a}</button>`).join('')}</div>
+          <div class="answer-options">${all.map(a => `<button class="answer-btn" onclick="Lesson.selectSubAnswer('${a}', this)">${a}</button>`).join('')}</div>
+          <button class="btn btn-primary" id="submitSub" onclick="Lesson.checkSub()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
-      checkSub(answer) {
+      selectSubAnswer(answer, btn) {
+        this.selectedSubAnswer = answer;
+        document.querySelectorAll('#subQuestion .answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('feedback2').className = 'feedback';
+      },
+
+      checkSub() {
+        if (!this.selectedSubAnswer) {
+          const feedback = document.getElementById('feedback2');
+          feedback.textContent = 'Please select an answer first!';
+          feedback.className = 'feedback info';
+          return;
+        }
         const c = this.subChallenges[this.currentSubIndex];
         const feedback = document.getElementById('feedback2');
+        const answer = this.selectedSubAnswer;
+
         document.querySelectorAll('#subQuestion .answer-btn').forEach(btn => {
           btn.disabled = true;
           if (btn.textContent === c.answer) btn.classList.add('correct');
-          else if (btn.textContent === answer) btn.classList.add('incorrect');
+          else if (btn.textContent === answer && answer !== c.answer) btn.classList.add('incorrect');
         });
+        document.getElementById('submitSub').disabled = true;
+
         if (answer === c.answer) {
           feedback.textContent = `Correct! ${c.num1} - ${c.num2} = ${c.num1-c.num2}`;
           feedback.className = 'feedback correct';
@@ -332,23 +365,42 @@
 
       renderWordProblem() {
         const p = this.wordProblems[this.currentWordIndex];
+        this.selectedWordAnswer = null;
         const [num, den] = p.answer.split('/').map(Number);
         const wrong = [`${num+1}/${den}`, `${num-1}/${den}`, `${num}/${den*2}`].filter(w => w !== p.answer);
         const all = [p.answer, ...wrong].slice(0,4).sort(() => Math.random() - 0.5);
         document.getElementById('wordProblem').innerHTML = `
           <p style="font-size:1.25rem; margin-bottom:var(--space-lg);">${p.text}</p>
-          <div class="answer-options">${all.map(a => `<button class="answer-btn" onclick="Lesson.checkWord('${a}')">${a}</button>`).join('')}</div>
+          <div class="answer-options">${all.map(a => `<button class="answer-btn" onclick="Lesson.selectWordAnswer('${a}', this)">${a}</button>`).join('')}</div>
+          <button class="btn btn-primary" id="submitWord" onclick="Lesson.checkWord()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
-      checkWord(answer) {
+      selectWordAnswer(answer, btn) {
+        this.selectedWordAnswer = answer;
+        document.querySelectorAll('#wordProblem .answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('feedback3').className = 'feedback';
+      },
+
+      checkWord() {
+        if (!this.selectedWordAnswer) {
+          const feedback = document.getElementById('feedback3');
+          feedback.textContent = 'Please select an answer first!';
+          feedback.className = 'feedback info';
+          return;
+        }
         const p = this.wordProblems[this.currentWordIndex];
         const feedback = document.getElementById('feedback3');
+        const answer = this.selectedWordAnswer;
+
         document.querySelectorAll('#wordProblem .answer-btn').forEach(btn => {
           btn.disabled = true;
           if (btn.textContent === p.answer) btn.classList.add('correct');
-          else if (btn.textContent === answer) btn.classList.add('incorrect');
+          else if (btn.textContent === answer && answer !== p.answer) btn.classList.add('incorrect');
         });
+        document.getElementById('submitWord').disabled = true;
+
         if (answer === p.answer) {
           feedback.textContent = `Touchdown! ${p.answer} is correct!`;
           feedback.className = 'feedback correct';

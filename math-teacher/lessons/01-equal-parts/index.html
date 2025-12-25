@@ -264,8 +264,13 @@
     }
 
     .sort-item.dragging {
-      opacity: 0.5;
+      opacity: 0.8;
       cursor: grabbing;
+      position: fixed;
+      z-index: 1000;
+      pointer-events: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      transform: scale(1.1);
     }
 
     .sort-item svg {
@@ -822,6 +827,8 @@
               <button class="divide-btn" onclick="Lesson.changeDivisions(-1)" ${this.currentDivisions <= 1 ? 'disabled' : ''}>-</button>
               <button class="divide-btn" onclick="Lesson.changeDivisions(1)" ${this.currentDivisions >= 8 ? 'disabled' : ''}>+</button>
             </div>
+
+            <button class="btn btn-primary" id="submitDivide" onclick="Lesson.checkDivide()" style="margin-top: var(--space-lg);">Submit Answer</button>
           </div>
         `;
       },
@@ -837,11 +844,13 @@
       changeDivisions(delta) {
         this.currentDivisions = Math.max(1, Math.min(8, this.currentDivisions + delta));
         this.renderActivity2();
+      },
 
-        // Check if correct
+      checkDivide() {
         const goal = this.divideGoals[this.currentDivideIndex];
+        const feedback = document.getElementById('feedback2');
+
         if (this.currentDivisions === goal) {
-          const feedback = document.getElementById('feedback2');
           feedback.textContent = `Yes! You divided it into ${goal} equal parts!`;
           feedback.className = 'feedback correct';
           this.score += 5;
@@ -856,7 +865,10 @@
             } else {
               document.getElementById('complete2').classList.add('show');
             }
-          }, 1000);
+          }, 1500);
+        } else {
+          feedback.textContent = `Not quite! You have ${this.currentDivisions} parts, but need ${goal} equal parts.`;
+          feedback.className = 'feedback incorrect';
         }
       },
 
@@ -865,59 +877,79 @@
         // Shuffle the shapes
         const shuffled = [...this.activity3Shapes].sort(() => Math.random() - 0.5);
         container.innerHTML = shuffled.map(shape => `
-          <div class="sort-item" draggable="true" data-id="${shape.id}" data-equal="${shape.isEqual}">
+          <div class="sort-item" data-id="${shape.id}" data-equal="${shape.isEqual}">
             <svg viewBox="0 0 60 40">${shape.svg}</svg>
           </div>
         `).join('');
       },
 
       setupDragAndDrop() {
-        document.addEventListener('dragstart', (e) => {
-          if (e.target.classList.contains('sort-item')) {
-            e.target.classList.add('dragging');
-            e.dataTransfer.setData('text/plain', e.target.dataset.id);
-          }
-        });
+        let draggedItem = null;
+        let offsetX = 0;
+        let offsetY = 0;
+        let placeholder = null;
 
-        document.addEventListener('dragend', (e) => {
-          if (e.target.classList.contains('sort-item')) {
-            e.target.classList.remove('dragging');
-          }
-        });
+        const startDrag = (item, clientX, clientY) => {
+          draggedItem = item;
+          const rect = item.getBoundingClientRect();
+          offsetX = clientX - rect.left;
+          offsetY = clientY - rect.top;
 
-        document.addEventListener('dragover', (e) => {
-          if (e.target.closest('.sort-bin')) {
-            e.preventDefault();
-            e.target.closest('.sort-bin').classList.add('drag-over');
-          }
-        });
+          // Create placeholder to maintain layout
+          placeholder = document.createElement('div');
+          placeholder.style.width = rect.width + 'px';
+          placeholder.style.height = rect.height + 'px';
+          placeholder.style.visibility = 'hidden';
+          item.parentNode.insertBefore(placeholder, item);
 
-        document.addEventListener('dragleave', (e) => {
-          if (e.target.closest('.sort-bin')) {
-            e.target.closest('.sort-bin').classList.remove('drag-over');
-          }
-        });
+          // Position the item at its current location
+          draggedItem.style.left = rect.left + 'px';
+          draggedItem.style.top = rect.top + 'px';
+          draggedItem.style.width = rect.width + 'px';
+          draggedItem.style.height = rect.height + 'px';
+          draggedItem.classList.add('dragging');
+        };
 
-        document.addEventListener('drop', (e) => {
-          const bin = e.target.closest('.sort-bin');
+        const moveDrag = (clientX, clientY) => {
+          if (!draggedItem) return;
+          draggedItem.style.left = (clientX - offsetX) + 'px';
+          draggedItem.style.top = (clientY - offsetY) + 'px';
+
+          // Highlight drop target
+          const elementBelow = document.elementFromPoint(clientX, clientY);
+          const bin = elementBelow?.closest('.sort-bin');
+          document.querySelectorAll('.sort-bin').forEach(b => b.classList.remove('drag-over'));
           if (bin) {
-            e.preventDefault();
-            bin.classList.remove('drag-over');
+            bin.classList.add('drag-over');
+          }
+        };
 
-            const itemId = e.dataTransfer.getData('text/plain');
-            const item = document.querySelector(`.sort-item[data-id="${itemId}"]`);
+        const endDrag = (clientX, clientY) => {
+          if (!draggedItem) return;
+
+          const dropTarget = document.elementFromPoint(clientX, clientY);
+          const bin = dropTarget?.closest('.sort-bin');
+
+          // Remove placeholder
+          if (placeholder && placeholder.parentNode) {
+            placeholder.parentNode.removeChild(placeholder);
+            placeholder = null;
+          }
+
+          // Clear all drag-over states
+          document.querySelectorAll('.sort-bin').forEach(b => b.classList.remove('drag-over'));
+
+          if (bin) {
             const itemsContainer = bin.querySelector('.sort-items');
+            if (itemsContainer) {
+              itemsContainer.appendChild(draggedItem);
 
-            if (item && itemsContainer) {
-              itemsContainer.appendChild(item);
-
+              const itemId = draggedItem.dataset.id;
               const isEqualBin = bin.classList.contains('equal-bin');
 
-              // Remove from tracking
               this.sortedItems.equal = this.sortedItems.equal.filter(id => id !== itemId);
               this.sortedItems.notEqual = this.sortedItems.notEqual.filter(id => id !== itemId);
 
-              // Add to correct tracking
               if (isEqualBin) {
                 this.sortedItems.equal.push(itemId);
               } else {
@@ -925,57 +957,58 @@
               }
             }
           }
+
+          // Reset inline styles
+          draggedItem.style.left = '';
+          draggedItem.style.top = '';
+          draggedItem.style.width = '';
+          draggedItem.style.height = '';
+          draggedItem.classList.remove('dragging');
+          draggedItem = null;
+        };
+
+        // Mouse support
+        document.addEventListener('mousedown', (e) => {
+          const item = e.target.closest('.sort-item');
+          if (item) {
+            e.preventDefault();
+            startDrag(item, e.clientX, e.clientY);
+          }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+          if (draggedItem) {
+            e.preventDefault();
+            moveDrag(e.clientX, e.clientY);
+          }
+        });
+
+        document.addEventListener('mouseup', (e) => {
+          if (draggedItem) {
+            endDrag(e.clientX, e.clientY);
+          }
         });
 
         // Touch support
-        let draggedItem = null;
-        let touchOffsetX = 0;
-        let touchOffsetY = 0;
-
         document.addEventListener('touchstart', (e) => {
           const item = e.target.closest('.sort-item');
           if (item) {
-            draggedItem = item;
-            const rect = item.getBoundingClientRect();
-            touchOffsetX = e.touches[0].clientX - rect.left;
-            touchOffsetY = e.touches[0].clientY - rect.top;
-            draggedItem.classList.add('dragging');
+            e.preventDefault();
+            startDrag(item, e.touches[0].clientX, e.touches[0].clientY);
           }
         }, { passive: false });
 
         document.addEventListener('touchmove', (e) => {
           if (draggedItem) {
             e.preventDefault();
+            moveDrag(e.touches[0].clientX, e.touches[0].clientY);
           }
         }, { passive: false });
 
         document.addEventListener('touchend', (e) => {
           if (draggedItem) {
             const touch = e.changedTouches[0];
-            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-            const bin = dropTarget?.closest('.sort-bin');
-
-            if (bin) {
-              const itemsContainer = bin.querySelector('.sort-items');
-              if (itemsContainer) {
-                itemsContainer.appendChild(draggedItem);
-
-                const itemId = draggedItem.dataset.id;
-                const isEqualBin = bin.classList.contains('equal-bin');
-
-                this.sortedItems.equal = this.sortedItems.equal.filter(id => id !== itemId);
-                this.sortedItems.notEqual = this.sortedItems.notEqual.filter(id => id !== itemId);
-
-                if (isEqualBin) {
-                  this.sortedItems.equal.push(itemId);
-                } else {
-                  this.sortedItems.notEqual.push(itemId);
-                }
-              }
-            }
-
-            draggedItem.classList.remove('dragging');
-            draggedItem = null;
+            endDrag(touch.clientX, touch.clientY);
           }
         });
       },

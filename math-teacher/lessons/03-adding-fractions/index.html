@@ -68,6 +68,7 @@
     .answer-options { display: flex; flex-wrap: wrap; gap: var(--space-md); justify-content: center; margin-top: var(--space-lg); }
     .answer-btn { padding: var(--space-md) var(--space-xl); border: 3px solid var(--border); border-radius: var(--radius-lg); background: white; cursor: pointer; font-size: 1.25rem; font-weight: 700; transition: all var(--transition-fast); }
     .answer-btn:hover { border-color: var(--field-green); transform: scale(1.05); }
+    .answer-btn.selected { background: var(--info-light); border-color: var(--info); transform: scale(1.05); }
     .answer-btn.correct { background: var(--correct-light); border-color: var(--correct); }
     .answer-btn.incorrect { background: var(--incorrect-light); border-color: var(--incorrect); }
 
@@ -222,6 +223,7 @@
         { num1: 4, num2: 3, den: 10, answer: '7/10' }
       ],
       currentAddIndex: 0,
+      selectedAddAnswer: null,
 
       wordProblems: [
         { text: 'Cooper DeJean runs 2/8 of the field, then 3/8 more. How far did he run total?', answer: '5/8' },
@@ -229,6 +231,7 @@
         { text: 'The Eagles gained 4/10 of the field on one play, then 5/10 on the next. Total yards?', answer: '9/10' }
       ],
       currentWordIndex: 0,
+      selectedWordAnswer: null,
 
       init() {
         Storage.startLesson(3);
@@ -255,12 +258,12 @@
             ${Array(c.den).fill(0).map((_, i) => `<div class="bar-section" data-idx="${i}" onclick="Lesson.clickSection(${i})">1/${c.den}</div>`).join('')}
           </div>
           <p style="text-align:center;">Selected: <strong id="selectedCount">0</strong> / ${c.num1 + c.num2}</p>
+          <button class="btn btn-primary" id="submitBar" onclick="Lesson.checkBar()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
       clickSection(idx) {
         const section = document.querySelector(`[data-idx="${idx}"]`);
-        const c = this.barChallenges[this.currentBarIndex];
         if (this.clickedSections.has(idx)) {
           this.clickedSections.delete(idx);
           section.classList.remove('filled');
@@ -270,13 +273,20 @@
         }
         document.getElementById('selectedCount').textContent = this.clickedSections.size;
         document.getElementById('resultNum').textContent = this.clickedSections.size || '?';
+        // Clear any previous feedback when user changes selection
+        document.getElementById('feedback1').className = 'feedback';
+      },
+
+      checkBar() {
+        const c = this.barChallenges[this.currentBarIndex];
+        const feedback = document.getElementById('feedback1');
 
         if (this.clickedSections.size === c.num1 + c.num2) {
-          const feedback = document.getElementById('feedback1');
           feedback.textContent = `Correct! ${c.num1}/${c.den} + ${c.num2}/${c.den} = ${c.num1+c.num2}/${c.den}`;
           feedback.className = 'feedback correct';
           this.score += 5;
           this.updateScore();
+          document.getElementById('submitBar').disabled = true;
           setTimeout(() => {
             this.currentBarIndex++;
             if (this.currentBarIndex < this.barChallenges.length) {
@@ -286,11 +296,15 @@
               document.getElementById('complete1').classList.add('show');
             }
           }, 1500);
+        } else {
+          feedback.textContent = `You selected ${this.clickedSections.size} sections. You need exactly ${c.num1 + c.num2} sections.`;
+          feedback.className = 'feedback incorrect';
         }
       },
 
       renderAddActivity() {
         const c = this.addChallenges[this.currentAddIndex];
+        this.selectedAddAnswer = null;
         const wrong = [`${c.num1+c.num2}/${c.den*2}`, `${c.num1+c.num2+1}/${c.den}`, `${c.num1}/${c.den}`];
         const all = [c.answer, ...wrong].sort(() => Math.random() - 0.5);
         document.getElementById('addQuestion').innerHTML = `
@@ -301,18 +315,38 @@
             <span class="operator">=</span>
             <span style="font-size:2rem;">?</span>
           </div>
-          <div class="answer-options">${all.map(a => `<button class="answer-btn" onclick="Lesson.checkAdd('${a}')">${a}</button>`).join('')}</div>
+          <div class="answer-options">${all.map(a => `<button class="answer-btn" onclick="Lesson.selectAddAnswer('${a}', this)">${a}</button>`).join('')}</div>
+          <button class="btn btn-primary" id="submitAdd" onclick="Lesson.checkAdd()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
-      checkAdd(answer) {
+      selectAddAnswer(answer, btn) {
+        this.selectedAddAnswer = answer;
+        // Remove selected class from all buttons, add to clicked one
+        document.querySelectorAll('#addQuestion .answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        // Clear any previous feedback
+        document.getElementById('feedback2').className = 'feedback';
+      },
+
+      checkAdd() {
+        if (!this.selectedAddAnswer) {
+          const feedback = document.getElementById('feedback2');
+          feedback.textContent = 'Please select an answer first!';
+          feedback.className = 'feedback info';
+          return;
+        }
         const c = this.addChallenges[this.currentAddIndex];
         const feedback = document.getElementById('feedback2');
+        const answer = this.selectedAddAnswer;
+
         document.querySelectorAll('#addQuestion .answer-btn').forEach(btn => {
           btn.disabled = true;
           if (btn.textContent === c.answer) btn.classList.add('correct');
-          else if (btn.textContent === answer) btn.classList.add('incorrect');
+          else if (btn.textContent === answer && answer !== c.answer) btn.classList.add('incorrect');
         });
+        document.getElementById('submitAdd').disabled = true;
+
         if (answer === c.answer) {
           feedback.textContent = `Correct! ${c.num1} + ${c.num2} = ${c.num1+c.num2}, denominator stays ${c.den}`;
           feedback.className = 'feedback correct';
@@ -335,11 +369,13 @@
 
       renderWordProblem() {
         const p = this.wordProblems[this.currentWordIndex];
+        this.selectedWordAnswer = null;
         const wrong = this.generateWrongAnswers(p.answer);
         const all = [p.answer, ...wrong].sort(() => Math.random() - 0.5);
         document.getElementById('wordProblem').innerHTML = `
           <p style="font-size:1.25rem; margin-bottom:var(--space-lg);">${p.text}</p>
-          <div class="answer-options">${all.map(a => `<button class="answer-btn" onclick="Lesson.checkWord('${a}')">${a}</button>`).join('')}</div>
+          <div class="answer-options">${all.map(a => `<button class="answer-btn" onclick="Lesson.selectWordAnswer('${a}', this)">${a}</button>`).join('')}</div>
+          <button class="btn btn-primary" id="submitWord" onclick="Lesson.checkWord()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
@@ -348,14 +384,31 @@
         return [`${num+1}/${den}`, `${num}/${den*2}`, `${num-1}/${den}`].filter(w => w !== correct).slice(0,3);
       },
 
-      checkWord(answer) {
+      selectWordAnswer(answer, btn) {
+        this.selectedWordAnswer = answer;
+        document.querySelectorAll('#wordProblem .answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('feedback3').className = 'feedback';
+      },
+
+      checkWord() {
+        if (!this.selectedWordAnswer) {
+          const feedback = document.getElementById('feedback3');
+          feedback.textContent = 'Please select an answer first!';
+          feedback.className = 'feedback info';
+          return;
+        }
         const p = this.wordProblems[this.currentWordIndex];
         const feedback = document.getElementById('feedback3');
+        const answer = this.selectedWordAnswer;
+
         document.querySelectorAll('#wordProblem .answer-btn').forEach(btn => {
           btn.disabled = true;
           if (btn.textContent === p.answer) btn.classList.add('correct');
-          else if (btn.textContent === answer) btn.classList.add('incorrect');
+          else if (btn.textContent === answer && answer !== p.answer) btn.classList.add('incorrect');
         });
+        document.getElementById('submitWord').disabled = true;
+
         if (answer === p.answer) {
           feedback.textContent = `Touchdown! ${p.answer} is correct!`;
           feedback.className = 'feedback correct';

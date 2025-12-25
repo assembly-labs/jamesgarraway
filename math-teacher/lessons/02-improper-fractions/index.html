@@ -79,6 +79,7 @@
     .answer-options { display: flex; flex-wrap: wrap; gap: var(--space-md); justify-content: center; }
     .answer-btn { padding: var(--space-md) var(--space-xl); border: 3px solid var(--border); border-radius: var(--radius-lg); background: white; cursor: pointer; font-size: 1.25rem; font-weight: 700; transition: all var(--transition-fast); min-width: 120px; }
     .answer-btn:hover { border-color: var(--field-green); transform: scale(1.05); }
+    .answer-btn.selected { background: var(--info-light); border-color: var(--info); transform: scale(1.05); }
     .answer-btn.correct { background: var(--correct-light); border-color: var(--correct); }
     .answer-btn.incorrect { background: var(--incorrect-light); border-color: var(--incorrect); }
 
@@ -172,6 +173,7 @@
           <div class="question-text">Build: <span id="targetFraction" style="font-size: 2rem; font-weight: 700; color: var(--field-green);">5/4</span></div>
           <div class="fraction-builder" id="fractionBuilder"></div>
           <p style="margin-top: var(--space-md);">Selected: <strong id="selectedCount">0</strong> / <span id="targetNum">5</span> quarters</p>
+          <div id="buildSubmitContainer" style="margin-top: var(--space-lg); text-align: center;"></div>
         </div>
 
         <div class="feedback" id="feedback1"></div>
@@ -250,6 +252,7 @@
         { num: 11, den: 4, answer: '2 3/4' }
       ],
       currentConvertIndex: 0,
+      selectedConvertAnswer: null,
 
       // Activity 3: Convert mixed to improper
       reverseChallenges: [
@@ -259,6 +262,7 @@
         { whole: 1, num: 3, den: 4, answer: '7/4' }
       ],
       currentReverseIndex: 0,
+      selectedReverseAnswer: null,
 
       init() {
         Storage.startLesson(2);
@@ -285,10 +289,15 @@
           html += `<div class="piece" data-index="${i}" onclick="Lesson.togglePiece(${i})">${i % challenge.den + 1}/${challenge.den}</div>`;
         }
         builder.innerHTML = html;
+
+        // Add submit button
+        const container = document.getElementById('buildSubmitContainer');
+        if (container) {
+          container.innerHTML = '<button class="btn btn-primary" id="submitBuild" onclick="Lesson.checkBuild()">Submit Answer</button>';
+        }
       },
 
       togglePiece(index) {
-        const challenge = this.buildChallenges[this.currentBuildIndex];
         const piece = document.querySelector(`[data-index="${index}"]`);
 
         if (piece.classList.contains('selected')) {
@@ -300,14 +309,20 @@
         }
 
         document.getElementById('selectedCount').textContent = this.selectedPieces;
+        // Clear any previous feedback
+        document.getElementById('feedback1').className = 'feedback';
+      },
 
-        // Check if correct
+      checkBuild() {
+        const challenge = this.buildChallenges[this.currentBuildIndex];
+        const feedback = document.getElementById('feedback1');
+
         if (this.selectedPieces === challenge.num) {
-          const feedback = document.getElementById('feedback1');
           feedback.textContent = `Perfect! ${challenge.num}/${challenge.den} = ${Math.floor(challenge.num/challenge.den)} ${challenge.num % challenge.den}/${challenge.den} (more than 1 whole!)`;
           feedback.className = 'feedback correct';
           this.score += 5;
           this.updateScore();
+          document.getElementById('submitBuild').disabled = true;
 
           setTimeout(() => {
             this.currentBuildIndex++;
@@ -318,11 +333,15 @@
               document.getElementById('complete1').classList.add('show');
             }
           }, 1500);
+        } else {
+          feedback.textContent = `You selected ${this.selectedPieces} pieces, but need exactly ${challenge.num} pieces.`;
+          feedback.className = 'feedback incorrect';
         }
       },
 
       renderConvertActivity() {
         const challenge = this.convertChallenges[this.currentConvertIndex];
+        this.selectedConvertAnswer = null;
         const container = document.getElementById('conversionQuestion');
 
         // Generate wrong answers
@@ -334,8 +353,9 @@
             Convert <span style="font-size: 2rem; font-weight: 700; color: var(--field-green);">${challenge.num}/${challenge.den}</span> to a mixed number:
           </div>
           <div class="answer-options">
-            ${allAnswers.map(a => `<button class="answer-btn" onclick="Lesson.checkConvert('${a}')">${a}</button>`).join('')}
+            ${allAnswers.map(a => `<button class="answer-btn" onclick="Lesson.selectConvertAnswer('${a}', this)">${a}</button>`).join('')}
           </div>
+          <button class="btn btn-primary" id="submitConvert" onclick="Lesson.checkConvert()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
@@ -353,10 +373,24 @@
         return wrong.filter(w => w !== correct).slice(0, 3);
       },
 
-      checkConvert(answer) {
+      selectConvertAnswer(answer, btn) {
+        this.selectedConvertAnswer = answer;
+        document.querySelectorAll('#conversionQuestion .answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('feedback2').className = 'feedback';
+      },
+
+      checkConvert() {
+        if (!this.selectedConvertAnswer) {
+          const feedback = document.getElementById('feedback2');
+          feedback.textContent = 'Please select an answer first!';
+          feedback.className = 'feedback info';
+          return;
+        }
         const challenge = this.convertChallenges[this.currentConvertIndex];
-        const buttons = document.querySelectorAll('.answer-btn');
+        const buttons = document.querySelectorAll('#conversionQuestion .answer-btn');
         const feedback = document.getElementById('feedback2');
+        const answer = this.selectedConvertAnswer;
 
         buttons.forEach(btn => {
           btn.disabled = true;
@@ -366,40 +400,32 @@
             btn.classList.add('incorrect');
           }
         });
+        document.getElementById('submitConvert').disabled = true;
 
         if (answer === challenge.answer) {
           feedback.textContent = `Correct! ${challenge.num}/${challenge.den} = ${challenge.answer}`;
           feedback.className = 'feedback correct';
           this.score += 5;
           this.updateScore();
-
-          setTimeout(() => {
-            this.currentConvertIndex++;
-            if (this.currentConvertIndex < this.convertChallenges.length) {
-              feedback.className = 'feedback';
-              this.renderConvertActivity();
-            } else {
-              document.getElementById('complete2').classList.add('show');
-            }
-          }, 1500);
         } else {
           feedback.textContent = `Not quite. ${challenge.num} ÷ ${challenge.den} = ${Math.floor(challenge.num/challenge.den)} remainder ${challenge.num % challenge.den}`;
           feedback.className = 'feedback incorrect';
-
-          setTimeout(() => {
-            this.currentConvertIndex++;
-            if (this.currentConvertIndex < this.convertChallenges.length) {
-              feedback.className = 'feedback';
-              this.renderConvertActivity();
-            } else {
-              document.getElementById('complete2').classList.add('show');
-            }
-          }, 2000);
         }
+
+        setTimeout(() => {
+          this.currentConvertIndex++;
+          if (this.currentConvertIndex < this.convertChallenges.length) {
+            feedback.className = 'feedback';
+            this.renderConvertActivity();
+          } else {
+            document.getElementById('complete2').classList.add('show');
+          }
+        }, 1500);
       },
 
       renderReverseActivity() {
         const challenge = this.reverseChallenges[this.currentReverseIndex];
+        this.selectedReverseAnswer = null;
         const container = document.getElementById('reverseQuestion');
 
         // Generate wrong answers
@@ -411,8 +437,9 @@
             Convert <span style="font-size: 2rem; font-weight: 700; color: var(--field-green);">${challenge.whole} ${challenge.num}/${challenge.den}</span> to an improper fraction:
           </div>
           <div class="answer-options">
-            ${allAnswers.map(a => `<button class="answer-btn" onclick="Lesson.checkReverse('${a}')">${a}</button>`).join('')}
+            ${allAnswers.map(a => `<button class="answer-btn" onclick="Lesson.selectReverseAnswer('${a}', this)">${a}</button>`).join('')}
           </div>
+          <button class="btn btn-primary" id="submitReverse" onclick="Lesson.checkReverse()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
@@ -427,10 +454,24 @@
         return wrong.filter(w => w !== challenge.answer).slice(0, 3);
       },
 
-      checkReverse(answer) {
+      selectReverseAnswer(answer, btn) {
+        this.selectedReverseAnswer = answer;
+        document.querySelectorAll('#reverseQuestion .answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('feedback3').className = 'feedback';
+      },
+
+      checkReverse() {
+        if (!this.selectedReverseAnswer) {
+          const feedback = document.getElementById('feedback3');
+          feedback.textContent = 'Please select an answer first!';
+          feedback.className = 'feedback info';
+          return;
+        }
         const challenge = this.reverseChallenges[this.currentReverseIndex];
-        const buttons = document.querySelectorAll('.answer-btn');
+        const buttons = document.querySelectorAll('#reverseQuestion .answer-btn');
         const feedback = document.getElementById('feedback3');
+        const answer = this.selectedReverseAnswer;
 
         buttons.forEach(btn => {
           btn.disabled = true;
@@ -440,6 +481,7 @@
             btn.classList.add('incorrect');
           }
         });
+        document.getElementById('submitReverse').disabled = true;
 
         if (answer === challenge.answer) {
           feedback.textContent = `Correct! ${challenge.whole} x ${challenge.den} + ${challenge.num} = ${challenge.whole * challenge.den + challenge.num}`;

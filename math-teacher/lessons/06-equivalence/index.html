@@ -67,8 +67,10 @@
     .answer-options { display: flex; flex-wrap: wrap; gap: var(--space-md); justify-content: center; margin-top: var(--space-lg); }
     .answer-btn { padding: var(--space-md) var(--space-xl); border: 3px solid var(--border); border-radius: var(--radius-lg); background: white; cursor: pointer; font-size: 1.25rem; font-weight: 700; transition: all var(--transition-fast); }
     .answer-btn:hover { border-color: var(--field-green); transform: scale(1.05); }
+    .answer-btn.selected { background: var(--info-light); border-color: var(--info); transform: scale(1.05); }
     .answer-btn.correct { background: var(--correct-light); border-color: var(--correct); }
     .answer-btn.incorrect { background: var(--incorrect-light); border-color: var(--incorrect); }
+    .fraction-card.selected { border-color: var(--info); background: var(--info-light); transform: scale(1.05); }
 
     .multiplier-display { font-size: 1.5rem; margin: var(--space-lg) 0; }
     .multiplier-display span { color: var(--field-green); font-weight: 700; }
@@ -213,6 +215,7 @@
         { base: {n:2,d:5}, match: {n:4,d:10}, wrong: [{n:2,d:10},{n:3,d:10}] }
       ],
       currentMatchIndex: 0,
+      selectedMatchAnswer: null,
 
       multiplyChallenges: [
         { base: {n:1,d:2}, mult: 2, result: {n:2,d:4} },
@@ -221,6 +224,7 @@
         { base: {n:3,d:4}, mult: 2, result: {n:6,d:8} }
       ],
       currentMultIndex: 0,
+      selectedMultAnswer: null,
 
       completeChallenges: [
         { frac1: {n:1,d:2}, frac2: {n:'?',d:4}, answer: 2 },
@@ -229,6 +233,7 @@
         { frac1: {n:3,d:5}, frac2: {n:6,d:'?'}, answer: 10 }
       ],
       currentCompleteIndex: 0,
+      selectedCompleteAnswer: null,
 
       init() {
         Storage.startLesson(6);
@@ -240,6 +245,7 @@
 
       renderMatchActivity() {
         const c = this.matchChallenges[this.currentMatchIndex];
+        this.selectedMatchAnswer = null;
         const options = [c.match, ...c.wrong].sort(() => Math.random() - 0.5);
         document.getElementById('matchActivity').innerHTML = `
           <div class="number-line-container">
@@ -255,21 +261,39 @@
           </div>
           <p style="text-align:center; margin-top:var(--space-lg);">Which fraction is at the same spot as ${c.base.n}/${c.base.d}?</p>
           <div class="fraction-cards">
-            ${options.map(o => `<div class="fraction-card" onclick="Lesson.checkMatch('${o.n}/${o.d}')"><span>${o.n}</span><hr style="width:50%;margin:4px 0;border-color:currentColor;"><span>${o.d}</span></div>`).join('')}
+            ${options.map(o => `<div class="fraction-card" onclick="Lesson.selectMatchAnswer('${o.n}/${o.d}', this)"><span>${o.n}</span><hr style="width:50%;margin:4px 0;border-color:currentColor;"><span>${o.d}</span></div>`).join('')}
           </div>
+          <button class="btn btn-primary" id="submitMatch" onclick="Lesson.checkMatch()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
-      checkMatch(answer) {
+      selectMatchAnswer(answer, card) {
+        this.selectedMatchAnswer = answer;
+        document.querySelectorAll('.fraction-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        document.getElementById('feedback1').className = 'feedback';
+      },
+
+      checkMatch() {
+        if (!this.selectedMatchAnswer) {
+          const feedback = document.getElementById('feedback1');
+          feedback.textContent = 'Please select an answer first!';
+          feedback.className = 'feedback info';
+          return;
+        }
         const c = this.matchChallenges[this.currentMatchIndex];
         const correct = `${c.match.n}/${c.match.d}`;
         const feedback = document.getElementById('feedback1');
+        const answer = this.selectedMatchAnswer;
+
         document.querySelectorAll('.fraction-card').forEach(card => {
           card.style.pointerEvents = 'none';
           const cardVal = card.textContent.replace(/\s/g,'').replace(/-/g,'');
           const [n,d] = cardVal.split('').filter(c => !isNaN(c));
           if (`${n}/${d}` === correct || cardVal.includes(c.match.n) && cardVal.includes(c.match.d)) card.classList.add('correct');
         });
+        document.getElementById('submitMatch').disabled = true;
+
         if (answer === correct) {
           feedback.textContent = `Correct! ${c.base.n}/${c.base.d} = ${correct} - same position!`;
           feedback.className = 'feedback correct';
@@ -292,6 +316,7 @@
 
       renderMultiplyActivity() {
         const c = this.multiplyChallenges[this.currentMultIndex];
+        this.selectedMultAnswer = null;
         const wrong = [
           {n: c.result.n + 1, d: c.result.d},
           {n: c.result.n, d: c.result.d + 1},
@@ -304,20 +329,38 @@
           </div>
           <p>Multiply both top and bottom by ${c.mult}:</p>
           <div class="answer-options">
-            ${options.map(o => `<button class="answer-btn" onclick="Lesson.checkMultiply('${o.n}/${o.d}')">${o.n}/${o.d}</button>`).join('')}
+            ${options.map(o => `<button class="answer-btn" onclick="Lesson.selectMultAnswer('${o.n}/${o.d}', this)">${o.n}/${o.d}</button>`).join('')}
           </div>
+          <button class="btn btn-primary" id="submitMult" onclick="Lesson.checkMultiply()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
-      checkMultiply(answer) {
+      selectMultAnswer(answer, btn) {
+        this.selectedMultAnswer = answer;
+        document.querySelectorAll('#multiplyQuestion .answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('feedback2').className = 'feedback';
+      },
+
+      checkMultiply() {
+        if (!this.selectedMultAnswer) {
+          const feedback = document.getElementById('feedback2');
+          feedback.textContent = 'Please select an answer first!';
+          feedback.className = 'feedback info';
+          return;
+        }
         const c = this.multiplyChallenges[this.currentMultIndex];
         const correct = `${c.result.n}/${c.result.d}`;
         const feedback = document.getElementById('feedback2');
+        const answer = this.selectedMultAnswer;
+
         document.querySelectorAll('#multiplyQuestion .answer-btn').forEach(btn => {
           btn.disabled = true;
           if (btn.textContent === correct) btn.classList.add('correct');
-          else if (btn.textContent === answer) btn.classList.add('incorrect');
+          else if (btn.textContent === answer && answer !== correct) btn.classList.add('incorrect');
         });
+        document.getElementById('submitMult').disabled = true;
+
         if (answer === correct) {
           feedback.textContent = `Correct! ${c.base.n}x${c.mult}=${c.result.n} and ${c.base.d}x${c.mult}=${c.result.d}`;
           feedback.className = 'feedback correct';
@@ -340,6 +383,7 @@
 
       renderCompleteActivity() {
         const c = this.completeChallenges[this.currentCompleteIndex];
+        this.selectedCompleteAnswer = null;
         const wrong = [c.answer + 1, c.answer - 1, c.answer * 2].filter(w => w > 0 && w !== c.answer);
         const options = [c.answer, ...wrong].slice(0,4).sort(() => Math.random() - 0.5);
         const num2Display = c.frac2.n === '?' ? '?' : c.frac2.n;
@@ -350,19 +394,37 @@
           </div>
           <p>What number replaces the ?</p>
           <div class="answer-options">
-            ${options.map(o => `<button class="answer-btn" onclick="Lesson.checkComplete(${o})">${o}</button>`).join('')}
+            ${options.map(o => `<button class="answer-btn" onclick="Lesson.selectCompleteAnswer(${o}, this)">${o}</button>`).join('')}
           </div>
+          <button class="btn btn-primary" id="submitComplete" onclick="Lesson.checkComplete()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
-      checkComplete(answer) {
+      selectCompleteAnswer(answer, btn) {
+        this.selectedCompleteAnswer = answer;
+        document.querySelectorAll('#completeQuestion .answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('feedback3').className = 'feedback';
+      },
+
+      checkComplete() {
+        if (this.selectedCompleteAnswer === null) {
+          const feedback = document.getElementById('feedback3');
+          feedback.textContent = 'Please select an answer first!';
+          feedback.className = 'feedback info';
+          return;
+        }
         const c = this.completeChallenges[this.currentCompleteIndex];
         const feedback = document.getElementById('feedback3');
+        const answer = this.selectedCompleteAnswer;
+
         document.querySelectorAll('#completeQuestion .answer-btn').forEach(btn => {
           btn.disabled = true;
           if (parseInt(btn.textContent) === c.answer) btn.classList.add('correct');
-          else if (parseInt(btn.textContent) === answer) btn.classList.add('incorrect');
+          else if (parseInt(btn.textContent) === answer && answer !== c.answer) btn.classList.add('incorrect');
         });
+        document.getElementById('submitComplete').disabled = true;
+
         if (answer === c.answer) {
           feedback.textContent = `Correct! The answer is ${c.answer}`;
           feedback.className = 'feedback correct';

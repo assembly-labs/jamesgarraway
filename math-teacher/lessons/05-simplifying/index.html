@@ -63,13 +63,14 @@
     .answer-options { display: flex; flex-wrap: wrap; gap: var(--space-md); justify-content: center; margin-top: var(--space-lg); }
     .answer-btn { padding: var(--space-md) var(--space-xl); border: 3px solid var(--border); border-radius: var(--radius-lg); background: white; cursor: pointer; font-size: 1.25rem; font-weight: 700; transition: all var(--transition-fast); }
     .answer-btn:hover { border-color: var(--field-green); transform: scale(1.05); }
+    .answer-btn.selected { background: var(--info-light); border-color: var(--info); transform: scale(1.05); }
     .answer-btn.correct { background: var(--correct-light); border-color: var(--correct); }
     .answer-btn.incorrect { background: var(--incorrect-light); border-color: var(--incorrect); }
 
     .divisor-buttons { display: flex; flex-wrap: wrap; gap: var(--space-md); justify-content: center; margin: var(--space-lg) 0; }
     .divisor-btn { width: 60px; height: 60px; border-radius: 50%; border: 3px solid var(--border); background: white; font-size: 1.5rem; font-weight: 700; cursor: pointer; transition: all var(--transition-fast); }
     .divisor-btn:hover { border-color: var(--field-green); transform: scale(1.1); }
-    .divisor-btn.selected { background: var(--field-green); color: white; border-color: var(--field-green); }
+    .divisor-btn.selected { background: var(--info-light); color: var(--info); border-color: var(--info); transform: scale(1.1); }
   </style>
 </head>
 <body>
@@ -210,6 +211,7 @@
         { frac1: {n:4,d:8}, frac2: {n:1,d:2} }
       ],
       currentMatchIndex: 0,
+      selectedMatchAnswer: null,
 
       gcfChallenges: [
         { num: 4, den: 8, gcf: 4, simplified: '1/2' },
@@ -218,6 +220,7 @@
         { num: 4, den: 6, gcf: 2, simplified: '2/3' }
       ],
       currentGcfIndex: 0,
+      selectedGcf: null,
 
       simplifyChallenges: [
         { num: 2, den: 4, answer: '1/2' },
@@ -227,6 +230,7 @@
         { num: 8, den: 12, answer: '2/3' }
       ],
       currentSimplifyIndex: 0,
+      selectedSimplifyAnswer: null,
 
       init() {
         Storage.startLesson(5);
@@ -238,6 +242,7 @@
 
       renderMatchActivity() {
         const p = this.matchPairs[this.currentMatchIndex];
+        this.selectedMatchAnswer = null;
         const wrongPairs = [
           {n: p.frac1.n + 1, d: p.frac1.d},
           {n: p.frac1.n, d: p.frac1.d + 2}
@@ -255,8 +260,9 @@
           </div>
           <p style="text-align:center; margin-top:var(--space-lg);">Which fraction equals ${p.frac1.n}/${p.frac1.d}?</p>
           <div class="answer-options">
-            ${options.map(o => `<button class="answer-btn" onclick="Lesson.checkMatch('${o.n}/${o.d}')">${o.n}/${o.d}</button>`).join('')}
+            ${options.map(o => `<button class="answer-btn" onclick="Lesson.selectMatchAnswer('${o.n}/${o.d}', this)">${o.n}/${o.d}</button>`).join('')}
           </div>
+          <button class="btn btn-primary" id="submitMatch" onclick="Lesson.checkMatch()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
@@ -264,15 +270,32 @@
         return Array(total).fill(0).map((_, i) => `<div class="bar-section ${i < filled ? '' : 'empty'}"></div>`).join('');
       },
 
-      checkMatch(answer) {
+      selectMatchAnswer(answer, btn) {
+        this.selectedMatchAnswer = answer;
+        document.querySelectorAll('#matchActivity .answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('feedback1').className = 'feedback';
+      },
+
+      checkMatch() {
+        if (!this.selectedMatchAnswer) {
+          const feedback = document.getElementById('feedback1');
+          feedback.textContent = 'Please select an answer first!';
+          feedback.className = 'feedback info';
+          return;
+        }
         const p = this.matchPairs[this.currentMatchIndex];
         const correct = `${p.frac2.n}/${p.frac2.d}`;
         const feedback = document.getElementById('feedback1');
+        const answer = this.selectedMatchAnswer;
+
         document.querySelectorAll('#matchActivity .answer-btn').forEach(btn => {
           btn.disabled = true;
           if (btn.textContent === correct) btn.classList.add('correct');
-          else if (btn.textContent === answer) btn.classList.add('incorrect');
+          else if (btn.textContent === answer && answer !== correct) btn.classList.add('incorrect');
         });
+        document.getElementById('submitMatch').disabled = true;
+
         if (answer === correct) {
           feedback.textContent = `Correct! ${p.frac1.n}/${p.frac1.d} = ${correct} - same amount!`;
           feedback.className = 'feedback correct';
@@ -295,24 +318,40 @@
 
       renderGcfActivity() {
         const c = this.gcfChallenges[this.currentGcfIndex];
-        const divisors = [2, 3, 4, 5, 6].filter(d => c.num % d === 0 && c.den % d === 0 || d <= 3);
+        this.selectedGcf = null;
         document.getElementById('gcfQuestion').innerHTML = `
           <div style="font-size:2.5rem; font-weight:700; margin-bottom:var(--space-lg);">
             <span style="border-bottom:3px solid var(--text);">${c.num}</span><br>${c.den}
           </div>
           <p>What number can divide BOTH ${c.num} and ${c.den}?</p>
           <div class="divisor-buttons">
-            ${[2,3,4,5,6].map(d => `<button class="divisor-btn" onclick="Lesson.checkGcf(${d})">${d}</button>`).join('')}
+            ${[2,3,4,5,6].map(d => `<button class="divisor-btn" onclick="Lesson.selectGcf(${d}, this)">${d}</button>`).join('')}
           </div>
+          <button class="btn btn-primary" id="submitGcf" onclick="Lesson.checkGcf()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
-      checkGcf(divisor) {
+      selectGcf(divisor, btn) {
+        this.selectedGcf = divisor;
+        document.querySelectorAll('.divisor-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('feedback2').className = 'feedback';
+      },
+
+      checkGcf() {
+        if (!this.selectedGcf) {
+          const feedback = document.getElementById('feedback2');
+          feedback.textContent = 'Please select a number first!';
+          feedback.className = 'feedback info';
+          return;
+        }
         const c = this.gcfChallenges[this.currentGcfIndex];
         const feedback = document.getElementById('feedback2');
+        const divisor = this.selectedGcf;
         const isCorrect = c.num % divisor === 0 && c.den % divisor === 0;
 
         document.querySelectorAll('.divisor-btn').forEach(btn => btn.disabled = true);
+        document.getElementById('submitGcf').disabled = true;
 
         if (isCorrect) {
           feedback.textContent = `Yes! ${c.num}÷${divisor}=${c.num/divisor} and ${c.den}÷${divisor}=${c.den/divisor}, so ${c.num}/${c.den} = ${c.num/divisor}/${c.den/divisor}`;
@@ -336,24 +375,43 @@
 
       renderSimplifyActivity() {
         const c = this.simplifyChallenges[this.currentSimplifyIndex];
+        this.selectedSimplifyAnswer = null;
         const wrong = [`${c.num}/${c.den+2}`, `${c.num+1}/${c.den}`, `${Math.ceil(c.num/2)}/${c.den}`].filter(w => w !== c.answer);
         const all = [c.answer, ...wrong].slice(0,4).sort(() => Math.random() - 0.5);
         document.getElementById('simplifyQuestion').innerHTML = `
           <div style="font-size:2.5rem; font-weight:700; margin-bottom:var(--space-lg);">
             Simplify: <span style="color:var(--field-green);">${c.num}/${c.den}</span>
           </div>
-          <div class="answer-options">${all.map(a => `<button class="answer-btn" onclick="Lesson.checkSimplify('${a}')">${a}</button>`).join('')}</div>
+          <div class="answer-options">${all.map(a => `<button class="answer-btn" onclick="Lesson.selectSimplifyAnswer('${a}', this)">${a}</button>`).join('')}</div>
+          <button class="btn btn-primary" id="submitSimplify" onclick="Lesson.checkSimplify()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
       },
 
-      checkSimplify(answer) {
+      selectSimplifyAnswer(answer, btn) {
+        this.selectedSimplifyAnswer = answer;
+        document.querySelectorAll('#simplifyQuestion .answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('feedback3').className = 'feedback';
+      },
+
+      checkSimplify() {
+        if (!this.selectedSimplifyAnswer) {
+          const feedback = document.getElementById('feedback3');
+          feedback.textContent = 'Please select an answer first!';
+          feedback.className = 'feedback info';
+          return;
+        }
         const c = this.simplifyChallenges[this.currentSimplifyIndex];
         const feedback = document.getElementById('feedback3');
+        const answer = this.selectedSimplifyAnswer;
+
         document.querySelectorAll('#simplifyQuestion .answer-btn').forEach(btn => {
           btn.disabled = true;
           if (btn.textContent === c.answer) btn.classList.add('correct');
-          else if (btn.textContent === answer) btn.classList.add('incorrect');
+          else if (btn.textContent === answer && answer !== c.answer) btn.classList.add('incorrect');
         });
+        document.getElementById('submitSimplify').disabled = true;
+
         if (answer === c.answer) {
           feedback.textContent = `Perfect! ${c.num}/${c.den} = ${c.answer}`;
           feedback.className = 'feedback correct';
