@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Football Field Fractions - Adding & Subtracting</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+  <link rel="stylesheet" href="../styles/side-nav.css">
+
+  <style>
+    /* Activity-specific styles */
+    .activity {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    .activity-header {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      color: white;
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      margin: calc(-1 * var(--space-xl)) calc(-1 * var(--space-xl)) var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .activity-number {
+      background: #FFD700;
+      color: var(--field-dark);
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .activity-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    .intro-text {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: var(--space-lg);
+    }
+
+    .tip-box {
+      background: var(--info-light);
+      border: 2px solid var(--info);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin: var(--space-lg) 0;
+    }
+
+    .tip-box h4 {
+      color: #1565C0;
+      margin-bottom: var(--space-sm);
+      font-size: 1rem;
+    }
+
+    .tip-box p {
+      margin: 0;
+      color: var(--text);
+    }
+
+    .example-box {
+      background: linear-gradient(135deg, #FFF9E6, #FFE4B5);
+      border: 3px solid #FFD700;
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin: var(--space-lg) 0;
+    }
+
+    .example-box h3 {
+      color: var(--football-brown);
+      margin-bottom: var(--space-md);
+      font-size: 1.2rem;
+    }
+
+    /* Football Field Visualization */
+    .football-field {
+      background: var(--field-green);
+      height: 80px;
+      border-radius: var(--radius-md);
+      position: relative;
+      margin: var(--space-lg) 0;
+      border: 3px solid white;
+      overflow: hidden;
+    }
+
+    .football-field.mini {
+      height: 50px;
+    }
+
+    .yard-markers {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+
+    .yard-line {
+      width: 10%;
+      flex-shrink: 0;
+      border-right: 2px dashed rgba(255,255,255,0.5);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 4px;
+      font-size: 0.7rem;
+      color: white;
+      font-weight: 600;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+      box-sizing: border-box;
+    }
+
+    .yard-line:nth-child(even) {
+      background: var(--field-light);
+    }
+
+    .yard-line:last-child {
+      border-right: none;
+    }
+
+    .field-highlight {
+      position: absolute;
+      height: 100%;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .highlight-first {
+      background: rgba(255, 215, 0, 0.7);
+      left: 0;
+    }
+
+    .highlight-second {
+      background: rgba(255, 69, 0, 0.7);
+    }
+
+    .highlight-loss {
+      background: rgba(255, 0, 0, 0.4);
+      border: 2px dashed #FF0000;
+    }
+
+    .highlight-result {
+      background: rgba(0, 191, 255, 0.6);
+    }
+
+    .field-legend {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: var(--space-sm);
+    }
+
+    /* Fraction Display */
+    .fraction-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      font-size: 1.5rem;
+      margin: var(--space-lg) 0;
+      flex-wrap: wrap;
+    }
+
+    .fraction {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: white;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      box-shadow: 0 2px 8px var(--shadow);
+      border: 2px solid var(--field-green);
+      font-family: var(--font-math);
+    }
+
+    .fraction .numerator {
+      border-bottom: 3px solid var(--field-dark);
+      padding-bottom: 4px;
+      min-width: 35px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .fraction .denominator {
+      padding-top: 4px;
+      min-width: 35px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .operator {
+      font-size: 1.5rem;
+      color: var(--field-dark);
+      font-weight: 700;
+    }
+
+    .answer-text {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-top: var(--space-md);
+    }
+
+    /* Question Section */
+    .question-section {
+      background: var(--background);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-top: var(--space-xl);
+    }
+
+    .question-section h3 {
+      color: var(--field-dark);
+      margin-bottom: var(--space-lg);
+      text-align: center;
+      font-size: 1.3rem;
+    }
+
+    .question {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-lg);
+      border: 2px solid var(--border);
+      transition: all var(--transition-normal);
+    }
+
+    .question.correct {
+      border-color: var(--correct);
+      background: var(--correct-light);
+    }
+
+    .question.incorrect {
+      border-color: var(--incorrect);
+      background: var(--incorrect-light);
+    }
+
+    .question-text {
+      font-size: 1.05rem;
+      margin-bottom: var(--space-md);
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .question-field {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-md);
+    }
+
+    .fraction-input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: white;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      box-shadow: 0 2px 6px var(--shadow);
+      border: 2px solid var(--field-green);
+    }
+
+    .fraction-input-group input {
+      width: 50px;
+      height: 40px;
+      font-size: 1.25rem;
+      text-align: center;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-math);
+    }
+
+    .fraction-input-group input:focus {
+      border-color: var(--field-green);
+      outline: none;
+    }
+
+    .fraction-input-group .divider {
+      width: 35px;
+      height: 3px;
+      background: var(--field-dark);
+      margin: 4px 0;
+    }
+
+    .feedback {
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin-top: var(--space-md);
+      display: none;
+      font-weight: 600;
+    }
+
+    .feedback.correct {
+      background: var(--correct);
+      color: white;
+      display: block;
+    }
+
+    .feedback.incorrect {
+      background: var(--incorrect);
+      color: white;
+      display: block;
+    }
+
+    /* Score Board */
+    .score-board {
+      background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+      padding: var(--space-lg);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      color: white;
+      margin-bottom: var(--space-xl);
+      box-shadow: 0 4px 15px var(--shadow);
+    }
+
+    .score-board h3 {
+      color: #FFD700;
+      margin-bottom: var(--space-sm);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .score-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    /* Celebration */
+    .celebration {
+      display: none;
+      text-align: center;
+      font-size: 1.5rem;
+      padding: var(--space-xl);
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-xl);
+      animation: celebrate 0.5s ease infinite;
+    }
+
+    .celebration.show {
+      display: block;
+    }
+
+    @keyframes celebrate {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .fraction-display {
+        font-size: 1.2rem;
+      }
+
+      .activity-header h2 {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        ☰
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="../practice/index.html" class="nav-link active">Practice</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../super-extra-curricular/index.html" class="nav-dropdown-link">Super Extra</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb breadcrumb-light">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <a href="./index.html">Practice</a>
+        <span>/</span>
+        <span>Football Field Fractions</span>
+      </div>
+      <h1>Football Field Fractions</h1>
+      <p>Learn to add and subtract fractions using the football field!</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Score Board -->
+    <div class="score-board">
+      <h3>Your Score</h3>
+      <div class="score-value"><span id="score">0</span> / 9</div>
+    </div>
+
+    <!-- Celebration -->
+    <div id="celebration" class="celebration">
+      🏈 TOUCHDOWN! You're a Fraction Champion! 🏆
+    </div>
+
+    <!-- ACTIVITY 1: Adding Fractions -->
+    <div class="activity" id="activity1">
+      <div class="activity-header">
+        <div class="activity-number">1</div>
+        <h2>Gaining Yards - Adding Fractions</h2>
+      </div>
+
+      <p class="intro-text">
+        Think of the football field split into <strong>10 equal parts</strong>.
+        Each part is <strong>1/10</strong> of the field.
+        When your team gains yards, you <strong>ADD</strong> the fractions!
+      </p>
+
+      <div class="tip-box">
+        <h4>Coach's Tip:</h4>
+        <p>When fractions have the <strong>same bottom number</strong> (denominator),
+        just add the <strong>top numbers</strong> (numerators) and keep the bottom the same!</p>
+      </div>
+
+      <div class="example-box">
+        <h3>Example Play:</h3>
+        <p>Your team runs the ball and gains <strong>3/10</strong> of the field.
+        Then on the next play, you gain <strong>2/10</strong> more!</p>
+
+        <div class="football-field">
+          <div class="field-highlight highlight-first" style="width: 30%;"></div>
+          <div class="field-highlight highlight-second" style="left: 30%; width: 20%;"></div>
+          <div class="yard-markers">
+            <div class="yard-line">1/10</div>
+            <div class="yard-line">2/10</div>
+            <div class="yard-line">3/10</div>
+            <div class="yard-line">4/10</div>
+            <div class="yard-line">5/10</div>
+            <div class="yard-line">6/10</div>
+            <div class="yard-line">7/10</div>
+            <div class="yard-line">8/10</div>
+            <div class="yard-line">9/10</div>
+            <div class="yard-line">10/10</div>
+          </div>
+        </div>
+        <p class="field-legend">
+          Yellow = First gain (3/10) | Orange = Second gain (2/10)
+        </p>
+
+        <div class="fraction-display">
+          <div class="fraction">
+            <span class="numerator">3</span>
+            <span class="denominator">10</span>
+          </div>
+          <span class="operator">+</span>
+          <div class="fraction">
+            <span class="numerator">2</span>
+            <span class="denominator">10</span>
+          </div>
+          <span class="operator">=</span>
+          <div class="fraction">
+            <span class="numerator">5</span>
+            <span class="denominator">10</span>
+          </div>
+        </div>
+        <p class="answer-text">
+          <strong>3 + 2 = 5</strong>, so the answer is <strong>5/10</strong> of the field!
+        </p>
+      </div>
+
+      <div class="question-section">
+        <h3>Your Turn! Answer These:</h3>
+
+        <!-- Question 1 -->
+        <div class="question" id="q1">
+          <div class="question-text">
+            <strong>Question 1:</strong> Your running back gains <strong>2/10</strong> of the field.
+            Then your quarterback throws a pass for <strong>4/10</strong> more.
+            How much of the field did your team cover?
+          </div>
+          <div class="football-field mini">
+            <div class="field-highlight highlight-first" style="width: 20%;"></div>
+            <div class="field-highlight highlight-second" style="left: 20%; width: 40%;"></div>
+          </div>
+          <div class="question-field">
+            <span>2/10 + 4/10 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q1-num" placeholder="?" min="0" max="20">
+              <div class="divider"></div>
+              <input type="number" id="q1-den" value="10" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkAnswer(1, 6, 10)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback1"></div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question" id="q2">
+          <div class="question-text">
+            <strong>Question 2:</strong> On first down, you gain <strong>1/8</strong> of the field.
+            On second down, you gain <strong>3/8</strong> more. What is the total?
+          </div>
+          <div class="question-field">
+            <span>1/8 + 3/8 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q2-num" placeholder="?" min="0" max="20">
+              <div class="divider"></div>
+              <input type="number" id="q2-den" value="8" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkAnswer(2, 4, 8)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback2"></div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question" id="q3">
+          <div class="question-text">
+            <strong>Question 3:</strong> Your team makes three plays:
+            <strong>2/6</strong>, then <strong>1/6</strong>, then <strong>2/6</strong> more.
+            How much of the field did you cover?
+          </div>
+          <div class="question-field">
+            <span>2/6 + 1/6 + 2/6 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q3-num" placeholder="?" min="0" max="20">
+              <div class="divider"></div>
+              <input type="number" id="q3-den" value="6" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkAnswer(3, 5, 6)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY 2: Subtracting Fractions -->
+    <div class="activity" id="activity2">
+      <div class="activity-header">
+        <div class="activity-number">2</div>
+        <h2>Defense! - Subtracting Fractions</h2>
+      </div>
+
+      <p class="intro-text">
+        Sometimes the defense pushes your team back! When you <strong>lose yards</strong>,
+        you need to <strong>SUBTRACT</strong> fractions. It works the same way as adding!
+      </p>
+
+      <div class="tip-box">
+        <h4>Coach's Tip:</h4>
+        <p>To subtract fractions with the <strong>same bottom number</strong>,
+        just subtract the <strong>top numbers</strong> and keep the bottom the same!</p>
+      </div>
+
+      <div class="example-box">
+        <h3>Example Play:</h3>
+        <p>Your team is at the <strong>7/10</strong> line. But oh no!
+        The defense sacks your quarterback and you lose <strong>3/10</strong>!</p>
+
+        <div class="football-field">
+          <div class="field-highlight highlight-result" style="left: 0; width: 40%;"></div>
+          <div class="field-highlight highlight-loss" style="left: 40%; width: 30%;"></div>
+          <div class="yard-markers">
+            <div class="yard-line">1/10</div>
+            <div class="yard-line">2/10</div>
+            <div class="yard-line">3/10</div>
+            <div class="yard-line">4/10</div>
+            <div class="yard-line">5/10</div>
+            <div class="yard-line">6/10</div>
+            <div class="yard-line">7/10</div>
+            <div class="yard-line">8/10</div>
+            <div class="yard-line">9/10</div>
+            <div class="yard-line">10/10</div>
+          </div>
+        </div>
+        <p class="field-legend">
+          Blue = Where you end up (4/10) | Red stripes = Yards lost (3/10)
+        </p>
+
+        <div class="fraction-display">
+          <div class="fraction">
+            <span class="numerator">7</span>
+            <span class="denominator">10</span>
+          </div>
+          <span class="operator">-</span>
+          <div class="fraction">
+            <span class="numerator">3</span>
+            <span class="denominator">10</span>
+          </div>
+          <span class="operator">=</span>
+          <div class="fraction">
+            <span class="numerator">4</span>
+            <span class="denominator">10</span>
+          </div>
+        </div>
+        <p class="answer-text">
+          <strong>7 - 3 = 4</strong>, so you're now at <strong>4/10</strong> of the field!
+        </p>
+      </div>
+
+      <div class="question-section">
+        <h3>Your Turn! Answer These:</h3>
+
+        <!-- Question 4 -->
+        <div class="question" id="q4">
+          <div class="question-text">
+            <strong>Question 1:</strong> Your team is at the <strong>8/10</strong> line.
+            A penalty pushes you back <strong>2/10</strong>.
+            Where is your team now?
+          </div>
+          <div class="question-field">
+            <span>8/10 - 2/10 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q4-num" placeholder="?" min="0" max="20">
+              <div class="divider"></div>
+              <input type="number" id="q4-den" value="10" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkAnswer(4, 6, 10)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback4"></div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question" id="q5">
+          <div class="question-text">
+            <strong>Question 2:</strong> You have <strong>5/8</strong> of the field covered.
+            The other team intercepts and runs back <strong>2/8</strong>.
+            How much do you have now?
+          </div>
+          <div class="question-field">
+            <span>5/8 - 2/8 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q5-num" placeholder="?" min="0" max="20">
+              <div class="divider"></div>
+              <input type="number" id="q5-den" value="8" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkAnswer(5, 3, 8)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback5"></div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question" id="q6">
+          <div class="question-text">
+            <strong>Question 3:</strong> The star player ran <strong>6/6</strong> of the field (a whole field!).
+            But wait - a flag! The ref calls back <strong>2/6</strong>.
+            How much of the run counts?
+          </div>
+          <div class="question-field">
+            <span>6/6 - 2/6 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q6-num" placeholder="?" min="0" max="20">
+              <div class="divider"></div>
+              <input type="number" id="q6-den" value="6" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkAnswer(6, 4, 6)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback6"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY 3: Mixed Practice -->
+    <div class="activity" id="activity3">
+      <div class="activity-header">
+        <div class="activity-number">3</div>
+        <h2>Game Time! - Adding AND Subtracting</h2>
+      </div>
+
+      <p class="intro-text">
+        Now it's the big game! You'll need to use <strong>both</strong> adding and subtracting
+        to figure out where the ball ends up. Read each play carefully!
+      </p>
+
+      <div class="tip-box">
+        <h4>Coach's Tip:</h4>
+        <p>Look for key words! <strong>"Gains," "catches," "runs forward"</strong> = ADD.
+        <strong>"Loses," "pushed back," "penalty"</strong> = SUBTRACT.</p>
+      </div>
+
+      <div class="example-box">
+        <h3>Example Drive:</h3>
+        <p>Starting at <strong>2/10</strong>, your team gains <strong>5/10</strong>,
+        but then loses <strong>1/10</strong> on a bad play. Where do you end up?</p>
+
+        <div class="fraction-display">
+          <div class="fraction">
+            <span class="numerator">2</span>
+            <span class="denominator">10</span>
+          </div>
+          <span class="operator">+</span>
+          <div class="fraction">
+            <span class="numerator">5</span>
+            <span class="denominator">10</span>
+          </div>
+          <span class="operator">-</span>
+          <div class="fraction">
+            <span class="numerator">1</span>
+            <span class="denominator">10</span>
+          </div>
+          <span class="operator">=</span>
+          <div class="fraction">
+            <span class="numerator">6</span>
+            <span class="denominator">10</span>
+          </div>
+        </div>
+        <p class="answer-text">
+          <strong>2 + 5 = 7</strong>, then <strong>7 - 1 = 6</strong>. Answer: <strong>6/10</strong>!
+        </p>
+      </div>
+
+      <div class="question-section">
+        <h3>Championship Round!</h3>
+
+        <!-- Question 7 -->
+        <div class="question" id="q7">
+          <div class="question-text">
+            <strong>Question 1:</strong> Your team starts at <strong>1/10</strong>.
+            The running back gains <strong>4/10</strong>.
+            Then a penalty costs you <strong>2/10</strong>.
+            Where is the ball now?
+          </div>
+          <div class="question-field">
+            <span>1/10 + 4/10 - 2/10 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q7-num" placeholder="?" min="0" max="20">
+              <div class="divider"></div>
+              <input type="number" id="q7-den" value="10" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkAnswer(7, 3, 10)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback7"></div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question" id="q8">
+          <div class="question-text">
+            <strong>Question 2:</strong> The receiver catches the ball at <strong>3/8</strong>.
+            He runs forward <strong>5/8</strong> more! But a defender pushes him back <strong>1/8</strong>.
+            Where does he end up?
+          </div>
+          <div class="question-field">
+            <span>3/8 + 5/8 - 1/8 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q8-num" placeholder="?" min="0" max="20">
+              <div class="divider"></div>
+              <input type="number" id="q8-den" value="8" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkAnswer(8, 7, 8)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback8"></div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question" id="q9">
+          <div class="question-text">
+            <strong>Question 3:</strong> Final drive! Your team starts at <strong>1/6</strong>.
+            You gain <strong>4/6</strong> on a great run! But a holding penalty costs <strong>2/6</strong>.
+            Where is the ball now?
+          </div>
+          <div class="question-field">
+            <span>1/6 + 4/6 - 2/6 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q9-num" placeholder="?" min="0" max="20">
+              <div class="divider"></div>
+              <input type="number" id="q9-den" value="6" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkAnswer(9, 3, 6)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback9"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reset Button -->
+    <div class="text-center mt-xl mb-xl">
+      <button class="btn btn-secondary btn-large" onclick="resetGame()">Play Again</button>
+      <a href="./index.html" class="btn btn-primary btn-large">Back to Practice Hub</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: var(--field-dark); color: white; padding: var(--space-xl) 0; text-align: center; margin-top: var(--space-2xl);">
+    <div class="container">
+      <p>Football Fractions - Practice Hub</p>
+      <p class="text-small mt-sm">
+        <a href="../parent-guide/index.html" style="color: rgba(255,255,255,0.8);">Parent Guide</a> ·
+        <a href="../schedule/index.html" style="color: rgba(255,255,255,0.8);">Practice Schedule</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/fractions.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/side-nav.js"></script>
+
+  <!-- Question Explanations for Helper Panel -->
+  <script>
+    window.questionExplanations = {
+      q1: {
+        title: "Question 1: 2/10 + 4/10",
+        visual: {
+          steps: [
+            { text: "Picture the football field split into <strong>10 equal parts</strong>." },
+            { text: "Your running back runs across <strong>2 parts</strong>. Color those in!" },
+            { text: "Then the quarterback throws for <strong>4 more parts</strong>. Color those too!" },
+            { text: "Now count all the colored parts: <strong>2 + 4 = 6 parts</strong>." },
+            { text: "The field still has <strong>10 parts total</strong>.", isAnswer: false },
+            { text: "Your answer is <strong>6/10</strong> of the field!", isAnswer: true }
+          ],
+          tip: "When adding fractions with the same bottom number, just count up all the pieces!"
+        },
+        procedural: {
+          steps: [
+            { text: "Check the bottom numbers (denominators): Both are <strong>10</strong>. They match!" },
+            { text: "Add only the top numbers: <strong>2 + 4 = 6</strong>" },
+            { text: "Keep the bottom number the same: <strong>10</strong>" },
+            { text: "Write your answer: <strong>6/10</strong>", isAnswer: true }
+          ],
+          tip: "Same bottom = just add the tops!"
+        }
+      },
+      q2: {
+        title: "Question 2: 1/8 + 3/8",
+        visual: {
+          steps: [
+            { text: "Imagine the field is split into <strong>8 equal zones</strong>." },
+            { text: "On first down, you move into <strong>1 zone</strong>." },
+            { text: "On second down, you gain <strong>3 more zones</strong>." },
+            { text: "Count them up: <strong>1 + 3 = 4 zones</strong>." },
+            { text: "Your answer is <strong>4/8</strong> of the field!", isAnswer: true }
+          ],
+          tip: "Think of each fraction piece like a yard marker on the field!"
+        },
+        procedural: {
+          steps: [
+            { text: "Check: Both fractions have <strong>8</strong> on the bottom. Good!" },
+            { text: "Add the top numbers: <strong>1 + 3 = 4</strong>" },
+            { text: "Keep the bottom: <strong>8</strong>" },
+            { text: "Answer: <strong>4/8</strong>", isAnswer: true }
+          ],
+          tip: "Same denominator? Just add numerators!"
+        }
+      },
+      q3: {
+        title: "Question 3: 2/6 + 1/6 + 2/6",
+        visual: {
+          steps: [
+            { text: "The field has <strong>6 equal sections</strong>." },
+            { text: "Play 1: You cover <strong>2 sections</strong>." },
+            { text: "Play 2: You cover <strong>1 more section</strong>." },
+            { text: "Play 3: You cover <strong>2 more sections</strong>." },
+            { text: "Total: <strong>2 + 1 + 2 = 5 sections</strong> out of 6!" },
+            { text: "Your answer is <strong>5/6</strong>!", isAnswer: true }
+          ],
+          tip: "Add up all the plays, one at a time!"
+        },
+        procedural: {
+          steps: [
+            { text: "All three fractions have <strong>6</strong> on the bottom. Perfect!" },
+            { text: "Add all the top numbers: <strong>2 + 1 + 2 = 5</strong>" },
+            { text: "Keep the bottom: <strong>6</strong>" },
+            { text: "Answer: <strong>5/6</strong>", isAnswer: true }
+          ],
+          tip: "You can add more than two fractions the same way!"
+        }
+      },
+      q4: {
+        title: "Question 4: 8/10 - 2/10",
+        visual: {
+          steps: [
+            { text: "Your team is at the <strong>8/10 line</strong> - almost to the end zone!" },
+            { text: "Oh no! A penalty pushes you back <strong>2 parts</strong>." },
+            { text: "Take away those 2 parts: <strong>8 - 2 = 6 parts</strong>." },
+            { text: "You're now at <strong>6/10</strong> of the field.", isAnswer: true }
+          ],
+          tip: "Subtracting means moving backward on the field!"
+        },
+        procedural: {
+          steps: [
+            { text: "Check: Both have <strong>10</strong> on the bottom. Good!" },
+            { text: "Subtract the tops: <strong>8 - 2 = 6</strong>" },
+            { text: "Keep the bottom: <strong>10</strong>" },
+            { text: "Answer: <strong>6/10</strong>", isAnswer: true }
+          ],
+          tip: "Subtraction works just like addition - only the tops change!"
+        }
+      },
+      q5: {
+        title: "Question 5: 5/8 - 2/8",
+        visual: {
+          steps: [
+            { text: "You control <strong>5 out of 8</strong> zones on the field." },
+            { text: "The other team takes back <strong>2 zones</strong>." },
+            { text: "How many do you still have? <strong>5 - 2 = 3 zones</strong>." },
+            { text: "You have <strong>3/8</strong> of the field now.", isAnswer: true }
+          ],
+          tip: "When the defense pushes back, you subtract!"
+        },
+        procedural: {
+          steps: [
+            { text: "Denominators match: Both are <strong>8</strong>." },
+            { text: "Subtract numerators: <strong>5 - 2 = 3</strong>" },
+            { text: "Keep denominator: <strong>8</strong>" },
+            { text: "Answer: <strong>3/8</strong>", isAnswer: true }
+          ],
+          tip: "Same rule: Same bottom, subtract the tops!"
+        }
+      },
+      q6: {
+        title: "Question 6: 6/6 - 2/6",
+        visual: {
+          steps: [
+            { text: "The star player ran the <strong>whole field</strong>! That's <strong>6/6</strong>." },
+            { text: "But wait - a flag! The ref calls back <strong>2 parts</strong>." },
+            { text: "Take away those 2: <strong>6 - 2 = 4 parts</strong>." },
+            { text: "The run counts for <strong>4/6</strong> of the field.", isAnswer: true }
+          ],
+          tip: "6/6 means the whole thing - all 6 parts out of 6!"
+        },
+        procedural: {
+          steps: [
+            { text: "Both have <strong>6</strong> on the bottom." },
+            { text: "Subtract: <strong>6 - 2 = 4</strong>" },
+            { text: "Keep the 6 on bottom." },
+            { text: "Answer: <strong>4/6</strong>", isAnswer: true }
+          ],
+          tip: "6/6 = 1 whole. After subtracting, you have less than 1."
+        }
+      },
+      q7: {
+        title: "Question 7: 1/10 + 4/10 - 2/10",
+        visual: {
+          steps: [
+            { text: "Start at the <strong>1/10 line</strong>." },
+            { text: "The running back gains <strong>4 more parts</strong>. Now at: <strong>1 + 4 = 5</strong>." },
+            { text: "Penalty! Go back <strong>2 parts</strong>: <strong>5 - 2 = 3</strong>." },
+            { text: "The ball is at <strong>3/10</strong> of the field.", isAnswer: true }
+          ],
+          tip: "Do the math in order: add first, then subtract!"
+        },
+        procedural: {
+          steps: [
+            { text: "All three have <strong>10</strong> on the bottom." },
+            { text: "Work left to right: <strong>1 + 4 = 5</strong>" },
+            { text: "Then subtract: <strong>5 - 2 = 3</strong>" },
+            { text: "Answer: <strong>3/10</strong>", isAnswer: true }
+          ],
+          tip: "Combine adding and subtracting - just go step by step!"
+        }
+      },
+      q8: {
+        title: "Question 8: 3/8 + 5/8 - 1/8",
+        visual: {
+          steps: [
+            { text: "The receiver catches the ball at <strong>3/8</strong> of the field." },
+            { text: "He runs forward <strong>5 more parts</strong>! Now at: <strong>3 + 5 = 8 parts</strong>." },
+            { text: "But a defender pushes him back <strong>1 part</strong>." },
+            { text: "Take away 1: <strong>8 - 1 = 7 parts</strong>." },
+            { text: "He ends up at <strong>7/8</strong> - almost a touchdown!", isAnswer: true }
+          ],
+          tip: "Do the math in order: add first, then subtract!"
+        },
+        procedural: {
+          steps: [
+            { text: "All fractions have <strong>8</strong> on the bottom." },
+            { text: "Work left to right: <strong>3 + 5 = 8</strong>" },
+            { text: "Then subtract: <strong>8 - 1 = 7</strong>" },
+            { text: "Answer: <strong>7/8</strong>", isAnswer: true }
+          ],
+          tip: "Step by step: add first, then subtract!"
+        }
+      },
+      q9: {
+        title: "Question 9: 1/6 + 4/6 - 2/6",
+        visual: {
+          steps: [
+            { text: "Your team starts at <strong>1/6</strong> of the field." },
+            { text: "A great run gains <strong>4 more parts</strong>! Now at: <strong>1 + 4 = 5 parts</strong>." },
+            { text: "But a holding penalty costs <strong>2 parts</strong>." },
+            { text: "Take away 2: <strong>5 - 2 = 3 parts</strong>." },
+            { text: "The ball is at <strong>3/6</strong> of the field!", isAnswer: true }
+          ],
+          tip: "Gains add up, penalties take away - do it step by step!"
+        },
+        procedural: {
+          steps: [
+            { text: "All fractions have <strong>6</strong> on the bottom." },
+            { text: "Work left to right: <strong>1 + 4 = 5</strong>" },
+            { text: "Then subtract: <strong>5 - 2 = 3</strong>" },
+            { text: "Answer: <strong>3/6</strong>", isAnswer: true }
+          ],
+          tip: "3/6 is the same as 1/2 - you're at the 50 yard line!"
+        }
+      }
+    };
+  </script>
+
+  <script>
+    let score = 0;
+    let answered = new Set();
+
+    function checkAnswer(questionNum, correctNumerator, correctDenominator) {
+      const numInput = document.getElementById(`q${questionNum}-num`);
+      const feedbackEl = document.getElementById(`feedback${questionNum}`);
+      const questionEl = document.getElementById(`q${questionNum}`);
+
+      const userNum = parseInt(numInput.value);
+
+      if (isNaN(userNum)) {
+        feedbackEl.textContent = "Please enter a number!";
+        feedbackEl.className = "feedback incorrect";
+        return;
+      }
+
+      if (userNum === correctNumerator) {
+        if (!answered.has(questionNum)) {
+          score++;
+          answered.add(questionNum);
+          document.getElementById('score').textContent = score;
+        }
+
+        feedbackEl.innerHTML = getCorrectMessage();
+        feedbackEl.className = "feedback correct";
+        questionEl.classList.add('correct');
+        questionEl.classList.remove('incorrect');
+        numInput.style.borderColor = 'var(--correct)';
+
+        if (score === 9) {
+          document.getElementById('celebration').classList.add('show');
+          // Record practice session
+          if (typeof Storage !== 'undefined' && Storage.recordPracticeSession) {
+            Storage.recordPracticeSession({
+              type: 'Football Field Fractions',
+              score: 100,
+              problemCount: 9,
+              correct: 9,
+              incorrect: 0
+            });
+          }
+        }
+      } else {
+        feedbackEl.innerHTML = getIncorrectMessage(correctNumerator, correctDenominator);
+        feedbackEl.className = "feedback incorrect";
+        questionEl.classList.add('incorrect');
+        questionEl.classList.remove('correct');
+        numInput.style.borderColor = 'var(--incorrect)';
+      }
+    }
+
+    function getCorrectMessage() {
+      const messages = [
+        "TOUCHDOWN! That's correct!",
+        "Great play! You got it!",
+        "MVP move! Perfect answer!",
+        "Winner! That's right!",
+        "Strong play! Correct!",
+        "All-star answer! Nice work!"
+      ];
+      return messages[Math.floor(Math.random() * messages.length)];
+    }
+
+    function getIncorrectMessage(correctNum, correctDen) {
+      return `Not quite! Remember: add or subtract the TOP numbers only. The answer is ${correctNum}/${correctDen}. Try the next one!`;
+    }
+
+    function resetGame() {
+      score = 0;
+      answered.clear();
+      document.getElementById('score').textContent = '0';
+      document.getElementById('celebration').classList.remove('show');
+
+      for (let i = 1; i <= 9; i++) {
+        const numInput = document.getElementById(`q${i}-num`);
+        const feedbackEl = document.getElementById(`feedback${i}`);
+        const questionEl = document.getElementById(`q${i}`);
+
+        if (numInput) numInput.value = '';
+        if (numInput) numInput.style.borderColor = 'var(--border)';
+        if (feedbackEl) feedbackEl.className = 'feedback';
+        if (questionEl) {
+          questionEl.classList.remove('correct', 'incorrect');
+        }
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Enter key support
+    document.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const activeElement = document.activeElement;
+        if (activeElement && activeElement.type === 'number') {
+          const id = activeElement.id;
+          const match = id.match(/q(\d+)-num/);
+          if (match) {
+            const btn = activeElement.parentElement.parentElement.querySelector('.btn');
+            if (btn) btn.click();
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

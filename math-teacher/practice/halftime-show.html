@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Halftime Show - Fractions of a Group</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+  <link rel="stylesheet" href="../styles/side-nav.css">
+
+  <style>
+    .activity {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    .activity-header {
+      background: linear-gradient(135deg, #6A1B9A 0%, #4A148C 100%);
+      color: white;
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      margin: calc(-1 * var(--space-xl)) calc(-1 * var(--space-xl)) var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .activity-number {
+      background: #FFD700;
+      color: #4A148C;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .activity-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    .intro-text {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: var(--space-lg);
+    }
+
+    .tip-box {
+      background: var(--info-light);
+      border: 2px solid var(--info);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin: var(--space-lg) 0;
+    }
+
+    .tip-box h4 {
+      color: #1565C0;
+      margin-bottom: var(--space-sm);
+      font-size: 1rem;
+    }
+
+    .tip-box p {
+      margin: 0;
+      color: var(--text);
+    }
+
+    .example-box {
+      background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
+      border: 3px solid #9C27B0;
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin: var(--space-lg) 0;
+    }
+
+    .example-box h3 {
+      color: #6A1B9A;
+      margin-bottom: var(--space-md);
+      font-size: 1.2rem;
+    }
+
+    /* Visual Group Display */
+    .group-visual {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      padding: var(--space-lg);
+      background: white;
+      border-radius: var(--radius-md);
+      margin: var(--space-md) 0;
+    }
+
+    .group-item {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .group-item.default {
+      background: #E0E0E0;
+    }
+
+    .group-item.highlighted {
+      background: #9C27B0;
+      transform: scale(1.1);
+    }
+
+    .group-item.drummer {
+      background: #FFD700;
+    }
+
+    /* Math Display */
+    .math-display {
+      text-align: center;
+      font-size: 1.3rem;
+      padding: var(--space-lg);
+      background: white;
+      border-radius: var(--radius-md);
+      margin: var(--space-md) 0;
+      font-family: var(--font-math);
+    }
+
+    .math-step {
+      margin: var(--space-sm) 0;
+      color: var(--text);
+    }
+
+    .math-step.answer {
+      font-weight: 700;
+      color: #6A1B9A;
+      font-size: 1.4rem;
+    }
+
+    /* Question Section */
+    .question-section {
+      background: var(--background);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-top: var(--space-xl);
+    }
+
+    .question-section h3 {
+      color: #6A1B9A;
+      margin-bottom: var(--space-lg);
+      text-align: center;
+      font-size: 1.3rem;
+    }
+
+    .question {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-lg);
+      border: 2px solid var(--border);
+      transition: all var(--transition-normal);
+    }
+
+    .question.correct {
+      border-color: var(--correct);
+      background: var(--correct-light);
+    }
+
+    .question.incorrect {
+      border-color: var(--incorrect);
+      background: var(--incorrect-light);
+    }
+
+    .question-text {
+      font-size: 1.05rem;
+      margin-bottom: var(--space-md);
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .question-field {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-md);
+    }
+
+    .answer-input {
+      width: 80px;
+      height: 50px;
+      font-size: 1.5rem;
+      text-align: center;
+      border: 3px solid #9C27B0;
+      border-radius: var(--radius-md);
+      font-family: var(--font-math);
+    }
+
+    .answer-input:focus {
+      outline: none;
+      border-color: #6A1B9A;
+      box-shadow: 0 0 8px rgba(156, 39, 176, 0.3);
+    }
+
+    .answer-label {
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .feedback {
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin-top: var(--space-md);
+      display: none;
+      font-weight: 600;
+    }
+
+    .feedback.correct {
+      background: var(--correct);
+      color: white;
+      display: block;
+    }
+
+    .feedback.incorrect {
+      background: var(--incorrect);
+      color: white;
+      display: block;
+    }
+
+    /* Score Board */
+    .score-board {
+      background: linear-gradient(135deg, #6A1B9A 0%, #4A148C 100%);
+      padding: var(--space-lg);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      color: white;
+      margin-bottom: var(--space-xl);
+      box-shadow: 0 4px 15px var(--shadow);
+    }
+
+    .score-board h3 {
+      color: #FFD700;
+      margin-bottom: var(--space-sm);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .score-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .celebration {
+      display: none;
+      text-align: center;
+      font-size: 1.5rem;
+      padding: var(--space-xl);
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-xl);
+      animation: celebrate 0.5s ease infinite;
+    }
+
+    .celebration.show {
+      display: block;
+    }
+
+    @keyframes celebrate {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    /* Mini visual for questions */
+    .mini-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin: var(--space-sm) 0;
+      padding: var(--space-sm);
+      background: #f5f5f5;
+      border-radius: var(--radius-sm);
+    }
+
+    .mini-item {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 600px) {
+      .group-item {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        ☰
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="../practice/index.html" class="nav-link active">Practice</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../super-extra-curricular/index.html" class="nav-dropdown-link">Super Extra</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header" style="background: linear-gradient(135deg, #6A1B9A 0%, #4A148C 100%);">
+    <div class="container">
+      <div class="breadcrumb breadcrumb-light">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <a href="./index.html">Practice</a>
+        <span>/</span>
+        <span>Halftime Show</span>
+      </div>
+      <h1>Halftime Show</h1>
+      <p>Find a fraction OF a group - like counting band members!</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Score Board -->
+    <div class="score-board">
+      <h3>Your Score</h3>
+      <div class="score-value"><span id="score">0</span> / 9</div>
+    </div>
+
+    <!-- Celebration -->
+    <div id="celebration" class="celebration">
+      🎺 SHOW STOPPER! You mastered fractions of groups! 🥁
+    </div>
+
+    <!-- ACTIVITY 1: Unit Fractions -->
+    <div class="activity">
+      <div class="activity-header">
+        <div class="activity-number">1</div>
+        <h2>Finding a Fraction of a Group</h2>
+      </div>
+
+      <p class="intro-text">
+        At halftime, the marching band comes out! Let's figure out how many musicians
+        play each instrument. When you find <strong>a fraction OF a number</strong>,
+        you're finding a <strong>part of the whole group</strong>.
+      </p>
+
+      <div class="tip-box">
+        <h4>Band Director's Tip:</h4>
+        <p>To find <strong>1/4 of a number</strong>, divide the number by <strong>4</strong>.<br>
+        To find <strong>1/3 of a number</strong>, divide by <strong>3</strong>.<br>
+        The <strong>bottom number</strong> tells you how many equal groups to make!</p>
+      </div>
+
+      <div class="example-box">
+        <h3>Example:</h3>
+        <p>The marching band has <strong>20 members</strong>. <strong>1/4</strong> of them play drums. How many play drums?</p>
+
+        <div class="group-visual" id="exampleGroup">
+          <!-- 20 band members, 5 highlighted as drummers -->
+        </div>
+
+        <div class="math-display">
+          <div class="math-step">20 members total</div>
+          <div class="math-step">1/4 means "divide into 4 equal groups"</div>
+          <div class="math-step">20 ÷ 4 = 5</div>
+          <div class="math-step answer">5 members play drums!</div>
+        </div>
+      </div>
+
+      <div class="question-section">
+        <h3>Your Turn!</h3>
+
+        <!-- Q1: 16 ÷ 2 = 8 -->
+        <div class="question" id="q1">
+          <div class="question-text">
+            <strong>Question 1:</strong> The cheerleading squad has <strong>16 members</strong>.
+            <strong>1/2</strong> of them are doing flips. How many are doing flips?
+          </div>
+          <div class="mini-group" id="visual1"></div>
+          <div class="question-field">
+            <span class="answer-label">16 ÷ 2 = </span>
+            <input type="number" class="answer-input" id="q1-answer" placeholder="?">
+            <span class="answer-label">cheerleaders</span>
+            <button class="btn btn-primary" onclick="checkAnswer(1, 8)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback1"></div>
+        </div>
+
+        <!-- Q2: 24 ÷ 3 = 8 -->
+        <div class="question" id="q2">
+          <div class="question-text">
+            <strong>Question 2:</strong> The stadium has <strong>24 hot dog vendors</strong>.
+            <strong>1/3</strong> of them are in your section. How many vendors are in your section?
+          </div>
+          <div class="question-field">
+            <span class="answer-label">24 ÷ 3 = </span>
+            <input type="number" class="answer-input" id="q2-answer" placeholder="?">
+            <span class="answer-label">vendors</span>
+            <button class="btn btn-primary" onclick="checkAnswer(2, 8)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback2"></div>
+        </div>
+
+        <!-- Q3: 30 ÷ 5 = 6 -->
+        <div class="question" id="q3">
+          <div class="question-text">
+            <strong>Question 3:</strong> The band has <strong>30 musicians</strong>.
+            <strong>1/5</strong> of them play trumpets. How many play trumpets?
+          </div>
+          <div class="question-field">
+            <span class="answer-label">30 ÷ 5 = </span>
+            <input type="number" class="answer-input" id="q3-answer" placeholder="?">
+            <span class="answer-label">trumpet players</span>
+            <button class="btn btn-primary" onclick="checkAnswer(3, 6)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY 2: Non-Unit Fractions -->
+    <div class="activity">
+      <div class="activity-header">
+        <div class="activity-number">2</div>
+        <h2>Fractions Like 2/3 and 3/4</h2>
+      </div>
+
+      <p class="intro-text">
+        What if we need to find <strong>2/3</strong> or <strong>3/4</strong> of a group?
+        Now we need <strong>two steps</strong>!
+      </p>
+
+      <div class="tip-box">
+        <h4>Band Director's Tip:</h4>
+        <p><strong>Step 1:</strong> Divide by the <strong>bottom number</strong> to find ONE part.<br>
+        <strong>Step 2:</strong> Multiply by the <strong>top number</strong> to get the final answer.<br><br>
+        Example: <strong>2/3 of 12</strong> → 12 ÷ 3 = 4 (one part) → 4 × 2 = <strong>8</strong></p>
+      </div>
+
+      <div class="example-box">
+        <h3>Example:</h3>
+        <p>There are <strong>12 dancers</strong>. <strong>2/3</strong> of them wear green costumes. How many wear green?</p>
+
+        <div class="group-visual" id="exampleGroup2">
+          <!-- Will be populated by JS -->
+        </div>
+
+        <div class="math-display">
+          <div class="math-step">12 dancers total</div>
+          <div class="math-step">Step 1: Divide by 3 → 12 ÷ 3 = 4 (one group)</div>
+          <div class="math-step">Step 2: Multiply by 2 → 4 × 2 = 8</div>
+          <div class="math-step answer">8 dancers wear green!</div>
+        </div>
+      </div>
+
+      <div class="question-section">
+        <h3>Try These Two-Step Problems!</h3>
+
+        <!-- Q4: 12 ÷ 3 = 4, 4 × 2 = 8 -->
+        <div class="question" id="q4">
+          <div class="question-text">
+            <strong>Question 4:</strong> There are <strong>12 flag carriers</strong>.
+            <strong>2/3</strong> of them have blue flags. How many have blue flags?
+          </div>
+          <div class="question-field">
+            <span class="answer-label">12 ÷ 3 = 4, then 4 × 2 = </span>
+            <input type="number" class="answer-input" id="q4-answer" placeholder="?">
+            <span class="answer-label">flag carriers</span>
+            <button class="btn btn-primary" onclick="checkAnswer(4, 8)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback4"></div>
+        </div>
+
+        <!-- Q5: 20 ÷ 4 = 5, 5 × 3 = 15 -->
+        <div class="question" id="q5">
+          <div class="question-text">
+            <strong>Question 5:</strong> There are <strong>20 baton twirlers</strong>.
+            <strong>3/4</strong> of them have silver batons. How many have silver batons?
+          </div>
+          <div class="question-field">
+            <span class="answer-label">20 ÷ 4 = 5, then 5 × 3 = </span>
+            <input type="number" class="answer-input" id="q5-answer" placeholder="?">
+            <span class="answer-label">twirlers</span>
+            <button class="btn btn-primary" onclick="checkAnswer(5, 15)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback5"></div>
+        </div>
+
+        <!-- Q6: 40 ÷ 4 = 10, 10 × 3 = 30 -->
+        <div class="question" id="q6">
+          <div class="question-text">
+            <strong>Question 6:</strong> The fan section has <strong>40 people</strong>.
+            <strong>3/4</strong> of them are standing and cheering. How many are standing?
+          </div>
+          <div class="question-field">
+            <span class="answer-label">40 ÷ 4 = 10, then 10 × 3 = </span>
+            <input type="number" class="answer-input" id="q6-answer" placeholder="?">
+            <span class="answer-label">fans</span>
+            <button class="btn btn-primary" onclick="checkAnswer(6, 30)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback6"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY 3: Mixed Challenge -->
+    <div class="activity">
+      <div class="activity-header">
+        <div class="activity-number">3</div>
+        <h2>Championship Challenge!</h2>
+      </div>
+
+      <p class="intro-text">
+        Time to put it all together! Remember:<br>
+        • <strong>Unit fractions (1/n):</strong> Just divide!<br>
+        • <strong>Other fractions (m/n):</strong> Divide by bottom, multiply by top!
+      </p>
+
+      <div class="question-section">
+        <h3>Final Round!</h3>
+
+        <!-- Q7: 100 ÷ 4 = 25 -->
+        <div class="question" id="q7">
+          <div class="question-text">
+            <strong>Question 7:</strong> The crowd has <strong>100 fans</strong>.
+            <strong>1/4</strong> of them have foam fingers. How many have foam fingers?
+          </div>
+          <div class="question-field">
+            <span class="answer-label">100 ÷ 4 = </span>
+            <input type="number" class="answer-input" id="q7-answer" placeholder="?">
+            <span class="answer-label">fans</span>
+            <button class="btn btn-primary" onclick="checkAnswer(7, 25)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback7"></div>
+        </div>
+
+        <!-- Q8: 18 ÷ 6 = 3, 3 × 2 = 6 -->
+        <div class="question" id="q8">
+          <div class="question-text">
+            <strong>Question 8:</strong> There are <strong>18 dancers</strong> in a line.
+            <strong>2/6</strong> of them are in the front row. How many are in front?
+          </div>
+          <div class="question-field">
+            <span class="answer-label">18 ÷ 6 = 3, then 3 × 2 = </span>
+            <input type="number" class="answer-input" id="q8-answer" placeholder="?">
+            <span class="answer-label">dancers</span>
+            <button class="btn btn-primary" onclick="checkAnswer(8, 6)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback8"></div>
+        </div>
+
+        <!-- Q9: 50 ÷ 5 = 10, 10 × 2 = 20 -->
+        <div class="question" id="q9">
+          <div class="question-text">
+            <strong>Question 9:</strong> The stadium has <strong>50 vendors</strong> total.
+            <strong>2/5</strong> of them sell popcorn. How many sell popcorn?
+          </div>
+          <div class="question-field">
+            <span class="answer-label">50 ÷ 5 = 10, then 10 × 2 = </span>
+            <input type="number" class="answer-input" id="q9-answer" placeholder="?">
+            <span class="answer-label">vendors</span>
+            <button class="btn btn-primary" onclick="checkAnswer(9, 20)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback9"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reset Button -->
+    <div class="text-center mt-xl mb-xl">
+      <button class="btn btn-secondary btn-large" onclick="resetGame()">Play Again</button>
+      <a href="./index.html" class="btn btn-primary btn-large">Back to Practice Hub</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #4A148C; color: white; padding: var(--space-xl) 0; text-align: center; margin-top: var(--space-2xl);">
+    <div class="container">
+      <p>Football Fractions - Halftime Show</p>
+      <p class="text-small mt-sm">
+        <a href="../parent-guide/index.html" style="color: rgba(255,255,255,0.8);">Parent Guide</a> ·
+        <a href="../schedule/index.html" style="color: rgba(255,255,255,0.8);">Practice Schedule</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/fractions.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/side-nav.js"></script>
+
+  <!-- Question Explanations for Helper Panel -->
+  <script>
+    window.questionExplanations = {
+      q1: {
+        title: "Question 1: 1/2 of 16",
+        visual: {
+          steps: [
+            { text: "Picture <strong>16 cheerleaders</strong> standing in a line." },
+            { text: "We want <strong>1/2</strong> (half) of them." },
+            { text: "Draw a line down the middle to split them into <strong>2 equal groups</strong>." },
+            { text: "Each group has <strong>8 cheerleaders</strong>!" },
+            { text: "Answer: <strong>8</strong> cheerleaders are doing flips.", isAnswer: true }
+          ],
+          tip: "Half means 2 equal groups. Pick one group!"
+        },
+        procedural: {
+          steps: [
+            { text: "To find <strong>1/2</strong> of a number, divide by <strong>2</strong>." },
+            { text: "16 ÷ 2 = <strong>8</strong>" },
+            { text: "Answer: <strong>8</strong>", isAnswer: true }
+          ],
+          tip: "The bottom number tells you what to divide by!"
+        }
+      },
+      q2: {
+        title: "Question 2: 1/3 of 24",
+        visual: {
+          steps: [
+            { text: "Imagine <strong>24 hot dog vendors</strong> around the stadium." },
+            { text: "We need <strong>1/3</strong> (one third) of them." },
+            { text: "Split them into <strong>3 equal groups</strong>." },
+            { text: "Each group has <strong>8 vendors</strong>!" },
+            { text: "Answer: <strong>8</strong> vendors in your section.", isAnswer: true }
+          ],
+          tip: "Third means 3 equal groups. You want just 1 of those groups!"
+        },
+        procedural: {
+          steps: [
+            { text: "To find <strong>1/3</strong>, divide by <strong>3</strong>." },
+            { text: "24 ÷ 3 = <strong>8</strong>" },
+            { text: "Answer: <strong>8</strong>", isAnswer: true }
+          ],
+          tip: "1/3 means divide into 3 parts, take 1 part."
+        }
+      },
+      q3: {
+        title: "Question 3: 1/5 of 30",
+        visual: {
+          steps: [
+            { text: "Picture <strong>30 band musicians</strong> on the field." },
+            { text: "We want <strong>1/5</strong> (one fifth) of them." },
+            { text: "Split them into <strong>5 equal lines</strong>." },
+            { text: "Each line has <strong>6 musicians</strong>!" },
+            { text: "Answer: <strong>6</strong> play trumpets.", isAnswer: true }
+          ],
+          tip: "Fifth means 5 equal groups. Think of 5 fingers on one hand!"
+        },
+        procedural: {
+          steps: [
+            { text: "To find <strong>1/5</strong>, divide by <strong>5</strong>." },
+            { text: "30 ÷ 5 = <strong>6</strong>" },
+            { text: "Answer: <strong>6</strong>", isAnswer: true }
+          ],
+          tip: "The bottom number (5) is what you divide by."
+        }
+      },
+      q4: {
+        title: "Question 4: 2/3 of 12",
+        visual: {
+          steps: [
+            { text: "Picture <strong>12 flag carriers</strong> marching." },
+            { text: "We need <strong>2/3</strong> (two thirds) of them." },
+            { text: "First, split into <strong>3 groups</strong>: 12 ÷ 3 = <strong>4 in each group</strong>." },
+            { text: "Now take <strong>2 of those groups</strong>: 4 × 2 = <strong>8</strong>!" },
+            { text: "Answer: <strong>8</strong> have blue flags.", isAnswer: true }
+          ],
+          tip: "Find one group first, then multiply to get the number you need!"
+        },
+        procedural: {
+          steps: [
+            { text: "<strong>Step 1:</strong> Divide by bottom number: 12 ÷ 3 = <strong>4</strong>" },
+            { text: "<strong>Step 2:</strong> Multiply by top number: 4 × 2 = <strong>8</strong>" },
+            { text: "Answer: <strong>8</strong>", isAnswer: true }
+          ],
+          tip: "Two steps: Divide by bottom, multiply by top!"
+        }
+      },
+      q5: {
+        title: "Question 5: 3/4 of 20",
+        visual: {
+          steps: [
+            { text: "Picture <strong>20 baton twirlers</strong> in formation." },
+            { text: "We need <strong>3/4</strong> (three fourths) of them." },
+            { text: "Split into <strong>4 groups</strong>: 20 ÷ 4 = <strong>5 in each</strong>." },
+            { text: "Take <strong>3 of those groups</strong>: 5 × 3 = <strong>15</strong>!" },
+            { text: "Answer: <strong>15</strong> have silver batons.", isAnswer: true }
+          ],
+          tip: "3/4 means almost all of them - leave out just 1 group of 4!"
+        },
+        procedural: {
+          steps: [
+            { text: "<strong>Step 1:</strong> Divide by 4: 20 ÷ 4 = <strong>5</strong>" },
+            { text: "<strong>Step 2:</strong> Multiply by 3: 5 × 3 = <strong>15</strong>" },
+            { text: "Answer: <strong>15</strong>", isAnswer: true }
+          ],
+          tip: "Divide first, multiply second. Always in that order!"
+        }
+      },
+      q6: {
+        title: "Question 6: 3/4 of 40",
+        visual: {
+          steps: [
+            { text: "Imagine <strong>40 fans</strong> in your section." },
+            { text: "We need <strong>3/4</strong> (three fourths) of them standing." },
+            { text: "Split into <strong>4 groups</strong>: 40 ÷ 4 = <strong>10 in each</strong>." },
+            { text: "Take <strong>3 groups</strong>: 10 × 3 = <strong>30</strong>!" },
+            { text: "Answer: <strong>30</strong> fans are standing.", isAnswer: true }
+          ],
+          tip: "3 out of 4 groups are standing and cheering!"
+        },
+        procedural: {
+          steps: [
+            { text: "<strong>Step 1:</strong> Divide by 4: 40 ÷ 4 = <strong>10</strong>" },
+            { text: "<strong>Step 2:</strong> Multiply by 3: 10 × 3 = <strong>30</strong>" },
+            { text: "Answer: <strong>30</strong>", isAnswer: true }
+          ],
+          tip: "Same pattern: bottom number first (÷), then top number (×)."
+        }
+      },
+      q7: {
+        title: "Question 7: 1/4 of 100",
+        visual: {
+          steps: [
+            { text: "Picture <strong>100 fans</strong> in the crowd." },
+            { text: "We want <strong>1/4</strong> (one fourth) with foam fingers." },
+            { text: "Split 100 into <strong>4 equal groups</strong>." },
+            { text: "100 ÷ 4 = <strong>25 in each group</strong>!" },
+            { text: "Answer: <strong>25</strong> fans have foam fingers.", isAnswer: true }
+          ],
+          tip: "One fourth of 100 is like splitting a dollar into 4 quarters - each is 25 cents!"
+        },
+        procedural: {
+          steps: [
+            { text: "To find <strong>1/4</strong>, divide by <strong>4</strong>." },
+            { text: "100 ÷ 4 = <strong>25</strong>" },
+            { text: "Answer: <strong>25</strong>", isAnswer: true }
+          ],
+          tip: "Unit fractions (1/something) just need division!"
+        }
+      },
+      q8: {
+        title: "Question 8: 2/6 of 18",
+        visual: {
+          steps: [
+            { text: "Picture <strong>18 dancers</strong> in a line." },
+            { text: "We need <strong>2/6</strong> (two sixths) in the front row." },
+            { text: "Split into <strong>6 groups</strong>: 18 ÷ 6 = <strong>3 in each</strong>." },
+            { text: "Take <strong>2 groups</strong>: 3 × 2 = <strong>6</strong>!" },
+            { text: "Answer: <strong>6</strong> dancers are in front.", isAnswer: true }
+          ],
+          tip: "2/6 is the same as 1/3 - either way you get 6!"
+        },
+        procedural: {
+          steps: [
+            { text: "<strong>Step 1:</strong> Divide by 6: 18 ÷ 6 = <strong>3</strong>" },
+            { text: "<strong>Step 2:</strong> Multiply by 2: 3 × 2 = <strong>6</strong>" },
+            { text: "Answer: <strong>6</strong>", isAnswer: true }
+          ],
+          tip: "Even with bigger numbers on bottom, same two steps work!"
+        }
+      },
+      q9: {
+        title: "Question 9: 2/5 of 50",
+        visual: {
+          steps: [
+            { text: "Picture <strong>50 vendors</strong> around the stadium." },
+            { text: "We need <strong>2/5</strong> (two fifths) who sell popcorn." },
+            { text: "Split into <strong>5 groups</strong>: 50 ÷ 5 = <strong>10 in each</strong>." },
+            { text: "Take <strong>2 groups</strong>: 10 × 2 = <strong>20</strong>!" },
+            { text: "Answer: <strong>20</strong> vendors sell popcorn.", isAnswer: true }
+          ],
+          tip: "2 out of every 5 vendors have that yummy popcorn smell!"
+        },
+        procedural: {
+          steps: [
+            { text: "<strong>Step 1:</strong> Divide by 5: 50 ÷ 5 = <strong>10</strong>" },
+            { text: "<strong>Step 2:</strong> Multiply by 2: 10 × 2 = <strong>20</strong>" },
+            { text: "Answer: <strong>20</strong>", isAnswer: true }
+          ],
+          tip: "You've got this pattern down: ÷ bottom, × top!"
+        }
+      }
+    };
+  </script>
+
+  <script>
+    let score = 0;
+    let answered = new Set();
+
+    // Build visual examples on load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Example 1: 20 members, 5 are drummers (1/4)
+      const group1 = document.getElementById('exampleGroup');
+      for (let i = 0; i < 20; i++) {
+        const item = document.createElement('div');
+        item.className = 'group-item ' + (i < 5 ? 'drummer' : 'default');
+        item.textContent = i < 5 ? '🥁' : '🎵';
+        group1.appendChild(item);
+      }
+
+      // Example 2: 12 dancers, 8 wear green (2/3)
+      const group2 = document.getElementById('exampleGroup2');
+      for (let i = 0; i < 12; i++) {
+        const item = document.createElement('div');
+        item.className = 'group-item ' + (i < 8 ? 'highlighted' : 'default');
+        item.textContent = '💃';
+        group2.appendChild(item);
+      }
+
+      // Q1 visual: 16 cheerleaders, 8 highlighted (1/2)
+      const visual1 = document.getElementById('visual1');
+      for (let i = 0; i < 16; i++) {
+        const item = document.createElement('div');
+        item.className = 'mini-item';
+        item.style.background = i < 8 ? '#E91E63' : '#E0E0E0';
+        item.textContent = '📣';
+        visual1.appendChild(item);
+      }
+    });
+
+    function checkAnswer(questionNum, correctAnswer) {
+      const input = document.getElementById(`q${questionNum}-answer`);
+      const feedbackEl = document.getElementById(`feedback${questionNum}`);
+      const questionEl = document.getElementById(`q${questionNum}`);
+
+      const userAnswer = parseInt(input.value);
+
+      if (isNaN(userAnswer)) {
+        feedbackEl.textContent = "Please enter a number!";
+        feedbackEl.className = "feedback incorrect";
+        return;
+      }
+
+      if (userAnswer === correctAnswer) {
+        if (!answered.has(questionNum)) {
+          score++;
+          answered.add(questionNum);
+          document.getElementById('score').textContent = score;
+        }
+
+        feedbackEl.innerHTML = getCorrectMessage();
+        feedbackEl.className = "feedback correct";
+        questionEl.classList.add('correct');
+        questionEl.classList.remove('incorrect');
+        input.style.borderColor = 'var(--correct)';
+
+        if (score === 9) {
+          document.getElementById('celebration').classList.add('show');
+          if (typeof Storage !== 'undefined' && Storage.recordPracticeSession) {
+            Storage.recordPracticeSession({
+              type: 'Halftime Show',
+              score: 100,
+              problemCount: 9,
+              correct: 9,
+              incorrect: 0
+            });
+          }
+        }
+      } else {
+        feedbackEl.innerHTML = `Not quite! The answer is ${correctAnswer}. Remember: divide first, then multiply if needed!`;
+        feedbackEl.className = "feedback incorrect";
+        questionEl.classList.add('incorrect');
+        questionEl.classList.remove('correct');
+        input.style.borderColor = 'var(--incorrect)';
+      }
+    }
+
+    function getCorrectMessage() {
+      const messages = [
+        "Perfect! You've got the rhythm!",
+        "Excellent! The crowd goes wild!",
+        "Fantastic! You're a math star!",
+        "Correct! Keep the beat going!",
+        "Awesome! The band salutes you!",
+        "Right on! Standing ovation!"
+      ];
+      return messages[Math.floor(Math.random() * messages.length)];
+    }
+
+    function resetGame() {
+      score = 0;
+      answered.clear();
+      document.getElementById('score').textContent = '0';
+      document.getElementById('celebration').classList.remove('show');
+
+      for (let i = 1; i <= 9; i++) {
+        const input = document.getElementById(`q${i}-answer`);
+        const feedbackEl = document.getElementById(`feedback${i}`);
+        const questionEl = document.getElementById(`q${i}`);
+
+        if (input) {
+          input.value = '';
+          input.style.borderColor = '#9C27B0';
+        }
+        if (feedbackEl) feedbackEl.className = 'feedback';
+        if (questionEl) questionEl.classList.remove('correct', 'incorrect');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Enter key support
+    document.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const activeElement = document.activeElement;
+        if (activeElement && activeElement.classList.contains('answer-input')) {
+          const btn = activeElement.parentElement.querySelector('.btn');
+          if (btn) btn.click();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

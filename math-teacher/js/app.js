@@ -5,11 +5,37 @@ const App = {
    * Initialize the application
    */
   init() {
+    this.checkResetParam();
     this.initNavigation();
     this.initTooltips();
     this.initTabs();
     this.initModals();
     this.checkDailyReset();
+  },
+
+  /**
+   * Check for ?reset=true URL parameter and clear all data
+   */
+  checkResetParam() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('reset') === 'true') {
+      // Clear all storage
+      if (typeof Storage !== 'undefined' && Storage.clearAll) {
+        Storage.clearAll();
+      }
+
+      // Remove the param from URL so refresh doesn't clear again
+      params.delete('reset');
+      const newUrl = params.toString()
+        ? `${window.location.pathname}?${params.toString()}`
+        : window.location.pathname;
+      window.history.replaceState({}, '', newUrl);
+
+      // Show confirmation after a brief delay (let page render first)
+      setTimeout(() => {
+        this.showToast('All progress has been reset!', 'success', 3000);
+      }, 500);
+    }
   },
 
   /**

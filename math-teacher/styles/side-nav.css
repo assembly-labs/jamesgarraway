@@ -1,0 +1,432 @@
+/* Side Navigation Helper Panel
+   A toggle-able panel that explains how to solve each question
+   with two explanation modes: visual/intuitive and procedural/step-by-step
+*/
+
+/* Toggle Button */
+.helper-toggle {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+  color: white;
+  border: none;
+  padding: 12px 8px;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+  transition: all var(--transition-normal);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.helper-toggle:hover {
+  padding-right: 12px;
+  background: linear-gradient(135deg, var(--field-dark) 0%, #1a4d1a 100%);
+}
+
+.helper-toggle .toggle-icon {
+  font-size: 1.2rem;
+}
+
+.helper-toggle.active {
+  right: 320px;
+}
+
+@media (min-width: 768px) {
+  .helper-toggle.active {
+    right: 380px;
+  }
+}
+
+/* Side Panel */
+.helper-panel {
+  position: fixed;
+  right: -320px;
+  top: 0;
+  width: 320px;
+  height: 100vh;
+  background: var(--card-bg);
+  box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+  z-index: 999;
+  transition: right var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .helper-panel {
+    right: -380px;
+    width: 380px;
+  }
+}
+
+.helper-panel.open {
+  right: 0;
+}
+
+/* Panel Header */
+.helper-header {
+  background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%);
+  color: white;
+  padding: var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.helper-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.helper-close {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast);
+}
+
+.helper-close:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* Mode Toggle */
+.mode-toggle {
+  display: flex;
+  padding: var(--space-sm);
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.mode-btn {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+  border: 2px solid var(--border);
+  background: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+}
+
+.mode-btn:first-child {
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  border-right: none;
+}
+
+.mode-btn:last-child {
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.mode-btn.active {
+  background: var(--field-green);
+  border-color: var(--field-green);
+  color: white;
+}
+
+.mode-btn:not(.active):hover {
+  background: var(--background);
+  border-color: var(--field-green);
+}
+
+/* Content Area */
+.helper-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-lg);
+}
+
+/* Question Indicator */
+.current-question {
+  background: linear-gradient(135deg, #FFF9E6, #FFE4B5);
+  border: 2px solid #FFD700;
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+  text-align: center;
+}
+
+.current-question .question-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--space-xs);
+}
+
+.current-question .question-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--football-brown);
+  margin: 0;
+}
+
+/* No Question State */
+.no-question {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--text-secondary);
+}
+
+.no-question .icon {
+  font-size: 3rem;
+  margin-bottom: var(--space-md);
+}
+
+.no-question p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Explanation Content */
+.explanation {
+  display: none;
+}
+
+.explanation.active {
+  display: block;
+}
+
+.explanation-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--field-dark);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--field-green);
+}
+
+.explanation-title .title-icon {
+  font-size: 1.3rem;
+}
+
+/* Explanation Steps */
+.explanation-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.explanation-step {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+  padding: var(--space-md);
+  background: var(--background);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--field-green);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  background: var(--field-green);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.step-text {
+  flex: 1;
+  color: var(--text);
+}
+
+.step-text strong {
+  color: var(--field-dark);
+}
+
+/* Highlight for answer */
+.answer-highlight {
+  background: linear-gradient(135deg, var(--correct-light), #C8E6C9);
+  border-color: var(--correct);
+  font-weight: 600;
+}
+
+.answer-highlight .step-number {
+  background: var(--correct);
+}
+
+/* Math in explanations */
+.math-inline {
+  font-family: var(--font-math);
+  background: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Visual mode specific styling */
+.visual-explanation .explanation-step {
+  border-left-color: #9C27B0;
+}
+
+.visual-explanation .step-number {
+  background: #9C27B0;
+}
+
+.visual-explanation .answer-highlight {
+  border-color: #9C27B0;
+  background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
+}
+
+.visual-explanation .answer-highlight .step-number {
+  background: #7B1FA2;
+}
+
+/* Procedural mode specific styling */
+.procedural-explanation .explanation-step {
+  border-left-color: #1565C0;
+}
+
+.procedural-explanation .step-number {
+  background: #1565C0;
+}
+
+.procedural-explanation .answer-highlight {
+  border-color: #1565C0;
+  background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+}
+
+.procedural-explanation .answer-highlight .step-number {
+  background: #0D47A1;
+}
+
+/* Tip box in helper */
+.helper-tip {
+  background: var(--info-light);
+  border: 2px solid var(--info);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-top: var(--space-lg);
+  font-size: 0.85rem;
+}
+
+.helper-tip .tip-title {
+  font-weight: 700;
+  color: #1565C0;
+  margin-bottom: var(--space-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.helper-tip p {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* Footer */
+.helper-footer {
+  padding: var(--space-md);
+  background: var(--background);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+/* Scrollbar styling */
+.helper-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.helper-content::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+.helper-content::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.helper-content::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Animation for when question changes */
+@keyframes slideInContent {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.explanation.active {
+  animation: slideInContent 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .helper-panel {
+    width: 100%;
+    right: -100%;
+  }
+
+  .helper-toggle.active {
+    right: 100%;
+    transform: translateY(-50%) translateX(100%);
+  }
+}
+
+/* Overlay for mobile */
+.helper-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 998;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.helper-overlay.active {
+  display: block;
+  opacity: 1;
+}

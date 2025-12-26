@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Overtime - Adding Unlike Fractions</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+  <link rel="stylesheet" href="../styles/side-nav.css">
+
+  <style>
+    .activity {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    .activity-header {
+      background: linear-gradient(135deg, #FF6F00 0%, #E65100 100%);
+      color: white;
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      margin: calc(-1 * var(--space-xl)) calc(-1 * var(--space-xl)) var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .activity-number {
+      background: #FFD700;
+      color: #E65100;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .activity-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    .intro-text {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: var(--space-lg);
+    }
+
+    .tip-box {
+      background: #FFF3E0;
+      border: 2px solid #FF9800;
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin: var(--space-lg) 0;
+    }
+
+    .tip-box h4 {
+      color: #E65100;
+      margin-bottom: var(--space-sm);
+      font-size: 1rem;
+    }
+
+    .tip-box p {
+      margin: 0;
+      color: var(--text);
+    }
+
+    .example-box {
+      background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+      border: 3px solid #FF9800;
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin: var(--space-lg) 0;
+    }
+
+    .example-box h3 {
+      color: #E65100;
+      margin-bottom: var(--space-md);
+      font-size: 1.2rem;
+    }
+
+    /* Fraction Bar Visualization */
+    .fraction-bars-container {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      margin: var(--space-lg) 0;
+      padding: var(--space-lg);
+      background: white;
+      border-radius: var(--radius-md);
+    }
+
+    .fraction-bar-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .fraction-bar-label {
+      width: 60px;
+      text-align: right;
+      font-weight: 600;
+      font-family: var(--font-math);
+      color: var(--text);
+    }
+
+    .fraction-bar {
+      flex: 1;
+      height: 40px;
+      background: #E0E0E0;
+      border-radius: var(--radius-sm);
+      display: flex;
+      overflow: hidden;
+      border: 2px solid #999;
+    }
+
+    .fraction-segment {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: white;
+      border-right: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .fraction-segment:last-child {
+      border-right: none;
+    }
+
+    .fraction-segment.filled-orange {
+      background: #FF9800;
+    }
+
+    .fraction-segment.filled-blue {
+      background: #2196F3;
+    }
+
+    .fraction-segment.filled-green {
+      background: var(--correct);
+    }
+
+    .fraction-segment.empty {
+      background: #E0E0E0;
+      color: #999;
+    }
+
+    .conversion-arrow {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #FF9800;
+      margin: var(--space-sm) 0;
+    }
+
+    /* Fraction Display */
+    .fraction-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      margin: var(--space-lg) 0;
+      flex-wrap: wrap;
+    }
+
+    .fraction {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: white;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      box-shadow: 0 2px 8px var(--shadow);
+      border: 2px solid #FF9800;
+      font-family: var(--font-math);
+      font-size: 1.5rem;
+    }
+
+    .fraction .numerator {
+      border-bottom: 3px solid #E65100;
+      padding-bottom: 4px;
+      min-width: 35px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .fraction .denominator {
+      padding-top: 4px;
+      min-width: 35px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .operator {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #E65100;
+    }
+
+    .conversion-note {
+      background: #FFF9C4;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      color: #F57F17;
+      text-align: center;
+    }
+
+    /* Math Display */
+    .math-display {
+      text-align: center;
+      font-size: 1.2rem;
+      padding: var(--space-lg);
+      background: white;
+      border-radius: var(--radius-md);
+      margin: var(--space-md) 0;
+      font-family: var(--font-math);
+    }
+
+    .math-step {
+      margin: var(--space-sm) 0;
+      color: var(--text);
+    }
+
+    .math-step.highlight {
+      background: #FFF3E0;
+      padding: var(--space-sm);
+      border-radius: var(--radius-sm);
+      color: #E65100;
+      font-weight: 600;
+    }
+
+    .math-step.answer {
+      font-weight: 700;
+      color: #E65100;
+      font-size: 1.4rem;
+    }
+
+    /* Question Section */
+    .question-section {
+      background: var(--background);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-top: var(--space-xl);
+    }
+
+    .question-section h3 {
+      color: #E65100;
+      margin-bottom: var(--space-lg);
+      text-align: center;
+      font-size: 1.3rem;
+    }
+
+    .question {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-lg);
+      border: 2px solid var(--border);
+      transition: all var(--transition-normal);
+    }
+
+    .question.correct {
+      border-color: var(--correct);
+      background: var(--correct-light);
+    }
+
+    .question.incorrect {
+      border-color: var(--incorrect);
+      background: var(--incorrect-light);
+    }
+
+    .question-text {
+      font-size: 1.05rem;
+      margin-bottom: var(--space-md);
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .question-field {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-md);
+    }
+
+    .fraction-input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: white;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      box-shadow: 0 2px 6px var(--shadow);
+      border: 2px solid #FF9800;
+    }
+
+    .fraction-input-group input {
+      width: 50px;
+      height: 40px;
+      font-size: 1.25rem;
+      text-align: center;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-math);
+    }
+
+    .fraction-input-group input:focus {
+      border-color: #FF9800;
+      outline: none;
+    }
+
+    .fraction-input-group .divider {
+      width: 35px;
+      height: 3px;
+      background: #E65100;
+      margin: 4px 0;
+    }
+
+    .hint-text {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-top: var(--space-sm);
+    }
+
+    .feedback {
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin-top: var(--space-md);
+      display: none;
+      font-weight: 600;
+    }
+
+    .feedback.correct {
+      background: var(--correct);
+      color: white;
+      display: block;
+    }
+
+    .feedback.incorrect {
+      background: var(--incorrect);
+      color: white;
+      display: block;
+    }
+
+    /* Score Board */
+    .score-board {
+      background: linear-gradient(135deg, #FF6F00 0%, #E65100 100%);
+      padding: var(--space-lg);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      color: white;
+      margin-bottom: var(--space-xl);
+      box-shadow: 0 4px 15px var(--shadow);
+    }
+
+    .score-board h3 {
+      color: #FFD700;
+      margin-bottom: var(--space-sm);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .score-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .celebration {
+      display: none;
+      text-align: center;
+      font-size: 1.5rem;
+      padding: var(--space-xl);
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-xl);
+      animation: celebrate 0.5s ease infinite;
+    }
+
+    .celebration.show {
+      display: block;
+    }
+
+    @keyframes celebrate {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    @media (max-width: 600px) {
+      .fraction-display {
+        font-size: 1rem;
+      }
+
+      .fraction {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        ☰
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="../practice/index.html" class="nav-link active">Practice</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../super-extra-curricular/index.html" class="nav-dropdown-link">Super Extra</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header" style="background: linear-gradient(135deg, #FF6F00 0%, #E65100 100%);">
+    <div class="container">
+      <div class="breadcrumb breadcrumb-light">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <a href="./index.html">Practice</a>
+        <span>/</span>
+        <span>Overtime</span>
+      </div>
+      <h1>Overtime!</h1>
+      <p>Adding fractions with DIFFERENT bottom numbers</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Score Board -->
+    <div class="score-board">
+      <h3>Your Score</h3>
+      <div class="score-value"><span id="score">0</span> / 9</div>
+    </div>
+
+    <!-- Celebration -->
+    <div id="celebration" class="celebration">
+      🏆 OVERTIME WINNER! You mastered unlike fractions! 🎉
+    </div>
+
+    <!-- ACTIVITY 1: The Problem -->
+    <div class="activity">
+      <div class="activity-header">
+        <div class="activity-number">1</div>
+        <h2>The Challenge: Different Denominators</h2>
+      </div>
+
+      <p class="intro-text">
+        What happens when you try to add <strong>1/2 + 1/4</strong>?
+        The pieces are <strong>different sizes</strong>! We need to make them match first.
+      </p>
+
+      <div class="tip-box">
+        <h4>Coach's Game Plan:</h4>
+        <p>
+          <strong>Step 1:</strong> Find a common denominator (a number both fit into)<br>
+          <strong>Step 2:</strong> Convert the fractions so they have the same bottom number<br>
+          <strong>Step 3:</strong> Now you can add or subtract!
+        </p>
+      </div>
+
+      <div class="example-box">
+        <h3>Example: 1/2 + 1/4 = ?</h3>
+
+        <div class="fraction-bars-container">
+          <div class="fraction-bar-row">
+            <span class="fraction-bar-label">1/2</span>
+            <div class="fraction-bar">
+              <div class="fraction-segment filled-orange" style="flex: 1;">1/2</div>
+              <div class="fraction-segment empty" style="flex: 1;"></div>
+            </div>
+          </div>
+          <div class="conversion-arrow">↓ Convert to fourths ↓</div>
+          <div class="fraction-bar-row">
+            <span class="fraction-bar-label">2/4</span>
+            <div class="fraction-bar">
+              <div class="fraction-segment filled-orange" style="flex: 1;">1/4</div>
+              <div class="fraction-segment filled-orange" style="flex: 1;">1/4</div>
+              <div class="fraction-segment empty" style="flex: 1;"></div>
+              <div class="fraction-segment empty" style="flex: 1;"></div>
+            </div>
+          </div>
+          <div class="fraction-bar-row">
+            <span class="fraction-bar-label">+ 1/4</span>
+            <div class="fraction-bar">
+              <div class="fraction-segment empty" style="flex: 1;"></div>
+              <div class="fraction-segment empty" style="flex: 1;"></div>
+              <div class="fraction-segment filled-blue" style="flex: 1;">1/4</div>
+              <div class="fraction-segment empty" style="flex: 1;"></div>
+            </div>
+          </div>
+          <div class="conversion-arrow">= Total =</div>
+          <div class="fraction-bar-row">
+            <span class="fraction-bar-label">3/4</span>
+            <div class="fraction-bar">
+              <div class="fraction-segment filled-green" style="flex: 1;">1/4</div>
+              <div class="fraction-segment filled-green" style="flex: 1;">1/4</div>
+              <div class="fraction-segment filled-green" style="flex: 1;">1/4</div>
+              <div class="fraction-segment empty" style="flex: 1;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="math-display">
+          <div class="math-step">1/2 + 1/4 = ?</div>
+          <div class="math-step highlight">1/2 = 2/4 (multiply top and bottom by 2)</div>
+          <div class="math-step">2/4 + 1/4 = 3/4</div>
+          <div class="math-step answer">Answer: 3/4</div>
+        </div>
+      </div>
+
+      <div class="question-section">
+        <h3>Try These!</h3>
+
+        <!-- Q1: 1/2 + 1/4 = 3/4 -->
+        <div class="question" id="q1">
+          <div class="question-text">
+            <strong>Question 1:</strong> First drive: <strong>1/2</strong> of the field.
+            Second drive: <strong>1/4</strong> more. Total yards?
+          </div>
+          <p class="hint-text">Hint: 1/2 = 2/4, so 2/4 + 1/4 = ?</p>
+          <div class="question-field">
+            <span>1/2 + 1/4 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q1-num" placeholder="?" min="0" max="10">
+              <div class="divider"></div>
+              <input type="number" id="q1-den" value="4" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkFractionAnswer(1, 3, 4)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback1"></div>
+        </div>
+
+        <!-- Q2: 1/4 + 1/2 = 3/4 -->
+        <div class="question" id="q2">
+          <div class="question-text">
+            <strong>Question 2:</strong> Running play: <strong>1/4</strong> of the field.
+            Passing play: <strong>1/2</strong> of the field. Total?
+          </div>
+          <p class="hint-text">Hint: Convert 1/2 to fourths first!</p>
+          <div class="question-field">
+            <span>1/4 + 1/2 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q2-num" placeholder="?" min="0" max="10">
+              <div class="divider"></div>
+              <input type="number" id="q2-den" value="4" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkFractionAnswer(2, 3, 4)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback2"></div>
+        </div>
+
+        <!-- Q3: 1/3 + 1/6 = 3/6 (or 1/2) -->
+        <div class="question" id="q3">
+          <div class="question-text">
+            <strong>Question 3:</strong> Kickoff return: <strong>1/3</strong> of the field.
+            Run after catch: <strong>1/6</strong> more. How far total?
+          </div>
+          <p class="hint-text">Hint: 1/3 = 2/6, so 2/6 + 1/6 = ?</p>
+          <div class="question-field">
+            <span>1/3 + 1/6 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q3-num" placeholder="?" min="0" max="10">
+              <div class="divider"></div>
+              <input type="number" id="q3-den" value="6" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkFractionAnswer(3, 3, 6)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY 2: More Practice -->
+    <div class="activity">
+      <div class="activity-header">
+        <div class="activity-number">2</div>
+        <h2>More Combinations!</h2>
+      </div>
+
+      <p class="intro-text">
+        Great job! Now let's try more fraction pairs. Remember the key:
+        <strong>same bottom number = can add or subtract!</strong>
+      </p>
+
+      <div class="tip-box">
+        <h4>Quick Reference:</h4>
+        <p>
+          • 1/2 = 2/4 = 3/6 = 4/8<br>
+          • 1/3 = 2/6<br>
+          • 1/4 = 2/8<br>
+          • 2/3 = 4/6
+        </p>
+      </div>
+
+      <div class="question-section">
+        <h3>Keep Going!</h3>
+
+        <!-- Q4: 1/2 + 1/6 = 4/6 -->
+        <div class="question" id="q4">
+          <div class="question-text">
+            <strong>Question 4:</strong> First play: <strong>1/2</strong> of the field.
+            Second play: <strong>1/6</strong> more. Total?
+          </div>
+          <p class="hint-text">Hint: 1/2 = 3/6, so 3/6 + 1/6 = ?</p>
+          <div class="question-field">
+            <span>1/2 + 1/6 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q4-num" placeholder="?" min="0" max="10">
+              <div class="divider"></div>
+              <input type="number" id="q4-den" value="6" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkFractionAnswer(4, 4, 6)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback4"></div>
+        </div>
+
+        <!-- Q5: 2/3 + 1/6 = 5/6 -->
+        <div class="question" id="q5">
+          <div class="question-text">
+            <strong>Question 5:</strong> Long pass: <strong>2/3</strong> of the field.
+            Run after catch: <strong>1/6</strong> more. How far total?
+          </div>
+          <p class="hint-text">Hint: 2/3 = 4/6, so 4/6 + 1/6 = ?</p>
+          <div class="question-field">
+            <span>2/3 + 1/6 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q5-num" placeholder="?" min="0" max="10">
+              <div class="divider"></div>
+              <input type="number" id="q5-den" value="6" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkFractionAnswer(5, 5, 6)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback5"></div>
+        </div>
+
+        <!-- Q6: 1/4 + 1/8 = 3/8 -->
+        <div class="question" id="q6">
+          <div class="question-text">
+            <strong>Question 6:</strong> Screen pass: <strong>1/4</strong> of the field.
+            Juke move: <strong>1/8</strong> more. Total yards?
+          </div>
+          <p class="hint-text">Hint: 1/4 = 2/8, so 2/8 + 1/8 = ?</p>
+          <div class="question-field">
+            <span>1/4 + 1/8 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q6-num" placeholder="?" min="0" max="10">
+              <div class="divider"></div>
+              <input type="number" id="q6-den" value="8" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkFractionAnswer(6, 3, 8)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback6"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY 3: Subtraction Too! -->
+    <div class="activity">
+      <div class="activity-header">
+        <div class="activity-number">3</div>
+        <h2>Overtime Showdown!</h2>
+      </div>
+
+      <p class="intro-text">
+        Final challenge! You can <strong>subtract</strong> unlike fractions too.
+        Same steps: convert first, then subtract!
+      </p>
+
+      <div class="question-section">
+        <h3>Championship Round!</h3>
+
+        <!-- Q7: 1/2 - 1/4 = 1/4 -->
+        <div class="question" id="q7">
+          <div class="question-text">
+            <strong>Question 7:</strong> Your team was at <strong>1/2</strong> field.
+            A penalty moved you back <strong>1/4</strong>. Where are you now?
+          </div>
+          <p class="hint-text">Hint: 1/2 = 2/4, so 2/4 - 1/4 = ?</p>
+          <div class="question-field">
+            <span>1/2 - 1/4 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q7-num" placeholder="?" min="0" max="10">
+              <div class="divider"></div>
+              <input type="number" id="q7-den" value="4" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkFractionAnswer(7, 1, 4)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback7"></div>
+        </div>
+
+        <!-- Q8: 3/4 - 1/2 = 1/4 -->
+        <div class="question" id="q8">
+          <div class="question-text">
+            <strong>Question 8:</strong> You gained <strong>3/4</strong> of the field.
+            The ref called back <strong>1/2</strong> for a penalty. Net gain?
+          </div>
+          <p class="hint-text">Hint: 1/2 = 2/4, so 3/4 - 2/4 = ?</p>
+          <div class="question-field">
+            <span>3/4 - 1/2 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q8-num" placeholder="?" min="0" max="10">
+              <div class="divider"></div>
+              <input type="number" id="q8-den" value="4" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkFractionAnswer(8, 1, 4)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback8"></div>
+        </div>
+
+        <!-- Q9: 1/2 + 1/4 + 1/8 = 7/8 -->
+        <div class="question" id="q9">
+          <div class="question-text">
+            <strong>Question 9:</strong> FINAL DRIVE! Three plays:
+            <strong>1/2</strong>, then <strong>1/4</strong>, then <strong>1/8</strong> of the field. TOTAL?
+          </div>
+          <p class="hint-text">Hint: 1/2 = 4/8, 1/4 = 2/8. So 4/8 + 2/8 + 1/8 = ?</p>
+          <div class="question-field">
+            <span>1/2 + 1/4 + 1/8 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q9-num" placeholder="?" min="0" max="10">
+              <div class="divider"></div>
+              <input type="number" id="q9-den" value="8" readonly style="background: #eee;">
+            </div>
+            <button class="btn btn-primary" onclick="checkFractionAnswer(9, 7, 8)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback9"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reset Button -->
+    <div class="text-center mt-xl mb-xl">
+      <button class="btn btn-secondary btn-large" onclick="resetGame()">Play Again</button>
+      <a href="./index.html" class="btn btn-primary btn-large">Back to Practice Hub</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #E65100; color: white; padding: var(--space-xl) 0; text-align: center; margin-top: var(--space-2xl);">
+    <div class="container">
+      <p>Football Fractions - Overtime</p>
+      <p class="text-small mt-sm">
+        <a href="../parent-guide/index.html" style="color: rgba(255,255,255,0.8);">Parent Guide</a> ·
+        <a href="../schedule/index.html" style="color: rgba(255,255,255,0.8);">Practice Schedule</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/fractions.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/side-nav.js"></script>
+
+  <!-- Question Explanations for Helper Panel -->
+  <script>
+    window.questionExplanations = {
+      q1: {
+        title: "Question 1: 1/2 + 1/4",
+        visual: {
+          steps: [
+            { text: "Imagine cutting a pizza. <strong>1/2</strong> is a big slice (half the pizza)." },
+            { text: "Now <strong>1/4</strong> is a smaller slice (one quarter)." },
+            { text: "To add them, make the pieces the <strong>same size</strong>!" },
+            { text: "Cut the half into two quarters: 1/2 = <strong>2/4</strong>." },
+            { text: "Now add: 2/4 + 1/4 = <strong>3/4</strong>!", isAnswer: true }
+          ],
+          tip: "1/2 = 2/4. They're the same amount, just cut differently!"
+        },
+        procedural: {
+          steps: [
+            { text: "Different bottoms: <strong>2</strong> and <strong>4</strong>." },
+            { text: "Convert to same bottom: 1/2 = <strong>2/4</strong> (multiply top and bottom by 2)." },
+            { text: "Now add: 2/4 + 1/4 = <strong>3/4</strong>", isAnswer: true }
+          ],
+          tip: "Find a common denominator first, then add!"
+        }
+      },
+      q2: {
+        title: "Question 2: 1/4 + 1/2",
+        visual: {
+          steps: [
+            { text: "You have <strong>1/4</strong> (one small piece) of the field." },
+            { text: "You add <strong>1/2</strong> (half) more." },
+            { text: "Convert 1/2 to fourths: 1/2 = <strong>2/4</strong>." },
+            { text: "Add: 1/4 + 2/4 = <strong>3/4</strong>!", isAnswer: true }
+          ],
+          tip: "Same problem as Q1, just flipped! Answer is still 3/4."
+        },
+        procedural: {
+          steps: [
+            { text: "Convert 1/2 to fourths: 1/2 = <strong>2/4</strong>." },
+            { text: "Add: 1/4 + 2/4 = <strong>3/4</strong>", isAnswer: true }
+          ],
+          tip: "Order doesn't matter in addition! 1/4 + 1/2 = 1/2 + 1/4"
+        }
+      },
+      q3: {
+        title: "Question 3: 1/3 + 1/6",
+        visual: {
+          steps: [
+            { text: "Picture a chocolate bar in <strong>6 pieces</strong>." },
+            { text: "1/3 of the bar = <strong>2 pieces</strong> (because 6 ÷ 3 = 2)." },
+            { text: "1/6 of the bar = <strong>1 piece</strong>." },
+            { text: "Total: 2 pieces + 1 piece = <strong>3 pieces</strong>!" },
+            { text: "Answer: <strong>3/6</strong> (which is also 1/2!)", isAnswer: true }
+          ],
+          tip: "1/3 = 2/6. Convert to sixths, then add!"
+        },
+        procedural: {
+          steps: [
+            { text: "Different bottoms: 3 and 6." },
+            { text: "6 works! Convert 1/3: multiply top and bottom by 2." },
+            { text: "1/3 = <strong>2/6</strong>" },
+            { text: "Add: 2/6 + 1/6 = <strong>3/6</strong>", isAnswer: true }
+          ],
+          tip: "Pick the larger denominator if one divides evenly into the other!"
+        }
+      },
+      q4: {
+        title: "Question 4: 1/2 + 1/6",
+        visual: {
+          steps: [
+            { text: "Split the field into <strong>6 equal parts</strong>." },
+            { text: "1/2 of the field = <strong>3 parts</strong> (half of 6)." },
+            { text: "1/6 of the field = <strong>1 part</strong>." },
+            { text: "Total: 3 + 1 = <strong>4 parts</strong>!" },
+            { text: "Answer: <strong>4/6</strong>", isAnswer: true }
+          ],
+          tip: "1/2 = 3/6. Half of 6 is 3!"
+        },
+        procedural: {
+          steps: [
+            { text: "Convert 1/2 to sixths: 1/2 = <strong>3/6</strong> (×3 on top and bottom)." },
+            { text: "Add: 3/6 + 1/6 = <strong>4/6</strong>", isAnswer: true }
+          ],
+          tip: "3/6 + 1/6 = 4/6. You could simplify to 2/3!"
+        }
+      },
+      q5: {
+        title: "Question 5: 2/3 + 1/6",
+        visual: {
+          steps: [
+            { text: "Picture <strong>6 sections</strong> of the field." },
+            { text: "2/3 = how many sixths? Well, 1/3 = 2/6, so 2/3 = <strong>4/6</strong>!" },
+            { text: "Add: 4/6 + 1/6 = <strong>5 sections</strong>!" },
+            { text: "Answer: <strong>5/6</strong> of the field!", isAnswer: true }
+          ],
+          tip: "2/3 = 4/6. Double both the 1 and 3 to get 2 and 6!"
+        },
+        procedural: {
+          steps: [
+            { text: "Convert 2/3 to sixths: 2/3 = <strong>4/6</strong> (×2 top and bottom)." },
+            { text: "Add: 4/6 + 1/6 = <strong>5/6</strong>", isAnswer: true }
+          ],
+          tip: "5/6 - almost the whole field! Just 1/6 away from a touchdown!"
+        }
+      },
+      q6: {
+        title: "Question 6: 1/4 + 1/8",
+        visual: {
+          steps: [
+            { text: "Think of the field in <strong>8 equal zones</strong>." },
+            { text: "1/4 = how many eighths? Half of 8 is 4, so 1/4 = <strong>2/8</strong>!" },
+            { text: "Add: 2/8 + 1/8 = <strong>3 zones</strong>!" },
+            { text: "Answer: <strong>3/8</strong>", isAnswer: true }
+          ],
+          tip: "1/4 = 2/8. Multiply by 2 on top and bottom!"
+        },
+        procedural: {
+          steps: [
+            { text: "Convert 1/4 to eighths: 1/4 = <strong>2/8</strong>." },
+            { text: "Add: 2/8 + 1/8 = <strong>3/8</strong>", isAnswer: true }
+          ],
+          tip: "4 × 2 = 8, so multiply the 1 by 2 also!"
+        }
+      },
+      q7: {
+        title: "Question 7: 1/2 - 1/4",
+        visual: {
+          steps: [
+            { text: "Your team is at the <strong>1/2</strong> (halfway) mark." },
+            { text: "A penalty moves you back <strong>1/4</strong>." },
+            { text: "Convert: 1/2 = <strong>2/4</strong>." },
+            { text: "Subtract: 2/4 - 1/4 = <strong>1/4</strong>!", isAnswer: true }
+          ],
+          tip: "Same conversion trick - then subtract the tops!"
+        },
+        procedural: {
+          steps: [
+            { text: "Convert 1/2 to fourths: 1/2 = <strong>2/4</strong>." },
+            { text: "Subtract: 2/4 - 1/4 = <strong>1/4</strong>", isAnswer: true }
+          ],
+          tip: "Subtraction works just like addition - convert first!"
+        }
+      },
+      q8: {
+        title: "Question 8: 3/4 - 1/2",
+        visual: {
+          steps: [
+            { text: "You gained <strong>3/4</strong> of the field - awesome!" },
+            { text: "But wait - the ref calls back <strong>1/2</strong>." },
+            { text: "Convert: 1/2 = <strong>2/4</strong>." },
+            { text: "Subtract: 3/4 - 2/4 = <strong>1/4</strong>!", isAnswer: true }
+          ],
+          tip: "1/2 = 2/4, so you lose 2 of your 3 quarter-sections."
+        },
+        procedural: {
+          steps: [
+            { text: "Convert 1/2 to fourths: 1/2 = <strong>2/4</strong>." },
+            { text: "Subtract: 3/4 - 2/4 = <strong>1/4</strong>", isAnswer: true }
+          ],
+          tip: "Net gain: just 1/4 of the field. Bummer!"
+        }
+      },
+      q9: {
+        title: "Question 9: 1/2 + 1/4 + 1/8",
+        visual: {
+          steps: [
+            { text: "Three big plays! Let's add them using <strong>eighths</strong>." },
+            { text: "1/2 = <strong>4/8</strong> (half of 8)." },
+            { text: "1/4 = <strong>2/8</strong> (quarter of 8)." },
+            { text: "1/8 = <strong>1/8</strong> (already in eighths!)." },
+            { text: "Total: 4 + 2 + 1 = <strong>7/8</strong>!", isAnswer: true }
+          ],
+          tip: "Convert everything to the same bottom, then add all the tops!"
+        },
+        procedural: {
+          steps: [
+            { text: "Common denominator: <strong>8</strong>." },
+            { text: "1/2 = 4/8, 1/4 = 2/8, 1/8 = 1/8" },
+            { text: "Add: 4/8 + 2/8 + 1/8 = <strong>7/8</strong>", isAnswer: true }
+          ],
+          tip: "7/8 - just 1/8 away from a full field! Almost a touchdown!"
+        }
+      }
+    };
+  </script>
+
+  <script>
+    let score = 0;
+    let answered = new Set();
+
+    function checkFractionAnswer(questionNum, correctNum, correctDen) {
+      const numInput = document.getElementById(`q${questionNum}-num`);
+      const feedbackEl = document.getElementById(`feedback${questionNum}`);
+      const questionEl = document.getElementById(`q${questionNum}`);
+
+      const userNum = parseInt(numInput.value);
+
+      if (isNaN(userNum)) {
+        feedbackEl.textContent = "Please enter a number!";
+        feedbackEl.className = "feedback incorrect";
+        return;
+      }
+
+      if (userNum === correctNum) {
+        if (!answered.has(questionNum)) {
+          score++;
+          answered.add(questionNum);
+          document.getElementById('score').textContent = score;
+        }
+
+        feedbackEl.innerHTML = getCorrectMessage();
+        feedbackEl.className = "feedback correct";
+        questionEl.classList.add('correct');
+        questionEl.classList.remove('incorrect');
+        numInput.style.borderColor = 'var(--correct)';
+
+        if (score === 9) {
+          document.getElementById('celebration').classList.add('show');
+          if (typeof Storage !== 'undefined' && Storage.recordPracticeSession) {
+            Storage.recordPracticeSession({
+              type: 'Overtime',
+              score: 100,
+              problemCount: 9,
+              correct: 9,
+              incorrect: 0
+            });
+          }
+        }
+      } else {
+        feedbackEl.innerHTML = `Not quite! The answer is ${correctNum}/${correctDen}. Check your conversion!`;
+        feedbackEl.className = "feedback incorrect";
+        questionEl.classList.add('incorrect');
+        questionEl.classList.remove('correct');
+        numInput.style.borderColor = 'var(--incorrect)';
+      }
+    }
+
+    function getCorrectMessage() {
+      const messages = [
+        "TOUCHDOWN! You converted perfectly!",
+        "Excellent! Great fraction work!",
+        "Champion play! That's right!",
+        "MVP move! Perfect conversion!",
+        "Overtime hero! Correct!",
+        "Game winner! Nailed it!"
+      ];
+      return messages[Math.floor(Math.random() * messages.length)];
+    }
+
+    function resetGame() {
+      score = 0;
+      answered.clear();
+      document.getElementById('score').textContent = '0';
+      document.getElementById('celebration').classList.remove('show');
+
+      for (let i = 1; i <= 9; i++) {
+        const numInput = document.getElementById(`q${i}-num`);
+        const feedbackEl = document.getElementById(`feedback${i}`);
+        const questionEl = document.getElementById(`q${i}`);
+
+        if (numInput) {
+          numInput.value = '';
+          numInput.style.borderColor = '#FF9800';
+        }
+        if (feedbackEl) feedbackEl.className = 'feedback';
+        if (questionEl) questionEl.classList.remove('correct', 'incorrect');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Enter key support
+    document.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const activeElement = document.activeElement;
+        if (activeElement && activeElement.tagName === 'INPUT') {
+          const btn = activeElement.closest('.question-field').querySelector('.btn');
+          if (btn) btn.click();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Game Clock - Fractions with Time</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+  <link rel="stylesheet" href="../styles/side-nav.css">
+
+  <style>
+    .activity {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    .activity-header {
+      background: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%);
+      color: white;
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      margin: calc(-1 * var(--space-xl)) calc(-1 * var(--space-xl)) var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .activity-number {
+      background: #FFD700;
+      color: #0D47A1;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .activity-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    .intro-text {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: var(--space-lg);
+    }
+
+    .tip-box {
+      background: var(--info-light);
+      border: 2px solid var(--info);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin: var(--space-lg) 0;
+    }
+
+    .tip-box h4 {
+      color: #1565C0;
+      margin-bottom: var(--space-sm);
+      font-size: 1rem;
+    }
+
+    .tip-box p {
+      margin: 0;
+      color: var(--text);
+    }
+
+    .example-box {
+      background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+      border: 3px solid #2196F3;
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin: var(--space-lg) 0;
+    }
+
+    .example-box h3 {
+      color: #1565C0;
+      margin-bottom: var(--space-md);
+      font-size: 1.2rem;
+    }
+
+    /* Game Clock Visual */
+    .clock-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-xl);
+      flex-wrap: wrap;
+      margin: var(--space-lg) 0;
+    }
+
+    .game-clock {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 8px solid #1565C0;
+      position: relative;
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .clock-quarter {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .clock-quarter.q1 {
+      top: 0;
+      right: 0;
+      border-radius: 0 100% 0 0;
+      background: #E0E0E0;
+      color: #666;
+    }
+
+    .clock-quarter.q2 {
+      bottom: 0;
+      right: 0;
+      border-radius: 0 0 100% 0;
+      background: #E0E0E0;
+      color: #666;
+    }
+
+    .clock-quarter.q3 {
+      bottom: 0;
+      left: 0;
+      border-radius: 0 0 0 100%;
+      background: #E0E0E0;
+      color: #666;
+    }
+
+    .clock-quarter.q4 {
+      top: 0;
+      left: 0;
+      border-radius: 100% 0 0 0;
+      background: #E0E0E0;
+      color: #666;
+    }
+
+    .clock-quarter.played {
+      background: #1565C0;
+      color: white;
+    }
+
+    .clock-quarter.current {
+      background: #FFD700;
+      color: #0D47A1;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .clock-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 30px;
+      height: 30px;
+      background: #0D47A1;
+      border-radius: 50%;
+      z-index: 10;
+    }
+
+    .clock-labels {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .clock-label {
+      position: absolute;
+      font-size: 0.8rem;
+      color: #666;
+      font-weight: 600;
+    }
+
+    .clock-label.top { top: -25px; left: 50%; transform: translateX(-50%); }
+    .clock-label.right { right: -30px; top: 50%; transform: translateY(-50%); }
+    .clock-label.bottom { bottom: -25px; left: 50%; transform: translateX(-50%); }
+    .clock-label.left { left: -30px; top: 50%; transform: translateY(-50%); }
+
+    .clock-info {
+      text-align: center;
+    }
+
+    .clock-info h4 {
+      color: #1565C0;
+      margin-bottom: var(--space-sm);
+    }
+
+    .clock-info p {
+      color: var(--text-secondary);
+      margin: var(--space-xs) 0;
+    }
+
+    /* Minute Bar */
+    .minute-bar-container {
+      max-width: 400px;
+      margin: var(--space-lg) auto;
+    }
+
+    .minute-bar {
+      height: 40px;
+      background: #E0E0E0;
+      border-radius: var(--radius-md);
+      display: flex;
+      overflow: hidden;
+      border: 3px solid #1565C0;
+    }
+
+    .minute-segment {
+      flex: 1;
+      border-right: 1px solid rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: #666;
+      transition: all 0.3s ease;
+    }
+
+    .minute-segment:last-child {
+      border-right: none;
+    }
+
+    .minute-segment.elapsed {
+      background: #1565C0;
+      color: white;
+    }
+
+    .minute-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: var(--space-xs);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* Math Display */
+    .math-display {
+      text-align: center;
+      font-size: 1.3rem;
+      padding: var(--space-lg);
+      background: white;
+      border-radius: var(--radius-md);
+      margin: var(--space-md) 0;
+      font-family: var(--font-math);
+    }
+
+    .math-step {
+      margin: var(--space-sm) 0;
+      color: var(--text);
+    }
+
+    .math-step.answer {
+      font-weight: 700;
+      color: #1565C0;
+      font-size: 1.4rem;
+    }
+
+    /* Fraction Display */
+    .fraction-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      margin: var(--space-lg) 0;
+    }
+
+    .fraction {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: white;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      box-shadow: 0 2px 8px var(--shadow);
+      border: 2px solid #1565C0;
+      font-family: var(--font-math);
+      font-size: 1.5rem;
+    }
+
+    .fraction .numerator {
+      border-bottom: 3px solid #0D47A1;
+      padding-bottom: 4px;
+      min-width: 35px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .fraction .denominator {
+      padding-top: 4px;
+      min-width: 35px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    /* Question Section */
+    .question-section {
+      background: var(--background);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-top: var(--space-xl);
+    }
+
+    .question-section h3 {
+      color: #1565C0;
+      margin-bottom: var(--space-lg);
+      text-align: center;
+      font-size: 1.3rem;
+    }
+
+    .question {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-lg);
+      border: 2px solid var(--border);
+      transition: all var(--transition-normal);
+    }
+
+    .question.correct {
+      border-color: var(--correct);
+      background: var(--correct-light);
+    }
+
+    .question.incorrect {
+      border-color: var(--incorrect);
+      background: var(--incorrect-light);
+    }
+
+    .question-text {
+      font-size: 1.05rem;
+      margin-bottom: var(--space-md);
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .question-field {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-md);
+    }
+
+    .fraction-input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: white;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      box-shadow: 0 2px 6px var(--shadow);
+      border: 2px solid #1565C0;
+    }
+
+    .fraction-input-group input {
+      width: 50px;
+      height: 40px;
+      font-size: 1.25rem;
+      text-align: center;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-math);
+    }
+
+    .fraction-input-group input:focus {
+      border-color: #1565C0;
+      outline: none;
+    }
+
+    .fraction-input-group .divider {
+      width: 35px;
+      height: 3px;
+      background: #0D47A1;
+      margin: 4px 0;
+    }
+
+    .answer-input {
+      width: 80px;
+      height: 50px;
+      font-size: 1.5rem;
+      text-align: center;
+      border: 3px solid #1565C0;
+      border-radius: var(--radius-md);
+      font-family: var(--font-math);
+    }
+
+    .answer-input:focus {
+      outline: none;
+      border-color: #0D47A1;
+      box-shadow: 0 0 8px rgba(21, 101, 192, 0.3);
+    }
+
+    .feedback {
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin-top: var(--space-md);
+      display: none;
+      font-weight: 600;
+    }
+
+    .feedback.correct {
+      background: var(--correct);
+      color: white;
+      display: block;
+    }
+
+    .feedback.incorrect {
+      background: var(--incorrect);
+      color: white;
+      display: block;
+    }
+
+    /* Score Board */
+    .score-board {
+      background: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%);
+      padding: var(--space-lg);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      color: white;
+      margin-bottom: var(--space-xl);
+      box-shadow: 0 4px 15px var(--shadow);
+    }
+
+    .score-board h3 {
+      color: #FFD700;
+      margin-bottom: var(--space-sm);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .score-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .celebration {
+      display: none;
+      text-align: center;
+      font-size: 1.5rem;
+      padding: var(--space-xl);
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-xl);
+      animation: celebrate 0.5s ease infinite;
+    }
+
+    .celebration.show {
+      display: block;
+    }
+
+    @keyframes celebrate {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    /* Mini clock for questions */
+    .mini-clock {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid #1565C0;
+      position: relative;
+      background: white;
+      margin: var(--space-sm) auto;
+    }
+
+    .mini-clock .clock-quarter {
+      font-size: 0.7rem;
+    }
+
+    .mini-clock .clock-center {
+      width: 15px;
+      height: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .game-clock {
+        width: 150px;
+        height: 150px;
+      }
+
+      .clock-quarter {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <span>🏈</span>
+        <span>Football Fractions</span>
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        ☰
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="../practice/index.html" class="nav-link active">Practice</a></li>
+        <li><a href="../lessons/index.html" class="nav-link">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../super-extra-curricular/index.html" class="nav-dropdown-link">Super Extra</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header" style="background: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%);">
+    <div class="container">
+      <div class="breadcrumb breadcrumb-light">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <a href="./index.html">Practice</a>
+        <span>/</span>
+        <span>Game Clock</span>
+      </div>
+      <h1>Game Clock</h1>
+      <p>Learn fractions using quarters and game time!</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Score Board -->
+    <div class="score-board">
+      <h3>Your Score</h3>
+      <div class="score-value"><span id="score">0</span> / 9</div>
+    </div>
+
+    <!-- Celebration -->
+    <div id="celebration" class="celebration">
+      ⏱️ TIME'S UP - YOU WIN! Perfect clock reading! 🏆
+    </div>
+
+    <!-- ACTIVITY 1: Quarters of a Game -->
+    <div class="activity">
+      <div class="activity-header">
+        <div class="activity-number">1</div>
+        <h2>Quarters of the Game</h2>
+      </div>
+
+      <p class="intro-text">
+        A football game has <strong>4 quarters</strong>. That means each quarter is
+        <strong>1/4</strong> of the whole game! The game clock helps us see fractions in action.
+      </p>
+
+      <div class="tip-box">
+        <h4>Referee's Tip:</h4>
+        <p>
+          • 1 quarter = <strong>1/4</strong> of the game<br>
+          • 2 quarters = <strong>2/4</strong> (or 1/2) of the game<br>
+          • 3 quarters = <strong>3/4</strong> of the game<br>
+          • 4 quarters = <strong>4/4</strong> (the whole game!)
+        </p>
+      </div>
+
+      <div class="example-box">
+        <h3>Example:</h3>
+        <p>The first quarter just ended. What fraction of the game is done?</p>
+
+        <div class="clock-container">
+          <div class="game-clock" id="exampleClock1">
+            <div class="clock-quarter q1 played">Q1</div>
+            <div class="clock-quarter q2">Q2</div>
+            <div class="clock-quarter q3">Q3</div>
+            <div class="clock-quarter q4">Q4</div>
+            <div class="clock-center"></div>
+          </div>
+          <div class="clock-info">
+            <h4>Game Status</h4>
+            <p>1 quarter played</p>
+            <p>3 quarters remaining</p>
+          </div>
+        </div>
+
+        <div class="math-display">
+          <div class="math-step">1 out of 4 quarters is done</div>
+          <div class="math-step answer">Answer: 1/4 of the game!</div>
+        </div>
+      </div>
+
+      <div class="question-section">
+        <h3>Your Turn!</h3>
+
+        <!-- Q1: 2 quarters = 2/4 -->
+        <div class="question" id="q1">
+          <div class="question-text">
+            <strong>Question 1:</strong> Two quarters are done. What fraction of the game is complete?
+          </div>
+          <div class="mini-clock">
+            <div class="clock-quarter q1 played">Q1</div>
+            <div class="clock-quarter q2 played">Q2</div>
+            <div class="clock-quarter q3">Q3</div>
+            <div class="clock-quarter q4">Q4</div>
+            <div class="clock-center"></div>
+          </div>
+          <div class="question-field">
+            <div class="fraction-input-group">
+              <input type="number" id="q1-num" placeholder="?" min="0" max="4">
+              <div class="divider"></div>
+              <input type="number" id="q1-den" value="4" readonly style="background: #eee;">
+            </div>
+            <span>of the game</span>
+            <button class="btn btn-primary" onclick="checkFractionAnswer(1, 2, 4)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback1"></div>
+        </div>
+
+        <!-- Q2: Start of Q4 = 1/4 LEFT -->
+        <div class="question" id="q2">
+          <div class="question-text">
+            <strong>Question 2:</strong> It's the start of the 4th quarter. How much of the game is <strong>LEFT</strong>?
+          </div>
+          <div class="mini-clock">
+            <div class="clock-quarter q1 played">Q1</div>
+            <div class="clock-quarter q2 played">Q2</div>
+            <div class="clock-quarter q3 played">Q3</div>
+            <div class="clock-quarter q4 current">Q4</div>
+            <div class="clock-center"></div>
+          </div>
+          <div class="question-field">
+            <div class="fraction-input-group">
+              <input type="number" id="q2-num" placeholder="?" min="0" max="4">
+              <div class="divider"></div>
+              <input type="number" id="q2-den" value="4" readonly style="background: #eee;">
+            </div>
+            <span>of the game is left</span>
+            <button class="btn btn-primary" onclick="checkFractionAnswer(2, 1, 4)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback2"></div>
+        </div>
+
+        <!-- Q3: 3 quarters = 3/4 -->
+        <div class="question" id="q3">
+          <div class="question-text">
+            <strong>Question 3:</strong> Three quarters are done. What fraction of the game is complete?
+          </div>
+          <div class="question-field">
+            <div class="fraction-input-group">
+              <input type="number" id="q3-num" placeholder="?" min="0" max="4">
+              <div class="divider"></div>
+              <input type="number" id="q3-den" value="4" readonly style="background: #eee;">
+            </div>
+            <span>of the game</span>
+            <button class="btn btn-primary" onclick="checkFractionAnswer(3, 3, 4)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY 2: Minutes in a Quarter -->
+    <div class="activity">
+      <div class="activity-header">
+        <div class="activity-number">2</div>
+        <h2>Minutes in a Quarter</h2>
+      </div>
+
+      <p class="intro-text">
+        Each quarter has <strong>12 minutes</strong>. We can use fractions to show how much
+        time has passed or how much time is left!
+      </p>
+
+      <div class="tip-box">
+        <h4>Referee's Tip:</h4>
+        <p>
+          If 3 minutes out of 12 have passed, that's <strong>3/12</strong>.<br>
+          We can simplify: 3/12 = <strong>1/4</strong> of the quarter!
+        </p>
+      </div>
+
+      <div class="example-box">
+        <h3>Example:</h3>
+        <p>The quarter has 12 minutes. 3 minutes have passed. What fraction of the quarter is done?</p>
+
+        <div class="minute-bar-container">
+          <div class="minute-bar" id="exampleBar">
+            <!-- 12 segments, first 3 highlighted -->
+          </div>
+          <div class="minute-labels">
+            <span>0 min</span>
+            <span>6 min</span>
+            <span>12 min</span>
+          </div>
+        </div>
+
+        <div class="math-display">
+          <div class="math-step">3 minutes out of 12 total</div>
+          <div class="math-step">3/12 = 1/4 (simplified)</div>
+          <div class="math-step answer">Answer: 1/4 of the quarter!</div>
+        </div>
+      </div>
+
+      <div class="question-section">
+        <h3>Time Questions!</h3>
+
+        <!-- Q4: 3/12 = 1/4 (accept either) -->
+        <div class="question" id="q4">
+          <div class="question-text">
+            <strong>Question 4:</strong> There are 12 minutes in a quarter. 3 minutes have passed.
+            What <strong>simplified</strong> fraction of the quarter is done?
+          </div>
+          <div class="question-field">
+            <span>3 out of 12 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q4-num" placeholder="?" min="0" max="12">
+              <div class="divider"></div>
+              <input type="number" id="q4-den" placeholder="?" min="1" max="12">
+            </div>
+            <button class="btn btn-primary" onclick="checkSimplifiedFraction(4, 1, 4, 3, 12)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback4"></div>
+        </div>
+
+        <!-- Q5: 6/12 = 1/2 -->
+        <div class="question" id="q5">
+          <div class="question-text">
+            <strong>Question 5:</strong> There are 12 minutes in a quarter. 6 minutes are left.
+            What <strong>simplified</strong> fraction of the quarter is left?
+          </div>
+          <div class="question-field">
+            <span>6 out of 12 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q5-num" placeholder="?" min="0" max="12">
+              <div class="divider"></div>
+              <input type="number" id="q5-den" placeholder="?" min="1" max="12">
+            </div>
+            <button class="btn btn-primary" onclick="checkSimplifiedFraction(5, 1, 2, 6, 12)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback5"></div>
+        </div>
+
+        <!-- Q6: 4/12 = 1/3 -->
+        <div class="question" id="q6">
+          <div class="question-text">
+            <strong>Question 6:</strong> 4 minutes of the 12-minute quarter have passed.
+            What <strong>simplified</strong> fraction is that?
+          </div>
+          <div class="question-field">
+            <span>4 out of 12 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q6-num" placeholder="?" min="0" max="12">
+              <div class="divider"></div>
+              <input type="number" id="q6-den" placeholder="?" min="1" max="12">
+            </div>
+            <button class="btn btn-primary" onclick="checkSimplifiedFraction(6, 1, 3, 4, 12)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback6"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY 3: Challenge -->
+    <div class="activity">
+      <div class="activity-header">
+        <div class="activity-number">3</div>
+        <h2>Two-Minute Warning!</h2>
+      </div>
+
+      <p class="intro-text">
+        Final challenge! Can you connect fractions to real game situations?
+      </p>
+
+      <div class="question-section">
+        <h3>Championship Round!</h3>
+
+        <!-- Q7: 2/4 = how many quarters? = 2 -->
+        <div class="question" id="q7">
+          <div class="question-text">
+            <strong>Question 7:</strong> A team has used <strong>2/4</strong> of the game.
+            How many <strong>quarters</strong> have been played?
+          </div>
+          <div class="question-field">
+            <span>2/4 of the game = </span>
+            <input type="number" class="answer-input" id="q7-answer" placeholder="?">
+            <span>quarter(s)</span>
+            <button class="btn btn-primary" onclick="checkNumberAnswer(7, 2)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback7"></div>
+        </div>
+
+        <!-- Q8: 8/12 = 2/3 -->
+        <div class="question" id="q8">
+          <div class="question-text">
+            <strong>Question 8:</strong> 8 minutes of a 12-minute quarter have passed.
+            What <strong>simplified</strong> fraction of the quarter is done?
+          </div>
+          <div class="question-field">
+            <span>8 out of 12 = </span>
+            <div class="fraction-input-group">
+              <input type="number" id="q8-num" placeholder="?" min="0" max="12">
+              <div class="divider"></div>
+              <input type="number" id="q8-den" placeholder="?" min="1" max="12">
+            </div>
+            <button class="btn btn-primary" onclick="checkSimplifiedFraction(8, 2, 3, 8, 12)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback8"></div>
+        </div>
+
+        <!-- Q9: 3/4 done = 1 quarter left -->
+        <div class="question" id="q9">
+          <div class="question-text">
+            <strong>Question 9:</strong> The game is <strong>3/4</strong> done.
+            How many quarters are <strong>LEFT</strong> to play?
+          </div>
+          <div class="question-field">
+            <span>Quarters left = </span>
+            <input type="number" class="answer-input" id="q9-answer" placeholder="?">
+            <span>quarter(s)</span>
+            <button class="btn btn-primary" onclick="checkNumberAnswer(9, 1)">Check!</button>
+          </div>
+          <div class="feedback" id="feedback9"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reset Button -->
+    <div class="text-center mt-xl mb-xl">
+      <button class="btn btn-secondary btn-large" onclick="resetGame()">Play Again</button>
+      <a href="./index.html" class="btn btn-primary btn-large">Back to Practice Hub</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #0D47A1; color: white; padding: var(--space-xl) 0; text-align: center; margin-top: var(--space-2xl);">
+    <div class="container">
+      <p>Football Fractions - Game Clock</p>
+      <p class="text-small mt-sm">
+        <a href="../parent-guide/index.html" style="color: rgba(255,255,255,0.8);">Parent Guide</a> ·
+        <a href="../schedule/index.html" style="color: rgba(255,255,255,0.8);">Practice Schedule</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/fractions.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/side-nav.js"></script>
+
+  <!-- Question Explanations for Helper Panel -->
+  <script>
+    window.questionExplanations = {
+      q1: {
+        title: "Question 1: 2 quarters done",
+        visual: {
+          steps: [
+            { text: "Picture the game clock like a <strong>pizza cut into 4 slices</strong>." },
+            { text: "Each slice is <strong>1 quarter</strong> of the game." },
+            { text: "Two quarters are done. That's <strong>2 slices eaten</strong>!" },
+            { text: "Count: <strong>2 out of 4</strong> quarters." },
+            { text: "Answer: <strong>2/4</strong> of the game is complete!", isAnswer: true }
+          ],
+          tip: "Each quarter is 1/4 of the whole game!"
+        },
+        procedural: {
+          steps: [
+            { text: "A game has <strong>4 quarters</strong> total." },
+            { text: "2 quarters are done." },
+            { text: "Write as a fraction: <strong>2/4</strong>", isAnswer: true }
+          ],
+          tip: "Number done goes on top, total quarters (4) goes on bottom."
+        }
+      },
+      q2: {
+        title: "Question 2: How much is LEFT?",
+        visual: {
+          steps: [
+            { text: "We're at the <strong>start of Q4</strong>." },
+            { text: "That means <strong>3 quarters are done</strong> (Q1, Q2, Q3)." },
+            { text: "Only <strong>1 quarter is left</strong> to play!" },
+            { text: "Answer: <strong>1/4</strong> of the game is left.", isAnswer: true }
+          ],
+          tip: "LEFT means what's remaining - the quarter we haven't played yet!"
+        },
+        procedural: {
+          steps: [
+            { text: "Total quarters: <strong>4</strong>" },
+            { text: "Quarters done: <strong>3</strong> (Q1 + Q2 + Q3)" },
+            { text: "Quarters left: 4 - 3 = <strong>1</strong>" },
+            { text: "Answer: <strong>1/4</strong>", isAnswer: true }
+          ],
+          tip: "Subtract what's done from the total to find what's left!"
+        }
+      },
+      q3: {
+        title: "Question 3: 3 quarters done",
+        visual: {
+          steps: [
+            { text: "Picture the clock with <strong>4 equal parts</strong>." },
+            { text: "Color in <strong>3 parts</strong> for the 3 quarters played." },
+            { text: "That's <strong>3 out of 4</strong> parts of the game!" },
+            { text: "Answer: <strong>3/4</strong> of the game is complete.", isAnswer: true }
+          ],
+          tip: "3/4 means almost done - just one quarter left!"
+        },
+        procedural: {
+          steps: [
+            { text: "Quarters played: <strong>3</strong>" },
+            { text: "Total quarters: <strong>4</strong>" },
+            { text: "Answer: <strong>3/4</strong>", isAnswer: true }
+          ],
+          tip: "The fraction shows: done/total."
+        }
+      },
+      q4: {
+        title: "Question 4: Simplify 3/12",
+        visual: {
+          steps: [
+            { text: "Picture the 12 minutes as <strong>12 equal boxes</strong>." },
+            { text: "3 minutes are done. <strong>Color 3 boxes</strong>." },
+            { text: "Now, can we group them? Yes! <strong>3 groups of 4</strong> fit in 12." },
+            { text: "3 boxes is the same as <strong>1 group out of 4 groups</strong>." },
+            { text: "Answer: 3/12 = <strong>1/4</strong>", isAnswer: true }
+          ],
+          tip: "3 and 12 can both be divided by 3!"
+        },
+        procedural: {
+          steps: [
+            { text: "Find a number that divides both 3 and 12 evenly." },
+            { text: "Both divide by <strong>3</strong>!" },
+            { text: "3 ÷ 3 = <strong>1</strong>" },
+            { text: "12 ÷ 3 = <strong>4</strong>" },
+            { text: "Answer: <strong>1/4</strong>", isAnswer: true }
+          ],
+          tip: "Divide top and bottom by the same number to simplify!"
+        }
+      },
+      q5: {
+        title: "Question 5: Simplify 6/12",
+        visual: {
+          steps: [
+            { text: "12 minutes total, <strong>6 minutes left</strong>." },
+            { text: "6 is exactly <strong>half</strong> of 12!" },
+            { text: "Picture it: the bar is <strong>half full</strong>." },
+            { text: "Answer: 6/12 = <strong>1/2</strong>", isAnswer: true }
+          ],
+          tip: "When the top is half of the bottom, it simplifies to 1/2!"
+        },
+        procedural: {
+          steps: [
+            { text: "Find what divides both 6 and 12." },
+            { text: "The biggest is <strong>6</strong>!" },
+            { text: "6 ÷ 6 = <strong>1</strong>" },
+            { text: "12 ÷ 6 = <strong>2</strong>" },
+            { text: "Answer: <strong>1/2</strong>", isAnswer: true }
+          ],
+          tip: "6/12 = 1/2. Half the quarter has passed!"
+        }
+      },
+      q6: {
+        title: "Question 6: Simplify 4/12",
+        visual: {
+          steps: [
+            { text: "4 minutes out of 12 have passed." },
+            { text: "Think: what goes into both 4 and 12?" },
+            { text: "Both can be split by <strong>4</strong>!" },
+            { text: "4 ÷ 4 = 1, and 12 ÷ 4 = 3." },
+            { text: "Answer: 4/12 = <strong>1/3</strong>", isAnswer: true }
+          ],
+          tip: "1/3 of the quarter is done - that's 4 out of 12 minutes!"
+        },
+        procedural: {
+          steps: [
+            { text: "Find the GCF (greatest common factor) of 4 and 12." },
+            { text: "GCF = <strong>4</strong>" },
+            { text: "4 ÷ 4 = <strong>1</strong>" },
+            { text: "12 ÷ 4 = <strong>3</strong>" },
+            { text: "Answer: <strong>1/3</strong>", isAnswer: true }
+          ],
+          tip: "Divide both by the biggest number that works for both!"
+        }
+      },
+      q7: {
+        title: "Question 7: 2/4 of game = ? quarters",
+        visual: {
+          steps: [
+            { text: "2/4 of the game means <strong>2 out of 4 parts</strong>." },
+            { text: "Each part IS a quarter!" },
+            { text: "So 2/4 = <strong>2 quarters</strong>!" },
+            { text: "Answer: <strong>2</strong> quarters played.", isAnswer: true }
+          ],
+          tip: "The top number tells you how many quarters!"
+        },
+        procedural: {
+          steps: [
+            { text: "2/4 means 2 out of 4 quarters." },
+            { text: "The numerator (top) = <strong>2</strong>" },
+            { text: "That's how many quarters: <strong>2</strong>", isAnswer: true }
+          ],
+          tip: "When the bottom is 4 (for quarters), the top IS the number of quarters!"
+        }
+      },
+      q8: {
+        title: "Question 8: Simplify 8/12",
+        visual: {
+          steps: [
+            { text: "8 minutes of the 12-minute quarter are done." },
+            { text: "Think of grouping: what fits into both 8 and 12?" },
+            { text: "Both can be divided by <strong>4</strong>!" },
+            { text: "8 ÷ 4 = 2, and 12 ÷ 4 = 3." },
+            { text: "Answer: 8/12 = <strong>2/3</strong>", isAnswer: true }
+          ],
+          tip: "2/3 of the quarter is done - almost time for the next one!"
+        },
+        procedural: {
+          steps: [
+            { text: "Find what divides both 8 and 12." },
+            { text: "GCF = <strong>4</strong>" },
+            { text: "8 ÷ 4 = <strong>2</strong>" },
+            { text: "12 ÷ 4 = <strong>3</strong>" },
+            { text: "Answer: <strong>2/3</strong>", isAnswer: true }
+          ],
+          tip: "8/12 = 2/3. Two-thirds of the quarter has passed!"
+        }
+      },
+      q9: {
+        title: "Question 9: 3/4 done = ? quarters LEFT",
+        visual: {
+          steps: [
+            { text: "The game is <strong>3/4 done</strong>." },
+            { text: "That means <strong>3 quarters</strong> have been played." },
+            { text: "The game has 4 quarters total." },
+            { text: "4 - 3 = <strong>1 quarter left</strong>!" },
+            { text: "Answer: <strong>1</strong> quarter remaining.", isAnswer: true }
+          ],
+          tip: "Subtract done from total to find what's left!"
+        },
+        procedural: {
+          steps: [
+            { text: "Total quarters: <strong>4</strong>" },
+            { text: "Quarters done: <strong>3</strong> (from 3/4)" },
+            { text: "Quarters left: 4 - 3 = <strong>1</strong>", isAnswer: true }
+          ],
+          tip: "If 3/4 is done, then 1/4 is left. That's 1 quarter!"
+        }
+      }
+    };
+  </script>
+
+  <script>
+    let score = 0;
+    let answered = new Set();
+
+    // Build visual elements on load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Example minute bar - 3 of 12 elapsed
+      const bar = document.getElementById('exampleBar');
+      for (let i = 0; i < 12; i++) {
+        const seg = document.createElement('div');
+        seg.className = 'minute-segment' + (i < 3 ? ' elapsed' : '');
+        seg.textContent = i + 1;
+        bar.appendChild(seg);
+      }
+    });
+
+    function checkFractionAnswer(questionNum, correctNum, correctDen) {
+      const numInput = document.getElementById(`q${questionNum}-num`);
+      const feedbackEl = document.getElementById(`feedback${questionNum}`);
+      const questionEl = document.getElementById(`q${questionNum}`);
+
+      const userNum = parseInt(numInput.value);
+
+      if (isNaN(userNum)) {
+        feedbackEl.textContent = "Please enter a number!";
+        feedbackEl.className = "feedback incorrect";
+        return;
+      }
+
+      if (userNum === correctNum) {
+        markCorrect(questionNum, feedbackEl, questionEl, numInput);
+      } else {
+        feedbackEl.innerHTML = `Not quite! The answer is ${correctNum}/${correctDen}.`;
+        feedbackEl.className = "feedback incorrect";
+        questionEl.classList.add('incorrect');
+        questionEl.classList.remove('correct');
+        numInput.style.borderColor = 'var(--incorrect)';
+      }
+    }
+
+    function checkSimplifiedFraction(questionNum, correctNum, correctDen, altNum, altDen) {
+      const numInput = document.getElementById(`q${questionNum}-num`);
+      const denInput = document.getElementById(`q${questionNum}-den`);
+      const feedbackEl = document.getElementById(`feedback${questionNum}`);
+      const questionEl = document.getElementById(`q${questionNum}`);
+
+      const userNum = parseInt(numInput.value);
+      const userDen = parseInt(denInput.value);
+
+      if (isNaN(userNum) || isNaN(userDen)) {
+        feedbackEl.textContent = "Please fill in both numbers!";
+        feedbackEl.className = "feedback incorrect";
+        return;
+      }
+
+      // Check if answer matches simplified OR unsimplified
+      const isSimplified = (userNum === correctNum && userDen === correctDen);
+      const isUnsimplified = (userNum === altNum && userDen === altDen);
+      // Also check equivalent fractions
+      const isEquivalent = (userNum * correctDen === correctNum * userDen) && userDen > 0;
+
+      if (isSimplified) {
+        markCorrect(questionNum, feedbackEl, questionEl, numInput);
+        denInput.style.borderColor = 'var(--correct)';
+      } else if (isUnsimplified || isEquivalent) {
+        if (!answered.has(questionNum)) {
+          score++;
+          answered.add(questionNum);
+          document.getElementById('score').textContent = score;
+        }
+        feedbackEl.innerHTML = `Correct! But ${correctNum}/${correctDen} is the simplified form.`;
+        feedbackEl.className = "feedback correct";
+        questionEl.classList.add('correct');
+        numInput.style.borderColor = 'var(--correct)';
+        denInput.style.borderColor = 'var(--correct)';
+        checkWin();
+      } else {
+        feedbackEl.innerHTML = `Not quite! ${altNum}/12 simplifies to ${correctNum}/${correctDen}.`;
+        feedbackEl.className = "feedback incorrect";
+        questionEl.classList.add('incorrect');
+        numInput.style.borderColor = 'var(--incorrect)';
+        denInput.style.borderColor = 'var(--incorrect)';
+      }
+    }
+
+    function checkNumberAnswer(questionNum, correctAnswer) {
+      const input = document.getElementById(`q${questionNum}-answer`);
+      const feedbackEl = document.getElementById(`feedback${questionNum}`);
+      const questionEl = document.getElementById(`q${questionNum}`);
+
+      const userAnswer = parseInt(input.value);
+
+      if (isNaN(userAnswer)) {
+        feedbackEl.textContent = "Please enter a number!";
+        feedbackEl.className = "feedback incorrect";
+        return;
+      }
+
+      if (userAnswer === correctAnswer) {
+        markCorrect(questionNum, feedbackEl, questionEl, input);
+      } else {
+        feedbackEl.innerHTML = `Not quite! The answer is ${correctAnswer}.`;
+        feedbackEl.className = "feedback incorrect";
+        questionEl.classList.add('incorrect');
+        questionEl.classList.remove('correct');
+        input.style.borderColor = 'var(--incorrect)';
+      }
+    }
+
+    function markCorrect(questionNum, feedbackEl, questionEl, input) {
+      if (!answered.has(questionNum)) {
+        score++;
+        answered.add(questionNum);
+        document.getElementById('score').textContent = score;
+      }
+
+      feedbackEl.innerHTML = getCorrectMessage();
+      feedbackEl.className = "feedback correct";
+      questionEl.classList.add('correct');
+      questionEl.classList.remove('incorrect');
+      input.style.borderColor = 'var(--correct)';
+      checkWin();
+    }
+
+    function checkWin() {
+      if (score === 9) {
+        document.getElementById('celebration').classList.add('show');
+        if (typeof Storage !== 'undefined' && Storage.recordPracticeSession) {
+          Storage.recordPracticeSession({
+            type: 'Game Clock',
+            score: 100,
+            problemCount: 9,
+            correct: 9,
+            incorrect: 0
+          });
+        }
+      }
+    }
+
+    function getCorrectMessage() {
+      const messages = [
+        "Perfect timing! Correct!",
+        "Right on the clock! Great job!",
+        "Touchdown! That's right!",
+        "Time well spent! Correct!",
+        "Clock management pro!",
+        "Excellent! No time wasted!"
+      ];
+      return messages[Math.floor(Math.random() * messages.length)];
+    }
+
+    function resetGame() {
+      score = 0;
+      answered.clear();
+      document.getElementById('score').textContent = '0';
+      document.getElementById('celebration').classList.remove('show');
+
+      for (let i = 1; i <= 9; i++) {
+        const numInput = document.getElementById(`q${i}-num`);
+        const denInput = document.getElementById(`q${i}-den`);
+        const answerInput = document.getElementById(`q${i}-answer`);
+        const feedbackEl = document.getElementById(`feedback${i}`);
+        const questionEl = document.getElementById(`q${i}`);
+
+        if (numInput) {
+          numInput.value = '';
+          numInput.style.borderColor = '#1565C0';
+        }
+        if (denInput && !denInput.readOnly) {
+          denInput.value = '';
+          denInput.style.borderColor = '#1565C0';
+        }
+        if (answerInput) {
+          answerInput.value = '';
+          answerInput.style.borderColor = '#1565C0';
+        }
+        if (feedbackEl) feedbackEl.className = 'feedback';
+        if (questionEl) questionEl.classList.remove('correct', 'incorrect');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Enter key support
+    document.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const activeElement = document.activeElement;
+        if (activeElement && (activeElement.classList.contains('answer-input') || activeElement.tagName === 'INPUT')) {
+          const btn = activeElement.closest('.question-field').querySelector('.btn');
+          if (btn) btn.click();
+        }
+      }
+    });
+  </script>
+</body>
+</html>
