@@ -261,7 +261,7 @@
           </div>
           <p style="text-align:center; margin-top:var(--space-lg);">Which fraction is at the same spot as ${c.base.n}/${c.base.d}?</p>
           <div class="fraction-cards">
-            ${options.map(o => `<div class="fraction-card" onclick="Lesson.selectMatchAnswer('${o.n}/${o.d}', this)"><span>${o.n}</span><hr style="width:50%;margin:4px 0;border-color:currentColor;"><span>${o.d}</span></div>`).join('')}
+            ${options.map(o => `<div class="fraction-card" data-value="${o.n}/${o.d}" onclick="Lesson.selectMatchAnswer('${o.n}/${o.d}', this)"><span>${o.n}</span><hr style="width:50%;margin:4px 0;border-color:currentColor;"><span>${o.d}</span></div>`).join('')}
           </div>
           <button class="btn btn-primary" id="submitMatch" onclick="Lesson.checkMatch()" style="margin-top: var(--space-lg);">Submit Answer</button>
         `;
@@ -288,9 +288,7 @@
 
         document.querySelectorAll('.fraction-card').forEach(card => {
           card.style.pointerEvents = 'none';
-          const cardVal = card.textContent.replace(/\s/g,'').replace(/-/g,'');
-          const [n,d] = cardVal.split('').filter(c => !isNaN(c));
-          if (`${n}/${d}` === correct || cardVal.includes(c.match.n) && cardVal.includes(c.match.d)) card.classList.add('correct');
+          if (card.dataset.value === correct) card.classList.add('correct');
         });
         document.getElementById('submitMatch').disabled = true;
 
