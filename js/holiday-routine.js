@@ -1,14 +1,14 @@
 // ========================================
 // DEPENDENCIES:
 // - themes.js (teamColors, teamNames, setThemeVars, applySith, startBlasters, stopBlasters)
-// - checklist.js (STORAGE_KEYS, morningChecklist, homeChecklist, screenChecklist, renderChecklist, toggleMorning, toggleHome, toggleScreen)
+// - holiday-checklist.js (HOLIDAY_STORAGE_KEYS, holidayMorningChecklist, etc.)
 // ========================================
 
 // ======= DOM Helper =======
 const $ = s => document.querySelector(s);
 
 // ======= Current Team State =======
-let currentTeam = localStorage.getItem(STORAGE_KEYS.team);
+let currentTeam = localStorage.getItem(HOLIDAY_STORAGE_KEYS.team);
 if (!currentTeam || !teamColors[currentTeam]) currentTeam = 'Philadelphia Eagles';
 
 // ======= Team Select & Toggle =======
@@ -23,7 +23,7 @@ teamSelect.value = currentTeam;
 
 const setTeam = (team) => {
   currentTeam = teamColors[team] ? team : 'Philadelphia Eagles';
-  localStorage.setItem(STORAGE_KEYS.team, currentTeam);
+  localStorage.setItem(HOLIDAY_STORAGE_KEYS.team, currentTeam);
   setThemeVars(currentTeam);
   // Sith effect
   applySith(currentTeam === 'Sith');
@@ -35,8 +35,8 @@ const setTeam = (team) => {
 teamSelect.addEventListener('change', (e) => setTeam(e.target.value));
 
 // ======= Time & Date =======
-const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const updateClock = () => {
   const now = new Date();
   const month = months[now.getMonth()];
@@ -46,12 +46,9 @@ const updateClock = () => {
 
   // Update header with date only (no time)
   $('#headerDateTime').textContent = `${dayName}, ${month} ${day}, ${year}`;
-
-  // Don't update screen allowance text here - it's managed by treasure chest system
-  // The treasure chest handles its own text based on locked/unlocked state
 };
 
-// ======= Quotes (from ./quotes.json) =======
+// ======= Quotes (from ../../quotes.json since we're in day/holiday/) =======
 const setQuote = (q) => {
   $('#quoteText').textContent = `"${q.text}"`;
   $('#quoteAuthor').textContent = q.author ? `— ${q.author}` : '—';
@@ -62,7 +59,7 @@ const setQuote = (q) => {
   } else {
     explWrap.style.display = 'none';
   }
-  try { localStorage.setItem(STORAGE_KEYS.quote, JSON.stringify(q)); } catch {}
+  try { localStorage.setItem(HOLIDAY_STORAGE_KEYS.quote, JSON.stringify(q)); } catch {}
 };
 
 const loadQuote = async () => {
@@ -71,7 +68,7 @@ const loadQuote = async () => {
 
   try {
     // Check if we already have a quote for today
-    const stored = JSON.parse(localStorage.getItem(STORAGE_KEYS.quote) || 'null');
+    const stored = JSON.parse(localStorage.getItem(HOLIDAY_STORAGE_KEYS.quote) || 'null');
     if (stored && stored.date === today && stored.text) {
       setQuote(stored);
       return;
@@ -79,12 +76,12 @@ const loadQuote = async () => {
   } catch {}
 
   try {
-    const res = await fetch('./quotes.json', { cache: 'no-store' });
+    // Path is relative to day/holiday/ folder (go up one level to day/)
+    const res = await fetch('../quotes.json', { cache: 'no-store' });
     if (!res.ok) throw new Error('quotes.json not found');
     const data = await res.json();
     if (Array.isArray(data) && data.length) {
       // Use the date to determine which quote to show
-      // This ensures the same quote all day, but changes daily
       const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
       const quoteIndex = dayOfYear % data.length;
       const selectedQuote = data[quoteIndex];
@@ -98,7 +95,7 @@ const loadQuote = async () => {
 
       setQuote(quoteData);
       try {
-        localStorage.setItem(STORAGE_KEYS.quote, JSON.stringify(quoteData));
+        localStorage.setItem(HOLIDAY_STORAGE_KEYS.quote, JSON.stringify(quoteData));
       } catch {}
       return;
     }
@@ -113,76 +110,6 @@ const loadQuote = async () => {
   }
 };
 
-// ======= Word of the Day =======
-const WORD_STORAGE_KEY = 'champion_word';
-
-const setWord = (w) => {
-  $('#wordMain').textContent = w.word || 'Loading...';
-  $('#wordPronunciation').textContent = w.pronunciation || '—';
-  $('#wordDefinition').textContent = w.definition || 'Loading definition...';
-  const exampleWrap = $('#wordExampleWrap');
-  if (w.example) {
-    $('#wordExample').textContent = ' ' + w.example;
-    exampleWrap.style.display = 'block';
-  } else {
-    exampleWrap.style.display = 'none';
-  }
-  try { localStorage.setItem(WORD_STORAGE_KEY, JSON.stringify(w)); } catch {}
-};
-
-const loadWord = async () => {
-  // Get today's date string (YYYY-MM-DD)
-  const today = new Date().toISOString().split('T')[0];
-
-  try {
-    // Check if we already have a word for today
-    const stored = JSON.parse(localStorage.getItem(WORD_STORAGE_KEY) || 'null');
-    if (stored && stored.date === today && stored.word) {
-      setWord(stored);
-      return;
-    }
-  } catch {}
-
-  try {
-    const res = await fetch('./words.json', { cache: 'no-store' });
-    if (!res.ok) throw new Error('words.json not found');
-    const data = await res.json();
-    if (Array.isArray(data) && data.length) {
-      // Use the date to determine which word to show
-      // This ensures the same word all day, but changes daily
-      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
-      const wordIndex = dayOfYear % data.length;
-      const selectedWord = data[wordIndex];
-
-      const wordData = {
-        word: selectedWord.word,
-        pronunciation: selectedWord.pronunciation || '',
-        definition: selectedWord.definition || '',
-        example: selectedWord.example || '',
-        date: today
-      };
-
-      setWord(wordData);
-      try {
-        localStorage.setItem(WORD_STORAGE_KEY, JSON.stringify(wordData));
-      } catch {}
-    }
-  } catch (e) {
-    // Fallback word if loading fails
-    const fallbackWord = {
-      word: 'Perseverance',
-      pronunciation: 'per-suh-VEER-uhns',
-      definition: 'Never giving up, even when things get tough',
-      example: 'Tom Brady showed incredible perseverance when he came back from 28-3 in the Super Bowl.',
-      date: today
-    };
-    setWord(fallbackWord);
-    try {
-      localStorage.setItem(WORD_STORAGE_KEY, JSON.stringify(fallbackWord));
-    } catch {}
-  }
-};
-
 // ======= Initialize =======
 setThemeVars(currentTeam);
 applySith(currentTeam === 'Sith');
@@ -191,34 +118,30 @@ if (currentTeam === 'Boba Fett') startBlasters();
 updateClock();
 setInterval(updateClock, 1000);
 loadQuote();
-loadWord();
 
-renderChecklist($('#morningList'), morningChecklist, toggleMorning, $('#morningProgress'));
-renderChecklist($('#homeList'),    homeChecklist,    toggleHome,    $('#homeProgress'));
-renderChecklist($('#screenList'),  screenChecklist,  toggleScreen,  $('#screenProgress'));
+// Render all holiday checklists
+renderHolidayChecklist($('#holidayMorningList'), holidayMorningChecklist, toggleHolidayMorning, $('#holidayMorningProgress'));
+renderHolidayChecklist($('#holidayAfternoonList'), holidayAfternoonChecklist, toggleHolidayAfternoon, $('#holidayAfternoonProgress'));
+renderHolidayChecklist($('#holidayEndOfDayList'), holidayEndOfDayChecklist, toggleHolidayEndOfDay, $('#holidayEndOfDayProgress'));
 
-// Set initial treasure chest state
-const screenAllowanceEl = $('#screenAllowance');
-const allScreenComplete = screenChecklist.every(item => item.done);
-const now = new Date();
-const isWeekend = now.getDay() === 0 || now.getDay() === 6;
+// Set initial treasure chest state for morning routine
+const screenAllowanceEl = $('#holidayScreenAllowance');
+const allMorningComplete = holidayMorningChecklist.every(item => item.done);
 
-if (!allScreenComplete) {
+if (!allMorningComplete) {
   screenAllowanceEl.classList.add('chest-locked');
-  screenAllowanceEl.textContent = isWeekend
-    ? '🏴‍☠️ Complete tasks to unlock two hours!'
-    : '🏴‍☠️ Complete tasks to unlock one hour!';
+  screenAllowanceEl.textContent = '🏴‍☠️ Complete morning routine to unlock screens!';
 } else {
   // Already unlocked - show unlocked state
   screenAllowanceEl.classList.add('chest-unlocked');
-  screenAllowanceEl.textContent = '🎮 SCREEN TIME UNLOCKED! 🎮';
+  screenAllowanceEl.textContent = '🎮 SCREENS UNLOCKED! 🎮';
 }
 
 // ======= Daily Checklist Reset (for tabs left open overnight) =======
 // Check every 5 minutes if we've crossed into a new day
 setInterval(() => {
-  if (typeof performDailyReset === 'function') {
-    performDailyReset();
+  if (typeof performHolidayDailyReset === 'function') {
+    performHolidayDailyReset();
   }
 }, 5 * 60 * 1000); // Check every 5 minutes
 
@@ -233,9 +156,9 @@ if (exportBtn) {
       data: {}
     };
 
-    // Get all localStorage keys for this app
+    // Get all localStorage keys for this app (including holiday keys)
     const keysToExport = Object.keys(localStorage).filter(key =>
-      key.startsWith('champion_') || key === 'minecoins'
+      key.startsWith('aolkids.') || key.startsWith('champion_') || key === 'minecoins'
     );
 
     keysToExport.forEach(key => {
@@ -252,7 +175,7 @@ if (exportBtn) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `champion-backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `holiday-backup-${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

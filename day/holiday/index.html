@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="Private Page">
-  <title>Private Homepage</title>
+  <title>Holiday Routine</title>
   <!-- Security Headers -->
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noodp, noimageindex, notranslate">
   <meta name="googlebot" content="noindex, nofollow">
@@ -15,9 +15,9 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <link rel="stylesheet" href="../styles/themes.css?v=1763735221&bust=v5">
-  <link rel="stylesheet" href="../styles/routine.css?v=1763735221&bust=v5">
-  <link rel="stylesheet" href="../styles/navigation.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="../../styles/themes.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="../../styles/routine.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="../../styles/navigation.css?v=1763735221&bust=v5">
 </head>
 <body>
   <!-- Skip Navigation Link (Accessibility) -->
@@ -27,14 +27,14 @@
   <nav class="sticky-nav" id="stickyNav">
     <div class="nav-container">
       <button class="nav-hamburger" id="navHamburger" aria-label="Menu">☰</button>
-      <div class="nav-brand" id="navBrand">CHAMPION ROUTINE</div>
+      <div class="nav-brand" id="navBrand">HOLIDAY ROUTINE</div>
       <ul class="nav-menu" id="navMenu">
-        <li><a href="../" class="nav-link" data-page="home">HOME</a></li>
-        <li><a href="../minecraft/" class="nav-link" data-page="minecoins">MINECOINS</a></li>
-        <li><a href="../day/" class="nav-link" data-page="champion">CHAMPION ROUTINE</a></li>
-        <li><a href="../day/holiday/" class="nav-link" data-page="holiday">HOLIDAY ROUTINE</a></li>
-        <li><a href="../magic8ball/" class="nav-link" data-page="magic8ball">MAGIC 8 BALL</a></li>
-        <li><a href="../magicgameball/" class="nav-link" data-page="magicgameball">MAGIC GAME BALL</a></li>
+        <li><a href="../../" class="nav-link" data-page="home">HOME</a></li>
+        <li><a href="../../minecraft/" class="nav-link" data-page="minecoins">MINECOINS</a></li>
+        <li><a href="../../day/" class="nav-link" data-page="champion">CHAMPION ROUTINE</a></li>
+        <li><a href="../../day/holiday/" class="nav-link" data-page="holiday">HOLIDAY ROUTINE</a></li>
+        <li><a href="../../magic8ball/" class="nav-link" data-page="magic8ball">MAGIC 8 BALL</a></li>
+        <li><a href="../../magicgameball/" class="nav-link" data-page="magicgameball">MAGIC GAME BALL</a></li>
       </ul>
     </div>
   </nav>
@@ -43,7 +43,7 @@
   // Force clear any cached data
   if('caches' in window){caches.keys().then(n=>{n.forEach(k=>caches.delete(k))})}
   </script>
-  <script src="../js/auth-guard.js?v=1763735221&bust=v5"></script>
+  <script src="../../js/auth-guard.js?v=1763735221&bust=v5"></script>
   <!-- Blaster layers -->
   <div class="blaster-bg" id="blaster-bg" aria-hidden="true"></div>
   <div class="blaster-fg" id="blaster-fg" aria-hidden="true"></div>
@@ -82,40 +82,40 @@
         </div>
       </div>
 
-      <!-- Morning checklist -->
-      <div class="widget sith-optional" id="w-morning">
+      <!-- Morning Routine - MUST COMPLETE FOR SCREENS -->
+      <div class="widget sith-optional" id="w-holiday-morning">
         <div class="widget-header widget-header-centered">
-          <div class="widget-icon">🎒</div>
-          <span>TO SCHOOL</span>
+          <div class="widget-icon">☀️</div>
+          <span>MORNING ROUTINE</span>
         </div>
         <div class="widget-body">
-          <div id="morningProgress" class="progress-indicator"></div>
-          <div id="morningList"></div>
+          <div id="holidayMorningProgress" class="progress-indicator"></div>
+          <div id="holidayMorningList"></div>
+          <div id="holidayScreenAllowance" class="btn-screen-info">—</div>
         </div>
       </div>
 
-      <!-- Home checklist -->
-      <div class="widget sith-optional" id="w-home">
+      <!-- Afternoon Routine -->
+      <div class="widget sith-optional" id="w-holiday-afternoon">
         <div class="widget-header widget-header-centered">
-          <div class="widget-icon">🏠</div>
-          <span>BRING HOME</span>
+          <div class="widget-icon">📚</div>
+          <span>AFTERNOON ROUTINE</span>
         </div>
         <div class="widget-body">
-          <div id="homeProgress" class="progress-indicator"></div>
-          <div id="homeList"></div>
+          <div id="holidayAfternoonProgress" class="progress-indicator"></div>
+          <div id="holidayAfternoonList"></div>
         </div>
       </div>
 
-      <!-- Screen time rules -->
-      <div class="widget sith-optional" id="w-screen">
+      <!-- End of Day Goals -->
+      <div class="widget sith-optional" id="w-holiday-endofday">
         <div class="widget-header widget-header-centered">
-          <div class="widget-icon">✅</div>
-          <span>AFTER SCHOOL</span>
+          <div class="widget-icon">🌙</div>
+          <span>END OF DAY GOALS</span>
         </div>
         <div class="widget-body">
-          <div id="screenProgress" class="progress-indicator"></div>
-          <div id="screenList"></div>
-          <div id="screenAllowance" class="btn-screen-info">—</div>
+          <div id="holidayEndOfDayProgress" class="progress-indicator"></div>
+          <div id="holidayEndOfDayList"></div>
         </div>
       </div>
 
@@ -147,12 +147,12 @@
     </div>
   </main>
 
-  <!-- CRITICAL: Load order matters! routine.js depends on themes.js and checklist.js -->
-  <script src="../js/themes.js?v=1763735221&bust=v5"></script>         <!-- 1. MUST load first (exports teamColors, etc.) -->
-  <script src="../js/confetti-cannon.js?v=1763735221&bust=v5"></script><!-- 2. Confetti cannon system (exports fireConfettiCannon) -->
-  <script src="../js/celebrations.js?v=1763735221&bust=v5"></script>   <!-- 3. Celebration effects (exports triggerCelebration) -->
-  <script src="../js/checklist.js?v=1763735221&bust=v5"></script>      <!-- 4. MUST load after celebrations (uses triggerCelebration) -->
-  <script src="../js/routine.js?v=1763735221&bust=v5"></script>        <!-- 5. MUST load last (uses above dependencies) -->
-  <script src="../js/navigation.js?v=1763735221&bust=v5"></script>      <!-- 6. Navigation system -->
+  <!-- CRITICAL: Load order matters! -->
+  <script src="../../js/themes.js?v=1763735221&bust=v5"></script>         <!-- 1. MUST load first -->
+  <script src="../../js/confetti-cannon.js?v=1763735221&bust=v5"></script><!-- 2. Confetti cannon system -->
+  <script src="../../js/celebrations.js?v=1763735221&bust=v5"></script>   <!-- 3. Celebration effects -->
+  <script src="../../js/holiday-checklist.js?v=1763735221&bust=v5"></script><!-- 4. Holiday checklist logic -->
+  <script src="../../js/holiday-routine.js?v=1763735221&bust=v5"></script>  <!-- 5. Holiday initialization -->
+  <script src="../../js/navigation.js?v=1763735221&bust=v5"></script>      <!-- 6. Navigation system -->
 </body>
 </html>
