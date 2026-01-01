@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lesson 7: Subtracting Mixed Numbers with Borrowing - Football Fractions</title>
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/football-theme.css">
+  <link rel="stylesheet" href="../styles/coaches-corner.css">
+  <style>
+    .lesson-container { max-width: 1000px; margin: 0 auto; }
+    .activity-section { background: var(--card-bg); border-radius: var(--radius-xl); padding: var(--space-xl); margin-bottom: var(--space-xl); box-shadow: 0 4px 20px var(--shadow); }
+    .activity-header { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg); padding-bottom: var(--space-md); border-bottom: 2px solid var(--border); }
+    .activity-number { width: 40px; height: 40px; background: var(--field-green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    .activity-title { font-size: 1.25rem; font-weight: 700; }
+    .concept-intro { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 4px solid var(--field-green); padding: var(--space-lg); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; margin-bottom: var(--space-xl); }
+    .concept-intro h3 { color: var(--field-green); margin-bottom: var(--space-md); }
+    .football-callout { background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%); color: white; padding: var(--space-lg); border-radius: var(--radius-lg); margin: var(--space-lg) 0; }
+
+    /* Football Field Progress Bar */
+    :root { --eagles-green: #004C54; --opponent-color: #0B2265; }
+    .field-progress { background: linear-gradient(135deg, #1a1a1a 0%, #333 100%); border-radius: var(--radius-xl); padding: var(--space-lg); margin-bottom: var(--space-xl); box-shadow: 0 4px 20px var(--shadow); }
+    .field-matchup { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-md); }
+    .field-team { display: flex; align-items: center; gap: var(--space-sm); }
+    .field-team-logo { width: 40px; height: 40px; object-fit: contain; }
+    .field-team-name { color: white; font-weight: 700; font-size: 0.875rem; }
+    .field-vs { color: #888; font-weight: 700; font-size: 0.75rem; }
+    .field-container { position: relative; height: 50px; background: linear-gradient(90deg, var(--eagles-green) 0%, var(--eagles-green) 10%, var(--field-green) 10%, var(--field-green) 90%, var(--opponent-color) 90%, var(--opponent-color) 100%); border-radius: var(--radius-md); overflow: hidden; }
+    .field-yard-markers { position: absolute; top: 0; left: 10%; right: 10%; height: 100%; display: flex; justify-content: space-between; }
+    .field-yard-marker { width: 2px; height: 100%; background: rgba(255,255,255,0.3); }
+    .field-yard-labels { display: flex; justify-content: space-between; padding: 0 10%; margin-top: var(--space-xs); }
+    .field-yard-label { color: #888; font-size: 0.625rem; font-weight: 600; }
+    .field-football { position: absolute; top: 50%; transform: translate(-50%, -50%); font-size: 1.5rem; transition: left 0.5s ease; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); z-index: 10; }
+    .field-end-zone { position: absolute; top: 0; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 0.625rem; text-transform: uppercase; }
+    .field-end-zone.eagles { left: 0; width: 10%; background: var(--eagles-green); }
+    .field-end-zone.opponent { right: 0; width: 10%; background: var(--opponent-color); }
+    .field-status { text-align: center; color: #888; font-size: 0.75rem; margin-top: var(--space-sm); }
+    .field-status strong { color: white; }
+    .score-display { display: flex; gap: var(--space-xl); justify-content: center; background: var(--background); padding: var(--space-lg); border-radius: var(--radius-lg); margin-bottom: var(--space-xl); }
+    .score-item { text-align: center; }
+    .score-value { font-size: 2rem; font-weight: 700; color: var(--field-green); }
+    .score-label { font-size: 0.875rem; color: var(--text-secondary); }
+    .feedback { padding: var(--space-lg); border-radius: var(--radius-lg); text-align: center; font-weight: 700; margin: var(--space-lg) 0; display: none; }
+    .feedback.correct { background: var(--correct-light); color: var(--correct); display: block; }
+    .feedback.incorrect { background: var(--incorrect-light); color: var(--incorrect); display: block; }
+    .feedback.info { background: var(--info-light); color: var(--info); display: block; }
+    .activity-complete { text-align: center; padding: var(--space-xl); background: var(--correct-light); border-radius: var(--radius-lg); display: none; }
+    .activity-complete.show { display: block; }
+    .activity-complete h3 { color: var(--correct); margin-bottom: var(--space-md); }
+    .lesson-nav { display: flex; justify-content: space-between; margin-top: var(--space-2xl); margin-bottom: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--border); }
+
+    /* Step-by-step visualization */
+    .step-container { background: var(--background); border-radius: var(--radius-lg); padding: var(--space-xl); margin: var(--space-lg) 0; }
+    .step-number { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: var(--field-green); color: white; border-radius: 50%; font-weight: 700; margin-right: var(--space-sm); }
+    .step-title { font-size: 1.1rem; font-weight: 700; margin-bottom: var(--space-md); display: flex; align-items: center; }
+    .step-content { padding-left: 44px; }
+    .step-inactive { opacity: 0.3; }
+    .step-active { opacity: 1; border-left: 4px solid var(--field-green); background: white; }
+    .step-complete { opacity: 1; border-left: 4px solid var(--correct); background: var(--correct-light); }
+
+    /* Mixed number display */
+    .mixed-number-display { display: flex; align-items: center; justify-content: center; gap: var(--space-xl); font-size: 2.5rem; font-weight: 700; margin: var(--space-xl) 0; flex-wrap: wrap; font-family: var(--font-math); }
+    .mixed-number { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md) var(--space-lg); border-radius: var(--radius-lg); background: white; border: 3px solid var(--border); transition: all 0.5s ease; }
+    .mixed-number.highlight { border-color: var(--thinking); background: var(--thinking-light); transform: scale(1.05); }
+    .mixed-number.changed { border-color: var(--info); background: var(--info-light); animation: pulse 0.5s ease; }
+    .mixed-number.result { border-color: var(--correct); background: var(--correct-light); }
+    .whole-part { min-width: 50px; text-align: center; }
+    .fraction-part { display: flex; flex-direction: column; align-items: center; }
+    .fraction-num { border-bottom: 4px solid var(--text); padding: 0 8px 4px; min-width: 40px; text-align: center; }
+    .fraction-den { padding: 4px 8px 0; min-width: 40px; text-align: center; }
+    .operator { color: var(--text-secondary); font-size: 2rem; }
+
+    /* Visual blocks for whole numbers */
+    .visual-blocks { display: flex; gap: var(--space-lg); justify-content: center; margin: var(--space-xl) 0; flex-wrap: wrap; }
+    .block-group { text-align: center; }
+    .block-label { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: var(--space-sm); font-weight: 600; }
+    .blocks-container { display: flex; gap: var(--space-sm); flex-wrap: wrap; justify-content: center; max-width: 200px; }
+    .whole-block { width: 60px; height: 60px; background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.25rem; transition: all 0.5s ease; box-shadow: 0 2px 8px var(--shadow); }
+    .whole-block.borrowing { animation: shake 0.5s ease; background: var(--thinking); }
+    .whole-block.borrowed { opacity: 0.3; transform: scale(0.8); }
+    .whole-block.exploding { animation: explode 0.8s ease forwards; }
+
+    /* Fraction bar visualization */
+    .fraction-bar-container { margin: var(--space-lg) 0; }
+    .fraction-bar-label { text-align: center; font-weight: 600; margin-bottom: var(--space-sm); color: var(--text-secondary); }
+    .fraction-bar { display: flex; border: 3px solid var(--field-green); border-radius: var(--radius-md); overflow: hidden; height: 50px; margin: var(--space-sm) 0; }
+    .fraction-piece { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.75rem; border-right: 2px solid var(--field-green); transition: all 0.3s ease; }
+    .fraction-piece:last-child { border-right: none; }
+    .fraction-piece.filled { background: var(--field-green); color: white; }
+    .fraction-piece.empty { background: #f5f5f5; color: var(--text-light); }
+    .fraction-piece.new { background: var(--thinking); color: white; animation: fadeIn 0.5s ease; }
+    .fraction-piece.removed { background: var(--incorrect-light); color: var(--incorrect); opacity: 0.5; }
+    .fraction-piece.result { background: var(--correct); color: white; }
+
+    /* Minecraft theme section */
+    .minecraft-section { background: linear-gradient(135deg, #5d4037 0%, #3e2723 100%); border-radius: var(--radius-lg); padding: var(--space-xl); margin: var(--space-xl) 0; color: white; }
+    .minecraft-section h3 { color: #8BC34A; margin-bottom: var(--space-lg); display: flex; align-items: center; gap: var(--space-sm); }
+    .minecraft-stacks { display: flex; gap: var(--space-xl); justify-content: center; flex-wrap: wrap; margin: var(--space-lg) 0; }
+    .stack-group { text-align: center; }
+    .stack-label { font-size: 0.875rem; color: #a1887f; margin-bottom: var(--space-sm); }
+    .stacks-visual { display: flex; gap: var(--space-md); justify-content: center; }
+    .wood-stack { width: 50px; height: 50px; background: linear-gradient(135deg, #8d6e63 0%, #5d4037 100%); border: 3px solid #4e342e; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #ffcc80; position: relative; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.3); }
+    .wood-stack.full::after { content: '12'; position: absolute; bottom: -20px; font-size: 0.625rem; color: #a1887f; }
+    .wood-stack.partial { background: linear-gradient(135deg, #a1887f 0%, #795548 100%); }
+    .partial-pieces { display: flex; flex-wrap: wrap; width: 70px; height: 70px; gap: 2px; padding: 4px; background: rgba(0,0,0,0.3); border-radius: 4px; }
+    .wood-piece { width: 12px; height: 12px; background: #8d6e63; border-radius: 2px; transition: all 0.3s ease; }
+    .wood-piece.active { background: #ffcc80; box-shadow: 0 0 4px #ffcc80; }
+    .wood-piece.removed { opacity: 0.2; background: #5d4037; }
+
+    /* Control buttons */
+    .controls { display: flex; gap: var(--space-md); justify-content: center; margin: var(--space-lg) 0; flex-wrap: wrap; }
+    .btn { padding: var(--space-md) var(--space-xl); border: none; border-radius: var(--radius-lg); font-weight: 700; cursor: pointer; transition: all var(--transition-fast); font-size: 1rem; }
+    .btn-primary { background: var(--field-green); color: white; }
+    .btn-primary:hover { background: var(--field-dark); transform: translateY(-2px); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-secondary { background: var(--border); color: var(--text); }
+    .btn-secondary:hover { background: #ccc; }
+    .btn-success { background: var(--correct); color: white; }
+    .btn-large { padding: var(--space-lg) var(--space-2xl); font-size: 1.125rem; }
+
+    /* Step indicator */
+    .step-indicator { display: flex; justify-content: center; gap: var(--space-sm); margin: var(--space-lg) 0; }
+    .step-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--border); transition: all 0.3s ease; }
+    .step-dot.active { background: var(--field-green); transform: scale(1.3); }
+    .step-dot.complete { background: var(--correct); }
+
+    /* Explanation text */
+    .explanation { background: var(--info-light); border-left: 4px solid var(--info); padding: var(--space-lg); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; margin: var(--space-lg) 0; font-size: 1.1rem; line-height: 1.6; }
+    .explanation strong { color: var(--info); }
+
+    /* Answer options */
+    .answer-options { display: flex; flex-wrap: wrap; gap: var(--space-md); justify-content: center; margin-top: var(--space-lg); }
+    .answer-btn { padding: var(--space-md) var(--space-xl); border: 3px solid var(--border); border-radius: var(--radius-lg); background: white; cursor: pointer; font-size: 1.25rem; font-weight: 700; transition: all var(--transition-fast); font-family: var(--font-math); }
+    .answer-btn:hover { border-color: var(--field-green); transform: scale(1.05); }
+    .answer-btn.selected { background: var(--info-light); border-color: var(--info); transform: scale(1.05); }
+    .answer-btn.correct { background: var(--correct-light); border-color: var(--correct); }
+    .answer-btn.incorrect { background: var(--incorrect-light); border-color: var(--incorrect); }
+
+    .question-card { background: var(--background); border-radius: var(--radius-lg); padding: var(--space-xl); text-align: center; margin: var(--space-lg) 0; }
+
+    /* Animations */
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+    @keyframes explode {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.5; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .mixed-number-display { font-size: 1.75rem; gap: var(--space-md); }
+      .mixed-number { padding: var(--space-sm) var(--space-md); }
+      .whole-block { width: 45px; height: 45px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand"><span>🏈</span><span>Football Fractions</span></a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="./index.html" class="nav-link">Practice</a></li>
+        <li><a href="../lessons/index.html" class="nav-link active">Game Time</a></li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Parents Stuff <span class="dropdown-arrow">▼</span>
+          </a>
+          <ul class="nav-dropdown">
+            <li><a href="../parent-guide/index.html" class="nav-dropdown-link">Parent Guide</a></li>
+            <li><a href="../super-extra-curricular/index.html" class="nav-dropdown-link">Super Extra</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb breadcrumb-light"><a href="../index.html">Game Time</a><span>></span><span>Lesson 7</span></div>
+      <h1>Lesson 7: Subtracting Mixed Numbers</h1>
+      <p>When you need to borrow from the whole</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="lesson-container">
+      <!-- Football Field Progress Bar -->
+      <div class="field-progress">
+        <div class="field-matchup">
+          <div class="field-team">
+            <img src="../images/nfl-logos/eagles.png" alt="Eagles" class="field-team-logo">
+            <span class="field-team-name">Eagles</span>
+          </div>
+          <span class="field-vs">SUPER BOWL</span>
+          <div class="field-team">
+            <span class="field-team-name">Chiefs</span>
+            <img src="../images/nfl-logos/chiefs.png" alt="Chiefs" class="field-team-logo">
+          </div>
+        </div>
+        <div class="field-container">
+          <div class="field-end-zone eagles">GO</div>
+          <div class="field-yard-markers"><div class="field-yard-marker"></div><div class="field-yard-marker"></div><div class="field-yard-marker"></div><div class="field-yard-marker"></div><div class="field-yard-marker"></div></div>
+          <div class="field-football" id="footballPosition" style="left: 10%;">🏈</div>
+          <div class="field-end-zone opponent">TD</div>
+        </div>
+        <div class="field-yard-labels"><span class="field-yard-label">0</span><span class="field-yard-label">25</span><span class="field-yard-label">50</span><span class="field-yard-label">75</span><span class="field-yard-label">100</span></div>
+        <div class="field-status"><span id="yardsDisplay"><strong>0</strong> yards gained • <strong>100</strong> yards to TD</span></div>
+      </div>
+      <div class="score-display">
+        <div class="score-item"><div class="score-value" id="scoreValue">0</div><div class="score-label">Points</div></div>
+        <div class="score-item"><div class="score-value" id="activityNum">1</div><div class="score-label">of 4 Activities</div></div>
+      </div>
+
+      <div class="concept-intro">
+        <h3>Coach's Lesson: Borrowing When Subtracting Mixed Numbers</h3>
+        <p><strong>The Problem:</strong> Sometimes when you subtract mixed numbers, the fraction you're taking away is BIGGER than the fraction you have. You can't take 7 pieces away when you only have 3 pieces!</p>
+        <p style="margin-top: var(--space-md);"><strong>The Solution:</strong> Borrow 1 whole from the whole number part, break it into pieces (using the denominator), and add those pieces to your fraction. Now you have enough to subtract!</p>
+        <p style="margin-top: var(--space-md);"><strong>The Rule:</strong> 1 whole = same number of pieces as your denominator. If denominator is 12, then 1 whole = 12/12!</p>
+        <div class="football-callout" style="margin-top: var(--space-lg);">
+          <strong>Football Connection:</strong> Imagine the Eagles have <strong>3 full quarters</strong> plus <strong>3/12 of a quarter</strong> of game time controlled. The Chiefs take away <strong>1 full quarter</strong> and <strong>7/12 of a quarter</strong>. You can't give 7/12 when you only have 3/12 - you need to "break open" one of those full quarters first!
+        </div>
+      </div>
+
+      <!-- Activity 1: Step-by-Step Visualization -->
+      <div class="activity-section" id="activity1">
+        <div class="activity-header">
+          <div class="activity-number">1</div>
+          <div class="activity-title">Watch the Borrowing Magic</div>
+        </div>
+        <p>Let's solve <strong>3 3/12 − 1 7/12</strong> step by step. Click "Next Step" to see each part of the process!</p>
+
+        <div class="step-indicator" id="stepIndicator">
+          <div class="step-dot active" data-step="0"></div>
+          <div class="step-dot" data-step="1"></div>
+          <div class="step-dot" data-step="2"></div>
+          <div class="step-dot" data-step="3"></div>
+          <div class="step-dot" data-step="4"></div>
+          <div class="step-dot" data-step="5"></div>
+          <div class="step-dot" data-step="6"></div>
+        </div>
+
+        <div id="visualizationArea">
+          <!-- Dynamic content rendered by JS -->
+        </div>
+
+        <div class="controls">
+          <button class="btn btn-secondary" id="prevStepBtn" onclick="Lesson.prevStep()" disabled>← Previous</button>
+          <button class="btn btn-primary" id="nextStepBtn" onclick="Lesson.nextStep()">Next Step →</button>
+        </div>
+
+        <div class="feedback" id="feedback1"></div>
+        <div class="activity-complete" id="complete1">
+          <h3>You've Got It!</h3>
+          <p>You understand how borrowing works in mixed number subtraction!</p>
+          <button class="btn btn-primary" onclick="Lesson.showActivity(2)">Continue to Activity 2</button>
+        </div>
+      </div>
+
+      <!-- Activity 2: Subtracting from a Whole Number -->
+      <div class="activity-section" id="activity2" style="display: none;">
+        <div class="activity-header">
+          <div class="activity-number">2</div>
+          <div class="activity-title">Subtracting from a Whole Number</div>
+        </div>
+        <p>What if you start with a <strong>whole number</strong> and subtract a mixed number? Let's solve <strong>3 − 1 2/5</strong> step by step!</p>
+
+        <div class="step-indicator" id="stepIndicator2">
+          <div class="step-dot active" data-step="0"></div>
+          <div class="step-dot" data-step="1"></div>
+          <div class="step-dot" data-step="2"></div>
+          <div class="step-dot" data-step="3"></div>
+          <div class="step-dot" data-step="4"></div>
+          <div class="step-dot" data-step="5"></div>
+          <div class="step-dot" data-step="6"></div>
+        </div>
+
+        <div id="visualizationArea2">
+          <!-- Dynamic content rendered by JS -->
+        </div>
+
+        <div class="controls">
+          <button class="btn btn-secondary" id="prevStepBtn2" onclick="Lesson.prevStep2()" disabled>← Previous</button>
+          <button class="btn btn-primary" id="nextStepBtn2" onclick="Lesson.nextStep2()">Next Step →</button>
+        </div>
+
+        <!-- Football Penalty Visualization -->
+        <div id="footballPenaltySection" style="display: none;">
+          <div class="football-callout" style="margin-top: var(--space-xl);">
+            <h4 style="margin-bottom: var(--space-md);">🏈 The Penalty Play</h4>
+            <p>The same math happens on the football field!</p>
+          </div>
+
+          <div id="penaltyVisualization" style="background: var(--background); border-radius: var(--radius-lg); padding: var(--space-xl); margin: var(--space-lg) 0;">
+            <!-- Football field visualization -->
+          </div>
+
+          <div class="step-indicator" id="penaltyStepIndicator">
+            <div class="step-dot active" data-step="0"></div>
+            <div class="step-dot" data-step="1"></div>
+            <div class="step-dot" data-step="2"></div>
+            <div class="step-dot" data-step="3"></div>
+          </div>
+
+          <div id="penaltyExplanation" class="explanation">
+            Click "Next" to see the penalty in action!
+          </div>
+
+          <div class="controls">
+            <button class="btn btn-secondary" id="penaltyPrevBtn" onclick="Lesson.penaltyPrevStep()" disabled>← Previous</button>
+            <button class="btn btn-primary" id="penaltyNextBtn" onclick="Lesson.penaltyNextStep()">Next →</button>
+          </div>
+        </div>
+
+        <div class="feedback" id="feedback2"></div>
+        <div class="activity-complete" id="complete2">
+          <h3>Whole Number Expert!</h3>
+          <p>You can subtract mixed numbers from whole numbers!</p>
+          <button class="btn btn-primary" onclick="Lesson.showActivity(3)">Continue to Activity 3</button>
+        </div>
+      </div>
+
+      <!-- Activity 3: Minecraft Analogy -->
+      <div class="activity-section" id="activity3" style="display: none;">
+        <div class="activity-header">
+          <div class="activity-number">3</div>
+          <div class="activity-title">The Minecraft Way</div>
+        </div>
+        <p>Let's see the exact same math using Minecraft wood stacks! (Imagine stacks hold 12 pieces)</p>
+
+        <div class="minecraft-section">
+          <h3>🎮 Wood Stack Problem</h3>
+          <p>You have <strong>3 full stacks</strong> + <strong>3 pieces</strong> of a partial stack.</p>
+          <p>You need to give away <strong>1 full stack</strong> + <strong>7 pieces</strong>.</p>
+
+          <div id="minecraftVisualization">
+            <!-- Dynamic Minecraft visualization -->
+          </div>
+
+          <div class="step-indicator" id="mcStepIndicator">
+            <div class="step-dot active" data-step="0"></div>
+            <div class="step-dot" data-step="1"></div>
+            <div class="step-dot" data-step="2"></div>
+            <div class="step-dot" data-step="3"></div>
+          </div>
+
+          <div id="mcExplanation" class="explanation" style="background: rgba(255,255,255,0.1); border-color: #8BC34A; color: white;">
+            Click "Next" to see the borrowing in action!
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn btn-secondary" id="mcPrevBtn" onclick="Lesson.mcPrevStep()" disabled>← Previous</button>
+          <button class="btn btn-primary" id="mcNextBtn" onclick="Lesson.mcNextStep()">Next →</button>
+        </div>
+
+        <div class="feedback" id="feedback3"></div>
+        <div class="activity-complete" id="complete3">
+          <h3>Stack Master!</h3>
+          <p>You can see how borrowing works in the real world!</p>
+          <button class="btn btn-primary" onclick="Lesson.showActivity(4)">Continue to Activity 4</button>
+        </div>
+      </div>
+
+      <!-- Activity 4: Practice Problems -->
+      <div class="activity-section" id="activity4" style="display: none;">
+        <div class="activity-header">
+          <div class="activity-number">4</div>
+          <div class="activity-title">Your Turn to Borrow</div>
+        </div>
+        <p>Now try solving these mixed number subtraction problems that need borrowing!</p>
+        <div class="question-card" id="practiceQuestion"></div>
+        <div class="feedback" id="feedback4"></div>
+        <div class="activity-complete" id="complete4">
+          <h3>Lesson Complete!</h3>
+          <p>You've mastered subtracting mixed numbers with borrowing!</p>
+          <button class="btn btn-success btn-large" onclick="Lesson.completeLesson()">Finish Lesson</button>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../06-equivalence/index.html" class="btn btn-secondary">← Previous: Equivalent Fractions</a>
+        <span></span>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/fractions.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/coaches-corner.js"></script>
+  <script>
+    const Lesson = {
+      score: 0,
+      currentActivity: 1,
+      totalActivities: 4,
+      currentStep: 0,
+      currentStep2: 0,
+      penaltyStep: 0,
+      mcStep: 0,
+
+      // Step data for Example 1: 3 3/12 − 1 7/12
+      steps: [
+        {
+          title: "Start with the Problem",
+          equation: { w1: 3, n1: 3, d1: 12, w2: 1, n2: 7, d2: 12 },
+          explanation: "We need to solve <strong>3 3/12 − 1 7/12</strong>. Look at the fractions: Can we subtract 7/12 from 3/12?",
+          highlight: "none"
+        },
+        {
+          title: "The Problem: Can't Subtract!",
+          equation: { w1: 3, n1: 3, d1: 12, w2: 1, n2: 7, d2: 12 },
+          explanation: "❌ <strong>3/12 is smaller than 7/12!</strong> We can't take 7 twelfths away when we only have 3 twelfths. We need to BORROW!",
+          highlight: "fraction1"
+        },
+        {
+          title: "Borrow 1 Whole",
+          equation: { w1: 2, n1: 3, d1: 12, w2: 1, n2: 7, d2: 12 },
+          explanation: "Take 1 whole from the 3 wholes. <strong>3 becomes 2</strong>. But where does that 1 whole go? It becomes 12/12!",
+          highlight: "whole1",
+          borrowing: true
+        },
+        {
+          title: "Convert the Borrowed Whole",
+          equation: { w1: 2, n1: '3+12', d1: 12, w2: 1, n2: 7, d2: 12 },
+          explanation: "1 whole = 12/12 (because our denominator is 12). Add it to our 3/12: <strong>3/12 + 12/12 = ?</strong>",
+          highlight: "fraction1"
+        },
+        {
+          title: "Combine the Fractions",
+          equation: { w1: 2, n1: 15, d1: 12, w2: 1, n2: 7, d2: 12 },
+          explanation: "3/12 + 12/12 = <strong>15/12</strong>! Now we have 2 15/12 instead of 3 3/12. Same amount, different form!",
+          highlight: "first",
+          changed: true
+        },
+        {
+          title: "Now Subtract!",
+          equation: { w1: 2, n1: 15, d1: 12, w2: 1, n2: 7, d2: 12, result: { w: '?', n: '?', d: 12 } },
+          explanation: "Now we can subtract! <strong>Wholes: 2 - 1 = 1</strong>. <strong>Fractions: 15/12 - 7/12 = 8/12</strong>.",
+          highlight: "both"
+        },
+        {
+          title: "Final Answer!",
+          equation: { result: { w: 1, n: 8, d: 12, simplified: '2/3' } },
+          explanation: "✅ <strong>1 8/12</strong>, which simplifies to <strong>1 2/3</strong> (divide 8 and 12 by 4)! Borrowing let us subtract when we couldn't before!",
+          highlight: "result"
+        }
+      ],
+
+      // Step data for Example 2: 3 − 1 2/5 (whole minus mixed)
+      steps2: [
+        {
+          title: "Start with the Problem",
+          equation: { w1: 3, n1: null, d1: null, w2: 1, n2: 2, d2: 5 },
+          explanation: "We need to solve <strong>3 − 1 2/5</strong>. This is 3 wholes minus (1 whole + 2/5).",
+          highlight: "none"
+        },
+        {
+          title: "Write 3 as a Mixed Number",
+          equation: { w1: 3, n1: 0, d1: 5, w2: 1, n2: 2, d2: 5 },
+          explanation: "First, write 3 as a mixed number: <strong>3 = 3 0/5</strong>. Now both numbers use fifths!",
+          highlight: "first"
+        },
+        {
+          title: "The Problem: Can't Subtract!",
+          equation: { w1: 3, n1: 0, d1: 5, w2: 1, n2: 2, d2: 5 },
+          explanation: "❌ <strong>0/5 − 2/5</strong>? You can't subtract 2/5 from 0/5 — you have ZERO fifths! You need to borrow.",
+          highlight: "fraction1"
+        },
+        {
+          title: "Borrow 1 Whole",
+          equation: { w1: 2, n1: 0, d1: 5, w2: 1, n2: 2, d2: 5 },
+          explanation: "Take 1 whole from the 3 wholes. <strong>3 becomes 2</strong>. That borrowed 1 whole = 5/5!",
+          highlight: "whole1",
+          borrowing: true
+        },
+        {
+          title: "Add the Borrowed Pieces",
+          equation: { w1: 2, n1: '0+5', d1: 5, w2: 1, n2: 2, d2: 5 },
+          explanation: "Add the borrowed 5/5 to your 0/5: <strong>0/5 + 5/5 = 5/5</strong>. Now you have fifths to work with!",
+          highlight: "fraction1"
+        },
+        {
+          title: "Rewrite the Problem",
+          equation: { w1: 2, n1: 5, d1: 5, w2: 1, n2: 2, d2: 5 },
+          explanation: "Now we have <strong>2 5/5 − 1 2/5</strong>. Same value as before, but now we can subtract!",
+          highlight: "first",
+          changed: true
+        },
+        {
+          title: "Final Answer!",
+          equation: { result: { w: 1, n: 3, d: 5 } },
+          explanation: "✅ <strong>Wholes: 2 − 1 = 1</strong>. <strong>Fractions: 5/5 − 2/5 = 3/5</strong>. Final answer: <strong>1 3/5</strong>!",
+          highlight: "result"
+        }
+      ],
+
+      // Football penalty step data
+      penaltySteps: [
+        {
+          gains: [1, 1, 1, 0],
+          explanation: "You've made <strong>3 full gains</strong> (like 3 first downs). Each gain = 1/5 of the way to a touchdown. You have 3 complete + 0 partial."
+        },
+        {
+          gains: [1, 1, 1, 0],
+          penalty: true,
+          explanation: "🚩 <strong>PENALTY!</strong> You lose 1 full gain + 2/5 of another gain. But wait... you have 0/5 partial gains. How can you give back 2/5?"
+        },
+        {
+          gains: [1, 1, 0, 5],
+          borrowing: true,
+          explanation: "You have to <strong>break open</strong> one of your full gains! One gain becomes 5/5 (five parts). Now you have 2 full gains + 5/5 partial."
+        },
+        {
+          gains: [1, 0, 0, 3],
+          result: true,
+          explanation: "Give back 1 full gain and 2/5: <strong>2−1=1</strong> full gain left, <strong>5/5−2/5=3/5</strong> partial left. Final: <strong>1 3/5</strong> gains remain!"
+        }
+      ],
+
+      // Minecraft step data
+      mcSteps: [
+        {
+          stacks: [
+            { type: 'full', label: 'Stack 1' },
+            { type: 'full', label: 'Stack 2' },
+            { type: 'full', label: 'Stack 3' },
+            { type: 'partial', pieces: 3, label: 'Partial' }
+          ],
+          explanation: "You start with <strong>3 full stacks (12 each)</strong> + <strong>3 loose pieces</strong>. That's 3 3/12 stacks total!"
+        },
+        {
+          stacks: [
+            { type: 'full', label: 'Stack 1' },
+            { type: 'full', label: 'Stack 2' },
+            { type: 'exploding', label: 'Breaking!' },
+            { type: 'partial', pieces: 3, label: 'Partial', adding: 12 }
+          ],
+          explanation: "Problem: You need 7 pieces but only have 3! <strong>Break open Stack 3</strong> into 12 individual pieces..."
+        },
+        {
+          stacks: [
+            { type: 'full', label: 'Stack 1' },
+            { type: 'full', label: 'Stack 2' },
+            { type: 'partial', pieces: 15, label: '15 pieces!' }
+          ],
+          explanation: "Now you have <strong>2 full stacks</strong> + <strong>15 loose pieces</strong> (3 + 12 = 15). That's 2 15/12!"
+        },
+        {
+          stacks: [
+            { type: 'removed', label: 'Given away' },
+            { type: 'full', label: 'Stack 2' },
+            { type: 'partial', pieces: 8, removed: 7, label: '8 left!' }
+          ],
+          explanation: "Give away 1 stack and 7 pieces. <strong>2-1=1 stack left</strong>, <strong>15-7=8 pieces left</strong>. Answer: <strong>1 8/12 = 1 2/3</strong>!"
+        }
+      ],
+
+      // Practice problems (now includes both types)
+      practiceProblems: [
+        { w1: 4, n1: 2, d: 8, w2: 1, n2: 5, d2: 8, answer: '2 5/8', type: 'mixed' },
+        { w1: 5, n1: null, d: 4, w2: 2, n2: 3, d2: 4, answer: '2 1/4', type: 'whole' },
+        { w1: 3, n1: 2, d: 10, w2: 1, n2: 7, d2: 10, answer: '1 5/10', type: 'mixed' },
+        { w1: 4, n1: null, d: 6, w2: 1, n2: 5, d2: 6, answer: '2 1/6', type: 'whole' }
+      ],
+      currentProblemIndex: 0,
+      selectedAnswer: null,
+
+      init() {
+        Storage.startLesson(7);
+        this.renderStep();
+        this.renderStep2();
+        this.renderPenaltyStep();
+        this.renderMcStep();
+        this.renderPractice();
+        this.updateProgress();
+
+        // Nav hamburger
+        document.getElementById('navHamburger').addEventListener('click', () => {
+          document.getElementById('navMenu').classList.toggle('show');
+        });
+      },
+
+      renderStep() {
+        const step = this.steps[this.currentStep];
+        const area = document.getElementById('visualizationArea');
+
+        // Update step indicators
+        document.querySelectorAll('#stepIndicator .step-dot').forEach((dot, i) => {
+          dot.classList.remove('active', 'complete');
+          if (i < this.currentStep) dot.classList.add('complete');
+          if (i === this.currentStep) dot.classList.add('active');
+        });
+
+        let html = `<div class="step-container ${this.currentStep > 0 ? 'step-active' : ''}">`;
+        html += `<div class="step-title"><span class="step-number">${this.currentStep + 1}</span>${step.title}</div>`;
+
+        // Render equation
+        if (step.equation) {
+          const eq = step.equation;
+          html += `<div class="mixed-number-display">`;
+
+          if (eq.w1 !== undefined) {
+            const class1 = step.highlight === 'first' || step.highlight === 'whole1' ? (step.changed ? 'changed' : 'highlight') : '';
+            const fracClass = step.highlight === 'fraction1' ? 'highlight' : '';
+            html += `
+              <div class="mixed-number ${class1} ${step.borrowing ? 'borrowing-anim' : ''}">
+                <div class="whole-part">${eq.w1}</div>
+                <div class="fraction-part ${fracClass}">
+                  <div class="fraction-num">${eq.n1}</div>
+                  <div class="fraction-den">${eq.d1}</div>
+                </div>
+              </div>
+              <span class="operator">−</span>
+              <div class="mixed-number ${step.highlight === 'second' || step.highlight === 'both' ? 'highlight' : ''}">
+                <div class="whole-part">${eq.w2}</div>
+                <div class="fraction-part">
+                  <div class="fraction-num">${eq.n2}</div>
+                  <div class="fraction-den">${eq.d2}</div>
+                </div>
+              </div>
+            `;
+          }
+
+          if (eq.result) {
+            if (eq.w1 !== undefined) html += `<span class="operator">=</span>`;
+            html += `
+              <div class="mixed-number result">
+                <div class="whole-part">${eq.result.w}</div>
+                <div class="fraction-part">
+                  <div class="fraction-num">${eq.result.n}</div>
+                  <div class="fraction-den">${eq.result.d}</div>
+                </div>
+                ${eq.result.simplified ? `<span style="font-size: 1.25rem; margin-left: var(--space-md);">= 1 ${eq.result.simplified}</span>` : ''}
+              </div>
+            `;
+          }
+
+          html += `</div>`;
+        }
+
+        // Visual blocks for borrowing
+        if (this.currentStep >= 2 && this.currentStep <= 4) {
+          html += this.renderBlocks();
+        }
+
+        // Fraction bars for later steps
+        if (this.currentStep >= 4) {
+          html += this.renderFractionBars();
+        }
+
+        html += `<div class="explanation">${step.explanation}</div>`;
+        html += `</div>`;
+
+        area.innerHTML = html;
+
+        // Update buttons
+        document.getElementById('prevStepBtn').disabled = this.currentStep === 0;
+        document.getElementById('nextStepBtn').textContent = this.currentStep === this.steps.length - 1 ? 'Complete!' : 'Next Step →';
+      },
+
+      renderBlocks() {
+        const wholes = this.currentStep === 2 ? 2 : (this.currentStep >= 3 ? 2 : 3);
+        const borrowing = this.currentStep === 2;
+
+        let html = `<div class="visual-blocks">`;
+        html += `<div class="block-group"><div class="block-label">Whole Numbers</div><div class="blocks-container">`;
+
+        for (let i = 0; i < 3; i++) {
+          if (i < wholes) {
+            html += `<div class="whole-block">1</div>`;
+          } else if (borrowing && i === 2) {
+            html += `<div class="whole-block exploding">1</div>`;
+          } else if (i === 2 && this.currentStep >= 3) {
+            html += `<div class="whole-block borrowed" style="opacity:0.2;">→12</div>`;
+          }
+        }
+
+        html += `</div></div>`;
+        html += `</div>`;
+        return html;
+      },
+
+      renderFractionBars() {
+        const pieces = this.currentStep === 4 ? 15 : (this.currentStep >= 5 ? 15 : 3);
+        const showResult = this.currentStep >= 6;
+
+        let html = `<div class="fraction-bar-container">`;
+        html += `<div class="fraction-bar-label">Fraction pieces (twelfths)</div>`;
+        html += `<div class="fraction-bar">`;
+
+        for (let i = 0; i < 15; i++) {
+          let pieceClass = 'empty';
+          if (i < pieces) {
+            if (i < 3) pieceClass = 'filled';
+            else if (i < 15) pieceClass = 'new';
+          }
+          if (showResult) {
+            if (i >= 8 && i < 15) pieceClass = 'removed';
+            else if (i < 8) pieceClass = 'result';
+          }
+          html += `<div class="fraction-piece ${pieceClass}">${i+1}</div>`;
+        }
+
+        html += `</div>`;
+        if (this.currentStep === 4) html += `<p style="text-align:center; margin-top: var(--space-sm);">3 original pieces + 12 borrowed pieces = <strong>15 pieces!</strong></p>`;
+        if (showResult) html += `<p style="text-align:center; margin-top: var(--space-sm);">15 - 7 = <strong>8 pieces remaining!</strong></p>`;
+        html += `</div>`;
+        return html;
+      },
+
+      nextStep() {
+        if (this.currentStep < this.steps.length - 1) {
+          this.currentStep++;
+          this.renderStep();
+        } else {
+          this.score += 15;
+          this.updateScore();
+          document.getElementById('feedback1').textContent = '🎉 You understand borrowing!';
+          document.getElementById('feedback1').className = 'feedback correct';
+          setTimeout(() => {
+            document.getElementById('complete1').classList.add('show');
+          }, 1000);
+        }
+      },
+
+      prevStep() {
+        if (this.currentStep > 0) {
+          this.currentStep--;
+          this.renderStep();
+        }
+      },
+
+      // === ACTIVITY 2: Example 2 (3 − 1 2/5) ===
+      renderStep2() {
+        const step = this.steps2[this.currentStep2];
+        const area = document.getElementById('visualizationArea2');
+
+        // Update step indicators
+        document.querySelectorAll('#stepIndicator2 .step-dot').forEach((dot, i) => {
+          dot.classList.remove('active', 'complete');
+          if (i < this.currentStep2) dot.classList.add('complete');
+          if (i === this.currentStep2) dot.classList.add('active');
+        });
+
+        let html = `<div class="step-container ${this.currentStep2 > 0 ? 'step-active' : ''}">`;
+        html += `<div class="step-title"><span class="step-number">${this.currentStep2 + 1}</span>${step.title}</div>`;
+
+        // Render equation
+        if (step.equation) {
+          const eq = step.equation;
+          html += `<div class="mixed-number-display">`;
+
+          if (eq.w1 !== undefined && eq.result === undefined) {
+            const class1 = step.highlight === 'first' || step.highlight === 'whole1' ? (step.changed ? 'changed' : 'highlight') : '';
+            const fracClass = step.highlight === 'fraction1' ? 'highlight' : '';
+
+            // First number (may or may not have fraction)
+            html += `<div class="mixed-number ${class1} ${step.borrowing ? 'borrowing-anim' : ''}">`;
+            html += `<div class="whole-part">${eq.w1}</div>`;
+            if (eq.n1 !== null) {
+              html += `<div class="fraction-part ${fracClass}">
+                <div class="fraction-num">${eq.n1}</div>
+                <div class="fraction-den">${eq.d1}</div>
+              </div>`;
+            }
+            html += `</div>`;
+
+            html += `<span class="operator">−</span>`;
+
+            // Second number (always has fraction)
+            html += `<div class="mixed-number ${step.highlight === 'second' || step.highlight === 'both' ? 'highlight' : ''}">
+              <div class="whole-part">${eq.w2}</div>
+              <div class="fraction-part">
+                <div class="fraction-num">${eq.n2}</div>
+                <div class="fraction-den">${eq.d2}</div>
+              </div>
+            </div>`;
+          }
+
+          if (eq.result) {
+            html += `
+              <div class="mixed-number result">
+                <div class="whole-part">${eq.result.w}</div>
+                <div class="fraction-part">
+                  <div class="fraction-num">${eq.result.n}</div>
+                  <div class="fraction-den">${eq.result.d}</div>
+                </div>
+              </div>
+            `;
+          }
+
+          html += `</div>`;
+        }
+
+        // Visual blocks for borrowing (steps 3-5)
+        if (this.currentStep2 >= 3 && this.currentStep2 <= 5) {
+          html += this.renderBlocks2();
+        }
+
+        // Fraction bars for fifths (steps 4-6)
+        if (this.currentStep2 >= 4) {
+          html += this.renderFractionBars2();
+        }
+
+        html += `<div class="explanation">${step.explanation}</div>`;
+        html += `</div>`;
+
+        area.innerHTML = html;
+
+        // Update buttons
+        document.getElementById('prevStepBtn2').disabled = this.currentStep2 === 0;
+        document.getElementById('nextStepBtn2').textContent = this.currentStep2 === this.steps2.length - 1 ? 'See It On The Field! 🏈' : 'Next Step →';
+      },
+
+      renderBlocks2() {
+        const wholes = this.currentStep2 >= 3 ? 2 : 3;
+        const borrowing = this.currentStep2 === 3;
+
+        let html = `<div class="visual-blocks">`;
+        html += `<div class="block-group"><div class="block-label">Whole Numbers</div><div class="blocks-container">`;
+
+        for (let i = 0; i < 3; i++) {
+          if (i < wholes) {
+            html += `<div class="whole-block">1</div>`;
+          } else if (borrowing && i === 2) {
+            html += `<div class="whole-block exploding">1</div>`;
+          } else if (i === 2 && this.currentStep2 >= 4) {
+            html += `<div class="whole-block borrowed" style="opacity:0.2;">→5</div>`;
+          }
+        }
+
+        html += `</div></div>`;
+        html += `</div>`;
+        return html;
+      },
+
+      renderFractionBars2() {
+        const pieces = this.currentStep2 === 4 ? 5 : (this.currentStep2 >= 5 ? 5 : 0);
+        const showResult = this.currentStep2 >= 6;
+
+        let html = `<div class="fraction-bar-container">`;
+        html += `<div class="fraction-bar-label">Fraction pieces (fifths)</div>`;
+        html += `<div class="fraction-bar">`;
+
+        for (let i = 0; i < 5; i++) {
+          let pieceClass = 'empty';
+          if (i < pieces) {
+            pieceClass = 'new';
+          }
+          if (showResult) {
+            if (i >= 3) pieceClass = 'removed';
+            else pieceClass = 'result';
+          }
+          html += `<div class="fraction-piece ${pieceClass}">${i+1}/5</div>`;
+        }
+
+        html += `</div>`;
+        if (this.currentStep2 === 4 || this.currentStep2 === 5) html += `<p style="text-align:center; margin-top: var(--space-sm);">0 original pieces + 5 borrowed pieces = <strong>5/5!</strong></p>`;
+        if (showResult) html += `<p style="text-align:center; margin-top: var(--space-sm);">5/5 - 2/5 = <strong>3/5 remaining!</strong></p>`;
+        html += `</div>`;
+        return html;
+      },
+
+      nextStep2() {
+        if (this.currentStep2 < this.steps2.length - 1) {
+          this.currentStep2++;
+          this.renderStep2();
+        } else {
+          // Show the football penalty section
+          document.getElementById('footballPenaltySection').style.display = 'block';
+          document.getElementById('nextStepBtn2').disabled = true;
+          document.getElementById('prevStepBtn2').disabled = true;
+          this.penaltyStep = 0;
+          this.renderPenaltyStep();
+          // Scroll to see it
+          document.getElementById('footballPenaltySection').scrollIntoView({ behavior: 'smooth' });
+        }
+      },
+
+      prevStep2() {
+        if (this.currentStep2 > 0) {
+          this.currentStep2--;
+          this.renderStep2();
+        }
+      },
+
+      // === FOOTBALL PENALTY VISUALIZATION ===
+      renderPenaltyStep() {
+        const step = this.penaltySteps[this.penaltyStep];
+        const area = document.getElementById('penaltyVisualization');
+
+        // Update indicators
+        document.querySelectorAll('#penaltyStepIndicator .step-dot').forEach((dot, i) => {
+          dot.classList.remove('active', 'complete');
+          if (i < this.penaltyStep) dot.classList.add('complete');
+          if (i === this.penaltyStep) dot.classList.add('active');
+        });
+
+        // Build the field visualization
+        let html = `<div style="text-align: center;">`;
+        html += `<div style="display: flex; gap: var(--space-lg); justify-content: center; align-items: flex-end; flex-wrap: wrap;">`;
+
+        // Full gains (like yard markers)
+        const fullGains = step.gains.slice(0, 3);
+        fullGains.forEach((gain, i) => {
+          let style = 'width: 80px; height: 80px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.5rem; transition: all 0.5s ease;';
+          if (gain === 1) {
+            style += ' background: linear-gradient(135deg, var(--field-green) 0%, var(--field-dark) 100%); color: white;';
+            if (step.borrowing && i === 2) {
+              style += ' animation: shake 0.5s infinite; background: var(--thinking);';
+            }
+          } else {
+            style += ' background: var(--border); color: var(--text-light); opacity: 0.4;';
+          }
+          html += `<div style="${style}">${gain === 1 ? '1' : '−'}</div>`;
+        });
+
+        // Partial gain (fifths)
+        const partial = step.gains[3];
+        html += `<div style="display: flex; flex-direction: column; align-items: center;">`;
+        html += `<div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 4px;">Partial (fifths)</div>`;
+        html += `<div style="display: flex; gap: 4px;">`;
+        for (let i = 0; i < 5; i++) {
+          let pieceStyle = 'width: 24px; height: 40px; border-radius: 4px; transition: all 0.3s ease;';
+          if (i < partial) {
+            if (step.result) {
+              pieceStyle += ' background: var(--correct); box-shadow: 0 0 8px var(--correct);';
+            } else if (step.borrowing) {
+              pieceStyle += ' background: var(--thinking); animation: fadeIn 0.3s ease;';
+            } else {
+              pieceStyle += ' background: var(--field-green);';
+            }
+          } else {
+            pieceStyle += ' background: var(--border); opacity: 0.3;';
+          }
+          html += `<div style="${pieceStyle}"></div>`;
+        }
+        html += `</div>`;
+        html += `<div style="font-size: 0.875rem; font-weight: 700; margin-top: 4px;">${partial}/5</div>`;
+        html += `</div>`;
+
+        html += `</div>`;
+
+        // Penalty flag
+        if (step.penalty) {
+          html += `<div style="margin-top: var(--space-lg); padding: var(--space-md); background: var(--incorrect-light); border-radius: var(--radius-lg); display: inline-block;">
+            <span style="font-size: 2rem;">🚩</span>
+            <span style="font-weight: 700; color: var(--incorrect);">PENALTY: -1 2/5</span>
+          </div>`;
+        }
+
+        // Result badge
+        if (step.result) {
+          html += `<div style="margin-top: var(--space-lg); padding: var(--space-md) var(--space-xl); background: var(--correct-light); border-radius: var(--radius-lg); display: inline-block;">
+            <span style="font-size: 1.5rem; font-weight: 900; color: var(--correct);">Final: 1 3/5 gains!</span>
+          </div>`;
+        }
+
+        html += `</div>`;
+        area.innerHTML = html;
+
+        document.getElementById('penaltyExplanation').innerHTML = step.explanation;
+
+        // Update buttons
+        if (document.getElementById('penaltyPrevBtn')) {
+          document.getElementById('penaltyPrevBtn').disabled = this.penaltyStep === 0;
+          document.getElementById('penaltyNextBtn').textContent = this.penaltyStep === this.penaltySteps.length - 1 ? 'Complete!' : 'Next →';
+        }
+      },
+
+      penaltyNextStep() {
+        if (this.penaltyStep < this.penaltySteps.length - 1) {
+          this.penaltyStep++;
+          this.renderPenaltyStep();
+        } else {
+          this.score += 15;
+          this.updateScore();
+          document.getElementById('feedback2').textContent = '🏈 Penalty math mastered!';
+          document.getElementById('feedback2').className = 'feedback correct';
+          setTimeout(() => {
+            document.getElementById('complete2').classList.add('show');
+          }, 1000);
+        }
+      },
+
+      penaltyPrevStep() {
+        if (this.penaltyStep > 0) {
+          this.penaltyStep--;
+          this.renderPenaltyStep();
+        }
+      },
+
+      renderMcStep() {
+        const step = this.mcSteps[this.mcStep];
+        const area = document.getElementById('minecraftVisualization');
+
+        // Update indicators
+        document.querySelectorAll('#mcStepIndicator .step-dot').forEach((dot, i) => {
+          dot.classList.remove('active', 'complete');
+          if (i < this.mcStep) dot.classList.add('complete');
+          if (i === this.mcStep) dot.classList.add('active');
+        });
+
+        let html = `<div class="minecraft-stacks">`;
+
+        step.stacks.forEach(stack => {
+          html += `<div class="stack-group"><div class="stack-label">${stack.label}</div>`;
+
+          if (stack.type === 'full') {
+            html += `<div class="wood-stack full">12</div>`;
+          } else if (stack.type === 'exploding') {
+            html += `<div class="wood-stack" style="animation: shake 0.3s infinite; background: var(--thinking);">💥</div>`;
+          } else if (stack.type === 'removed') {
+            html += `<div class="wood-stack" style="opacity: 0.3; background: #666;">✓</div>`;
+          } else if (stack.type === 'partial') {
+            const total = stack.pieces;
+            const removed = stack.removed || 0;
+            html += `<div class="partial-pieces">`;
+            for (let i = 0; i < Math.min(total, 16); i++) {
+              const isActive = i < (total - removed);
+              const isRemoved = i >= (total - removed);
+              html += `<div class="wood-piece ${isActive ? 'active' : ''} ${isRemoved ? 'removed' : ''}"></div>`;
+            }
+            html += `</div>`;
+          }
+
+          html += `</div>`;
+        });
+
+        html += `</div>`;
+        area.innerHTML = html;
+
+        document.getElementById('mcExplanation').innerHTML = step.explanation;
+
+        // Update buttons
+        document.getElementById('mcPrevBtn').disabled = this.mcStep === 0;
+        document.getElementById('mcNextBtn').textContent = this.mcStep === this.mcSteps.length - 1 ? 'Complete!' : 'Next →';
+      },
+
+      mcNextStep() {
+        if (this.mcStep < this.mcSteps.length - 1) {
+          this.mcStep++;
+          this.renderMcStep();
+        } else {
+          this.score += 15;
+          this.updateScore();
+          document.getElementById('feedback3').textContent = '🎮 Minecraft math mastered!';
+          document.getElementById('feedback3').className = 'feedback correct';
+          setTimeout(() => {
+            document.getElementById('complete3').classList.add('show');
+          }, 1000);
+        }
+      },
+
+      mcPrevStep() {
+        if (this.mcStep > 0) {
+          this.mcStep--;
+          this.renderMcStep();
+        }
+      },
+
+      renderPractice() {
+        const p = this.practiceProblems[this.currentProblemIndex];
+        this.selectedAnswer = null;
+
+        // Generate wrong answers
+        const correctParts = p.answer.split(' ');
+        const wrongAnswers = [
+          `${parseInt(correctParts[0]) + 1} ${correctParts[1]}`,
+          `${parseInt(correctParts[0]) - 1} ${correctParts[1]}`,
+          `${correctParts[0]} ${parseInt(correctParts[1].split('/')[0]) + 2}/${correctParts[1].split('/')[1]}`
+        ];
+
+        const allAnswers = [p.answer, ...wrongAnswers].sort(() => Math.random() - 0.5);
+
+        // Build the first number display based on type
+        let firstNumHtml;
+        if (p.type === 'whole') {
+          // Just a whole number, no fraction
+          firstNumHtml = `
+            <div class="mixed-number">
+              <div class="whole-part">${p.w1}</div>
+            </div>
+          `;
+        } else {
+          // Mixed number
+          firstNumHtml = `
+            <div class="mixed-number">
+              <div class="whole-part">${p.w1}</div>
+              <div class="fraction-part">
+                <div class="fraction-num">${p.n1}</div>
+                <div class="fraction-den">${p.d}</div>
+              </div>
+            </div>
+          `;
+        }
+
+        // Hint text based on type
+        let hintText;
+        if (p.type === 'whole') {
+          hintText = `You're starting with a whole number (${p.w1}), but need to subtract ${p.n2}/${p.d}. You'll need to borrow!`;
+        } else {
+          hintText = `${p.n1}/${p.d} is smaller than ${p.n2}/${p.d}, so you'll need to borrow!`;
+        }
+
+        document.getElementById('practiceQuestion').innerHTML = `
+          <p style="font-size: 1.1rem; margin-bottom: var(--space-md);">Problem ${this.currentProblemIndex + 1} of ${this.practiceProblems.length}</p>
+          <div class="mixed-number-display">
+            ${firstNumHtml}
+            <span class="operator">−</span>
+            <div class="mixed-number">
+              <div class="whole-part">${p.w2}</div>
+              <div class="fraction-part">
+                <div class="fraction-num">${p.n2}</div>
+                <div class="fraction-den">${p.d2 || p.d}</div>
+              </div>
+            </div>
+            <span class="operator">=</span>
+            <span style="font-size: 2rem;">?</span>
+          </div>
+          <p style="margin: var(--space-lg) 0; color: var(--text-secondary);">
+            <em>Hint: ${hintText}</em>
+          </p>
+          <div class="answer-options">
+            ${allAnswers.map(a => `<button class="answer-btn" onclick="Lesson.selectPracticeAnswer('${a}', this)">${a}</button>`).join('')}
+          </div>
+          <button class="btn btn-primary" id="submitPractice" onclick="Lesson.checkPractice()" style="margin-top: var(--space-lg);">Check Answer</button>
+        `;
+      },
+
+      selectPracticeAnswer(answer, btn) {
+        this.selectedAnswer = answer;
+        document.querySelectorAll('#practiceQuestion .answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('feedback4').className = 'feedback';
+      },
+
+      checkPractice() {
+        if (!this.selectedAnswer) {
+          document.getElementById('feedback4').textContent = 'Please select an answer!';
+          document.getElementById('feedback4').className = 'feedback info';
+          return;
+        }
+
+        const p = this.practiceProblems[this.currentProblemIndex];
+        const feedback = document.getElementById('feedback4');
+
+        document.querySelectorAll('#practiceQuestion .answer-btn').forEach(btn => {
+          btn.disabled = true;
+          if (btn.textContent === p.answer) btn.classList.add('correct');
+          else if (btn.textContent === this.selectedAnswer && this.selectedAnswer !== p.answer) btn.classList.add('incorrect');
+        });
+        document.getElementById('submitPractice').disabled = true;
+
+        if (this.selectedAnswer === p.answer) {
+          feedback.textContent = '🎉 Correct! You borrowed and subtracted perfectly!';
+          feedback.className = 'feedback correct';
+          this.score += 10;
+          this.updateScore();
+        } else {
+          feedback.textContent = `Not quite. The answer is ${p.answer}. Remember to borrow 1 whole!`;
+          feedback.className = 'feedback incorrect';
+        }
+
+        setTimeout(() => {
+          this.currentProblemIndex++;
+          if (this.currentProblemIndex < this.practiceProblems.length) {
+            feedback.className = 'feedback';
+            this.renderPractice();
+          } else {
+            document.getElementById('complete4').classList.add('show');
+          }
+        }, 2000);
+      },
+
+      showActivity(num) {
+        for (let i = 1; i <= 4; i++) document.getElementById(`activity${i}`).style.display = 'none';
+        document.getElementById(`activity${num}`).style.display = 'block';
+        this.currentActivity = num;
+        document.getElementById('activityNum').textContent = num;
+        this.updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      },
+
+      updateScore() {
+        document.getElementById('scoreValue').textContent = this.score;
+      },
+
+      updateProgress() {
+        const progressPercent = (this.currentActivity - 1) / this.totalActivities;
+        const fieldPosition = 10 + (progressPercent * 80);
+        const yards = Math.round(progressPercent * 100);
+        document.getElementById('footballPosition').style.left = `${fieldPosition}%`;
+        document.getElementById('yardsDisplay').innerHTML = `<strong>${yards}</strong> yards gained • <strong>${100 - yards}</strong> yards to TD`;
+      },
+
+      completeLesson() {
+        Storage.completeLesson(7);
+        document.getElementById('footballPosition').style.left = '90%';
+        document.getElementById('yardsDisplay').innerHTML = '<strong>TOUCHDOWN!</strong>';
+        setTimeout(() => {
+          App.celebrateVictory('Chiefs', 7, '../images/nfl-logos/chiefs.png');
+        }, 500);
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      Lesson.init();
+      CoachesCorner.init(7);
+    });
+  </script>
+</body>
+</html>
