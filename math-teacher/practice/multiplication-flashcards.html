@@ -671,23 +671,70 @@
       left: 0;
       right: 0;
       bottom: 0;
-      z-index: 3; /* Behind modules (10) and confetti (5), above background (0) */
+      z-index: 9999; /* Top of everything */
       display: flex;
       align-items: center;
       justify-content: center;
-      pointer-events: none;
       opacity: 0;
+      pointer-events: none; /* Allow clicks through when fading out */
       transition: opacity 0.3s ease;
     }
 
     .touchdown-gif-overlay.show {
       opacity: 1;
+      pointer-events: auto; /* Block clicks when visible, allow close button */
     }
 
     .touchdown-gif-overlay img {
       width: 100vw;
       height: 100vh;
       object-fit: cover; /* Fill screen edge-to-edge, crop to fit */
+    }
+
+    .touchdown-gif-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: rgba(0, 0, 0, 0.7);
+      border: 3px solid white;
+      border-radius: 50%;
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, background 0.2s;
+      z-index: 10000;
+    }
+
+    .touchdown-gif-close:hover {
+      background: rgba(0, 0, 0, 0.9);
+      transform: scale(1.1);
+    }
+
+    .touchdown-gif-hint {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-family: var(--font-family);
+      opacity: 1;
+      animation: hintFade 4s ease-in-out forwards;
+      z-index: 10000;
+    }
+
+    @keyframes hintFade {
+      0%, 50% { opacity: 1; }
+      100% { opacity: 0; }
     }
   </style>
 </head>
@@ -1033,7 +1080,32 @@
     }
 
     // Touchdown Celebration GIF - Easter Egg!
+    let activeTouchdownOverlay = null;
+    let touchdownGifTimeout = null;
+    let touchdownEscapeHandler = null;
+
+    function dismissTouchdownGif() {
+      if (activeTouchdownOverlay) {
+        activeTouchdownOverlay.classList.remove('show');
+        const overlayToRemove = activeTouchdownOverlay;
+        setTimeout(() => overlayToRemove.remove(), 300);
+        activeTouchdownOverlay = null;
+      }
+      if (touchdownGifTimeout) {
+        clearTimeout(touchdownGifTimeout);
+        touchdownGifTimeout = null;
+      }
+      // Remove escape key listener
+      if (touchdownEscapeHandler) {
+        document.removeEventListener('keydown', touchdownEscapeHandler);
+        touchdownEscapeHandler = null;
+      }
+    }
+
     function showTouchdownGif() {
+      // Dismiss any existing GIF first
+      dismissTouchdownGif();
+
       // Array of all touchdown celebration GIFs
       const touchdownGifs = [
         'giphy.gif', 'giphy-1.gif', 'giphy-2.gif', 'giphy-3.gif', 'giphy-4.gif',
@@ -1057,54 +1129,97 @@
       img.src = gifPath;
       img.alt = 'Touchdown celebration!';
 
-      // Append image to overlay
+      // Create close button with accessibility
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'touchdown-gif-close';
+      closeBtn.innerHTML = '✕';
+      closeBtn.setAttribute('aria-label', 'Close celebration');
+      closeBtn.onclick = dismissTouchdownGif;
+
+      // Create hint text
+      const hint = document.createElement('div');
+      hint.className = 'touchdown-gif-hint';
+      hint.textContent = 'Double-tap or press X to close';
+
+      // Double-tap to dismiss (mobile)
+      let lastTapTime = 0;
+      overlay.addEventListener('touchend', (e) => {
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTapTime;
+        if (tapLength < 300 && tapLength > 0) {
+          e.preventDefault();
+          dismissTouchdownGif();
+        }
+        lastTapTime = currentTime;
+      });
+
+      // Escape key to dismiss (desktop)
+      touchdownEscapeHandler = (e) => {
+        if (e.key === 'Escape') {
+          dismissTouchdownGif();
+        }
+      };
+      document.addEventListener('keydown', touchdownEscapeHandler);
+
+      // Append elements to overlay
       overlay.appendChild(img);
+      overlay.appendChild(closeBtn);
+      overlay.appendChild(hint);
       document.body.appendChild(overlay);
+
+      // Store reference to active overlay
+      activeTouchdownOverlay = overlay;
 
       // Fade in
       requestAnimationFrame(() => {
         overlay.classList.add('show');
       });
 
-      // Display for 4 seconds, then fade out
-      setTimeout(() => {
-        overlay.classList.remove('show');
-        setTimeout(() => overlay.remove(), 300); // Wait for fade-out transition
-      }, 4000);
+      // Auto-dismiss after 15 seconds maximum
+      touchdownGifTimeout = setTimeout(() => {
+        dismissTouchdownGif();
+      }, 15000);
     }
 
-    // Generate 100 flash cards (60 multiplication, 40 division)
+    // Generate flash cards (90 multiplication, 40 division)
     function generateCards() {
       const cards = [];
 
-      // 60 Multiplication cards - mix of difficulties
+      // 90 Multiplication cards - mix of difficulties
       const multProblems = [
-        // Easy (2s, 5s, 10s) - 15 cards
-        { a: 2, b: 3 }, { a: 2, b: 4 }, { a: 2, b: 6 }, { a: 2, b: 7 }, { a: 2, b: 8 },
-        { a: 5, b: 3 }, { a: 5, b: 4 }, { a: 5, b: 6 }, { a: 5, b: 7 }, { a: 5, b: 8 },
-        { a: 10, b: 3 }, { a: 10, b: 4 }, { a: 10, b: 6 }, { a: 10, b: 7 }, { a: 10, b: 8 },
+        // Easy (2s, 5s, 10s) - 25 cards
+        { a: 2, b: 2 }, { a: 2, b: 3 }, { a: 2, b: 4 }, { a: 2, b: 5 }, { a: 2, b: 6 },
+        { a: 2, b: 7 }, { a: 2, b: 8 }, { a: 2, b: 9 }, { a: 2, b: 10 }, { a: 2, b: 11 }, { a: 2, b: 12 },
+        { a: 5, b: 2 }, { a: 5, b: 3 }, { a: 5, b: 4 }, { a: 5, b: 5 }, { a: 5, b: 6 },
+        { a: 5, b: 7 }, { a: 5, b: 8 }, { a: 5, b: 9 }, { a: 5, b: 11 }, { a: 5, b: 12 },
+        { a: 10, b: 3 }, { a: 10, b: 4 }, { a: 10, b: 6 }, { a: 10, b: 7 },
 
-        // Medium (3s, 4s, 6s) - 20 cards
-        { a: 3, b: 3 }, { a: 3, b: 4 }, { a: 3, b: 6 }, { a: 3, b: 7 }, { a: 3, b: 8 }, { a: 3, b: 9 }, { a: 3, b: 12 },
-        { a: 4, b: 4 }, { a: 4, b: 6 }, { a: 4, b: 7 }, { a: 4, b: 8 }, { a: 4, b: 9 }, { a: 4, b: 12 },
-        { a: 6, b: 6 }, { a: 6, b: 7 }, { a: 6, b: 8 }, { a: 6, b: 9 }, { a: 6, b: 11 }, { a: 6, b: 12 },
-        { a: 11, b: 11 },
+        // Medium (3s, 4s, 6s) - 30 cards
+        { a: 3, b: 3 }, { a: 3, b: 4 }, { a: 3, b: 6 }, { a: 3, b: 7 }, { a: 3, b: 8 },
+        { a: 3, b: 9 }, { a: 3, b: 11 }, { a: 3, b: 12 },
+        { a: 4, b: 3 }, { a: 4, b: 4 }, { a: 4, b: 5 }, { a: 4, b: 6 }, { a: 4, b: 7 },
+        { a: 4, b: 8 }, { a: 4, b: 9 }, { a: 4, b: 10 }, { a: 4, b: 11 }, { a: 4, b: 12 },
+        { a: 6, b: 3 }, { a: 6, b: 4 }, { a: 6, b: 5 }, { a: 6, b: 6 }, { a: 6, b: 7 },
+        { a: 6, b: 8 }, { a: 6, b: 9 }, { a: 6, b: 10 }, { a: 6, b: 11 }, { a: 6, b: 12 },
+        { a: 11, b: 2 }, { a: 11, b: 11 },
 
-        // Hard (7s, 8s, 9s, 12s) - 25 cards
-        { a: 7, b: 7 }, { a: 7, b: 8 }, { a: 7, b: 9 }, { a: 7, b: 11 }, { a: 7, b: 12 },
-        { a: 8, b: 8 }, { a: 8, b: 9 }, { a: 8, b: 11 }, { a: 8, b: 12 },
+        // Hard (7s, 8s, 9s, 11s, 12s) - 35 cards
+        { a: 7, b: 3 }, { a: 7, b: 4 }, { a: 7, b: 6 }, { a: 7, b: 7 }, { a: 7, b: 8 },
+        { a: 7, b: 9 }, { a: 7, b: 11 }, { a: 7, b: 12 },
+        { a: 8, b: 3 }, { a: 8, b: 4 }, { a: 8, b: 6 }, { a: 8, b: 7 }, { a: 8, b: 8 },
+        { a: 8, b: 9 }, { a: 8, b: 11 }, { a: 8, b: 12 },
+        { a: 9, b: 3 }, { a: 9, b: 4 }, { a: 9, b: 6 }, { a: 9, b: 7 }, { a: 9, b: 8 },
         { a: 9, b: 9 }, { a: 9, b: 11 }, { a: 9, b: 12 },
-        { a: 11, b: 12 }, { a: 12, b: 12 },
-        { a: 7, b: 4 }, { a: 8, b: 3 }, { a: 9, b: 4 }, { a: 9, b: 6 },
-        { a: 12, b: 3 }, { a: 12, b: 4 }, { a: 12, b: 5 }, { a: 12, b: 6 },
-        { a: 11, b: 3 }, { a: 11, b: 4 }, { a: 11, b: 5 }
+        { a: 11, b: 3 }, { a: 11, b: 4 }, { a: 11, b: 5 }, { a: 11, b: 6 }, { a: 11, b: 7 },
+        { a: 11, b: 8 }, { a: 11, b: 9 }, { a: 11, b: 12 },
+        { a: 12, b: 3 }, { a: 12, b: 4 }, { a: 12, b: 12 }
       ];
 
       multProblems.forEach((p, index) => {
         // Determine difficulty based on position in array
         let difficulty = 'easy';
-        if (index >= 15 && index < 35) difficulty = 'medium';
-        if (index >= 35) difficulty = 'hard';
+        if (index >= 25 && index < 55) difficulty = 'medium';
+        if (index >= 55) difficulty = 'hard';
 
         cards.push({
           type: 'multiply',
@@ -1265,6 +1380,9 @@
       },
 
       start() {
+        // Dismiss any active celebration GIF when starting a new game
+        dismissTouchdownGif();
+
         this.started = true;
         this.currentIndex = 0;
         this.correctCount = 0;
