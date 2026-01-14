@@ -140,30 +140,6 @@
     bottom: -20px;
 }
 
-.nav-link[data-page="magic8ball"].active {
-    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.nav-link[data-page="magic8ball"].active::after {
-    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-    bottom: -20px;
-}
-
-.nav-link[data-page="calendar"].active {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.nav-link[data-page="calendar"].active::after {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    bottom: -20px;
-}
-
 /* Mobile Overlay */
 .nav-overlay {
     display: none;
@@ -262,14 +238,6 @@ body.has-navigation {
 
     .nav-link[data-page="champion"].active {
         border-left: 4px solid #2563eb;
-    }
-
-    .nav-link[data-page="magic8ball"].active {
-        border-left: 4px solid #8b5cf6;
-    }
-
-    .nav-link[data-page="calendar"].active {
-        border-left: 4px solid #10b981;
     }
 }
 

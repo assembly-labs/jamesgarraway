@@ -101,16 +101,7 @@
                 pageTitle = 'MINECOINS';
             } else if (currentPath.includes('/flagfootball/')) {
                 activePage = 'flagfootball';
-                pageTitle = 'FLAG FOOTBALL';
-            } else if (currentPath.includes('/magic8ball/')) {
-                activePage = 'magic8ball';
-                pageTitle = 'MAGIC 8 BALL';
-            } else if (currentPath.includes('/magicgameball/')) {
-                activePage = 'magicgameball';
-                pageTitle = 'MAGIC GAME BALL';
-            } else if (currentPath.includes('/calendar/')) {
-                activePage = 'calendar';
-                pageTitle = 'SCHEDULE';
+                pageTitle = 'CHAMPION PICS';
             } else if (currentPath === '/' || currentPath.includes('/index.html')) {
                 // Root is now Champion Routine
                 activePage = 'champion';
