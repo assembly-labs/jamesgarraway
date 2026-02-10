@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>22 – Kids Edition</title>
+  <title>SUPER 16</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- ===== START SCREEN ===== -->
   <div id="start-screen" class="screen active">
-    <div class="game-logo">22</div>
-    <div class="game-subtitle">Kids Edition</div>
+    <div class="game-logo">16</div>
+    <div class="game-tagline">SUPER 16</div>
     <div class="game-description">
-      18 questions across Math, English, Science &amp; History.<br>
+      16 questions + skill challenges between each round.<br>
       Build streaks, earn bonuses, and beat your high score!
     </div>
     <div class="high-score-display" id="high-score-display"></div>
@@ -26,7 +26,7 @@
     <div class="top-bar">
       <div class="score-box" id="score-display">Score: <span>0</span></div>
       <div id="category-badge" class="category-badge">Math</div>
-      <div class="question-num" id="question-num">Q <span>1</span>/18</div>
+      <div class="question-num" id="question-num">Q <span>1</span>/16</div>
     </div>
 
     <!-- Streak indicator -->
@@ -44,7 +44,7 @@
         <circle class="timer-ring-bg" cx="50" cy="50" r="45"/>
         <circle class="timer-ring-fg" id="timer-ring-fg" cx="50" cy="50" r="45"/>
       </svg>
-      <div class="timer-text" id="timer-text">22</div>
+      <div class="timer-text" id="timer-text">16</div>
     </div>
 
     <!-- Question -->
@@ -74,11 +74,11 @@
     <div class="learning-popup" id="learning-popup"></div>
   </div>
 
-  <!-- ===== TAPPING SCREEN ===== -->
+  <!-- ===== MINI-GAME SCREEN ===== -->
   <div id="tapping-screen" class="screen">
     <div class="tapping-header">
-      <div class="tapping-title">Tap the Targets!</div>
-      <div class="tapping-subtitle">Tap as many as you can for bonus points</div>
+      <div class="tapping-title" id="minigame-title">Tap the Targets!</div>
+      <div class="tapping-subtitle" id="minigame-subtitle">Tap as many as you can for bonus points</div>
       <div class="tapping-score">Bonus: <span id="tapping-score">0</span></div>
     </div>
     <div class="tapping-timer-bar-container">
@@ -145,6 +145,7 @@
   <!-- Scripts -->
   <script src="sounds.js"></script>
   <script src="tapping.js"></script>
+  <script src="minigames.js"></script>
   <script src="questions.js"></script>
   <script src="game.js"></script>
 </body>

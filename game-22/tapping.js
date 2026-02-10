@@ -28,6 +28,8 @@ const TappingGame = (() => {
   }
 
   function start(duration, callback) {
+    clearInterval(spawnInterval);
+    clearInterval(gameTimer);
     tapScore = 0;
     targets = [];
     timerDuration = duration;

@@ -22,12 +22,12 @@ const Game = (() => {
   let missedQuestions = [];
   let progressResults = []; // 'correct' | 'wrong' per question
 
-  const TOTAL_QUESTIONS = 18;
-  const TAPPING_DURATION = 7000; // 7 seconds per tapping round
-  const TAPPING_ROUNDS = [6, 12]; // tapping after these question indices
-  const TIME_PER_DIFFICULTY = { easy: 12, medium: 16, hard: 22 };
+  const TOTAL_QUESTIONS = 16;
+  const MINIGAME_DURATION = 10000; // 10 seconds per mini-game round
+  const MINIGAME_AFTER_EVERY_QUESTION = true; // mini-game after each question
+  const TIMER_SECONDS = 16; // 16 seconds per question, all difficulties
   const POINTS = { easy: 100, medium: 250, hard: 500 };
-  const STORAGE_KEY = 'game22_highscore';
+  const STORAGE_KEY = 'super16_highscore';
 
   // DOM refs
   const $ = (s) => document.querySelector(s);
@@ -91,6 +91,10 @@ const Game = (() => {
       btn.addEventListener('click', () => selectAnswer(i));
     });
     TappingGame.init(els.tappingArea, els.tappingScore, els.tappingTimerBar);
+    MiniGameRouter.init(
+      els.tappingArea, els.tappingScore, els.tappingTimerBar,
+      $('#minigame-title'), $('#minigame-subtitle')
+    );
     showHighScore();
   }
 
@@ -145,6 +149,7 @@ const Game = (() => {
     els.reviewList.innerHTML = '';
     els.reviewList.classList.remove('visible');
     els.reviewBtn.textContent = 'Review Mistakes';
+    MiniGameRouter.reset();
     selectRoundQuestions();
     buildProgressBar();
     updateStreakDisplay();
@@ -154,15 +159,15 @@ const Game = (() => {
   }
 
   function selectRoundQuestions() {
-    // Pick 7 easy, 7 medium, 4 hard = 18 questions
+    // Pick 6 easy, 6 medium, 4 hard = 16 questions
     // Ensure category balance: pick from each category proportionally
     const byDifficulty = {
       easy: shuffle(questions.filter(q => q.difficulty === 'easy')),
       medium: shuffle(questions.filter(q => q.difficulty === 'medium')),
       hard: shuffle(questions.filter(q => q.difficulty === 'hard')),
     };
-    const easy = pickBalanced(byDifficulty.easy, 7);
-    const medium = pickBalanced(byDifficulty.medium, 7);
+    const easy = pickBalanced(byDifficulty.easy, 6);
+    const medium = pickBalanced(byDifficulty.medium, 6);
     const hard = pickBalanced(byDifficulty.hard, 4);
     roundQuestions = shuffle([...easy, ...medium, ...hard]);
   }
@@ -276,8 +281,8 @@ const Game = (() => {
     // Hide learning popup
     els.learningPopup.classList.remove('show');
 
-    // Start timer (scaled by difficulty)
-    startTimer(q.difficulty);
+    // Start timer (uniform 16s)
+    startTimer();
   }
 
   // ===== SCORE DISPLAY =====
@@ -292,9 +297,9 @@ const Game = (() => {
     els.scoreDisplay.classList.add('score-pop');
   }
 
-  // ===== TIMER (wall-clock, difficulty-scaled) =====
-  function startTimer(difficulty) {
-    currentTimerDuration = TIME_PER_DIFFICULTY[difficulty] || 16;
+  // ===== TIMER (wall-clock, uniform 16s) =====
+  function startTimer() {
+    currentTimerDuration = TIMER_SECONDS;
     timeLeft = currentTimerDuration;
     timerStart = performance.now();
     lastDisplayedSecond = currentTimerDuration;
@@ -439,21 +444,21 @@ const Game = (() => {
     currentIndex++;
     if (currentIndex >= TOTAL_QUESTIONS) {
       endGame();
-    } else if (TAPPING_ROUNDS.includes(currentIndex)) {
-      startTappingPhase();
+    } else if (MINIGAME_AFTER_EVERY_QUESTION) {
+      startMiniGamePhase();
     } else {
       showQuestion();
     }
   }
 
-  // ===== TAPPING PHASE =====
-  function startTappingPhase() {
+  // ===== MINI-GAME PHASE =====
+  function startMiniGamePhase() {
     state = STATE.TAPPING;
-    showTransition('Tap Time!', () => {
+    showTransition('Skill Challenge!', () => {
       showScreen('tapping');
-      TappingGame.start(TAPPING_DURATION, (score) => {
-        tapTotalScore += score;
-        showTransition('+' + score + ' Bonus!', () => {
+      MiniGameRouter.startNext(MINIGAME_DURATION, (mgScore) => {
+        tapTotalScore += mgScore;
+        showTransition('+' + mgScore + ' Bonus!', () => {
           showScreen('game');
           showQuestion();
         });
@@ -518,7 +523,7 @@ const Game = (() => {
     // Title & subtitle
     if (correctCount === TOTAL_QUESTIONS) {
       els.gameoverTitle.textContent = 'Perfect Score!';
-      els.gameoverSubtitle.textContent = 'You got all 18 right!';
+      els.gameoverSubtitle.textContent = 'You got all 16 right!';
       SoundFX.victory();
       spawnConfetti();
     } else if (pct >= 90) {
