@@ -22,6 +22,7 @@ const SoundFX = (() => {
     gain.connect(c.destination);
     osc.start(c.currentTime);
     osc.stop(c.currentTime + duration);
+    osc.onended = () => { osc.disconnect(); gain.disconnect(); };
   }
 
   function playNotes(notes) {
@@ -38,6 +39,7 @@ const SoundFX = (() => {
       gain.connect(c.destination);
       osc.start(t);
       osc.stop(t + dur);
+      osc.onended = () => { osc.disconnect(); gain.disconnect(); };
       t += dur * 0.7;
     });
   }

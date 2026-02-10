@@ -13,6 +13,7 @@ const TappingGame = (() => {
   let cachedRect = null;
   let timerStartTime = 0;
   let timerDuration = 0;
+  let stopTimeout = null;
 
   const SHAPES = ['circle', 'star', 'diamond', 'hexagon'];
   const COLORS = [
@@ -30,6 +31,7 @@ const TappingGame = (() => {
   function start(duration, callback) {
     clearInterval(spawnInterval);
     clearInterval(gameTimer);
+    clearTimeout(stopTimeout);
     tapScore = 0;
     targets = [];
     timerDuration = duration;
@@ -60,9 +62,11 @@ const TappingGame = (() => {
   }
 
   function stop() {
+    if (!active) return; // prevent double-stop
     active = false;
     clearInterval(spawnInterval);
     clearInterval(gameTimer);
+    clearTimeout(stopTimeout);
     // Clear target timeouts and fade out remaining targets
     targets.forEach(t => {
       clearTimeout(t.timeout);
@@ -73,8 +77,11 @@ const TappingGame = (() => {
     targets = [];
     // Reset timer bar for next round
     timerBar.style.transform = 'scaleX(1)';
-    setTimeout(() => {
-      if (onComplete) onComplete(tapScore);
+    const cb = onComplete;
+    const finalScore = tapScore;
+    onComplete = null;
+    stopTimeout = setTimeout(() => {
+      if (cb) cb(finalScore);
     }, 400);
   }
 

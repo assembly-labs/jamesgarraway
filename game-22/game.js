@@ -24,7 +24,6 @@ const Game = (() => {
 
   const TOTAL_QUESTIONS = 16;
   const MINIGAME_DURATION = 10000; // 10 seconds per mini-game round
-  const MINIGAME_AFTER_EVERY_QUESTION = true; // mini-game after each question
   const TIMER_SECONDS = 16; // 16 seconds per question, all difficulties
   const POINTS = { easy: 100, medium: 250, hard: 500 };
   const STORAGE_KEY = 'super16_highscore';
@@ -444,10 +443,8 @@ const Game = (() => {
     currentIndex++;
     if (currentIndex >= TOTAL_QUESTIONS) {
       endGame();
-    } else if (MINIGAME_AFTER_EVERY_QUESTION) {
-      startMiniGamePhase();
     } else {
-      showQuestion();
+      startMiniGamePhase();
     }
   }
 

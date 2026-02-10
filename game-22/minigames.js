@@ -58,9 +58,13 @@ const DualTargetBlitz = (() => {
   }
 
   function stop() {
+    if (!active) return; // prevent double-stop
+    const cb = onComplete;
+    const finalScore = score;
+    onComplete = null;
     cleanup();
     timerBar.style.transform = 'scaleX(1)';
-    setTimeout(() => { if (onComplete) onComplete(score); }, 400);
+    setTimeout(() => { if (cb) cb(finalScore); }, 400);
   }
 
   function spawnPair() {
@@ -73,9 +77,25 @@ const DualTargetBlitz = (() => {
     const size = 60;
     const color = COLORS[Math.floor(Math.random() * COLORS.length)];
 
+    // Generate two positions ensuring no overlap
+    const positions = [];
     for (let i = 0; i < 2; i++) {
-      const x = Math.random() * (rect.width - size - 20) + 10;
-      const y = Math.random() * (rect.height - size - 20) + 10;
+      let x, y, attempts = 0;
+      do {
+        x = Math.random() * (rect.width - size - 20) + 10;
+        y = Math.random() * (rect.height - size - 20) + 10;
+        attempts++;
+      } while (attempts < 20 && positions.some(p => {
+        const dx = (x + size / 2) - (p.x + size / 2);
+        const dy = (y + size / 2) - (p.y + size / 2);
+        return Math.sqrt(dx * dx + dy * dy) < size + 10;
+      }));
+      positions.push({ x, y });
+    }
+
+    for (let i = 0; i < 2; i++) {
+      const x = positions[i].x;
+      const y = positions[i].y;
       const el = document.createElement('div');
       el.className = 'dual-target';
       el.style.width = size + 'px';
@@ -244,12 +264,18 @@ const PathTracer = (() => {
     pathPoints = [];
     segments = [];
     currentSegment = 0;
+    canvas = null;
+    ctx = null;
   }
 
   function stop() {
+    if (!active) return; // prevent double-stop
+    const cb = onComplete;
+    const finalScore = score;
+    onComplete = null;
     cleanup();
     timerBar.style.transform = 'scaleX(1)';
-    setTimeout(() => { if (onComplete) onComplete(score); }, 400);
+    setTimeout(() => { if (cb) cb(finalScore); }, 400);
   }
 
   function generatePath() {
@@ -454,9 +480,13 @@ const ReactionSpeed = (() => {
   }
 
   function stop() {
+    if (!active) return; // prevent double-stop
+    const cb = onComplete;
+    const finalScore = score;
+    onComplete = null;
     cleanup();
     timerBar.style.transform = 'scaleX(1)';
-    setTimeout(() => { if (onComplete) onComplete(score); }, 400);
+    setTimeout(() => { if (cb) cb(finalScore); }, 400);
   }
 
   function scheduleNext() {
@@ -611,13 +641,12 @@ const MiniGameRouter = (() => {
   }
 
   function reset() {
+    // Stop all running mini-games to prevent stale callbacks
+    games.forEach(g => {
+      if (g.module && g.module.stop) g.module.stop();
+    });
     index = 0;
   }
 
-  function getCurrentName() {
-    const i = (index - 1 + games.length) % games.length;
-    return games[i].name;
-  }
-
-  return { init, startNext, reset, getCurrentName };
+  return { init, startNext, reset };
 })();
