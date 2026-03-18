@@ -64,7 +64,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 40px;
+    gap: 30px;
     height: 100%;
     align-items: center;
 }
@@ -244,11 +244,11 @@ body.has-navigation {
 /* Tablet Adjustments */
 @media (min-width: 769px) and (max-width: 1024px) {
     .nav-menu {
-        gap: 25px;
+        gap: 18px;
     }
 
     .nav-link {
-        font-size: 13px;
+        font-size: 12px;
     }
 }
 
