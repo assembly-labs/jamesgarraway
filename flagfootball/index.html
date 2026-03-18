@@ -1,85 +1,609 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Flag Football Champions Gallery">
-    <title>Flag Football Champions</title>
-    <!-- Security Headers -->
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noodp, noimageindex, notranslate">
-    <meta name="googlebot" content="noindex, nofollow">
-    <meta name="bingbot" content="noindex, nofollow">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta name="referrer" content="no-referrer">
-    <!-- CRITICAL: Force cache clear - DO NOT cache this page -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="../styles/gallery.css?v=1763735221&bust=v5">
-    <link rel="stylesheet" href="../styles/navigation.css?v=1763735221&bust=v5">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tryout Training</title>
+  <style>
+    :root {
+      --bg: #07110f;
+      --text: #f4f8f7;
+      --muted: #b8c7c3;
+      --line: rgba(255,255,255,0.15);
+      --eagles: #004c54;
+      --eagles-2: #0a6b73;
+      --silver: #c8d0d2;
+      --neon: #7ff6d3;
+      --ok: #65f0a7;
+      --shadow: 0 6px 24px rgba(0,0,0,0.5);
+      --cut: 3px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        linear-gradient(135deg, rgba(0,76,84,0.10) 0%, transparent 40%),
+        linear-gradient(180deg, #081311 0%, #07110f 42%, #0b1815 100%);
+      min-height: 100vh;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.06;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 22px 22px;
+      mask-image: linear-gradient(to bottom, black, transparent 90%);
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 16px 56px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--cut);
+      padding: 32px 28px 28px;
+      background:
+        linear-gradient(135deg, rgba(0,76,84,0.96), rgba(4,32,35,0.94));
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      isolation: isolate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 4px;
+      background: linear-gradient(90deg, var(--neon), var(--eagles-2), var(--silver));
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(200,208,210,0.08), transparent 60%);
+      z-index: -1;
+    }
+
+
+    h1 {
+      margin: 10px 0 8px;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      font-weight: 1000;
+      text-transform: uppercase;
+      text-wrap: balance;
+    }
+
+    .headline-accent {
+      display: block;
+      color: var(--neon);
+      text-shadow: 0 0 20px rgba(127,246,211,0.2);
+    }
+
+    .sub {
+      max-width: 720px;
+      color: #dbe7e3;
+      font-size: 1.04rem;
+      margin: 8px 0 0;
+      line-height: 1.5;
+    }
+
+    /* ── SUMMARY ── */
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .pill {
+      border-radius: var(--cut);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border: 1px solid var(--line);
+      border-top: 3px solid var(--neon);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .pill-label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .pill strong {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      letter-spacing: -0.03em;
+      display: block;
+    }
+
+    .pill-hint {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    /* ── CONTROLS ── */
+    .controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border-radius: var(--cut);
+      padding: 10px 16px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: transform 100ms ease, border-color 100ms ease, background 100ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      border-color: var(--neon);
+      background: rgba(127,246,211,0.1);
+    }
+
+    /* ── DRILL LIST ── */
+    .list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: start;
+      padding: 18px 18px 18px 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--cut);
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .item::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: linear-gradient(180deg, var(--neon), var(--eagles));
+    }
+
+    .item.done {
+      border-color: rgba(101,240,167,0.30);
+      background: linear-gradient(180deg, rgba(101,240,167,0.06), rgba(255,255,255,0.02));
+    }
+
+    .item.done::before {
+      background: var(--ok);
+    }
+
+
+    .title {
+      font-size: 1.1rem;
+      font-weight: 900;
+      margin: 0 0 6px;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+
+    .meta {
+      display: inline-flex;
+      padding: 4px 10px;
+      border: 1px solid rgba(127,246,211,0.20);
+      border-radius: var(--cut);
+      font-size: 0.76rem;
+      color: var(--neon);
+      background: rgba(127,246,211,0.06);
+      margin-bottom: 10px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .thumb {
+      width: 100%;
+      max-width: 280px;
+      border-radius: var(--cut);
+      border: 1px solid rgba(255,255,255,0.10);
+      margin-bottom: 10px;
+      display: block;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+
+    .desc {
+      margin: 0;
+      color: #dbe7e3;
+      line-height: 1.5;
+    }
+
+    a {
+      color: var(--neon);
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding-top: 4px;
+    }
+
+    .watch {
+      white-space: nowrap;
+      display: inline-block;
+      padding: 10px 16px;
+      border: 1px solid rgba(127,246,211,0.25);
+      border-radius: var(--cut);
+      background: rgba(127,246,211,0.08);
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+    }
+
+    .countlabel {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .countbox {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--line);
+      border-radius: var(--cut);
+      padding: 4px 6px;
+      min-width: 130px;
+      justify-content: center;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .mini {
+      padding: 6px 12px;
+      border-radius: var(--cut);
+      min-width: 38px;
+      font-weight: 900;
+    }
+
+    .count {
+      min-width: 24px;
+      text-align: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+
+    .footer {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 480px) {
+      .summary {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .item {
+        grid-template-columns: 1fr;
+      }
+      .actions {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+      }
+      h1 {
+        font-size: 2.35rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Skip Navigation Link (Accessibility) -->
-    <a href="#slideshow" class="skip-nav">Skip to main content</a>
+  <div class="noise"></div>
 
-    <!-- Sticky Navigation -->
-    <nav class="sticky-nav" id="stickyNav">
-        <div class="nav-container">
-            <button class="nav-hamburger" id="navHamburger" aria-label="Menu">☰</button>
-            <div class="nav-brand" id="navBrand">CHAMPION PICS</div>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="../" class="nav-link" data-page="champion">CHAMPION ROUTINE</a></li>
-                <li><a href="../flagfootball/" class="nav-link" data-page="flagfootball">CHAMPION PICS</a></li>
-                <li><a href="../math-teacher/" class="nav-link" data-page="math">MATH</a></li>
-                <li><a href="../game-22/" class="nav-link" data-page="super16">SUPER 16</a></li>
-            </ul>
-        </div>
-    </nav>
-    <div class="nav-overlay" id="navOverlay"></div>
-    <script>
-    // Force clear any service worker cached data (not session storage)
-    if('caches' in window){caches.keys().then(n=>{n.forEach(k=>caches.delete(k))})}
-    </script>
-    <script src="../js/auth-guard.js?v=1763735221&bust=v5"></script>
-    <!-- Slideshow Container -->
-    <div class="slideshow-container" id="slideshow">
-        <div class="slide active">
-            <img src="../images/IMG_4662.jpeg" alt="Champions 1" loading="lazy">
-        </div>
-        <div class="slide">
-            <img src="../images/IMG_4676.jpeg" alt="Champions 2" loading="lazy">
-        </div>
-        <div class="slide">
-            <img src="../images/Lions-Champs.jpg" alt="Lions Champions 1" loading="lazy">
-        </div>
-        <div class="slide">
-            <img src="../images/Lions-Champs2.jpg" alt="Lions Champions 2" loading="lazy">
-        </div>
-        <div class="slide">
-            <img src="../images/champs.png" alt="Champions" loading="lazy">
-        </div>
-        <div class="slide">
-            <img src="../images/dolphins-1.png" alt="Dolphins 1" loading="lazy">
-        </div>
-        <div class="slide">
-            <img src="../images/dolphins-2.png" alt="Dolphins 2" loading="lazy">
-        </div>
-        <div class="slide">
-            <img src="../images/dolphins-3.png" alt="Dolphins 3" loading="lazy">
-        </div>
+  <div class="wrap">
+    <section class="hero">
+      <h1>
+        <span class="headline-accent">Tryout Training</span>
+      </h1>
+      <p class="sub">
+        This is your playbook to earn a spot. Watch each drill, get your reps in, and check it off.
+        Defense wins games — start with flag pulls and work your way down.
+      </p>
+    </section>
+
+    <div class="summary">
+      <div class="pill">
+        <div class="pill-label">Drills Completed</div>
+        <strong><span id="completedCount">0</span> / <span id="totalCount">0</span></strong>
+        <div class="pill-hint">Videos watched and checked off</div>
+      </div>
+      <div class="pill">
+        <div class="pill-label">Total Reps Logged</div>
+        <strong><span id="sessionCount">0</span></strong>
+        <div class="pill-hint">Times you've practiced a drill</div>
+      </div>
     </div>
 
-    <!-- Navigation Arrows -->
-    <div class="nav-arrow left" id="prevBtn"></div>
-    <div class="nav-arrow right" id="nextBtn"></div>
+    <div id="list" class="list"></div>
 
-    <!-- Navigation Dots -->
-    <div class="dots-container" id="dots-container"></div>
+    <div class="controls">
+      <button id="resetCounts">Reset Drill Counts</button>
+      <button id="resetEverything">Reset Everything</button>
+    </div>
+  </div>
 
+  <script>
+    const videos = [
+      {
+        id: "flag-pulling-drills",
+        title: "Flag Pulling Drills",
+        url: "https://www.youtube.com/watch?v=0jfHNJUvu4E",
+        thumb: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Flag_Football_Juke.jpg/400px-Flag_Football_Juke.jpg",
+        category: "Defense / Flag Pulling",
+        description: "This is drill #1 for a reason. You need to rip flags clean and fast \u2014 no lunging, no guessing. Watch the hand placement and footwork here, then go practice until it's automatic."
+      },
+      {
+        id: "defensive-coverage-drills",
+        title: "Defensive Coverage Drills",
+        url: "https://www.youtube.com/watch?v=FdfHFNGhNlw",
+        thumb: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Service_members_compete_in_flag_football_championship_%288586747%29.jpg/400px-Service_members_compete_in_flag_football_championship_%288586747%29.jpg",
+        category: "Defense / Coverage",
+        description: "Staying in front of your man is half the battle. This covers how to break on routes, stay balanced, and pull the flag coming out of a cut. You'll need this in every single game."
+      },
+      {
+        id: "linebacker-pursuit-angles",
+        title: "Pursuit Angles & Linebacker Drills",
+        url: "https://www.youtube.com/watch?v=4562wkCfuY8",
+        thumb: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/2CR_Dragoon_Week_2024-_Flag_Football_Championship_%288425850%29.jpg/400px-2CR_Dragoon_Week_2024-_Flag_Football_Championship_%288425850%29.jpg",
+        category: "Defense / Pursuit Angles",
+        description: "If someone gets past the first defender, it's your job to chase them down. Learn how to take the right angle so you cut off the runner instead of chasing from behind."
+      },
+      {
+        id: "defensive-back-coverage",
+        title: "DB Drills \u2014 Coverage Technique",
+        url: "https://www.youtube.com/watch?v=gV4FjCTsmLw",
+        thumb: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/US_Navy_100818-N-8283S-399_Seaman_Semanya_Lowe%2C_assigned_to_the_amphibious_assault_ship_USS_Boxer_%28LHD_4%29_tries_to_intercept_a_pass_during_a_flag_football_game_versus_the_amphibious_assault_ship_USS_Bonhomme_Richard_%28LHD_6%29_as.jpg/400px-thumbnail.jpg",
+        category: "Defense / DB Skills",
+        description: "Box-drill footwork, hip turns, and reading the receiver's body. These are the details that separate a good defender from someone who gets burned every play."
+      },
+      {
+        id: "linebacker-drills",
+        title: "Linebacker Fundamentals",
+        url: "https://www.youtube.com/watch?v=CyPYW7j2n9M",
+        thumb: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/US_Army_52178_Kelley_Hill_wins_25-18.jpg/400px-US_Army_52178_Kelley_Hill_wins_25-18.jpg",
+        category: "Defense / Linebacker",
+        description: "Lateral movement, reading the play, and getting to the ball carrier. If you want to play in the middle of the field, these are the reps you need."
+      },
+      {
+        id: "defensive-back-drills",
+        title: "DB Drills \u2014 Body Control & Footwork",
+        url: "https://www.youtube.com/watch?v=7LuOZMw1NXY",
+        thumb: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/MRF-D_25_3-_Marines_play_flag_football_with_students_at_Darwin_Middle_School_%289050734%29.jpg/400px-MRF-D_25_3-_Marines_play_flag_football_with_students_at_Darwin_Middle_School_%289050734%29.jpg",
+        category: "Defense / DB Skills",
+        description: "Good feet make good defenders. This one focuses on body control, backpedal technique, and smooth transitions so you can stay with any receiver."
+      },
+      {
+        id: "defensive-rushing-reading-offenses",
+        title: "Reading Offenses & Defensive Rushing",
+        url: "https://www.youtube.com/watch?v=tKujvMQAehE",
+        thumb: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Everson_Griffen_rushing_Jay_Cutler_%28cropped%29.jpg/400px-Everson_Griffen_rushing_Jay_Cutler_%28cropped%29.jpg",
+        category: "Defense / Rusher",
+        description: "Before you rush, you need to read. This teaches you how to recognize what the offense is doing so you can attack the right gap and blow up plays in the backfield."
+      },
+      {
+        id: "pass-rush-drills",
+        title: "Pass Rush Drills",
+        url: "https://www.youtube.com/watch?v=YT7k1kJjhoI",
+        thumb: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/USMC-100527-M-3909A-876.jpg/400px-USMC-100527-M-3909A-876.jpg",
+        category: "Defense / Rusher",
+        description: "Getting to the quarterback wins games. Learn how to explode off the line, close space fast, and force bad throws. Bring the pressure."
+      },
+      {
+        id: "running-back-drills-footwork",
+        title: "RB Footwork \u2014 Cuts, Jukes & Hips",
+        url: "https://www.youtube.com/watch?v=BZwUkNjG-Gg",
+        thumb: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Flagfootballut.jpg/400px-Flagfootballut.jpg",
+        category: "RB / Open Field",
+        description: "Even as a defender, you need to understand what the offense is trying to do. Watch how runners set up their cuts \u2014 then you'll know how to take them away."
+      },
+      {
+        id: "running-back-drills",
+        title: "Running Back Fundamentals",
+        url: "https://www.youtube.com/watch?v=ugwBXIqM_jU",
+        thumb: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/04142012Infantil290.JPG/400px-04142012Infantil290.JPG",
+        category: "RB / Fundamentals",
+        description: "Know the running back's job so you can stop it. Ball security, vision, and when they decide to hit the hole \u2014 study this so nothing surprises you on game day."
+      }
+    ];
 
-    <script src="../js/gallery.js?v=1763735221&bust=v5"></script>
-    <script src="../js/navigation.js?v=1763735221&bust=v5"></script>
+    const STORAGE_KEY = "philly_flag_tracker_v2";
+
+    function loadState() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return {};
+      try { return JSON.parse(raw) || {}; } catch { return {}; }
+    }
+
+    function saveState(state) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    let state = loadState();
+
+    function getVideoState(id) {
+      if (!state[id]) state[id] = { checked: false, count: 0 };
+      return state[id];
+    }
+
+    function updateSummary() {
+      const completed = videos.filter(v => getVideoState(v.id).checked).length;
+      const sessions = videos.reduce((sum, v) => sum + (getVideoState(v.id).count || 0), 0);
+      document.getElementById("completedCount").textContent = completed;
+      document.getElementById("totalCount").textContent = videos.length;
+      document.getElementById("sessionCount").textContent = sessions;
+    }
+
+    function render() {
+      const list = document.getElementById("list");
+      list.innerHTML = "";
+
+      videos.forEach((video, index) => {
+        const s = getVideoState(video.id);
+
+        const item = document.createElement("div");
+        item.className = "item" + (s.checked ? " done" : "");
+
+        const content = document.createElement("div");
+
+        const thumb = document.createElement("img");
+        thumb.className = "thumb";
+        thumb.src = video.thumb;
+        thumb.alt = video.title;
+        thumb.loading = "lazy";
+        thumb.onerror = function() { this.style.display = "none"; };
+        content.appendChild(thumb);
+
+        const title = document.createElement("div");
+        title.className = "title";
+        title.textContent = `${index + 1}. ${video.title}`;
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = video.category;
+
+        const desc = document.createElement("p");
+        desc.className = "desc";
+        desc.textContent = video.description + " ";
+
+        const link = document.createElement("a");
+        link.href = video.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.className = "watch";
+        link.textContent = "Watch Video";
+        desc.appendChild(document.createElement("br"));
+        desc.appendChild(document.createElement("br"));
+        desc.appendChild(link);
+
+        content.appendChild(title);
+        content.appendChild(meta);
+        content.appendChild(desc);
+
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const countBox = document.createElement("div");
+        countBox.className = "countbox";
+
+        const minus = document.createElement("button");
+        minus.className = "mini";
+        minus.textContent = "\u2212";
+        minus.addEventListener("click", () => {
+          s.count = Math.max(0, (s.count || 0) - 1);
+          saveState(state);
+          render();
+        });
+
+        const count = document.createElement("span");
+        count.className = "count";
+        count.textContent = s.count || 0;
+
+        const plus = document.createElement("button");
+        plus.className = "mini";
+        plus.textContent = "+";
+        plus.addEventListener("click", () => {
+          s.count = (s.count || 0) + 1;
+          if (s.count > 0) s.checked = true;
+          saveState(state);
+          render();
+        });
+
+        countBox.appendChild(minus);
+        countBox.appendChild(count);
+        countBox.appendChild(plus);
+
+        const countLabel = document.createElement("div");
+        countLabel.className = "countlabel";
+        countLabel.textContent = "Reps";
+
+        actions.appendChild(countLabel);
+        actions.appendChild(countBox);
+
+        item.appendChild(content);
+        item.appendChild(actions);
+
+        list.appendChild(item);
+      });
+
+      updateSummary();
+    }
+
+    document.getElementById("resetCounts").addEventListener("click", () => {
+      videos.forEach(v => getVideoState(v.id).count = 0);
+      saveState(state);
+      render();
+    });
+
+    document.getElementById("resetEverything").addEventListener("click", () => {
+      state = {};
+      saveState(state);
+      render();
+    });
+
+    render();
+  </script>
 </body>
 </html>
