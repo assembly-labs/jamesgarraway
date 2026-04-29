@@ -41,3 +41,6 @@ next-env.d.ts
 *.swp
 *.swo
 .claude/
+
+# Photos — images and manifest are never committed
+/photos/images/

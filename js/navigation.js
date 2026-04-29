@@ -99,6 +99,9 @@
             if (currentPath.includes('/minecraft/') || currentPath.includes('/minecoins/')) {
                 activePage = 'minecoins';
                 pageTitle = 'MINECOINS';
+            } else if (currentPath.includes('/photos/')) {
+                activePage = 'photos';
+                pageTitle = 'PHOTOS';
             } else if (currentPath.includes('/flagfootball/')) {
                 activePage = 'flagfootball';
                 pageTitle = 'CHAMPION PICS';
