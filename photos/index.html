@@ -13,148 +13,51 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <link rel="stylesheet" href="../styles/themes.css?v=1763735221&bust=v5">
-  <link rel="stylesheet" href="../styles/routine.css?v=1763735221&bust=v5">
   <link rel="stylesheet" href="../styles/navigation.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="../styles/gallery.css?v=1763735221&bust=v5">
   <style>
-    .photos-header {
-      background: var(--primary);
-      padding: clamp(20px, 4vw, 30px);
-      border-radius: 16px;
-      margin-bottom: clamp(15px, 3vw, 25px);
-      margin-top: clamp(8px, 2vh, 20px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-      border: 2px solid rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    .photos-header h1 {
-      margin: 0;
-      font-size: clamp(28px, 6vw, 48px);
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      color: var(--text);
+    /* nav sits above slideshow */
+    body { overflow: hidden; }
+    .slideshow-container { padding-top: 0; }
+
+    /* caption overlay on each slide */
+    .slide-caption {
+      position: absolute;
+      bottom: 160px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.75);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+      white-space: nowrap;
+      pointer-events: none;
     }
 
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: clamp(12px, 2.5vw, 20px);
-      width: 100%;
-      padding-bottom: env(safe-area-inset-bottom, 0);
-    }
-
-    .photo-card {
-      background: var(--cardBg);
-      border-radius: 12px;
-      border: 2px solid rgba(255,255,255,0.08);
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      /* Trading card ratio: 2.5 : 3.5 */
-      aspect-ratio: 2.5 / 3.5;
+    /* placeholder when no manifest */
+    .empty-state {
       display: flex;
       flex-direction: column;
-    }
-    .photo-card:hover {
-      transform: translateY(-4px) scale(1.03);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 2px var(--accent);
-      border-color: var(--accent);
-    }
-
-    .photo-card img {
-      width: 100%;
-      flex: 1;
-      object-fit: cover;
-      display: block;
-      min-height: 0;
-    }
-
-    .photo-caption {
-      padding: 8px 10px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--secondary);
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      background: var(--cardBg);
-      flex-shrink: 0;
-    }
-
-    /* Placeholder card */
-    .photo-card.placeholder {
-      border: 2px dashed rgba(255,255,255,0.2);
-      cursor: default;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      height: 100vh;
+      color: rgba(255,255,255,0.25);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      gap: 12px;
     }
-    .photo-card.placeholder:hover {
-      transform: none;
-      box-shadow: none;
-      border-color: rgba(255,255,255,0.2);
-    }
-    .placeholder-icon {
-      font-size: 32px;
-      opacity: 0.3;
-    }
-    .placeholder-label {
-      font-size: 11px;
+    .empty-state .icon { font-size: 48px; opacity: 0.3; }
+    .empty-state p {
+      font-size: 12px;
       font-weight: 700;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--secondary);
-      opacity: 0.5;
-      text-align: center;
-      padding: 0 12px;
-    }
-
-    /* Lightbox */
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: rgba(0,0,0,0.92);
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .lightbox.open {
-      display: flex;
-    }
-    .lightbox img {
-      max-width: 100%;
-      max-height: 90vh;
-      border-radius: 12px;
-      box-shadow: 0 0 80px rgba(0,0,0,0.8);
-      object-fit: contain;
-    }
-    .lightbox-close {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: var(--cardBg);
-      border: 2px solid rgba(255,255,255,0.15);
-      color: var(--text);
-      font-size: 20px;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2001;
+      margin: 0;
     }
   </style>
 </head>
 <body>
-  <a href="#header" class="skip-nav">Skip to main content</a>
-
   <nav class="sticky-nav" id="stickyNav">
     <div class="nav-container">
       <button class="nav-hamburger" id="navHamburger" aria-label="Menu">&#9776;</button>
@@ -172,92 +75,173 @@
 
   <script src="../js/auth-guard.js?v=1763735221&bust=v5"></script>
 
-  <main class="app">
-    <div id="header" class="photos-header">
-      <h1>PHOTOS</h1>
-    </div>
-
-    <div class="photo-grid" id="photoGrid"></div>
-  </main>
-
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&#x2715;</button>
-    <img id="lightboxImg" src="" alt="">
-  </div>
+  <div id="app"></div>
 
   <script src="../js/navigation.js?v=1763735221&bust=v5"></script>
   <script>
-    (function() {
-      var grid = document.getElementById('photoGrid');
-      var lightbox = document.getElementById('lightbox');
-      var lightboxImg = document.getElementById('lightboxImg');
-      var lightboxClose = document.getElementById('lightboxClose');
+  (function() {
+    var autoPlayDelay = 5000;
+    var currentSlide = 0;
+    var autoPlayInterval, progressInterval;
+    var slides, dotsContainer, totalSlides;
 
-      function showPlaceholder() {
-        var card = document.createElement('div');
-        card.className = 'photo-card placeholder';
-        card.innerHTML = '<div class="placeholder-icon">+</div><div class="placeholder-label">Add photos here</div>';
-        grid.appendChild(card);
+    // ── confetti ──────────────────────────────────────────────
+    var confettiColors = ['#FF0000','#0000FF','#FFD700','#00FF00','#9370DB','#FF8C00','#FF69B4'];
+    function rnd(a,b){return Math.random()*(b-a)+a;}
+    function triggerConfetti() {
+      var w=window.innerWidth, h=window.innerHeight;
+      for(var i=0;i<200;i++){
+        var p=document.createElement('div');
+        p.className='confetti-piece';
+        p.style.left=rnd(0,w)+'px';
+        p.style.top=rnd(-500,-50)+'px';
+        p.style.backgroundColor=confettiColors[Math.floor(Math.random()*confettiColors.length)];
+        p.style.animationDelay=rnd(0,1)+'s';
+        var s=rnd(12,25); p.style.width=s+'px'; p.style.height=s+'px';
+        p.style.setProperty('--rotation',rnd(0,360)+'deg');
+        p.style.setProperty('--end-rotation',rnd(360,1080)+'deg');
+        p.style.setProperty('--drift-x',rnd(-200,200)+'px');
+        document.body.appendChild(p);
+        setTimeout(function(){p.remove();},4500);
       }
+    }
 
-      function buildCard(item) {
-        var card = document.createElement('div');
-        card.className = 'photo-card';
-
-        var img = document.createElement('img');
-        img.src = 'images/' + item.src;
-        img.alt = item.caption || item.src;
-        img.loading = 'lazy';
-
-        var caption = document.createElement('div');
-        caption.className = 'photo-caption';
-        caption.textContent = item.caption || item.src;
-
-        card.appendChild(img);
-        card.appendChild(caption);
-
-        card.addEventListener('click', function() {
-          lightboxImg.src = 'images/' + item.src;
-          lightboxImg.alt = item.caption || item.src;
-          lightbox.classList.add('open');
-        });
-
-        return card;
+    // ── dots ──────────────────────────────────────────────────
+    function createDots() {
+      dotsContainer.innerHTML = '';
+      for(var i=0;i<totalSlides;i++){
+        var dot=document.createElement('div');
+        dot.className='dot'+(i===0?' active':'');
+        var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+        svg.classList.add('progress-ring');
+        var circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+        circle.classList.add('progress-ring-circle');
+        circle.setAttribute('cx','28'); circle.setAttribute('cy','28'); circle.setAttribute('r','26');
+        svg.appendChild(circle);
+        var inner=document.createElement('div');
+        inner.className='dot-inner';
+        dot.appendChild(svg); dot.appendChild(inner);
+        (function(idx){dot.addEventListener('click',function(){goToSlide(idx);});})(i);
+        dotsContainer.appendChild(dot);
       }
+    }
+    function updateDots() {
+      var dots=document.querySelectorAll('.dot');
+      dots.forEach(function(d,i){d.classList.toggle('active',i===currentSlide);});
+    }
+    function animateProgress() {
+      var activeDot=document.querySelector('.dot.active');
+      if(!activeDot) return;
+      var circle=activeDot.querySelector('.progress-ring-circle');
+      var circumference=164, progress=0;
+      var step=100/(autoPlayDelay/50);
+      clearInterval(progressInterval);
+      circle.style.strokeDashoffset=circumference;
+      progressInterval=setInterval(function(){
+        progress+=step;
+        if(progress>=100){progress=100;clearInterval(progressInterval);}
+        circle.style.strokeDashoffset=circumference-(progress/100)*circumference;
+      },50);
+    }
 
-      function render(items) {
-        grid.innerHTML = '';
-        if (!items || items.length === 0) {
-          showPlaceholder();
-          return;
-        }
-        items.forEach(function(item) {
-          grid.appendChild(buildCard(item));
-        });
-      }
+    // ── slide navigation ──────────────────────────────────────
+    function showSlide(index) {
+      slides.forEach(function(s,i){s.classList.toggle('active',i===index);});
+      currentSlide=index;
+      updateDots();
+      triggerConfetti();
+      animateProgress();
+    }
+    function nextSlide(){showSlide((currentSlide+1)%totalSlides);resetAutoPlay();}
+    function prevSlide(){showSlide((currentSlide-1+totalSlides)%totalSlides);resetAutoPlay();}
+    function goToSlide(i){if(i!==currentSlide){showSlide(i);resetAutoPlay();}}
+    function startAutoPlay(){autoPlayInterval=setInterval(nextSlide,autoPlayDelay);animateProgress();}
+    function stopAutoPlay(){clearInterval(autoPlayInterval);clearInterval(progressInterval);}
+    function resetAutoPlay(){stopAutoPlay();startAutoPlay();}
 
-      fetch('images/manifest.json?t=' + Date.now())
-        .then(function(r) { return r.ok ? r.json() : []; })
-        .catch(function() { return []; })
-        .then(render);
+    // ── touch ──────────────────────────────────────────────────
+    var touchStartX=0, touchEndX=0;
+    function initTouch(el) {
+      el.addEventListener('touchstart',function(e){touchStartX=e.changedTouches[0].screenX;});
+      el.addEventListener('touchend',function(e){
+        touchEndX=e.changedTouches[0].screenX;
+        var diff=touchStartX-touchEndX;
+        if(Math.abs(diff)>50){diff>0?nextSlide():prevSlide();}
+      });
+    }
 
-      lightboxClose.addEventListener('click', function() {
-        lightbox.classList.remove('open');
-        lightboxImg.src = '';
-      });
-      lightbox.addEventListener('click', function(e) {
-        if (e.target === lightbox) {
-          lightbox.classList.remove('open');
-          lightboxImg.src = '';
+    // ── keyboard ──────────────────────────────────────────────
+    document.addEventListener('keydown',function(e){
+      if(e.key==='ArrowLeft') prevSlide();
+      else if(e.key==='ArrowRight') nextSlide();
+      else if(e.key===' '){e.preventDefault();autoPlayInterval?stopAutoPlay():startAutoPlay();}
+    });
+
+    // ── build & init ──────────────────────────────────────────
+    function buildCarousel(items) {
+      var app = document.getElementById('app');
+      app.innerHTML = '';
+
+      // left arrow
+      var btnL=document.createElement('div');
+      btnL.className='nav-arrow left'; btnL.id='prevBtn';
+      btnL.addEventListener('click',prevSlide);
+      app.appendChild(btnL);
+
+      // slideshow
+      var ss=document.createElement('div');
+      ss.className='slideshow-container'; ss.id='slideshow';
+      items.forEach(function(item) {
+        var slide=document.createElement('div');
+        slide.className='slide';
+        var img=document.createElement('img');
+        img.src='images/'+item.src;
+        img.alt=item.caption||item.src;
+        img.addEventListener('click',nextSlide);
+        slide.appendChild(img);
+        if(item.caption){
+          var cap=document.createElement('div');
+          cap.className='slide-caption';
+          cap.textContent=item.caption;
+          slide.appendChild(cap);
         }
+        ss.appendChild(slide);
       });
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          lightbox.classList.remove('open');
-          lightboxImg.src = '';
-        }
+      app.appendChild(ss);
+
+      // dots
+      dotsContainer=document.createElement('div');
+      dotsContainer.className='dots-container'; dotsContainer.id='dots-container';
+      app.appendChild(dotsContainer);
+
+      // right arrow
+      var btnR=document.createElement('div');
+      btnR.className='nav-arrow right'; btnR.id='nextBtn';
+      btnR.addEventListener('click',nextSlide);
+      app.appendChild(btnR);
+
+      slides=ss.querySelectorAll('.slide');
+      totalSlides=slides.length;
+      createDots();
+      initTouch(ss);
+      showSlide(0);
+      startAutoPlay();
+      setTimeout(triggerConfetti,500);
+    }
+
+    function showEmpty() {
+      var app=document.getElementById('app');
+      app.innerHTML='<div class="empty-state"><div class="icon">+</div><p>Add photos here</p></div>';
+    }
+
+    fetch('images/manifest.json?t='+Date.now())
+      .then(function(r){return r.ok?r.json():[];})
+      .catch(function(){return [];})
+      .then(function(items){
+        if(!items||items.length===0){showEmpty();}
+        else{buildCarousel(items);}
       });
-    })();
+  })();
   </script>
 </body>
 </html>
