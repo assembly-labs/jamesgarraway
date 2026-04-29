@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Private Page">
+  <title>Private Homepage</title>
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noodp, noimageindex, notranslate">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="color-scheme" content="dark light" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="/styles/themes.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="/styles/routine.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="/styles/navigation.css?v=1763735221&bust=v5">
+</head>
+<body>
+  <a href="#main" class="skip-nav">Skip to main content</a>
+
+  <nav class="sticky-nav" id="stickyNav">
+    <div class="nav-container">
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu">&#9776;</button>
+      <div class="nav-brand" id="navBrand">CHAMPION ROUTINE</div>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="/routine/" class="nav-link" data-page="routine">CHAMPION ROUTINE</a></li>
+        <li><a href="/flagfootball/" class="nav-link" data-page="flagfootball">TRYOUT TRAINING</a></li>
+        <li><a href="/math-teacher/" class="nav-link" data-page="math">MATH</a></li>
+        <li><a href="/game-22/" class="nav-link" data-page="super16">SUPER 16</a></li>
+        <li><a href="/photos/"   class="nav-link" data-page="photos">PHOTOS</a></li>
+        <li><a href="/weather/"  class="nav-link" data-page="weather">WEATHER</a></li>
+        <li><a href="/schedule/" class="nav-link" data-page="schedule">SCHEDULE</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <script>
+    if ('caches' in window) { caches.keys().then(n => { n.forEach(k => caches.delete(k)); }); }
+  </script>
+  <script src="/js/auth-guard.js?v=1763735221&bust=v5"></script>
+
+  <!-- Blaster layers (must be in DOM before themes.js loads) -->
+  <div class="blaster-bg" id="blaster-bg" aria-hidden="true"></div>
+  <div class="blaster-fg" id="blaster-fg" aria-hidden="true"></div>
+
+  <main class="app routine-app" id="main">
+
+    <!-- Theme selector -->
+    <div class="controls">
+      <select id="teamSelect" aria-label="Choose theme"></select>
+    </div>
+
+    <!-- Mode toggle: segmented control -->
+    <div class="mode-toggle" role="tablist" aria-label="Routine mode">
+      <button class="mode-btn active" id="btnMorning" role="tab" aria-selected="true">MORNING</button>
+      <button class="mode-btn" id="btnNight" role="tab" aria-selected="false">NIGHT BEFORE</button>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="routine-progress-track"
+         role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+         id="progressTrack">
+      <div class="routine-progress-fill" id="progressFill"></div>
+    </div>
+    <div class="routine-progress-label" id="progressLabel">0 of 0 done</div>
+
+    <!-- Checklist items rendered here -->
+    <div id="routineList"></div>
+
+  </main>
+
+  <script src="/js/themes.js?v=1763735221&bust=v5"></script>
+  <script src="/js/confetti-cannon.js?v=1763735221&bust=v5"></script>
+  <script src="/js/celebrations.js?v=1763735221&bust=v5"></script>
+  <script src="/routine/routine.js?v=1763735221&bust=v5"></script>
+  <script src="/js/navigation.js?v=1763735221&bust=v5"></script>
+</body>
+</html>
