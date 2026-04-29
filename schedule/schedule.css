@@ -1,0 +1,290 @@
+/* ==============================
+   SCHEDULE PAGE — scoped styles
+   ============================== */
+
+/* Week navigation */
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: clamp(12px, 2.5vw, 20px);
+  gap: 10px;
+}
+
+.week-nav-btn {
+  background: var(--cardBg);
+  border: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: 10px;
+  color: var(--accent);
+  font-family: inherit;
+  font-size: clamp(13px, 2.8vw, 15px);
+  font-weight: 700;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.15s ease);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.week-nav-btn:hover {
+  background: color-mix(in srgb, var(--accent) 15%, var(--cardBg));
+  border-color: var(--accent);
+}
+
+#week-label {
+  font-size: clamp(12px, 2.5vw, 15px);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--text);
+  text-align: center;
+  flex: 1;
+}
+
+/* DUE SOON strip */
+.due-soon-strip {
+  background: var(--primary);
+  border: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: 12px;
+  padding: clamp(10px, 2vw, 16px);
+  margin-bottom: clamp(12px, 2.5vw, 20px);
+}
+
+.due-soon-label {
+  font-size: clamp(10px, 2vw, 11px);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.due-soon-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  cursor: pointer;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.due-soon-item:last-child { border-bottom: none; }
+.due-soon-item:hover { opacity: 0.8; }
+
+.due-soon-emoji { font-size: 1.1rem; flex-shrink: 0; }
+.due-soon-text {
+  flex: 1;
+  font-size: clamp(13px, 2.8vw, 15px);
+  font-weight: 600;
+  color: var(--text);
+}
+.due-soon-meta {
+  font-size: clamp(11px, 2.2vw, 13px);
+  color: var(--secondary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Schedule grid */
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: clamp(5px, 1vw, 9px);
+}
+
+/* Day column */
+.schedule-day {
+  background: var(--cardBg);
+  border: 2px solid color-mix(in srgb, var(--accent) 18%, transparent);
+  border-radius: 12px;
+  padding: clamp(7px, 1.4vw, 11px) clamp(5px, 1vw, 9px);
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.schedule-day.today {
+  border-color: var(--accent);
+  border-left-width: 4px;
+  background: color-mix(in srgb, var(--accent) 7%, var(--cardBg));
+}
+
+.day-header {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 5px;
+}
+
+.day-name {
+  font-size: clamp(9px, 1.7vw, 11px);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.day-num {
+  font-size: clamp(10px, 1.9vw, 12px);
+  font-weight: 700;
+  color: var(--text);
+  opacity: 0.6;
+}
+
+.today-badge {
+  display: block;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border-radius: 4px;
+  padding: 1px 4px;
+  margin-top: 2px;
+}
+
+.day-events {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.day-free {
+  font-size: clamp(10px, 1.8vw, 12px);
+  color: var(--secondary);
+  opacity: 0.45;
+  font-style: italic;
+  padding: 4px 0;
+}
+
+/* Event card */
+.event-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  background: color-mix(in srgb, var(--primary) 55%, var(--cardBg));
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+  border-radius: 8px;
+  padding: 6px 7px;
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.15s ease);
+}
+.event-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--cardBg));
+}
+
+.event-emoji {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.event-name {
+  font-size: clamp(9px, 1.7vw, 11px);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.event-time {
+  font-size: clamp(8px, 1.5vw, 10px);
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+
+.modal-card {
+  background: var(--cardBg);
+  border: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 16px;
+  padding: clamp(22px, 5vw, 34px);
+  max-width: 380px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--secondary);
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color var(--transition-fast, 0.15s ease);
+  line-height: 1;
+}
+.modal-close:hover { color: var(--text); }
+
+.modal-emoji {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.modal-name {
+  font-size: clamp(18px, 4vw, 22px);
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 10px;
+  letter-spacing: 0.2px;
+}
+
+.modal-detail {
+  font-size: clamp(14px, 3vw, 16px);
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.modal-notes {
+  font-size: clamp(12px, 2.5vw, 14px);
+  color: var(--secondary);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* Error state */
+.schedule-error {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--secondary);
+  font-size: clamp(14px, 3vw, 16px);
+}
+
+/* Mobile: days stack vertically */
+@media (max-width: 768px) {
+  .schedule-grid {
+    grid-template-columns: 1fr;
+  }
+  .schedule-day {
+    min-height: auto;
+  }
+  .event-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+  .event-emoji { font-size: 1.2rem; }
+  .event-name  { font-size: clamp(13px, 3vw, 15px); }
+  .event-time  { font-size: clamp(11px, 2.5vw, 13px); }
+}

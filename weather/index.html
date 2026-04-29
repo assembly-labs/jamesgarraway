@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Private Page">
+  <title>Weather</title>
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noodp, noimageindex, notranslate">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="color-scheme" content="dark light" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="/styles/themes.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="/styles/routine.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="/styles/navigation.css?v=1763735221&bust=v5">
+  <style>
+    /* ---- Location selector: segmented control ---- */
+    .location-selector {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      background: var(--cardBg);
+      border: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      border-radius: 14px;
+      padding: 4px;
+      margin-bottom: clamp(15px, 3vw, 25px);
+    }
+    .loc-btn {
+      background: transparent;
+      border: none;
+      border-radius: 10px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: clamp(11px, 2.5vw, 14px);
+      font-weight: 600;
+      padding: 14px 8px;
+      min-height: 44px;
+      cursor: pointer;
+      transition: background var(--transition-fast, .15s ease),
+                  opacity var(--transition-fast, .15s ease);
+      text-align: center;
+      opacity: 0.6;
+      letter-spacing: 0.3px;
+    }
+    .loc-btn.active {
+      background: var(--primary);
+      color: var(--accent);
+      opacity: 1;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    }
+    .loc-btn:hover:not(.active) {
+      opacity: 0.85;
+      background: color-mix(in srgb, var(--primary) 40%, transparent);
+    }
+    .loc-btn:active {
+      transform: scale(0.95);
+      opacity: 0.7;
+      transition: transform 80ms ease, opacity 80ms ease;
+    }
+
+    /* ---- Current conditions hero (no widget wrapper) ---- */
+    .weather-hero {
+      background: var(--cardBg);
+      border: 2px solid color-mix(in srgb, var(--accent) 35%, transparent);
+      border-radius: 16px;
+      padding: clamp(20px, 4vw, 32px) clamp(16px, 3vw, 24px);
+      margin-bottom: clamp(15px, 3vw, 25px);
+      box-shadow:
+        0 4px 20px rgba(0,0,0,0.3),
+        0 0 28px color-mix(in srgb, var(--accent) 15%, transparent);
+      text-align: center;
+    }
+    .weather-location {
+      font-size: clamp(11px, 2.2vw, 13px);
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.85;
+      margin-bottom: 12px;
+    }
+    .weather-icon {
+      font-size: clamp(52px, 12vw, 72px);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .weather-temp {
+      font-size: clamp(80px, 20vw, 120px);
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: -3px;
+      margin-bottom: 10px;
+    }
+    .weather-condition {
+      font-size: clamp(18px, 4vw, 24px);
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+    .weather-feels {
+      font-size: clamp(13px, 2.8vw, 15px);
+      opacity: 0.55;
+      margin-bottom: 20px;
+    }
+    .outfit-box {
+      background: var(--primary);
+      border: 2px solid color-mix(in srgb, var(--accent) 50%, transparent);
+      border-radius: 12px;
+      padding: clamp(14px, 3vw, 20px);
+      font-size: clamp(15px, 3.2vw, 18px);
+      font-weight: 700;
+      line-height: 1.5;
+      text-align: left;
+    }
+    .outfit-label {
+      font-size: clamp(10px, 2vw, 12px);
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    /* ---- 5-day forecast strip ---- */
+    .forecast-hint {
+      font-size: clamp(11px, 2.2vw, 12px);
+      color: var(--accent);
+      opacity: 0.55;
+      text-align: center;
+      margin: 0 0 12px;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .forecast-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: clamp(6px, 1.5vw, 12px);
+    }
+    .forecast-day {
+      background: var(--cardBg);
+      border: 2px solid color-mix(in srgb, var(--accent) 25%, transparent);
+      border-radius: 12px;
+      padding: clamp(10px, 2vw, 14px) clamp(4px, 1vw, 8px);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: border-color 150ms ease, background 150ms ease, transform 80ms ease;
+    }
+    .forecast-day:active {
+      transform: scale(0.96);
+    }
+    .forecast-day[aria-expanded="true"] {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 12%, var(--cardBg));
+    }
+    .forecast-day.has-activity {
+      border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+      background: color-mix(in srgb, var(--accent) 8%, var(--cardBg));
+    }
+    .forecast-day.has-activity[aria-expanded="true"] {
+      background: color-mix(in srgb, var(--accent) 16%, var(--cardBg));
+    }
+    .forecast-day-name {
+      font-size: clamp(11px, 2.2vw, 13px);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .forecast-day-icon {
+      font-size: clamp(22px, 5vw, 32px);
+      line-height: 1;
+    }
+    .forecast-temps {
+      font-size: clamp(12px, 2.2vw, 14px);
+      font-weight: 700;
+    }
+    .forecast-high { color: var(--text); }
+    .forecast-low  { color: var(--secondary); }
+    .activity-badge {
+      font-size: clamp(10px, 1.8vw, 11px);
+      font-weight: 700;
+      color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 18%, transparent);
+      border-radius: 4px;
+      padding: 2px 5px;
+      letter-spacing: 0.3px;
+      margin-top: 2px;
+      line-height: 1.3;
+      text-align: center;
+    }
+    .forecast-outfit-tip {
+      font-size: clamp(10px, 1.9vw, 12px);
+      color: var(--text);
+      line-height: 1.4;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+      font-weight: 500;
+      text-align: center;
+    }
+
+    /* ---- Forecast stagger reveal ---- */
+    @keyframes forecastReveal {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0);   }
+    }
+    .forecast-day {
+      opacity: 0;
+      animation: forecastReveal 280ms ease forwards;
+    }
+    .forecast-day:nth-child(1) { animation-delay:   0ms; }
+    .forecast-day:nth-child(2) { animation-delay:  45ms; }
+    .forecast-day:nth-child(3) { animation-delay:  90ms; }
+    .forecast-day:nth-child(4) { animation-delay: 135ms; }
+    .forecast-day:nth-child(5) { animation-delay: 180ms; }
+
+    /* ---- Loading / error ---- */
+    @keyframes weatherPulse {
+      0%, 100% { opacity: 0.35; }
+      50%      { opacity: 0.85; }
+    }
+    .weather-loading {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: clamp(14px, 3vw, 17px);
+      font-weight: 600;
+      animation: weatherPulse 1.5s ease-in-out infinite;
+    }
+    .weather-error {
+      text-align: center;
+      padding: 20px;
+      color: var(--accent);
+      font-size: clamp(13px, 2.8vw, 15px);
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .retry-btn {
+      background: var(--primary);
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-family: inherit;
+      font-size: clamp(13px, 2.8vw, 15px);
+      font-weight: 700;
+      padding: 10px 24px;
+      min-height: 44px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background 150ms ease;
+    }
+    .retry-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* ---- Touch device: disable sticky hover on widgets ---- */
+    @media (hover: none) {
+      .widget:hover {
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        transform: none;
+        border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+      }
+    }
+
+    /* ---- Small screen fixes ---- */
+    @media (max-width: 380px) {
+      .location-selector  { grid-template-columns: repeat(2, 1fr); }
+      .forecast-strip     { gap: 4px; }
+      .forecast-day-name  { font-size: 11px; }
+      .forecast-temps     { font-size: 12px; }
+      .activity-badge     { font-size: 10px; padding: 2px 3px; }
+      .forecast-outfit-tip { font-size: 10px; }
+      .weather-temp       { letter-spacing: -1px; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-nav">Skip to main content</a>
+
+  <nav class="sticky-nav" id="stickyNav">
+    <div class="nav-container">
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu">&#9776;</button>
+      <div class="nav-brand" id="navBrand">WEATHER</div>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="/"              class="nav-link" data-page="champion">CHAMPION ROUTINE</a></li>
+        <li><a href="/flagfootball/" class="nav-link" data-page="flagfootball">TRYOUT TRAINING</a></li>
+        <li><a href="/math-teacher/" class="nav-link" data-page="math">MATH</a></li>
+        <li><a href="/game-22/"      class="nav-link" data-page="super16">SUPER 16</a></li>
+        <li><a href="/photos/"       class="nav-link" data-page="photos">PHOTOS</a></li>
+        <li><a href="/weather/"      class="nav-link" data-page="weather">WEATHER</a></li>
+        <li><a href="/schedule/"     class="nav-link" data-page="schedule">SCHEDULE</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <script>
+    if ('caches' in window) { caches.keys().then(function(n){ n.forEach(function(k){ caches.delete(k); }); }); }
+  </script>
+  <script src="/js/auth-guard.js?v=1763735221&bust=v5"></script>
+
+  <div class="blaster-bg" id="blaster-bg" aria-hidden="true"></div>
+  <div class="blaster-fg" id="blaster-fg" aria-hidden="true"></div>
+
+  <main class="app" id="main-content">
+
+    <!-- Location selector -->
+    <div class="location-selector" role="group" aria-label="Choose location">
+      <button class="loc-btn active" data-key="wayne">Wayne, PA</button>
+      <button class="loc-btn"        data-key="philly">Philadelphia</button>
+      <button class="loc-btn"        data-key="la">Los Angeles</button>
+      <button class="loc-btn"        data-key="sp">Stevens Point</button>
+    </div>
+
+    <!-- Current conditions: hero section, no widget chrome -->
+    <section class="weather-hero" aria-label="Current conditions">
+      <div id="weather-now-content" class="weather-loading">Scanning Wayne skies...</div>
+    </section>
+
+    <!-- 5-day forecast -->
+    <div class="widget">
+      <div class="widget-header widget-header-centered">
+        <div class="widget-icon">&#128197;</div>
+        <span>5-DAY FORECAST</span>
+      </div>
+      <div class="widget-body">
+        <div id="weather-forecast-content" class="weather-loading">Loading forecast...</div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="/weather/weather.js?v=1763735221&bust=v5"></script>
+  <script src="/js/navigation.js?v=1763735221&bust=v5"></script>
+</body>
+</html>

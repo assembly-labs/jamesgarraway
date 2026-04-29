@@ -140,6 +140,78 @@
     bottom: -20px;
 }
 
+.nav-link[data-page="weather"].active {
+    background: linear-gradient(135deg, #00C9B7 0%, #00E5A0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-link[data-page="weather"].active::after {
+    background: linear-gradient(135deg, #00C9B7 0%, #00E5A0 100%);
+    bottom: -20px;
+}
+
+.nav-link[data-page="photos"].active {
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-link[data-page="photos"].active::after {
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+    bottom: -20px;
+}
+
+.nav-link[data-page="flagfootball"].active {
+    background: linear-gradient(135deg, #22c55e 0%, #4ade80 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-link[data-page="flagfootball"].active::after {
+    background: linear-gradient(135deg, #22c55e 0%, #4ade80 100%);
+    bottom: -20px;
+}
+
+.nav-link[data-page="super16"].active {
+    background: linear-gradient(135deg, #a855f7 0%, #818cf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-link[data-page="super16"].active::after {
+    background: linear-gradient(135deg, #a855f7 0%, #818cf8 100%);
+    bottom: -20px;
+}
+
+.nav-link[data-page="math"].active {
+    background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-link[data-page="math"].active::after {
+    background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+    bottom: -20px;
+}
+
+.nav-link[data-page="schedule"].active {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-link[data-page="schedule"].active::after {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+    bottom: -20px;
+}
+
 /* Mobile Overlay */
 .nav-overlay {
     display: none;
@@ -238,6 +310,30 @@ body.has-navigation {
 
     .nav-link[data-page="champion"].active {
         border-left: 4px solid #2563eb;
+    }
+
+    .nav-link[data-page="weather"].active {
+        border-left: 4px solid #00C9B7;
+    }
+
+    .nav-link[data-page="photos"].active {
+        border-left: 4px solid #f59e0b;
+    }
+
+    .nav-link[data-page="flagfootball"].active {
+        border-left: 4px solid #22c55e;
+    }
+
+    .nav-link[data-page="super16"].active {
+        border-left: 4px solid #a855f7;
+    }
+
+    .nav-link[data-page="math"].active {
+        border-left: 4px solid #f97316;
+    }
+
+    .nav-link[data-page="schedule"].active {
+        border-left: 4px solid #3b82f6;
     }
 }
 

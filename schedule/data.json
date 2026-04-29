@@ -1,0 +1,64 @@
+{
+  "recurring": [
+    {
+      "id": "bjj-eve",
+      "emoji": "\uD83E\uDD4B",
+      "name": "Jiu Jitsu",
+      "days": [1, 3],
+      "time": "18:00",
+      "notes": ""
+    },
+    {
+      "id": "bjj-sat",
+      "emoji": "\uD83E\uDD4B",
+      "name": "Jiu Jitsu",
+      "days": [6],
+      "time": "09:00",
+      "notes": ""
+    }
+  ],
+  "events": [
+    {
+      "id": "ff-2026-05-01",
+      "emoji": "\uD83E\uDD85",
+      "name": "Flag Football",
+      "date": "2026-05-01",
+      "time": "17:00",
+      "notes": ""
+    },
+    {
+      "id": "travel-2026-05-03",
+      "emoji": "\u26A1",
+      "name": "Travel Team",
+      "date": "2026-05-03",
+      "time": "",
+      "notes": "TBD"
+    },
+    {
+      "id": "family-2026-05-02",
+      "emoji": "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66",
+      "name": "Family Dinner",
+      "date": "2026-05-02",
+      "time": "",
+      "notes": ""
+    }
+  ],
+  "assignments": [
+    {
+      "id": "math-hw-1",
+      "emoji": "\uD83D\uDCDD",
+      "subject": "Math",
+      "title": "Chapter 5 worksheet",
+      "dueDate": "2026-04-30",
+      "notes": ""
+    },
+    {
+      "id": "science-fair-1",
+      "emoji": "\uD83C\uDFEB",
+      "subject": "Science",
+      "title": "Science Fair project due",
+      "dueDate": "2026-05-01",
+      "notes": "Needs poster board"
+    }
+  ]
+}

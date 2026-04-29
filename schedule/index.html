@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Private Page">
+  <title>Schedule</title>
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noodp, noimageindex, notranslate">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="color-scheme" content="dark light" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="/styles/themes.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="/styles/routine.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="/styles/navigation.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="/schedule/schedule.css?v=1763735221&bust=v5">
+</head>
+<body>
+  <a href="#header" class="skip-nav">Skip to main content</a>
+
+  <nav class="sticky-nav" id="stickyNav">
+    <div class="nav-container">
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu">&#9776;</button>
+      <div class="nav-brand" id="navBrand">SCHEDULE</div>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="/"             class="nav-link" data-page="champion">CHAMPION ROUTINE</a></li>
+        <li><a href="/flagfootball/" class="nav-link" data-page="flagfootball">TRYOUT TRAINING</a></li>
+        <li><a href="/math-teacher/" class="nav-link" data-page="math">MATH</a></li>
+        <li><a href="/game-22/"     class="nav-link" data-page="super16">SUPER 16</a></li>
+        <li><a href="/photos/"      class="nav-link" data-page="photos">PHOTOS</a></li>
+        <li><a href="/weather/"     class="nav-link" data-page="weather">WEATHER</a></li>
+        <li><a href="/schedule/"    class="nav-link" data-page="schedule">SCHEDULE</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <script>
+    if ('caches' in window) { caches.keys().then(function(n){ n.forEach(function(k){ caches.delete(k); }); }); }
+  </script>
+  <script src="/js/auth-guard.js?v=1763735221&bust=v5"></script>
+
+  <div class="blaster-bg" id="blaster-bg" aria-hidden="true"></div>
+  <div class="blaster-fg" id="blaster-fg" aria-hidden="true"></div>
+
+  <main class="app">
+    <div id="header" class="header">
+      <h1>SCHEDULE</h1>
+    </div>
+
+    <!-- DUE SOON strip -->
+    <div id="due-soon-strip" class="widget due-soon-strip" style="display:none;">
+      <div class="due-soon-label">Due Soon</div>
+      <div id="due-soon-list"></div>
+    </div>
+
+    <!-- Week navigation + grid -->
+    <div class="widget">
+      <div class="week-nav">
+        <button id="btn-prev" class="week-nav-btn" aria-label="Previous week">&#8592; PREV</button>
+        <span id="week-label"></span>
+        <button id="btn-next" class="week-nav-btn" aria-label="Next week">NEXT &#8594;</button>
+      </div>
+      <div id="schedule-grid" class="schedule-grid"></div>
+    </div>
+  </main>
+
+  <!-- Event modal -->
+  <div id="event-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-body">
+    <div id="modal-backdrop" style="position:absolute;inset:0;"></div>
+    <div class="modal-card">
+      <button id="modal-close" class="modal-close" aria-label="Close">&times;</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="/schedule/schedule.js?v=1763735221&bust=v5"></script>
+  <script src="/js/navigation.js?v=1763735221&bust=v5"></script>
+</body>
+</html>

@@ -99,12 +99,21 @@
             if (currentPath.includes('/minecraft/') || currentPath.includes('/minecoins/')) {
                 activePage = 'minecoins';
                 pageTitle = 'MINECOINS';
+            } else if (currentPath.includes('/weather/')) {
+                activePage = 'weather';
+                pageTitle = 'WEATHER';
             } else if (currentPath.includes('/photos/')) {
                 activePage = 'photos';
                 pageTitle = 'PHOTOS';
             } else if (currentPath.includes('/flagfootball/')) {
                 activePage = 'flagfootball';
                 pageTitle = 'CHAMPION PICS';
+            } else if (currentPath.includes('/schedule/')) {
+                activePage = 'schedule';
+                pageTitle = 'SCHEDULE';
+            } else if (currentPath.includes('/routine/')) {
+                activePage = 'routine';
+                pageTitle = 'CHAMPION ROUTINE';
             } else if (currentPath === '/' || currentPath.includes('/index.html')) {
                 // Root is now Champion Routine
                 activePage = 'champion';
