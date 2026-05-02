@@ -13,9 +13,9 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <link rel="stylesheet" href="/styles/themes.css?v=1763735221&bust=v5">
-  <link rel="stylesheet" href="/styles/routine.css?v=1763735221&bust=v5">
-  <link rel="stylesheet" href="/styles/navigation.css?v=1763735221&bust=v5">
+  <link rel="stylesheet" href="/styles/themes.css?v=1763735221&bust=v6">
+  <link rel="stylesheet" href="/styles/routine.css?v=1763735221&bust=v6">
+  <link rel="stylesheet" href="/styles/navigation.css?v=1763735221&bust=v6">
   <style>
     /* ---- Location selector: segmented control ---- */
     .location-selector {
@@ -42,7 +42,6 @@
       transition: background var(--transition-fast, .15s ease),
                   opacity var(--transition-fast, .15s ease);
       text-align: center;
-      opacity: 0.65;
       letter-spacing: 0.3px;
     }
     .loc-btn.active {
@@ -87,7 +86,7 @@
     .weather-temp {
       font-size: clamp(80px, 20vw, 120px);
       font-weight: 900;
-      color: var(--accent);
+      color: var(--text);
       line-height: 1;
       letter-spacing: -3px;
       margin-bottom: 10px;
@@ -282,7 +281,7 @@
   <script>
     if ('caches' in window) { caches.keys().then(function(n){ n.forEach(function(k){ caches.delete(k); }); }); }
   </script>
-  <script src="/js/auth-guard.js?v=1763735221&bust=v5"></script>
+  <script src="/js/auth-guard.js?v=1763735221&bust=v6"></script>
 
   <div class="blaster-bg" id="blaster-bg" aria-hidden="true"></div>
   <div class="blaster-fg" id="blaster-fg" aria-hidden="true"></div>
@@ -315,7 +314,7 @@
 
   </main>
 
-  <script src="/weather/weather.js?v=1763735221&bust=v5"></script>
-  <script src="/js/navigation.js?v=1763735221&bust=v5"></script>
+  <script src="/weather/weather.js?v=1763735221&bust=v6"></script>
+  <script src="/js/navigation.js?v=1763735221&bust=v6"></script>
 </body>
 </html>
