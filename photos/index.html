@@ -148,7 +148,6 @@
       slides.forEach(function(s,i){s.classList.toggle('active',i===index);});
       currentSlide=index;
       updateDots();
-      triggerConfetti();
       animateProgress();
     }
     function nextSlide(){showSlide((currentSlide+1)%totalSlides);resetAutoPlay();}

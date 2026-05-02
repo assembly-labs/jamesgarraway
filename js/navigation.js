@@ -152,30 +152,6 @@
             }
         });
 
-        // Add scroll behavior to show/hide nav on scroll (optional enhancement)
-        let lastScrollTop = 0;
-        let scrollTimer;
-
-        window.addEventListener('scroll', function() {
-            clearTimeout(scrollTimer);
-            scrollTimer = setTimeout(function() {
-                const nav = document.getElementById('stickyNav');
-                if (!nav) return;
-
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-                // Only hide nav when scrolling down significantly
-                if (scrollTop > lastScrollTop && scrollTop > 100) {
-                    // Scrolling down
-                    nav.style.transform = 'translateY(-100%)';
-                } else {
-                    // Scrolling up or at top
-                    nav.style.transform = 'translateY(0)';
-                }
-
-                lastScrollTop = scrollTop;
-            }, 50);
-        });
     }
 
     // Export for use in other scripts if needed

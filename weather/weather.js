@@ -41,13 +41,13 @@
 
   function getOutfit(tempF, isRain, isSnow) {
     var outfit;
-    if (tempF < 32)       outfit = 'Heavy coat, gloves, and hat.';
-    else if (tempF <= 45) outfit = 'Coat and layers.';
-    else if (tempF <= 60) outfit = 'Hoodie or light jacket.';
-    else if (tempF <= 75) outfit = 'T-shirt. Maybe bring a hoodie just in case.';
-    else                  outfit = 'Shorts and t-shirt.';
-    if (isRain) outfit += ' Rain jacket or umbrella.';
-    if (isSnow) outfit += ' Snow boots.';
+    if (tempF < 32)       outfit = '🧤 Heavy coat, gloves, and hat.';
+    else if (tempF <= 45) outfit = '🧥 Coat and layers.';
+    else if (tempF <= 60) outfit = '🏃 Hoodie or light jacket.';
+    else if (tempF <= 75) outfit = '👕 T-shirt. Maybe bring a hoodie just in case.';
+    else                  outfit = '🩳 Shorts and t-shirt.';
+    if (isRain) outfit += ' ☔ Rain jacket or umbrella.';
+    if (isSnow) outfit += ' 🥾 Snow boots.';
     return outfit;
   }
 

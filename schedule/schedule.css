@@ -271,8 +271,8 @@
   font-size: clamp(14px, 3vw, 16px);
 }
 
-/* Mobile: days stack vertically */
-@media (max-width: 768px) {
+/* Mobile/tablet: days stack vertically */
+@media (max-width: 1024px) {
   .schedule-grid {
     grid-template-columns: 1fr;
   }

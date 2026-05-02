@@ -41,14 +41,12 @@ const updateClock = () => {
   const now = new Date();
   const month = months[now.getMonth()];
   const day = now.getDate();
-  const year = now.getFullYear();
   const dayName = daysOfWeek[now.getDay()];
-
-  // Update header with date only (no time)
-  $('#headerDateTime').textContent = `${dayName}, ${month} ${day}, ${year}`;
-
-  // Don't update screen allowance text here - it's managed by treasure chest system
-  // The treasure chest handles its own text based on locked/unlocked state
+  let hours = now.getHours();
+  const mins = String(now.getMinutes()).padStart(2, '0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12;
+  $('#headerDateTime').textContent = `${dayName}, ${month} ${day}  ·  ${hours}:${mins} ${ampm}`;
 };
 
 // ======= Quotes (from ./quotes.json) =======
@@ -214,6 +212,12 @@ if (!allScreenComplete) {
   screenAllowanceEl.textContent = '🎮 SCREEN TIME UNLOCKED! 🎮';
 }
 
+// Hide school widgets on weekends
+const wMorning = document.getElementById('w-morning');
+const wHome = document.getElementById('w-home');
+if (wMorning) wMorning.style.display = isWeekend ? 'none' : '';
+if (wHome) wHome.style.display = isWeekend ? 'none' : '';
+
 // ======= Daily Checklist Reset (for tabs left open overnight) =======
 // Check every 5 minutes if we've crossed into a new day
 setInterval(() => {
@@ -221,6 +225,153 @@ setInterval(() => {
     performDailyReset();
   }
 }, 5 * 60 * 1000); // Check every 5 minutes
+
+// ======= Departure Countdown =======
+const DEPARTURE_MODE_KEY = 'champion_departure_mode';
+
+const updateDepartureCountdown = () => {
+  const countdownEl = document.getElementById('countdownTime');
+  const labelEl = document.getElementById('countdownLabel');
+  const wDep = document.getElementById('w-departure');
+  if (!wDep) return;
+
+  const now = new Date();
+  const todayIsWeekend = now.getDay() === 0 || now.getDay() === 6;
+  if (todayIsWeekend) { wDep.style.display = 'none'; return; }
+  wDep.style.display = '';
+
+  const mode = localStorage.getItem(DEPARTURE_MODE_KEY) || 'bus';
+  const targetMin = mode === 'bus' ? 30 : 20;
+
+  const target = new Date(now);
+  target.setHours(8, targetMin, 0, 0);
+
+  document.querySelectorAll('.dep-btn').forEach(btn => {
+    btn.classList.toggle('dep-active', btn.dataset.mode === mode);
+  });
+
+  const diffMs = target - now;
+  const diffMin = Math.round(diffMs / 60000);
+
+  if (!countdownEl) return;
+
+  if (diffMs <= 0) {
+    countdownEl.textContent = 'Have a great day!';
+    countdownEl.className = 'countdown-time countdown-done';
+    if (labelEl) labelEl.textContent = '';
+    return;
+  }
+
+  const h = Math.floor(diffMin / 60);
+  const m = diffMin % 60;
+  countdownEl.textContent = h > 0 ? `${h}h ${m}m` : `${m}m`;
+
+  if (diffMin <= 10)      countdownEl.className = 'countdown-time countdown-red';
+  else if (diffMin <= 30) countdownEl.className = 'countdown-time countdown-yellow';
+  else                    countdownEl.className = 'countdown-time countdown-green';
+
+  const targetTimeStr = `8:${String(targetMin).padStart(2, '0')} AM`;
+  if (labelEl) labelEl.textContent = mode === 'bus'
+    ? `Outside and packed by ${targetTimeStr}`
+    : `Packed and ready by ${targetTimeStr}`;
+};
+
+document.querySelectorAll('.dep-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    localStorage.setItem(DEPARTURE_MODE_KEY, btn.dataset.mode);
+    updateDepartureCountdown();
+  });
+});
+
+updateDepartureCountdown();
+setInterval(updateDepartureCountdown, 60000);
+
+// ======= Dad's Note =======
+const loadDadsNote = async () => {
+  const wNote = document.getElementById('w-dads-note');
+  if (!wNote) return;
+  const today = new Date().toISOString().split('T')[0];
+  try {
+    const res = await fetch('./notes.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    const noteEl = document.getElementById('dadsNoteText');
+    if (data[today] && noteEl) {
+      noteEl.textContent = data[today];
+      wNote.style.display = '';
+    } else {
+      wNote.style.display = 'none';
+    }
+  } catch {
+    wNote.style.display = 'none';
+  }
+};
+
+loadDadsNote();
+
+// ======= Mini Weather (Wayne, PA) =======
+const MINI_WEATHER_KEY = 'champion_mini_weather';
+
+const wmoEmojiMini = (code) => {
+  if (code === 0) return '\u2600\uFE0F';
+  if (code <= 2)  return '\u26C5';
+  if (code <= 3)  return '\u2601\uFE0F';
+  if (code <= 49) return '\uD83C\uDF2B\uFE0F';
+  if (code <= 67) return '\uD83C\uDF27\uFE0F';
+  if (code <= 77) return '\u2744\uFE0F';
+  if (code <= 82) return '\uD83C\uDF27\uFE0F';
+  if (code <= 86) return '\uD83C\uDF28\uFE0F';
+  return '\u26C8\uFE0F';
+};
+
+const outfitMini = (tempF) => {
+  if (tempF < 32)  return 'Heavy coat + gloves';
+  if (tempF <= 45) return 'Coat and layers';
+  if (tempF <= 60) return 'Hoodie or light jacket';
+  if (tempF <= 75) return 'T-shirt weather';
+  return 'Shorts + t-shirt';
+};
+
+const renderMiniWeather = (data) => {
+  const wWeather = document.getElementById('w-weather-mini');
+  if (!wWeather) return;
+  const emojiEl  = document.getElementById('miniWeatherEmoji');
+  const tempEl   = document.getElementById('miniWeatherTemp');
+  const outfitEl = document.getElementById('miniWeatherOutfit');
+  if (emojiEl)  emojiEl.textContent  = wmoEmojiMini(data.code);
+  if (tempEl)   tempEl.textContent   = data.temp + '\u00B0F';
+  if (outfitEl) outfitEl.textContent = outfitMini(data.temp);
+  wWeather.style.display = '';
+};
+
+const loadMiniWeather = async () => {
+  const wWeather = document.getElementById('w-weather-mini');
+  if (!wWeather) return;
+  const today = new Date().toISOString().split('T')[0];
+  try {
+    const cached = JSON.parse(localStorage.getItem(MINI_WEATHER_KEY) || 'null');
+    if (cached && cached.date === today && cached.temp !== undefined) {
+      renderMiniWeather(cached);
+      return;
+    }
+  } catch {}
+  try {
+    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.0440&longitude=-75.3872&current=temperature_2m,weathercode&temperature_unit=fahrenheit&timezone=America%2FNew_York');
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    const weatherData = {
+      temp: Math.round(data.current.temperature_2m),
+      code: data.current.weathercode,
+      date: today
+    };
+    try { localStorage.setItem(MINI_WEATHER_KEY, JSON.stringify(weatherData)); } catch {}
+    renderMiniWeather(weatherData);
+  } catch {
+    if (wWeather) wWeather.style.display = 'none';
+  }
+};
+
+loadMiniWeather();
 
 // ======= Data Export =======
 const exportBtn = $('#exportBtn');
