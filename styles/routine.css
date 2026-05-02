@@ -464,7 +464,6 @@ body {
   font-size: clamp(14px, 2.8vw, 16px);
   font-style: italic;
   color: var(--text);
-  opacity: 0.8;
   margin-bottom: 12px;
 }
 .word-definition {

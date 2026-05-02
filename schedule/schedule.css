@@ -78,7 +78,6 @@
 .due-soon-meta {
   font-size: clamp(11px, 2.2vw, 13px);
   color: var(--text);
-  opacity: 0.65;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -128,7 +127,6 @@
   font-size: clamp(10px, 1.9vw, 12px);
   font-weight: 700;
   color: var(--text);
-  opacity: 0.65;
 }
 
 .today-badge {
@@ -152,8 +150,8 @@
 
 .day-free {
   font-size: clamp(10px, 1.8vw, 12px);
-  color: var(--secondary);
-  opacity: 0.7;
+  color: var(--text);
+  opacity: 0.5;
   font-style: italic;
   padding: 4px 0;
 }
@@ -192,7 +190,6 @@
 .event-time {
   font-size: clamp(8px, 1.5vw, 10px);
   color: var(--text);
-  opacity: 0.65;
   font-weight: 600;
 }
 
@@ -260,7 +257,6 @@
 .modal-notes {
   font-size: clamp(12px, 2.5vw, 14px);
   color: var(--text);
-  opacity: 0.75;
   margin-top: 10px;
   line-height: 1.5;
 }
@@ -271,7 +267,6 @@
   text-align: center;
   padding: 40px 20px;
   color: var(--text);
-  opacity: 0.65;
   font-size: clamp(14px, 3vw, 16px);
 }
 
