@@ -115,14 +115,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* Dad's Note */
-    .dads-note-text {
-      font-size: clamp(15px, 3.5vw, 18px);
-      font-weight: 600;
-      line-height: 1.6;
-      font-style: italic;
-      color: var(--text);
-    }
   </style>
 </head>
 <body>
@@ -165,19 +157,8 @@
 
     <!-- Grid -->
     <div class="grid">
-      <!-- Dad's Note (shown only when today has a note) -->
-      <div class="widget sith-optional" id="w-dads-note" style="display: none;">
-        <div class="widget-header widget-header-centered">
-          <div class="widget-icon">✉️</div>
-          <span>FROM DAD</span>
-        </div>
-        <div class="widget-body">
-          <div id="dadsNoteText" class="dads-note-text"></div>
-        </div>
-      </div>
-
       <!-- Mini Weather (Wayne, PA) -->
-      <div class="widget sith-optional" id="w-weather-mini" style="display: none;">
+      <div class="widget sith-optional" id="w-weather-mini">
         <div class="widget-header widget-header-centered">
           <div class="widget-icon">🌤️</div>
           <span>WAYNE WEATHER</span>

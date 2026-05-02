@@ -286,29 +286,6 @@ document.querySelectorAll('.dep-btn').forEach(btn => {
 updateDepartureCountdown();
 setInterval(updateDepartureCountdown, 60000);
 
-// ======= Dad's Note =======
-const loadDadsNote = async () => {
-  const wNote = document.getElementById('w-dads-note');
-  if (!wNote) return;
-  const today = new Date().toISOString().split('T')[0];
-  try {
-    const res = await fetch('./notes.json', { cache: 'no-store' });
-    if (!res.ok) throw new Error();
-    const data = await res.json();
-    const noteEl = document.getElementById('dadsNoteText');
-    if (data[today] && noteEl) {
-      noteEl.textContent = data[today];
-      wNote.style.display = '';
-    } else {
-      wNote.style.display = 'none';
-    }
-  } catch {
-    wNote.style.display = 'none';
-  }
-};
-
-loadDadsNote();
-
 // ======= Mini Weather (Wayne, PA) =======
 const MINI_WEATHER_KEY = 'champion_mini_weather';
 
@@ -333,20 +310,15 @@ const outfitMini = (tempF) => {
 };
 
 const renderMiniWeather = (data) => {
-  const wWeather = document.getElementById('w-weather-mini');
-  if (!wWeather) return;
   const emojiEl  = document.getElementById('miniWeatherEmoji');
   const tempEl   = document.getElementById('miniWeatherTemp');
   const outfitEl = document.getElementById('miniWeatherOutfit');
   if (emojiEl)  emojiEl.textContent  = wmoEmojiMini(data.code);
   if (tempEl)   tempEl.textContent   = data.temp + '\u00B0F';
   if (outfitEl) outfitEl.textContent = outfitMini(data.temp);
-  wWeather.style.display = '';
 };
 
 const loadMiniWeather = async () => {
-  const wWeather = document.getElementById('w-weather-mini');
-  if (!wWeather) return;
   const today = new Date().toISOString().split('T')[0];
   try {
     const cached = JSON.parse(localStorage.getItem(MINI_WEATHER_KEY) || 'null');
@@ -366,9 +338,7 @@ const loadMiniWeather = async () => {
     };
     try { localStorage.setItem(MINI_WEATHER_KEY, JSON.stringify(weatherData)); } catch {}
     renderMiniWeather(weatherData);
-  } catch {
-    if (wWeather) wWeather.style.display = 'none';
-  }
+  } catch {}
 };
 
 loadMiniWeather();
