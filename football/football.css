@@ -1,0 +1,322 @@
+/* ==============================
+   FILM ROOM — football.css
+   ============================== */
+
+/* Filter widget */
+.filter-widget {
+  padding: clamp(12px, 2.5vw, 18px);
+}
+
+/* Segmented control — 5 columns, NOT pill shapes */
+.filter-control {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  background: var(--primary);
+  border-radius: 10px;
+  padding: 3px;
+  margin-bottom: 12px;
+}
+
+.filter-btn {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: clamp(11px, 2.2vw, 13px);
+  font-weight: 700;
+  padding: 9px 4px;
+  min-height: 44px;
+  cursor: pointer;
+  opacity: 0.65;
+  letter-spacing: 0.3px;
+  transition: background 150ms, opacity 150ms;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.filter-btn.active {
+  background: var(--cardBg);
+  opacity: 1;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+
+.filter-count {
+  display: inline-block;
+  font-size: clamp(10px, 1.8vw, 11px);
+  font-weight: 600;
+  opacity: 0.7;
+  margin-left: 2px;
+}
+
+/* Search input */
+.search-input {
+  width: 100%;
+  background: var(--cardBg);
+  border: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: clamp(14px, 3vw, 16px);
+  font-weight: 500;
+  padding: 10px 14px;
+  min-height: 44px;
+  transition: border-color 150ms ease;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--text);
+  opacity: 0.4;
+}
+
+.search-input:focus {
+  border-color: var(--accent);
+}
+
+/* Featured card */
+.featured-card {
+  width: 100%;
+  margin-bottom: clamp(16px, 3vw, 24px);
+}
+
+.featured-label {
+  font-size: clamp(10px, 1.8vw, 11px);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* Video grid */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: clamp(12px, 2.5vw, 22px);
+}
+
+/* Video card */
+.video-card {
+  cursor: pointer;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  overflow: hidden;
+}
+
+.video-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+}
+
+.video-card:active {
+  transform: translateY(0);
+}
+
+/* Thumbnail — 16:9 via padding-top */
+.video-thumb-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  overflow: hidden;
+  background: var(--primary);
+}
+
+.video-thumb-wrap img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 250ms ease;
+}
+
+.video-card:hover .video-thumb-wrap img {
+  transform: scale(1.03);
+}
+
+/* Play overlay */
+.play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.25);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.video-card:hover .play-overlay {
+  opacity: 1;
+}
+
+.play-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.72);
+  border: 2px solid rgba(255,255,255,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-btn::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 18px solid white;
+  margin-left: 4px;
+}
+
+/* Category badge — color-coded text labels, NOT pill shapes */
+.category-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: clamp(9px, 1.7vw, 10px);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  background: rgba(0,0,0,0.72);
+  border-radius: 4px;
+}
+
+.category-badge.cornerback    { color: var(--accent); }
+.category-badge.flag-football  { color: #22c55e; }
+.category-badge.motivation     { color: #f59e0b; }
+.category-badge.leadership     { color: #818cf8; }
+
+/* Card body */
+.video-card-body {
+  padding: clamp(10px, 2vw, 14px);
+}
+
+.video-card-title {
+  font-size: clamp(13px, 2.8vw, 15px);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.video-card-desc {
+  font-size: clamp(11px, 2.2vw, 12px);
+  color: var(--text);
+  opacity: 0.6;
+  line-height: 1.4;
+}
+
+/* Empty state */
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text);
+  opacity: 0.45;
+  font-size: clamp(14px, 3vw, 16px);
+  font-weight: 600;
+}
+
+/* Video modal — prefixed to avoid collision with schedule modal */
+.film-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.film-modal-overlay.open {
+  display: flex;
+}
+
+.film-modal-card {
+  background: var(--cardBg);
+  border: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: 16px;
+  padding: clamp(16px, 3vw, 24px);
+  width: 100%;
+  max-width: 760px;
+  position: relative;
+}
+
+.modal-video-title {
+  font-size: clamp(14px, 3vw, 17px);
+  font-weight: 700;
+  color: var(--text);
+  padding-right: 36px;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.video-iframe-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.video-iframe-wrap iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.film-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--secondary);
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color var(--transition-fast, 0.15s ease);
+  line-height: 1;
+  z-index: 10;
+}
+
+.film-modal-close:hover {
+  color: var(--text);
+}
+
+/* Mobile: stack filter to 2x2 */
+@media (max-width: 480px) {
+  .filter-control {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filter-btn {
+    font-size: 11px;
+    padding: 8px 4px;
+  }
+}
+
+/* Touch: disable hover lift on cards */
+@media (hover: none) {
+  .video-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .video-card:hover .play-overlay {
+    opacity: 0;
+  }
+}

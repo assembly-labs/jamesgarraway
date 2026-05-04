@@ -108,6 +108,12 @@
             } else if (currentPath.includes('/schedule/')) {
                 activePage = 'schedule';
                 pageTitle = 'SCHEDULE';
+            } else if (currentPath.includes('/football/')) {
+                activePage = 'football';
+                pageTitle = 'FILM ROOM';
+            } else if (currentPath.includes('/bjj/')) {
+                activePage = 'bjj';
+                pageTitle = 'THE DOJO';
             } else if (currentPath.includes('/routine/')) {
                 activePage = 'routine';
                 pageTitle = 'CHAMPION ROUTINE';

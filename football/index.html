@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Private Page">
+  <title>Film Room</title>
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noodp, noimageindex, notranslate">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="color-scheme" content="dark light" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="/styles/themes.css?v=1763735221&bust=v6">
+  <link rel="stylesheet" href="/styles/routine.css?v=1763735221&bust=v6">
+  <link rel="stylesheet" href="/styles/navigation.css?v=1763735221&bust=v6">
+  <link rel="stylesheet" href="/football/football.css?v=1763735221&bust=v6">
+</head>
+<body>
+  <a href="#header" class="skip-nav">Skip to main content</a>
+
+  <nav class="sticky-nav" id="stickyNav">
+    <div class="nav-container">
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu">&#9776;</button>
+      <div class="nav-brand" id="navBrand">FILM ROOM</div>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="/"            class="nav-link" data-page="champion">CHAMPION ROUTINE</a></li>
+        <li><a href="/photos/"     class="nav-link" data-page="photos">PHOTOS</a></li>
+        <li><a href="/weather/"    class="nav-link" data-page="weather">WEATHER</a></li>
+        <li><a href="/schedule/"   class="nav-link" data-page="schedule">SCHEDULE</a></li>
+        <li><a href="/football/"   class="nav-link" data-page="football">FILM ROOM</a></li>
+        <li><a href="/bjj/"        class="nav-link" data-page="bjj">DOJO</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <script>
+    if ('caches' in window) { caches.keys().then(function(n){ n.forEach(function(k){ caches.delete(k); }); }); }
+  </script>
+  <script src="/js/auth-guard.js?v=1763735221&bust=v6"></script>
+
+  <div class="blaster-bg" id="blaster-bg" aria-hidden="true"></div>
+  <div class="blaster-fg" id="blaster-fg" aria-hidden="true"></div>
+
+  <main class="app">
+    <div id="header" class="header">
+      <h1>FILM ROOM</h1>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="widget filter-widget">
+      <div class="filter-control" role="group" aria-label="Filter by category">
+        <button class="filter-btn active" data-filter="all">ALL <span class="filter-count" id="count-all"></span></button>
+        <button class="filter-btn" data-filter="cornerback">CORNERBACK <span class="filter-count" id="count-cornerback"></span></button>
+        <button class="filter-btn" data-filter="flag-football">FLAG FOOTBALL <span class="filter-count" id="count-flag-football"></span></button>
+        <button class="filter-btn" data-filter="motivation">MOTIVATION <span class="filter-count" id="count-motivation"></span></button>
+        <button class="filter-btn" data-filter="leadership">LEADERSHIP <span class="filter-count" id="count-leadership"></span></button>
+      </div>
+      <input type="text" class="search-input" id="videoSearch" placeholder="Search videos..." aria-label="Search videos">
+    </div>
+
+    <!-- Featured video -->
+    <div id="featured-section"></div>
+
+    <!-- Video grid -->
+    <div id="video-grid" class="video-grid"></div>
+  </main>
+
+  <!-- Video modal -->
+  <div id="video-modal" class="film-modal-overlay" role="dialog" aria-modal="true">
+    <div id="modal-backdrop" style="position:absolute;inset:0;"></div>
+    <div class="film-modal-card">
+      <button id="modal-close" class="film-modal-close" aria-label="Close">&times;</button>
+      <div id="modal-title" class="modal-video-title"></div>
+      <div class="video-iframe-wrap">
+        <iframe id="video-iframe" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="/football/football.js?v=1763735221&bust=v6"></script>
+  <script src="/js/navigation.js?v=1763735221&bust=v6"></script>
+</body>
+</html>
