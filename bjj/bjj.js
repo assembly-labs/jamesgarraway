@@ -5,7 +5,7 @@
 var VIDEOS = [
 
   // CHAMPIONS (20) — including 1 featured
-  { id: 'kt40zilpP4U', category: 'champions', featured: true,
+  { id: 'kt40zilpP4U', category: 'champions',
     title: "You've Never Seen a Grappler Like Mikey Musumeci",
     description: 'The rise of BJJ savant Mikey Musumeci -- small guy, huge heart, massive talent.' },
 
@@ -387,16 +387,10 @@ var VIDEOS = [
 
 // ── Page Logic ─────────────────────────────────────────────────────────────────
 
-var FEATURED = null;
-var NON_FEATURED = [];
-
-for (var i = 0; i < VIDEOS.length; i++) {
-  if (VIDEOS[i].featured) {
-    FEATURED = VIDEOS[i];
-  } else {
-    NON_FEATURED.push(VIDEOS[i]);
-  }
-}
+// Pick today's featured video — rotates daily, same pick all day
+var daysSinceEpoch = Math.floor(Date.now() / 86400000);
+var FEATURED = VIDEOS[daysSinceEpoch % VIDEOS.length];
+var NON_FEATURED = VIDEOS.filter(function(v) { return v !== FEATURED; });
 
 var currentFilter = 'all';
 var searchDebounce;
